@@ -1,0 +1,11 @@
+{
+  "started_at": "2026-09-15T09:49:28.542987+05:30",
+  "completed_at": "2026-09-15T09:49:32.124637+05:30",
+  "active_sources_run": 2,
+  "successful_sources": 2,
+  "failed_sources": 0,
+  "sources": [
+    {"source_key":"daily_ft","source_name":"Daily FT","status":"SUCCESS","started_at":"2026-09-15T09:49:28.546986+05:30","completed_at":"2026-09-15T09:49:30.568695+05:30","return_code":0},
+    {"source_key":"ceylon_today","source_name":"Ceylon Today","status":"SUCCESS","started_at":"2026-09-15T09:49:30.568695+05:30","completed_at":"2026-09-15T09:49:32.124637+05:30","return_code":0}
+  ]
+}

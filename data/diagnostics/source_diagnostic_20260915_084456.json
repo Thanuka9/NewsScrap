@@ -1,0 +1,129 @@
+{
+  "generated_at": "2026-09-15T08:44:56.891025+05:30",
+  "sources": [
+    {
+      "source_code": "SRC001",
+      "source_name": "Daily News",
+      "section_name": "Business",
+      "section_url": "https://dailynews.lk/category/business/",
+      "section_fetch_success": true,
+      "section_fetch_method": "playwright",
+      "section_status_code": 200,
+      "candidate_links_found": 17,
+      "tested_articles": 3,
+      "successful_articles": 0,
+      "browser_fallback_used": true,
+      "article_results": [
+        {
+          "url": "https://dailynews.lk/2026/09/15/business/1039003/revenue-officials-urged-to-widen-tax-base",
+          "headline": "Revenue officials urged to widen tax base",
+          "fetch_method": "playwright",
+          "status_code": 403,
+          "extracted_headline": "dailynews.lk",
+          "published_at": null,
+          "word_count": 28,
+          "valid": false,
+          "errors": ["ARTICLE_TOO_SHORT:28"],
+          "warnings": ["PUBLISHED_DATE_MISSING","AUTHOR_NOT_AVAILABLE"]
+        },
+        {
+          "url": "https://dailynews.lk/2026/09/15/business/1039008/gri-edb-join-hands-to-strengthen-sustainable-exports",
+          "headline": "GRI, EDB join hands to strengthen sustainable exports",
+          "fetch_method": "playwright",
+          "status_code": 403,
+          "extracted_headline": "dailynews.lk",
+          "published_at": null,
+          "word_count": 28,
+          "valid": false,
+          "errors": ["ARTICLE_TOO_SHORT:28"],
+          "warnings": ["PUBLISHED_DATE_MISSING","AUTHOR_NOT_AVAILABLE"]
+        },
+        {
+          "url": "https://dailynews.lk/2026/09/15/business/1038987/govt-needs-to-support-sme-driven-nvocc-sector-slana",
+          "headline": "Govt needs to support SME-driven NVOCC sector – SLANA",
+          "fetch_method": "playwright",
+          "status_code": 403,
+          "extracted_headline": "dailynews.lk",
+          "published_at": null,
+          "word_count": 28,
+          "valid": false,
+          "errors": ["ARTICLE_TOO_SHORT:28"],
+          "warnings": ["PUBLISHED_DATE_MISSING","AUTHOR_NOT_AVAILABLE"]
+        }
+      ],
+      "notes": ["BROWSER_FALLBACK_REQUIRED_OR_USED","MISSING_PUBLICATION_DATE:3/3"]
+    },
+    {
+      "source_code": "SRC002",
+      "source_name": "Daily Mirror",
+      "section_name": "Business",
+      "section_url": "https://www.dailymirror.lk/business",
+      "section_fetch_success": true,
+      "section_fetch_method": "playwright",
+      "section_status_code": 200,
+      "candidate_links_found": 50,
+      "tested_articles": 3,
+      "successful_articles": 0,
+      "browser_fallback_used": true,
+      "article_results": [
+        {"url":"https://www.dailymirror.lk/news/155","headline":"Top Stories","fetch_method":"playwright","status_code":403,"extracted_headline":"www.dailymirror.lk","published_at":null,"word_count":28,"valid":false,"errors":["ARTICLE_TOO_SHORT:28"],"warnings":["PUBLISHED_DATE_MISSING","AUTHOR_NOT_AVAILABLE"]},
+        {"url":"https://www.dailymirror.lk/news/342","headline":"Breaking News","fetch_method":"playwright","status_code":403,"extracted_headline":"www.dailymirror.lk","published_at":null,"word_count":28,"valid":false,"errors":["ARTICLE_TOO_SHORT:28"],"warnings":["PUBLISHED_DATE_MISSING","AUTHOR_NOT_AVAILABLE"]},
+        {"url":"https://www.dailymirror.lk/news/110","headline":"Pictorial News","fetch_method":"playwright","status_code":403,"extracted_headline":"www.dailymirror.lk","published_at":null,"word_count":28,"valid":false,"errors":["ARTICLE_TOO_SHORT:28"],"warnings":["PUBLISHED_DATE_MISSING","AUTHOR_NOT_AVAILABLE"]}
+      ],
+      "notes":["BROWSER_FALLBACK_REQUIRED_OR_USED","MISSING_PUBLICATION_DATE:3/3"]
+    },
+    {
+      "source_code":"SRC003",
+      "source_name":"Ceylon Today",
+      "section_name":"Finance Today Daily",
+      "section_url":"https://ceylontoday.lk/category/ceylon-today-daily/finance-today/",
+      "section_fetch_success":true,
+      "section_fetch_method":"httpx",
+      "section_status_code":200,
+      "candidate_links_found":12,
+      "tested_articles":3,
+      "successful_articles":3,
+      "browser_fallback_used":false,
+      "article_results":[
+        {"url":"https://ceylontoday.lk/2026/08/17/cdb-monthly-medal-at-rcgc-in-its-third-consecutive-year","headline":"CDB Monthly Medal at RCGC in its third consecutive year","fetch_method":"httpx","status_code":200,"extracted_headline":"CDB Monthly Medal at RCGC in its third consecutive year - Ceylon Today","published_at":"2026-08-17T16:37:00+05:30","word_count":442,"valid":true,"errors":[],"warnings":[]},
+        {"url":"https://ceylontoday.lk/2026/08/16/dialog-mas-enabler-programme-advances-workplace-inclusion-for-persons-with-disabilities","headline":"Dialog MAS Enabler Programme advances workplace inclusion for persons with disabilities","fetch_method":"httpx","status_code":200,"extracted_headline":"Dialog MAS Enabler Programme advances workplace inclusion for persons with disabilities - Ceylon Today","published_at":"2026-08-16T10:42:00+05:30","word_count":394,"valid":true,"errors":[],"warnings":[]},
+        {"url":"https://ceylontoday.lk/2026/08/16/adra-ceylon-elevates-ceylon-tea-from-commodity-to-customised-global-product","headline":"ADRA Ceylon Elevates Ceylon Tea from Commodity to Customised Global Product","fetch_method":"httpx","status_code":200,"extracted_headline":"ADRA Ceylon Elevates Ceylon Tea from Commodity to Customised Global Product - Ceylon Today","published_at":"2026-08-16T10:40:00+05:30","word_count":549,"valid":true,"errors":[],"warnings":[]}
+      ],
+      "notes":[]
+    },
+    {
+      "source_code":"SRC004",
+      "source_name":"The Island",
+      "section_name":"Business",
+      "section_url":"https://island.lk/category/business/",
+      "section_fetch_success":true,
+      "section_fetch_method":"playwright",
+      "section_status_code":307,
+      "candidate_links_found":0,
+      "tested_articles":0,
+      "successful_articles":0,
+      "browser_fallback_used":true,
+      "article_results":[],
+      "notes":["NO_ARTICLE_LINKS_DISCOVERED","BROWSER_FALLBACK_REQUIRED_OR_USED"]
+    },
+    {
+      "source_code":"SRC005",
+      "source_name":"Daily FT",
+      "section_name":"Financial Services",
+      "section_url":"https://www.ft.lk/financial-services/42",
+      "section_fetch_success":true,
+      "section_fetch_method":"httpx",
+      "section_status_code":200,
+      "candidate_links_found":50,
+      "tested_articles":3,
+      "successful_articles":0,
+      "browser_fallback_used":false,
+      "article_results":[
+        {"url":"https://www.ft.lk/columns/4","headline":"Columnists","fetch_method":"httpx","status_code":200,"extracted_headline":"Sri Lanka's only business publication","published_at":"2026-09-15T05:13:00+05:30","word_count":0,"valid":false,"errors":["ARTICLE_TEXT_MISSING"],"warnings":["AUTHOR_NOT_AVAILABLE"]},
+        {"url":"https://www.ft.lk/ajantha-dharmasiri/32","headline":"Ajantha Dharmasiri","fetch_method":"httpx","status_code":200,"extracted_headline":"Sri Lanka's only business publication","published_at":"2026-08-10T00:28:00+05:30","word_count":0,"valid":false,"errors":["ARTICLE_TEXT_MISSING"],"warnings":["AUTHOR_NOT_AVAILABLE"]},
+        {"url":"https://www.ft.lk/ajith-de-alwis/33","headline":"Ajith de Alwis","fetch_method":"httpx","status_code":200,"extracted_headline":"Sri Lanka's only business publication","published_at":"2026-08-14T04:32:00+05:30","word_count":0,"valid":false,"errors":["ARTICLE_TEXT_MISSING"],"warnings":["AUTHOR_NOT_AVAILABLE"]}
+      ],
+      "notes":[]
+    }
+  ]
+}

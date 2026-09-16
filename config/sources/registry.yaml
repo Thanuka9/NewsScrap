@@ -1,0 +1,46 @@
+﻿sources:
+
+  daily_ft:
+    source_code: SRC005
+    name: Daily FT
+    section_name: Financial Services
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: HTTP
+    url: https://www.ft.lk/financial-services/42
+
+  ceylon_today:
+    source_code: SRC003
+    name: Ceylon Today
+    section_name: Finance Today
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: HTTP
+    url: https://ceylontoday.lk/category/ceylon-today-daily/finance-today/
+
+  daily_news:
+    source_code: SRC001
+    name: Daily News
+    section_name: Business
+    enabled: false
+    production_status: FUTURE_ACCESS
+    acquisition_method: PENDING_APPROVED_ACCESS
+    url: https://dailynews.lk/category/business/
+
+  daily_mirror:
+    source_code: SRC002
+    name: Daily Mirror
+    section_name: Business
+    enabled: false
+    production_status: FUTURE_ACCESS
+    acquisition_method: PENDING_APPROVED_ACCESS
+    url: https://www.dailymirror.lk/business
+
+  island:
+    source_code: SRC004
+    name: The Island
+    section_name: Business
+    enabled: false
+    production_status: FUTURE_DIAGNOSTIC
+    acquisition_method: PENDING
+    url: https://island.lk/category/business/
