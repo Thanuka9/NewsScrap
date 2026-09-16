@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 
 SRI_LANKA_TZ = ZoneInfo("Asia/Colombo")
 
+
 @dataclass(frozen=True)
 class CollectionWindow:
     start_date: date
@@ -35,6 +36,7 @@ def get_collection_window(run_datetime: Optional[datetime] = None) -> Collection
 
     run_date = run_datetime.date()
     weekday = run_date.weekday()
+
     if weekday == 0:
         start_date = run_date - timedelta(days=3)
         mode = "MONDAY_WEEKEND_CATCHUP"
@@ -45,7 +47,12 @@ def get_collection_window(run_datetime: Optional[datetime] = None) -> Collection
         start_date = run_date
         mode = "WEEKEND_MANUAL"
 
-    return CollectionWindow(start_date=start_date, end_date=run_date, run_datetime=run_datetime, mode=mode)
+    return CollectionWindow(
+        start_date=start_date,
+        end_date=run_date,
+        run_datetime=run_datetime,
+        mode=mode,
+    )
 
 
 def parse_article_date(published_at: str | None) -> date | None:
@@ -73,3 +80,13 @@ def classify_intake_status(*, published_at: str | None, collection_status: str, 
     if published_date < window.run_date:
         return "LATE_DISCOVERY"
     return "NEW_TODAY"
+
+
+def publication_dates_for_window(window: CollectionWindow) -> list[str]:
+    """Return every publication date covered by a collection window."""
+    values: list[str] = []
+    current = window.start_date
+    while current <= window.end_date:
+        values.append(current.isoformat())
+        current += timedelta(days=1)
+    return values
