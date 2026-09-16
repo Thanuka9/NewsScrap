@@ -1,0 +1,380 @@
+﻿version: "rules-v0.1.0"
+
+financial_relevance:
+
+  banking_core:
+    weight: 7
+    max_score: 35
+    terms:
+      - bank
+      - banking
+      - lender
+      - lending
+      - loan
+      - loans
+      - credit
+      - deposits
+      - depositor
+      - depositors
+      - advances
+      - finance company
+      - financial institution
+      - financial institutions
+      - leasing
+      - mortgage
+      - overdraft
+      - borrower
+      - borrowers
+
+  supervisory_risk:
+    weight: 14
+    max_score: 56
+    terms:
+      - non-performing loan
+      - non performing loan
+      - npl
+      - impaired loan
+      - impaired loans
+      - stage 3
+      - impairment
+      - provision
+      - provisioning
+      - credit risk
+      - liquidity risk
+      - operational risk
+      - market risk
+      - interest rate risk
+      - concentration risk
+      - default
+      - defaults
+      - delinquency
+      - arrears
+      - fraud
+      - fraudulent
+      - scam
+      - cyber attack
+      - cyberattack
+      - data breach
+      - money laundering
+      - aml
+      - terrorist financing
+      - sanctions
+      - suspicious transaction
+      - solvency
+      - insolvency
+      - capital shortfall
+      - liquidity shortage
+
+  prudential_regulatory:
+    weight: 12
+    max_score: 48
+    terms:
+      - capital adequacy
+      - capital adequacy ratio
+      - tier 1
+      - tier 2
+      - common equity tier 1
+      - cet1
+      - liquidity coverage ratio
+      - lcr
+      - net stable funding ratio
+      - nsfr
+      - basel
+      - prudential
+      - regulatory capital
+      - minimum capital
+      - reserve requirement
+      - statutory reserve ratio
+      - supervisory
+      - supervision
+      - regulatory action
+      - enforcement action
+      - monetary board
+      - central bank
+      - central bank of sri lanka
+      - cbsl
+
+  governance:
+    weight: 10
+    max_score: 40
+    terms:
+      - board of directors
+      - board director
+      - director
+      - directors
+      - independent director
+      - independent non-executive director
+      - non-executive director
+      - chairman
+      - chairperson
+      - chief executive officer
+      - ceo
+      - chief financial officer
+      - cfo
+      - resignation
+      - resigned
+      - appointment
+      - appointed
+      - governance
+      - corporate governance
+      - related party
+      - conflict of interest
+      - audit committee
+
+  financial_performance:
+    weight: 7
+    max_score: 35
+    terms:
+      - net profit
+      - profit after tax
+      - profit before tax
+      - loss after tax
+      - net interest income
+      - net interest margin
+      - nim
+      - return on assets
+      - roa
+      - return on equity
+      - roe
+      - earnings
+      - profitability
+      - assets
+      - total assets
+      - liabilities
+      - loan growth
+      - deposit growth
+      - cost to income
+      - cost-to-income
+      - impairment charge
+      - write-off
+      - write off
+
+  transactions_structure:
+    weight: 8
+    max_score: 32
+    terms:
+      - acquisition
+      - merger
+      - takeover
+      - divestment
+      - restructuring
+      - recapitalisation
+      - recapitalization
+      - capital injection
+      - rights issue
+      - debenture
+      - bond issue
+      - subordinated debt
+      - share issue
+      - rating downgrade
+      - credit rating
+      - rating outlook
+
+  payments_digital:
+    weight: 5
+    max_score: 20
+    terms:
+      - digital banking
+      - online banking
+      - mobile banking
+      - payment system
+      - payment systems
+      - digital payment
+      - digital payments
+      - fintech
+      - electronic payment
+      - payment fraud
+      - card fraud
+      - cybersecurity
+      - cyber security
+
+
+pr_noise:
+
+  strong_promotional:
+    weight: 15
+    max_score: 45
+    terms:
+      - wins award
+      - won award
+      - receives award
+      - received award
+      - recognition
+      - recognised as
+      - recognized as
+      - best bank
+      - excellence award
+      - celebrates
+      - celebration
+      - anniversary
+      - proudly
+      - prestigious award
+      - honoured
+      - honored
+
+  launches_events:
+    weight: 9
+    max_score: 36
+    terms:
+      - launches
+      - launched
+      - unveils
+      - unveiled
+      - event
+      - symposium
+      - workshop
+      - seminar
+      - conference
+      - festival
+      - campaign
+      - programme
+      - program
+      - knowledge-sharing
+      - knowledge sharing
+
+  csr_branding:
+    weight: 10
+    max_score: 40
+    terms:
+      - csr
+      - corporate social responsibility
+      - sponsorship
+      - sponsors
+      - sponsored
+      - supports devotees
+      - community initiative
+      - social initiative
+      - charity
+      - donation
+      - donated
+      - sustainability initiative
+      - brand ambassador
+
+  routine_business:
+    weight: 7
+    max_score: 28
+    terms:
+      - branch opening
+      - new branch
+      - expands footprint
+      - partnership
+      - collaboration
+      - joins hands
+      - signs mou
+      - memorandum of understanding
+
+
+pr_counter_signals:
+  - fraud
+  - default
+  - impaired loan
+  - impaired loans
+  - stage 3
+  - non-performing loan
+  - non performing loan
+  - npl
+  - liquidity
+  - capital adequacy
+  - solvency
+  - provisioning
+  - impairment
+  - money laundering
+  - aml
+  - sanctions
+  - regulatory action
+  - enforcement action
+  - resignation
+  - loss after tax
+  - rating downgrade
+  - cyber attack
+  - data breach
+
+
+institutions:
+
+  Bank of Ceylon:
+    aliases:
+      - bank of ceylon
+      - boc
+
+  People's Bank:
+    aliases:
+      - people's bank
+      - peoples bank
+
+  Commercial Bank of Ceylon:
+    aliases:
+      - commercial bank of ceylon
+      - commercial bank
+      - combank
+
+  Hatton National Bank:
+    aliases:
+      - hatton national bank
+      - hnb
+
+  Sampath Bank:
+    aliases:
+      - sampath bank
+
+  Seylan Bank:
+    aliases:
+      - seylan bank
+
+  National Development Bank:
+    aliases:
+      - national development bank
+      - ndb
+
+  Nations Trust Bank:
+    aliases:
+      - nations trust bank
+      - ntb
+
+  DFCC Bank:
+    aliases:
+      - dfcc bank
+      - dfcc
+
+  Pan Asia Banking Corporation:
+    aliases:
+      - pan asia banking corporation
+      - pan asia bank
+
+  Union Bank of Colombo:
+    aliases:
+      - union bank of colombo
+      - union bank
+
+  Amana Bank:
+    aliases:
+      - amana bank
+
+  Cargills Bank:
+    aliases:
+      - cargills bank
+
+  HSBC Sri Lanka:
+    aliases:
+      - hsbc sri lanka
+      - hsbc
+
+  Standard Chartered Sri Lanka:
+    aliases:
+      - standard chartered sri lanka
+      - standard chartered
+
+  Citibank Sri Lanka:
+    aliases:
+      - citibank sri lanka
+      - citibank
+      - citi sri lanka
+
+  HNB Finance:
+    aliases:
+      - hnb finance
+
+  Central Bank of Sri Lanka:
+    aliases:
+      - central bank of sri lanka
+      - cbsl

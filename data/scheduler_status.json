@@ -1,0 +1,12 @@
+{
+  "scheduler_status": "RUNNING",
+  "updated_at": "2026-09-16T11:04:12.379106+05:30",
+  "timezone": "Asia/Colombo",
+  "schedule": {
+    "days": "Monday-Friday",
+    "hours": "08:00-17:00",
+    "minute": 0
+  },
+  "scheduler_started_at": "2026-09-16T11:04:12.379106+05:30",
+  "next_run": "2026-09-16T12:00:00+05:30"
+}

@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: bank-supervision-news-intelligence
+Version: 0.1.0
+Summary: Sri Lankan financial news extraction and bank supervision intelligence platform
+Requires-Python: >=3.12
