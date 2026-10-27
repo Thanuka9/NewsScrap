@@ -1,0 +1,2 @@
+# Frozen evidence is hash-checked by the replay; keep bytes exact.
+tests/fixtures/** -text
