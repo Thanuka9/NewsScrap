@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import time
 import uuid
 from zoneinfo import ZoneInfo
 
@@ -46,6 +47,18 @@ SRI_LANKA_TZ = ZoneInfo(
 )
 
 
+# NEWS_FAIL_CLOSED_COLLECTION_V1
+REQUIRED_PRODUCTION_SOURCES = {
+    "daily_ft",
+    "ceylon_today",
+    "daily_news",
+    "daily_mirror",
+    "island",
+    "newsfirst",
+    "the_morning",
+}
+
+
 SOURCE_SCRIPTS = {
 
     "daily_ft": (
@@ -58,6 +71,18 @@ SOURCE_SCRIPTS = {
         PROJECT_ROOT
         / "scripts"
         / "run_ceylon_today.py"
+    ),
+
+    "daily_mirror": (
+        PROJECT_ROOT
+        / "scripts"
+        / "run_daily_mirror.py"
+    ),
+
+    "island": (
+        PROJECT_ROOT
+        / "scripts"
+        / "run_island.py"
     ),
 }
 
@@ -125,9 +150,40 @@ def run_source(
 
     print("#" * 80)
 
-    script = SOURCE_SCRIPTS.get(
-        source_key
+    acquisition_method = (
+        str(source_config.get("acquisition_method", ""))
+        .strip()
+        .upper()
     )
+
+    if acquisition_method == "GENERIC":
+        script = (
+            PROJECT_ROOT
+            / "scripts"
+            / "run_generic_sources.py"
+        )
+        command = [
+            sys.executable,
+            str(script),
+            "--source",
+            source_key,
+            "--stage",
+            "--production",
+            "--limit",
+            str(int(source_config.get("generic_limit", 100) or 100)),
+        ]
+    else:
+        script = SOURCE_SCRIPTS.get(
+            source_key
+        )
+        command = (
+            [
+                sys.executable,
+                str(script),
+            ]
+            if script is not None
+            else None
+        )
 
     if script is None:
 
@@ -178,8 +234,12 @@ def run_source(
         pass
 
     print(
-        f"Running:\n"
-        f"{script}"
+        "Running:\n"
+        + (
+            " ".join(str(value) for value in command)
+            if command
+            else str(script)
+        )
     )
 
     print()
@@ -193,10 +253,7 @@ def run_source(
     try:
 
         result = subprocess.run(
-            [
-                sys.executable,
-                str(script),
-            ],
+            command,
             cwd=PROJECT_ROOT,
             env=env,
             check=False,
@@ -299,6 +356,116 @@ def run_source(
 
     return status
 
+
+
+# NEWS_SOURCE_RETRY_AND_TOLERANCE_V1
+# A transient website/browser failure must not kill a production run immediately.
+# Each failed ACTIVE source gets two fresh-process retries. Persistent failure still
+# blocks the pipeline, so this improves resilience without weakening fail-closed QA.
+def run_source_with_retry(
+    *,
+    source_key: str,
+    source_config: dict,
+    run_id: str,
+) -> dict:
+    waits = (15, 45)
+    max_attempts = 1 + len(waits)
+    last_result = None
+
+    for attempt in range(1, max_attempts + 1):
+        if attempt > 1:
+            wait_seconds = waits[attempt - 2]
+            print()
+            print(
+                f"[SOURCE RETRY] {source_key}: waiting {wait_seconds}s "
+                f"before attempt {attempt}/{max_attempts}"
+            )
+            time.sleep(wait_seconds)
+
+        result = run_source(
+            source_key=source_key,
+            source_config=source_config,
+            run_id=run_id,
+        )
+        result["master_attempt"] = attempt
+        result["master_attempts_allowed"] = max_attempts
+        last_result = result
+
+        if result.get("execution_status") == "SUCCESS":
+            result["recovered_after_retry"] = attempt > 1
+            if attempt > 1:
+                print(
+                    f"[SOURCE RECOVERED] {source_key}: "
+                    f"SUCCESS on attempt {attempt}/{max_attempts}"
+                )
+            return result
+
+        print(
+            f"[SOURCE ATTEMPT FAILED] {source_key}: "
+            f"attempt {attempt}/{max_attempts} | "
+            f"content={result.get('content_status')} | "
+            f"error={result.get('error_type', '')}: "
+            f"{result.get('error_message', '')}"
+        )
+
+    assert last_result is not None
+    last_result["recovered_after_retry"] = False
+    return last_result
+
+
+def is_blocking_degraded(item: dict) -> bool:
+    """Return True only for degraded states that threaten collection completeness.
+
+    PARTIAL_ERROR caused only by a small number of invalid candidate extractions is
+    tolerated. Hard listing/fetch failures, zero-candidate degraded runs, or a source
+    where every candidate is invalid still block publication.
+    """
+    health = str(item.get("health_status") or "").upper()
+    execution = str(item.get("execution_status") or "").upper()
+
+    if execution != "SUCCESS":
+        return True
+
+    if health == "HEALTHY":
+        return False
+
+    if health == "FAILED":
+        return True
+
+    candidates = int(item.get("candidate_urls", 0) or 0)
+    fetch_failures = int(item.get("fetch_failures", 0) or 0)
+    invalid = int(
+        item.get("invalid_extraction", item.get("invalid_extractions", 0)) or 0
+    )
+
+    listing = item.get("listing")
+    if isinstance(listing, dict):
+        if bool(listing.get("listing_partial_error")):
+            return True
+        if int(listing.get("listing_pages_failed", 0) or 0) > 0:
+            return True
+        if bool(listing.get("listing_blocked")):
+            return True
+        if str(listing.get("listing_error") or "").strip():
+            return True
+
+    if int(item.get("truncated_discovery_urls", 0) or 0) > 0:
+        return True
+
+    if item.get("unresolved_fetch_urls"):
+        return True
+
+    if candidates <= 0:
+        return True
+
+    if fetch_failures > 0:
+        return True
+
+    if invalid >= candidates:
+        return True
+
+    # Otherwise this is a usable run with some rejected/bad candidate pages.
+    return False
 
 def save_run_summary(
     *,
@@ -494,6 +661,14 @@ def main():
         f"{len(active_sources)}"
     )
 
+    active_keys = {source_key for source_key, _ in active_sources}
+    missing_required = sorted(REQUIRED_PRODUCTION_SOURCES - active_keys)
+    if missing_required:
+        raise RuntimeError(
+            "PRODUCTION SOURCE GATE FAILED. Missing ACTIVE sources: "
+            + ", ".join(missing_required)
+        )
+
     results = []
 
     for (
@@ -501,7 +676,7 @@ def main():
         source_config,
     ) in active_sources:
 
-        result = run_source(
+        result = run_source_with_retry(
             source_key=source_key,
             source_config=(
                 source_config
@@ -622,6 +797,24 @@ def main():
         - successful
     )
 
+    degraded = [
+        item
+        for item in results
+        if item.get("health_status") != "HEALTHY"
+    ]
+
+    blocking_degraded = [
+        item
+        for item in degraded
+        if is_blocking_degraded(item)
+    ]
+
+    tolerated_degraded = [
+        item
+        for item in degraded
+        if not is_blocking_degraded(item)
+    ]
+
     print()
     print("-" * 80)
 
@@ -640,6 +833,17 @@ def main():
         f"{failed}"
     )
 
+    print(
+        f"Degraded health   : "
+        f"{len(degraded)}"
+    )
+
+    if tolerated_degraded:
+        print(
+            f"Tolerated partial : "
+            f"{len(tolerated_degraded)}"
+        )
+
     print()
 
     print(
@@ -648,13 +852,36 @@ def main():
     )
 
     if failed > 0:
-
         print()
-        print(
-            "WARNING: One or more sources "
-            "failed. Successful sources were "
-            "still processed normally."
-        )
+        print("BLOCKED: one or more ACTIVE sources failed.")
+        raise SystemExit(1)
+
+    if tolerated_degraded:
+        print()
+        print("WARNING: tolerated PARTIAL_ERROR source health (usable collection retained).")
+        for item in tolerated_degraded:
+            print(
+                "  - "
+                + str(item.get("source_name", item.get("source_key", "UNKNOWN")))
+                + ": candidates="
+                + str(item.get("candidate_urls", 0))
+                + ", invalid="
+                + str(item.get("invalid_extraction", item.get("invalid_extractions", 0)))
+                + ", fetch_failures="
+                + str(item.get("fetch_failures", 0))
+            )
+
+    if blocking_degraded:
+        print()
+        print("BLOCKED: one or more ACTIVE sources have completeness-threatening degraded health.")
+        for item in blocking_degraded:
+            print(
+                "  - "
+                + str(item.get("source_name", item.get("source_key", "UNKNOWN")))
+                + ": "
+                + str(item.get("health_status"))
+            )
+        raise SystemExit(2)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
-﻿sources:
-
+sources:
   daily_ft:
     source_code: SRC005
     name: Daily FT
@@ -8,7 +7,6 @@
     production_status: ACTIVE
     acquisition_method: HTTP
     url: https://www.ft.lk/financial-services/42
-
   ceylon_today:
     source_code: SRC003
     name: Ceylon Today
@@ -17,30 +15,51 @@
     production_status: ACTIVE
     acquisition_method: HTTP
     url: https://ceylontoday.lk/category/ceylon-today-daily/finance-today/
-
   daily_news:
     source_code: SRC001
     name: Daily News
     section_name: Business
-    enabled: false
-    production_status: FUTURE_ACCESS
-    acquisition_method: PENDING_APPROVED_ACCESS
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: GENERIC
     url: https://dailynews.lk/category/business/
-
+    generic_limit: 200
+    section_url: https://dailynews.lk/category/business/
   daily_mirror:
     source_code: SRC002
     name: Daily Mirror
     section_name: Business
-    enabled: false
-    production_status: FUTURE_ACCESS
-    acquisition_method: PENDING_APPROVED_ACCESS
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: HTTP_WITH_BROWSER_FALLBACK
     url: https://www.dailymirror.lk/business
-
+    section_url: https://www.dailymirror.lk/business
   island:
     source_code: SRC004
     name: The Island
     section_name: Business
-    enabled: false
-    production_status: FUTURE_DIAGNOSTIC
-    acquisition_method: PENDING
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: HTTP_WITH_BROWSER_FALLBACK
     url: https://island.lk/category/business/
+    section_url: https://island.lk/category/business/
+  newsfirst:
+    source_code: SRC006
+    name: NewsFirst
+    section_name: Business
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: GENERIC
+    generic_limit: 200
+    url: https://english.newsfirst.lk/business
+    section_url: https://english.newsfirst.lk/business
+  the_morning:
+    source_code: SRC007
+    name: The Morning
+    section_name: Business
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: GENERIC
+    generic_limit: 100
+    url: https://www.themorning.lk/categories/business
+    section_url: https://www.themorning.lk/categories/business

@@ -1,0 +1,48 @@
+{
+  "description": "Frozen 320-row October 27 inventory and actual October 26/27 distributed editions, identified by the user in Downloads.",
+  "sources": [
+    {
+      "file": "audit.json",
+      "source": "data\\processed\\reports\\2026-10-27\\window_1d\\stakeholder_brief_v2_audit.json",
+      "sha256": "2f0a132ffd52a99d4e2fdf11ebd4861443012e6a25a078d220fb8513bb33992b"
+    },
+    {
+      "file": "inventory.csv",
+      "source": "data\\processed\\reports\\2026-10-27\\window_1d\\Daily Financial Sector News Brief 2026-10-27 Articles.csv",
+      "sha256": "6bf8c874211668f66bca863a2e491c0cd23375500ccdff675eb9e25fc419f6b9"
+    },
+    {
+      "file": "prior_reference.html",
+      "source": "C:\\Users\\thanuka\\Downloads\\Daily Financial Sector News Brief 2026-10-26.html",
+      "confirmed_distributed_by": "user in this conversation"
+    },
+    {
+      "file": "sent_reference_27.html",
+      "source": "C:\\Users\\thanuka\\Downloads\\Daily Financial Sector News Brief 2026-10-27.html",
+      "confirmed_distributed_by": "user in this conversation"
+    }
+  ],
+  "files": {
+    "audit.json": "2f0a132ffd52a99d4e2fdf11ebd4861443012e6a25a078d220fb8513bb33992b",
+    "collection_metadata.json": "45abca12b3f8d06612cebd6309a4feb5151f0001dfaa4ede636ee723e622551c",
+    "inventory.csv": "6bf8c874211668f66bca863a2e491c0cd23375500ccdff675eb9e25fc419f6b9",
+    "model_traces.json": "6b28e6ca147e74d37a912685c28e09bf974136def4eef77af45f40d8e9bff91d",
+    "prior_reference.html": "c19dd20483ed3ebc1f909b1188bb1e51f406bf1203d4c92749ab4fc688aec1cb",
+    "sent_reference_27.html": "c9d0c9026504c62a1b9581728f79e0733047d63f8f2e40117bddd3a45d1ad3aa",
+    "source_status\\ceylon_today.json": "499a728663bb5e50dc09bfd546b8c63d81c6e90fdb0a9c02df40e6cf24bda76b",
+    "source_status\\daily_ft.json": "b8839e6d43d5715ef1239b9c3f604e556fe24ee53c6e5b60c789bd5acf2544c0",
+    "source_status\\daily_mirror.json": "fba2573c46c19a95561320cbb00452adc1c285ef05816184680d09eda156e6a9",
+    "source_status\\daily_news.json": "c0a28ffc4e03d229e32ac53b8948dba8092c50acdc5f3d8c5032967ea9198cea",
+    "source_status\\island.json": "76b5c579e9e84cda939b810c59ace0c4fae4639c7d7d78b79ba24c46f741728e",
+    "source_status\\newsfirst.json": "e2b9b49716ec2ca2d5e19adb642db00e61379baaa817884c9eb83901c0d5c900",
+    "source_status\\the_morning.json": "47cbb63f02c91246223ba6fcb2f26a150b1ff008cdc4f1e6f5491075ea7d41f0"
+  },
+  "notes": [
+    "2026-10-27: collection_metadata.json extended with first-version (v001) staged evidence for the five generic publishers, alias-merged per publisher article ID, matching the production loader.",
+    "2026-10-27: distribution times from the operator's Outlook Sent items (minute precision, Asia/Colombo), matching SENT_EDITION.json."
+  ],
+  "distribution_times": {
+    "prior_reference.html": "2026-10-26T09:33:00+05:30",
+    "sent_reference_27.html": "2026-10-27T12:19:00+05:30"
+  }
+}

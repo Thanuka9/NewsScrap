@@ -1,12 +1,18 @@
 from __future__ import annotations
 
 import json
+import re
 import time
+from types import SimpleNamespace
+from urllib.parse import urljoin, urlsplit
+
+from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from bank_intel.collectors.http_client import HttpClient
+from bank_intel.common.discovery_policy import OldPageStopper
 
 from bank_intel.collectors.sources.daily_ft import (
     SOURCE_NAME,
@@ -97,6 +103,111 @@ REQUEST_DELAY_SECONDS = 1.0
 
 RECHECK_AFTER_HOURS = 6
 
+# NEWS_MULTI_SURFACE_FT_V1
+# Daily FT material banking/economic stories can appear on Financial Services
+# or Front Page. Both surfaces are first-class production discovery inputs.
+FRONT_PAGE_URL = "https://www.ft.lk/Front-Page/44/0"
+TOP_STORY_URL = "https://www.ft.lk/top-story/26/0"
+DISCOVERY_SURFACES = (
+    ("FINANCIAL_SERVICES", FINANCIAL_SERVICES_URL),
+    ("FRONT_PAGE", FRONT_PAGE_URL),
+    ("TOP_STORY", TOP_STORY_URL),
+    ("HOMEPAGE", "https://www.ft.lk/"),
+)
+FT_ARTICLE_PATH_RE = re.compile(r"/\d{1,4}-\d{5,}/?$")
+
+
+# NEWS_FT_GENERIC_LISTING_FALLBACK_V2
+# The legacy Daily FT parser is tuned to the Financial Services layout.
+# Front Page uses a different HTML structure.  Scan valid FT story links directly,
+# extract their visible publication timestamp, and choose the parser that discovers
+# the larger valid article set.  This also protects us from future listing-layout drift.
+FT_LISTING_DATE_RE = re.compile(
+    r"(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),\s*"
+    r"\d{1,2}\s+[A-Za-z]+\s+20\d{2}\s+\d{1,2}:\d{2}",
+    re.IGNORECASE,
+)
+
+
+def discover_ft_listing_articles(
+    html: str,
+    listing_url: str,
+) -> list:
+    soup = BeautifulSoup(html, "html.parser")
+    out = []
+    seen = set()
+
+    for node in soup.select("a[href]"):
+        href = str(node.get("href") or "").strip()
+        if not href:
+            continue
+
+        url = urljoin(listing_url, href)
+        url = url.split("#", 1)[0].split("?", 1)[0].rstrip("/")
+
+        if not is_ft_article_url(url) or url in seen:
+            continue
+
+        anchor_text = " ".join(node.get_text(" ", strip=True).split())
+
+        # FT normally places the timestamp in the same listing block as the link.
+        # Walk a few parent levels because Front Page and Financial Services use
+        # slightly different markup.
+        date_text = ""
+        container_text = anchor_text
+        current = node
+
+        for _ in range(4):
+            if current is None:
+                break
+
+            try:
+                candidate_text = " ".join(
+                    current.get_text(" ", strip=True).split()
+                )
+            except Exception:
+                candidate_text = ""
+
+            match = FT_LISTING_DATE_RE.search(candidate_text)
+            if match:
+                date_text = match.group(0)
+                container_text = candidate_text
+                break
+
+            current = getattr(current, "parent", None)
+
+        # A listing link without a visible publication timestamp is not trusted
+        # as a current-window discovery candidate.
+        if not date_text:
+            continue
+
+        headline = FT_LISTING_DATE_RE.sub("", anchor_text).strip(" -|\t\r\n")
+        if not headline:
+            headline = FT_LISTING_DATE_RE.sub("", container_text).strip(" -|\t\r\n")
+
+        if not headline:
+            continue
+
+        try:
+            published_dt = datetime.strptime(
+                re.sub(r"\s+", " ", date_text).strip(),
+                "%A, %d %B %Y %H:%M",
+            ).replace(tzinfo=SRI_LANKA_TZ)
+            published_hint = published_dt.isoformat()
+        except ValueError:
+            continue
+
+        seen.add(url)
+        out.append(
+            SimpleNamespace(
+                url=url,
+                headline=headline,
+                published_at_hint=published_hint,
+            )
+        )
+
+    return out
+
 
 # ============================================================
 # HELPERS
@@ -109,21 +220,34 @@ def utc_now() -> datetime:
     )
 
 
+def is_ft_article_url(url: str) -> bool:
+    try:
+        parsed = urlsplit(str(url or ""))
+    except Exception:
+        return False
+
+    if parsed.netloc.lower() not in {"ft.lk", "www.ft.lk"}:
+        return False
+
+    return bool(FT_ARTICLE_PATH_RE.search(parsed.path or ""))
+
+
 def build_section_page_url(
+    base_url: str,
     page_number: int,
 ) -> str:
+    base = str(base_url).rstrip("/")
 
     if page_number <= 1:
-        return FINANCIAL_SERVICES_URL
+        return base
 
-    offset = (
-        page_number - 1
-    ) * PAGE_SIZE
+    offset = (page_number - 1) * PAGE_SIZE
 
-    return (
-        f"{FINANCIAL_SERVICES_URL}"
-        f"/{offset}"
-    )
+    # Front Page's first page is explicitly /0; subsequent pages use /60, /120...
+    if base.endswith("/0"):
+        base = base[:-2]
+
+    return f"{base}/{offset}"
 
 
 def should_fetch_article(
@@ -325,163 +449,115 @@ def discover_required_articles(
     client: HttpClient,
     window,
 ) -> list:
-
+    global _DISCOVERY_EVIDENCE
+    _DISCOVERY_EVIDENCE=[]
     discovered_by_url = {}
 
     print()
-    print(
-        "Required publication window:"
-    )
+    print("Required publication window:")
+    print(f"    {window.start_date}  ->  {window.end_date}")
+    print(f"Mode: {window.mode}")
 
-    print(
-        f"    {window.start_date}"
-        f"  ->  "
-        f"{window.end_date}"
-    )
-
-    print(
-        f"Mode: {window.mode}"
-    )
-
-    for page_number in range(
-        1,
-        MAX_SECTION_PAGES + 1,
-    ):
-
-        page_url = (
-            build_section_page_url(
-                page_number
-            )
-        )
-
+    for surface_name, base_url in DISCOVERY_SURFACES:
+        old_pages = OldPageStopper(window.start_date)
+        surface_max_pages = 1 if surface_name == "HOMEPAGE" else MAX_SECTION_PAGES
+        surface_evidence={"listing_name":surface_name,"listing_url":base_url,"pagination_complete":surface_name=="HOMEPAGE","pages":[]}
+        _DISCOVERY_EVIDENCE.append(surface_evidence)
         print()
-        print(
-            f"[DISCOVERY] Page "
-            f"{page_number}"
-        )
+        print("-" * 72)
+        print(f"DISCOVERY SURFACE: {surface_name}")
+        print("-" * 72)
 
-        print(
-            f"            "
-            f"{page_url}"
-        )
+        for page_number in range(1, surface_max_pages + 1):
+            page_url = build_section_page_url(base_url, page_number)
+            surface_evidence["pages"].append({"page":page_number,"url":page_url})
 
-        try:
+            print()
+            print(f"[DISCOVERY] {surface_name} page {page_number}")
+            print(f"            {page_url}")
 
-            result = client.get(
-                page_url
+            try:
+                result = client.get(page_url)
+            except Exception as exc:
+                raise RuntimeError(
+                    "Daily FT discovery failed "
+                    f"on {surface_name} page {page_number}: {page_url}: "
+                    f"{type(exc).__name__}: {exc}"
+                ) from exc
+
+            legacy_articles = discover_articles(result.html)
+            generic_articles = discover_ft_listing_articles(
+                result.html,
+                page_url,
             )
 
-        except Exception as exc:
+            legacy_valid = [
+                item
+                for item in legacy_articles
+                if is_ft_article_url(item.url)
+            ]
+            generic_valid = [
+                item
+                for item in generic_articles
+                if is_ft_article_url(item.url)
+            ]
 
-            print(
-                f"[DISCOVERY ERROR] "
-                f"{type(exc).__name__}: "
-                f"{exc}"
-            )
+            if len(generic_valid) > len(legacy_valid):
+                page_articles = generic_articles
+                valid_articles = generic_valid
+                parser_used = "GENERIC_LISTING_FALLBACK"
+            else:
+                page_articles = legacy_articles
+                valid_articles = legacy_valid
+                parser_used = "LEGACY_DAILY_FT"
 
-            raise RuntimeError(
-                "Daily FT discovery failed "
-                f"on archive page "
-                f"{page_number}: "
-                f"{page_url}"
-            ) from exc
+            rejected = len(page_articles) - len(valid_articles)
+            print(f"            Parser used        : {parser_used}")
+            print(f"            Legacy valid URLs  : {len(legacy_valid)}")
+            print(f"            Generic valid URLs : {len(generic_valid)}")
+            print(f"            Articles discovered: {len(page_articles)}")
+            print(f"            Valid article URLs : {len(valid_articles)}")
+            print(f"            Listing URLs rejected: {rejected}")
 
-        page_articles = (
-            discover_articles(
-                result.html
-            )
-        )
+            surface_evidence["pages"][-1]["article_count"]=len(valid_articles)
+            if not valid_articles:
+                break
 
-        print(
-            f"            "
-            f"Articles discovered: "
-            f"{len(page_articles)}"
-        )
+            found_in_window = 0
+            found_older = 0
+            unknown_date = 0
 
-        if not page_articles:
-            break
+            for item in valid_articles:
+                hint_date = parse_article_date(item.published_at_hint)
 
-        found_in_window = 0
-        found_older = 0
-        unknown_date = 0
+                if hint_date is None:
+                    unknown_date += 1
+                    discovered_by_url[item.url] = item
+                    continue
 
-        for item in page_articles:
+                if window.contains_date(hint_date):
+                    found_in_window += 1
+                    discovered_by_url[item.url] = item
+                    continue
 
-            hint_date = (
-                parse_article_date(
-                    item.published_at_hint
-                )
-            )
+                if hint_date < window.start_date:
+                    found_older += 1
 
-            if hint_date is None:
+            print(f"            In window: {found_in_window}")
+            print(f"            Older: {found_older}")
+            print(f"            Date unknown: {unknown_date}")
 
-                unknown_date += 1
+            dated = [parse_article_date(item.published_at_hint)
+                     for item in valid_articles]
+            if old_pages.observe(dated, unknown_dates=unknown_date):
+                surface_evidence["pagination_complete"]=True
+                surface_evidence["stop_reason"]="TWO_CONFIRMED_OLDER_PAGES"
+                print("            Two confirmed older pages; stopping this surface.")
+                break
 
-                discovered_by_url[
-                    item.url
-                ] = item
+            time.sleep(REQUEST_DELAY_SECONDS)
 
-                continue
-
-            if window.contains_date(
-                hint_date
-            ):
-
-                found_in_window += 1
-
-                discovered_by_url[
-                    item.url
-                ] = item
-
-                continue
-
-            if (
-                hint_date
-                < window.start_date
-            ):
-
-                found_older += 1
-
-        print(
-            f"            "
-            f"In window: "
-            f"{found_in_window}"
-        )
-
-        print(
-            f"            "
-            f"Older: "
-            f"{found_older}"
-        )
-
-        print(
-            f"            "
-            f"Date unknown: "
-            f"{unknown_date}"
-        )
-
-        if found_older > 0:
-
-            print(
-                "            "
-                "Reached articles older "
-                "than required window."
-            )
-
-            print(
-                "            "
-                "Stopping pagination."
-            )
-
-            break
-
-        time.sleep(
-            REQUEST_DELAY_SECONDS
-        )
-
-    return list(
-        discovered_by_url.values()
-    )
+    return list(discovered_by_url.values())
 
 
 # ============================================================
@@ -506,7 +582,7 @@ def collect() -> dict:
     print("=" * 72)
 
     print(
-        "DAILY FT FINANCIAL SERVICES "
+        "DAILY FT MULTI-SURFACE "
         "DAILY COLLECTOR"
     )
 
@@ -538,6 +614,7 @@ def collect() -> dict:
     wrong_date_count = 0
     missing_date_count = 0
     invalid_count = 0
+    extraction_failures = []
     failure_count = 0
     late_discovery_count = 0
     skipped_recent = 0
@@ -667,6 +744,7 @@ def collect() -> dict:
                 if actual_date is None:
 
                     missing_date_count += 1
+                    extraction_failures.append({"url":discovered_article.url,"kind":"MISSING_PUBLICATION_DATE"})
 
                     print(
                         "Status: DATE UNKNOWN"
@@ -690,6 +768,7 @@ def collect() -> dict:
                 if not validation.valid:
 
                     invalid_count += 1
+                    extraction_failures.append({"url":discovered_article.url,"kind":"INVALID_EXTRACTION","errors":list(validation.errors)})
 
                     print(
                         "Status: INVALID"
@@ -895,6 +974,7 @@ def collect() -> dict:
             except Exception as exc:
 
                 failure_count += 1
+                extraction_failures.append({"url":discovered_article.url,"kind":"FETCH_OR_EXTRACTION_EXCEPTION","error":str(exc)})
 
                 print(
                     f"FAILED: "
@@ -1043,7 +1123,9 @@ def collect() -> dict:
         "source_name": SOURCE_NAME,
         "section_name": SECTION_NAME,
         "execution_status": "SUCCESS",
-        "health_status": health_status,
+        "health_status": "PARTIAL_ERROR" if any(not x["pagination_complete"] for x in globals().get("_DISCOVERY_EVIDENCE",[])) else health_status,
+        "listing_pages": globals().get("_DISCOVERY_EVIDENCE",[]),
+        "failed_discovery_surfaces": [x["listing_name"] for x in globals().get("_DISCOVERY_EVIDENCE",[]) if not x["pagination_complete"]],
         "content_status": content_status,
         "collection_mode": window.mode,
         "window_start": (
@@ -1072,6 +1154,8 @@ def collect() -> dict:
         "missing_date": (
             missing_date_count
         ),
+        "extraction_failures": extraction_failures,
+        "unresolved_fetch_urls": [x["url"] for x in extraction_failures],
         "invalid_extraction": (
             invalid_count
         ),
@@ -1081,6 +1165,7 @@ def collect() -> dict:
         "recent_duplicates": (
             skipped_recent
         ),
+        "discovery_surfaces": [name for name, _ in DISCOVERY_SURFACES],
     }
 
 

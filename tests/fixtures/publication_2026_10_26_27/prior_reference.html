@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>Financial Brief | 26 October 2026</title><style>* {
+    box-sizing: border-box;
+}
+html {
+    background: #edf1f5;
+}
+body {
+    margin: 0;
+    background: #edf1f5;
+    color: #1b2733;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.58;
+}
+a {
+    color: #0d547a;
+}
+.report-shell {
+    width: 100%;
+    max-width: 1080px;
+    margin: 28px auto;
+    background: #ffffff;
+    border: 1px solid #dce3e9;
+    box-shadow: 0 12px 34px rgba(22, 41, 58, 0.08);
+}
+.top-rule {
+    height: 6px;
+    background: #0b3154;
+}
+a:focus-visible { outline:3px solid #b28a44; outline-offset:3px; }
+.report-header {
+    padding: 30px 38px 24px;
+    border-bottom: 1px solid #dce3e9;
+}
+.header-kicker {
+    margin-bottom: 8px;
+    color: #577080;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+.header-row {
+    display: table;
+    width: 100%;
+}
+.header-title,
+.header-date {
+    display: table-cell;
+    vertical-align: bottom;
+}
+.header-title h1 {
+    margin: 0;
+    color: #0b3154;
+    font-size: 38px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+.header-title p {
+    margin: 7px 0 0;
+    color: #617381;
+    font-size: 16px;
+}
+.header-date {
+    width: 230px;
+    text-align: right;
+}
+.date-label {
+    color: #70828f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.date-value {
+    margin-top: 4px;
+    color: #0b3154;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.report-content {
+    padding: 8px 38px 32px;
+}
+.report-section {
+    margin-top: 32px;
+}
+.section-title-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.section-title-row > div {
+    display: table-cell;
+    vertical-align: bottom;
+}
+.section-title-row h2 {
+    margin: 1px 0 0;
+    color: #173a56;
+    font-size: 21px;
+    line-height: 1.25;
+}
+.section-title-row p {
+    margin: 5px 0 0;
+    color: #526477;
+    font-size: 15px;
+}
+.section-kicker {
+    color: #8b6a2f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.25px;
+}
+
+.priority-card {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #d9e1e7;
+    border-left: 4px solid #b28a44;
+    background: #ffffff;
+    page-break-inside: avoid;
+}
+.priority-number,
+.priority-body {
+    display: table-cell;
+    vertical-align: top;
+}
+.priority-number {
+    width: 58px;
+    padding: 20px 10px;
+    color: #b28a44;
+    background: #fbf8f1;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+.priority-body {
+    padding: 18px 20px 16px;
+}
+.story-topline {
+    color: #70818c;
+    font-size: 14px;
+    font-weight: 600;
+}
+.dot {
+    margin: 0 5px;
+    color: #a9b5bd;
+}
+.priority-card h3,
+.context-card h3 {
+    margin: 4px 0 11px;
+    color: #182c3b;
+    font-size: 19px;
+    line-height: 1.3;
+}
+.meta-row {
+    display: table;
+    width: 100%;
+    margin: 0 0 13px;
+    padding: 10px 12px;
+    background: #f6f8fa;
+    border: 1px solid #e3e8ec;
+}
+.meta-main,
+.meta-topics {
+    display: table-cell;
+    vertical-align: middle;
+}
+.meta-main {
+    width: 63%;
+}
+.meta-topics {
+    text-align: right;
+}
+.meta-label,
+.block-label {
+    margin-bottom: 2px;
+    color: #526477;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.entity-name {
+    color: #1d3343;
+    font-size: 15px;
+    font-weight: 700;
+}
+.entity-type {
+    color: #72818c;
+    font-size: 14px;
+}
+.topic-chip {
+    display: inline-block;
+    margin: 2px 0 2px 5px;
+    padding: 3px 8px;
+    border: 1px solid #c9dbe6;
+    background: #edf5f9;
+    color: #28556f;
+    font-size: 12px;
+    font-weight: 700;
+}
+.summary-block p {
+    margin: 4px 0 0;
+    color: #263642;
+}
+.relevance-block {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-left: 3px solid #6c92a8;
+    background: #f3f7f9;
+}
+.relevance-block p {
+    margin: 3px 0 0;
+    color: #344955;
+    font-size: 15px;
+}
+.story-footer {
+    display: table;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e9ed;
+}
+.context-wrap,
+.story-footer > .source-link {
+    display: table-cell;
+    vertical-align: middle;
+}
+.context-item {
+    margin-right: 12px;
+    color: #74838e;
+    font-size: 12px;
+}
+.source-link {
+    color: #0c557c;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    text-align: right;
+}
+.context-card {
+    margin-bottom: 12px;
+    padding: 15px 17px;
+    border: 1px solid #dfe5ea;
+    background: #fbfcfd;
+    page-break-inside: avoid;
+}
+.context-card-head {
+    display: table;
+    width: 100%;
+}
+.context-card-head > div,
+.context-card-head > .source-link {
+    display: table-cell;
+    vertical-align: top;
+}
+.context-card-head > .source-link {
+    width: 75px;
+    text-align: right;
+}
+.context-card h3 {
+    margin-bottom: 8px;
+    font-size: 21px;
+}
+.compact-meta {
+    margin-bottom: 9px;
+    color: #697a86;
+    font-size: 14px;
+}
+.scope-text {
+    margin-right: 10px;
+}
+.context-summary {
+    margin: 0;
+    color: #2b3c48;
+}
+.context-bottom {
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid #e4e9ed;
+    color: #647782;
+    font-size: 14px;
+}
+.context-relevance {
+    margin-bottom: 3px;
+}
+.related-note {
+    color: #7a8891;
+}
+.secondary-section {
+    margin-top: 34px;
+}
+.other-table-wrap {
+    border: 1px solid #dfe5ea;
+}
+.other-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.other-table th {
+    padding: 9px 11px;
+    background: #f1f4f6;
+    color: #60727e;
+    border-bottom: 1px solid #dfe5ea;
+    font-size: 12px;
+    letter-spacing: .5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+.other-table th:nth-child(1) { width: 26%; }
+.other-table th:nth-child(2) { width: 22%; }
+.other-table th:nth-child(3) { width: 52%; }
+.other-table td {
+    padding: 11px;
+    border-bottom: 1px solid #e7ecef;
+    vertical-align: top;
+    color: #31424d;
+    font-size: 14px;
+}
+.other-table tr:last-child td {
+    border-bottom: 0;
+}
+.other-title a {
+    display: block;
+    margin-top: 2px;
+    color: #173e59;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+}
+.small-muted {
+    margin-top: 2px;
+    color: #7a8993;
+    font-size: 12px;
+}
+.event-group {
+    margin-bottom: 10px;
+    padding: 13px 15px;
+    border: 1px solid #dfe5ea;
+    background: #f8fafb;
+}
+.event-label {
+    color: #8b6a2f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.event-group h3 {
+    margin: 2px 0 7px;
+    color: #173a56;
+}
+.event-group ul {
+    margin: 0;
+    padding-left: 18px;
+}
+.event-group li {
+    margin: 3px 0;
+}
+.event-group li span {
+    margin-left: 5px;
+    color: #74828b;
+    font-size: 12px;
+}
+.empty-state {
+    padding: 16px;
+    border: 1px solid #dfe5ea;
+    background: #f8fafb;
+    color: #72828d;
+}
+.report-footer {
+    padding: 17px 38px 23px;
+    border-top: 1px solid #dce3e9;
+    background: #f8fafb;
+    color: #697b87;
+    font-size: 12px;
+}
+.report-footer strong {
+    color: #405663;
+}
+
+@media (max-width: 760px) {
+    .report-shell {
+        margin: 0;
+        border-left: 0;
+        border-right: 0;
+    }
+    .report-header,
+    .report-content,
+    .report-footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .header-row,
+    .header-title,
+    .header-date,
+    .priority-card,
+    .priority-number,
+    .priority-body,
+    .meta-row,
+    .meta-main,
+    .meta-topics,
+    .context-card-head,
+    .context-card-head > div,
+    .context-card-head > .source-link,
+    .story-footer,
+    .context-wrap,
+    .story-footer > .source-link {
+        display: block;
+        width: 100%;
+    }
+    .header-date,
+    .meta-topics,
+    .context-card-head > .source-link,
+    .story-footer > .source-link {
+        margin-top: 8px;
+        text-align: left;
+    }
+    .priority-number {
+        padding: 7px 12px;
+        text-align: left;
+    }
+
+
+    .other-table,
+    .other-table thead,
+    .other-table tbody,
+    .other-table tr,
+    .other-table th,
+    .other-table td {
+        display: block;
+        width: 100% !important;
+    }
+    .other-table thead {
+        display: none;
+    }
+    .other-table td {
+        border-bottom: 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+    .other-table tr {
+        padding: 9px 4px;
+        border-bottom: 1px solid #e7ecef;
+    }
+}
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+    html,
+    body {
+        background: #ffffff;
+    }
+    .report-shell {
+        max-width: none;
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+    }
+    .source-link {
+        color: #0c557c;
+    }
+    .priority-card,
+    .context-card,
+    .event-group,
+    .other-table tr {
+        page-break-inside: avoid;
+    }
+}
+
+/* Final bank-supervision additions while preserving the 14-Oct visual language. */
+/* BANK_SUPERVISION_UI_CLEANUP_V1
+   Stronger section separation + cleaner supervisory-focus presentation. */
+.report-section {
+    margin-top: 42px;
+}
+.report-section + .report-section {
+    margin-top: 46px;
+    padding-top: 25px;
+    border-top: 1px solid #d6e0e7;
+}
+.section-title-row {
+    display: block;
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 15px 18px 14px;
+    border: 1px solid #dbe4ea;
+    border-left: 5px solid #0b3154;
+    background: linear-gradient(90deg, #f3f7fa 0%, #ffffff 82%);
+    box-shadow: 0 3px 10px rgba(22, 41, 58, 0.04);
+    page-break-after: avoid;
+    break-after: avoid;
+}
+.section-title-row > div {
+    display: block;
+}
+.section-title-row h2 {
+    margin: 2px 0 0;
+    color: #0b3154;
+    font-size: 23px;
+    line-height: 1.22;
+    letter-spacing: -0.15px;
+}
+.section-title-row p {
+    max-width: 880px;
+    margin: 6px 0 0;
+    color: #5d7180;
+    font-size: 14px;
+}
+.section-kicker {
+    margin-bottom: 2px;
+    color: #8b6a2f;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.45px;
+}
+.supervisory-focus-row {
+    padding: 11px 13px;
+    border-left: 3px solid #b28a44;
+    background: #f7f9fb;
+}
+.supervisory-focus-row .meta-main {
+    width: 100%;
+}
+.supervisory-focus-row .entity-name {
+    margin-top: 2px;
+    color: #173a56;
+    font-size: 15px;
+}
+.priority-card {
+    box-shadow: 0 3px 12px rgba(22, 41, 58, 0.045);
+}
+.context-card {
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(22, 41, 58, 0.025);
+}
+
+/* Keep a section heading with the first story when printing. */
+.section-title-row + .priority-card,
+.section-title-row + .context-card {
+    break-before: avoid;
+}
+
+.priority-card .source-list,
+.context-card .source-list {
+    margin-top: 10px;
+    color: #647782;
+    font-size: 13px;
+}
+.source-list a {
+    color: #0c557c;
+    font-weight: 700;
+    text-decoration: none;
+}
+.importance-chip {
+    display: inline-block;
+    margin: 2px 0 2px 5px;
+    padding: 3px 8px;
+    border: 1px solid #e1d4b7;
+    background: #f8f3e9;
+    color: #765b2a;
+    font-size: 12px;
+    font-weight: 700;
+}
+.report-note {
+    margin-top: 7px;
+    color: #7a8993;
+    font-size: 12px;
+}
+
+.importance-chip { display: none; }
+
+.review-window {margin-top:12px;color:#526477;font-size:13px;line-height:1.5}
+.context-card {margin-bottom:14px;}
+.summary-block p {line-height:1.57}
+.review-edition-label {color:#647782;font-size:12px;margin-top:8px}
+</style></head><body><div class="report-shell"><div class="top-rule"></div><header class="report-header"><div class="header-kicker">FINANCIAL SECTOR</div><div class="header-row"><div class="header-title"><h1>Financial Brief</h1><p>The latest banking, financial sector and market news.</p></div><div class="header-date"><div class="date-label">Reporting date</div><div class="date-value">Monday, 26 October 2026</div></div></div><div class="review-window">Reporting coverage: late Friday 23 October, Saturday 24 October, Sunday 25 October and Monday 26 October. Distinct follow-ups only from earlier editions.</div><p style="font-size:12px;color:#526477;margin:12px 0 0;"></p></header><main class="report-content"><section class="report-section"><div class="section-title-row"><div><div class="section-kicker">KEY BANKING SUPERVISORY</div><h2>CBSL &amp; Bank Supervisory Developments</h2><p>Direct supervisory, governance, fraud, prudential and cyber developments</p></div></div><article class="priority-card" data-source-date="2026-10-23"><div class="priority-number">01</div><div class="priority-body"><div class="story-topline">Daily Mirror <span class="dot">•</span> 2026-10-23</div><h3>NDB reports ongoing recoveries and control improvements after Rs. 13.64bn fraud</h3><div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">Key Banking Supervisory</div></div></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">NDB said it is pursuing recoveries and legal or internal action after the fraud identified earlier in 2026. Its latest disclosure refers to a final forensic assessment of approximately Rs. 13.64 billion and describes continuing controls, technology and governance improvements. The disclosure does not quantify actual recoveries or provide a completion timetable.</p></div><div class="relevance-block"><div class="block-label">Why it matters</div><p>Direct relevance to fraud losses, remedial controls, governance and the supervisory investigation of NDB.</p></div><div class="story-footer"><div class="context-wrap"></div><div class="source-link"><a href="https://www.dailymirror.lk/business/Pursues-fraud-recoveries-amount-and-timetable-undisclosed/215-353207" rel="noopener noreferrer" target="_blank">Daily Mirror ↗</a></div></div></div></article><article class="priority-card" data-source-date="2026-10-23"><div class="priority-number">02</div><div class="priority-body"><div class="story-topline">Daily Mirror <span class="dot">•</span> 2026-10-23</div><h3>NDB Group Q3 profit declines 20.9%; bank-level profit Rs. 2.89bn</h3><div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">Key Banking Supervisory</div></div></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">NDB reported third-quarter Group profit attributable to shareholders of about Rs. 2.77 billion, 20.9% below its restated year-earlier result. The bank-level quarterly net profit was approximately Rs. 2.89 billion, down 8.9% year on year. Group and bank figures are different measures; the bank-level Rs. 2.9 billion result was reported in the earlier brief, while this article adds the Group comparison.</p></div><div class="relevance-block"><div class="block-label">Why it matters</div><p>Quarterly earnings, net interest income and impairment context for a licensed bank.</p></div><div class="story-footer"><div class="context-wrap"></div><div class="source-link"><a href="https://www.dailymirror.lk/business/NDB-3Q-earnings-fall-21-to-Rs-2-77bn/215-353206" rel="noopener noreferrer" target="_blank">Daily Mirror ↗</a></div></div></div></article><article class="priority-card" data-source-date="2026-10-26"><div class="priority-number">03</div><div class="priority-body"><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-26</div><h3>Sampath Bank discloses 22.7% oversubscription of Rs. 10bn Tier 2 debenture issue</h3><div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">Key Banking Supervisory</div></div></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">A subsequent subscription breakdown shows applications worth approximately Rs. 12.27 billion against the Rs. 10 billion maximum of Sampath Bank’s Tier 2 debenture issue. The 22.7% oversubscription and RTGS/guarantee payment breakdown provide new detail beyond the initial oversubscription announcement already reported on 21 October.</p></div><div class="relevance-block"><div class="block-label">Why it matters</div><p>Bank regulatory-capital funding and demand for Basel III-compliant instruments.</p></div><div class="story-footer"><div class="context-wrap"></div><div class="source-link"><a href="https://www.ft.lk/front-page/Sampath-Bank-s-Rs-10-b-debenture-issue-oversubscribed-by-22-7/44-799169" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></div></article><article class="priority-card" data-source-date="2026-10-24"><div class="priority-number">04</div><div class="priority-body"><div class="story-topline">The Island <span class="dot">•</span> 2026-10-24</div><h3>Sri Lanka CERT warns of fake bank gift message targeting customer credentials</h3><div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">Fraud and Cyber Risk</div></div></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lanka CERT warned that a purported Vap Poya reward offer attributed to an unnamed major bank is fraudulent. The warning says the circulating message may be designed to steal personal or banking credentials and compromise accounts. Customers were advised to avoid its links and verify promotions through official channels.</p></div><div class="relevance-block"><div class="block-label">Why it matters</div><p>Bank-impersonation fraud, phishing exposure and customer-protection risks.</p></div><div class="story-footer"><div class="context-wrap"></div><div class="source-link"><a href="https://island.lk/slcert-warns-of-fake-bank-reward-scam-ahead-of-vap-poya" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div><div class="source-list"><strong>Supporting source:</strong> <a href="https://www.dailymirror.lk/business/Fake-bank-giveaway-uses-Vap-Poya-as-bait/215-353308" rel="noopener noreferrer" target="_blank">Daily Mirror ↗</a></div></div></article><article class="priority-card" data-source-date="2026-10-26"><div class="priority-number">05</div><div class="priority-body"><div class="story-topline">The Morning <span class="dot">•</span> 2026-10-26</div><h3>Government agencies directed to remedy PHP vulnerabilities identified by CERT</h3><div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">Key Banking Supervisory</div></div></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The Ministry of Digital Economy directed government institutions to take corrective action over two PHP vulnerabilities identified by Sri Lanka CERT. The instruction includes checking affected installations, applying security updates, inspecting logs and restricting internet exposure where systems cannot be patched. This is a follow-up government directive to an earlier CERT advisory, not a reported breach at a bank.</p></div><div class="relevance-block"><div class="block-label">Why it matters</div><p>Operational and third-party technology risk relevant to the financial sector; no confirmed bank compromise is reported.</p></div><div class="story-footer"><div class="context-wrap"></div><div class="source-link"><a href="https://www.themorning.lk/articles/1AwUUQot53gyPpMzTq2b" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div></div></div></article></section><section class="report-section"><div class="section-title-row"><div><div class="section-kicker">BANKING SECTOR DEVELOPMENTS</div><h2>Banking Sector Developments &amp; Risk Context</h2><p>Credit, payments, service networks and banking-sector products</p></div></div><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-26</div><h3>National LankaQR promotion sets first payment-adoption draw for 27 October</h3></div></div><div class="compact-meta"><span class="topic-chip">Banking Sector Developments</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">A nationwide LankaQR incentive programme has scheduled its first draws for 27 October 2026, using eligible transactions from September onward. The stated total prize pool is Rs. 51 million, with prizes distributed to customers and merchants through participating banks. The initiative is administered using payment data supplied by banks and overseen by a multi-agency draw committee.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Adoption of domestic digital payment infrastructure and banking-system participation.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/financial-services/National-QR-payment-adoption-program-Lucky-Draw-debuts-tomorrow/42-799166" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-26</div><h3>Amana Bank opens 50th self-banking centre</h3></div></div><div class="compact-meta"><span class="topic-chip">Banking Sector Developments</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Amana Bank announced its 50th self-banking centre in Grandpass, bringing its customer-access network to 83 locations, including 33 full branches. The expansion concerns service distribution and accessibility, not a change to the bank’s regulatory capital.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Distribution-channel expansion and customer access to banking services.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/financial-services/Amana-Bank-opens-50th-Self-Banking-Centre-in-Grandpass/42-799164" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-23"><div class="context-card-head"><div><div class="story-topline">Daily Mirror <span class="dot">•</span> 2026-10-23</div><h3>HNB partners IDEAL Motors on vehicle and generator leasing</h3></div></div><div class="compact-meta"><span class="topic-chip">Banking Sector Developments</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">HNB and IDEAL Motors announced financing arrangements for selected new vehicles and generators, including structured leasing facilities and customer benefits. The partnership was reported on Friday and had not appeared in the prior supplied editions.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> New bank credit products and leasing-market activity.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.dailymirror.lk/business/HNB-IDEAL-Motors-offer-vehicle-leasing-solutions/215-353198" rel="noopener noreferrer" target="_blank">Daily Mirror ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-24"><div class="context-card-head"><div><div class="story-topline">The Island <span class="dot">•</span> 2026-10-24</div><h3>DFCC Bank combines overseas tuition payments, FX and education lending</h3></div></div><div class="compact-meta"><span class="topic-chip">Banking Sector Developments</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">DFCC Bank launched a student-services offering combining university tuition transfers, education finance, foreign exchange and travel-related banking support. The product includes education-loan and exchange-rate features for eligible customers.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Bank lending and cross-border payment services for education-related expenses.</div><div class="source-list"><strong>Source:</strong> <a href="https://island.lk/dfcc-bank-launches-student-file-combining-overseas-tuition-payments-education-finance-and-travel-benefits" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-24"><div class="context-card-head"><div><div class="story-topline">The Island <span class="dot">•</span> 2026-10-24</div><h3>Seylan Bank signs housing-loan partnership with Fairway Latitude</h3></div></div><div class="compact-meta"><span class="topic-chip">Banking Sector Developments</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Seylan Bank agreed to offer eligible purchasers of Fairway Latitude residential properties tailored housing loans, with reported terms including repayments up to 25 years and expedited application processing. The report describes an MoU and product offering rather than confirmed loan disbursements.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Mortgage credit competition and bank lending products.</div><div class="source-list"><strong>Source:</strong> <a href="https://island.lk/seylan-bank-partners-with-fairway-latitude-to-make-home-ownership-more-accessible" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-25"><div class="context-card-head"><div><div class="story-topline">The Island <span class="dot">•</span> 2026-10-25</div><h3>Sampath Bank and David Pieris introduce vehicle-finance offers</h3></div></div><div class="compact-meta"><span class="topic-chip">Banking Sector Developments</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sampath Bank and David Pieris Automobiles announced a customer offer with a 0.5-percentage-point reduction against published vehicle lease interest rates, subject to terms. It also includes selected insurance-payment financing and card-related benefits.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Bank lending rates, leasing products and vehicle-credit promotion.</div><div class="source-list"><strong>Source:</strong> <a href="https://island.lk/sampath-bank-and-david-pieris-automobiles-introduce-new-customer-centric-mobility-solutions" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article></section><section class="report-section"><div class="section-title-row"><div><div class="section-kicker">OTHER FINANCIAL SECTOR</div><h2>Other Financial-Sector Developments</h2><p>Licensed finance companies and material insurance-sector news</p></div></div><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily News <span class="dot">•</span> 2026-10-26</div><h3>HNB Finance partners Toyota Lanka on new and certified-used vehicle leasing</h3></div></div><div class="compact-meta"><span class="topic-chip">Other Financial Sector</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">HNB Finance and Toyota Lanka signed an arrangement covering eligible new Toyota vehicles and Toyota Sure certified-used vehicles. The product combines finance-company leasing services with associated ownership support and benefits.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Credit activity and financing partnerships at a licensed finance company.</div><div class="source-list"><strong>Source:</strong> <a href="https://dailynews.lk/2026/10/26/business/1046693/hnb-finance-toyota-lanka-forge-partnership-to-expand-vehicle-leasing-solutions" rel="noopener noreferrer" target="_blank">Daily News ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-26</div><h3>Assetline Finance opens its 64th branch in Wattala</h3></div></div><div class="compact-meta"><span class="topic-chip">Other Financial Sector</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Assetline Finance opened an additional branch at Wattala, expanding its physical distribution network to 64 branches. The company describes the branch as extending customer access to its credit and advisory products.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Licensed finance-company distribution and retail-credit accessibility.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/financial-services/Assetline-Finance-deepens-footprint-with-64th-Branch-in-Wattala/42-799165" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-23"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-23</div><h3>SLIC Life reports Rs. 247bn Life Fund and Rs. 14.68bn bonuses</h3></div></div><div class="compact-meta"><span class="topic-chip">Insurance Sector</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lanka Insurance Life reported a Life Fund of around Rs. 247 billion and total assets of around Rs. 275 billion. It announced Rs. 14.68 billion in policyholder bonuses for 2025 and cumulative declared bonuses since 2006 of about Rs. 131.28 billion. Multiple Friday and weekend accounts cover the same announcement.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> A material financial-strength and policyholder development in the insurance sector.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/financial-services/SLIC-Life-declares-Rs-14-68-b-bonus-backed-by-industry-s-largest-Life-Fund-of-Rs-247-b/42-799060" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div><div class="source-list"><strong>Supporting source:</strong> <a href="https://island.lk/slic-life-reports-rs-247bn-life-fund-rs-131bn-cumulative-bonuses" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article></section><section class="report-section"><div class="section-title-row"><div><div class="section-kicker">MONETARY MARKETS EXTERNAL</div><h2>Monetary, Markets &amp; External Sector</h2><p>Debt, capital markets and external-sector conditions</p></div></div><article class="context-card" data-source-date="2026-10-25"><div class="context-card-head"><div><div class="story-topline">The Morning <span class="dot">•</span> 2026-10-25</div><h3>Treasury-bill auction accepts Rs. 80.6bn against Rs. 100bn offer</h3></div></div><div class="compact-meta"><span class="topic-chip">Monetary Markets External</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">An article published on Sunday reports that the 21 October Treasury-bill auction accepted roughly Rs. 80.6 billion against Rs. 100 billion offered despite strong overall bidding. Reported acceptances favoured the 91-day tenor, while bids for longer tenors were less fully accepted. The event date is 21 October, distinct from its Sunday publication date.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Sovereign debt issuance, bank Treasury holdings and short-term yield conditions.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.themorning.lk/articles/2xmT4bupllzV6AYI36xS" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-24"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-24</div><h3>CSE ends Friday session lower; ASPI down 2.48% over the week</h3></div></div><div class="compact-meta"><span class="topic-chip">Capital Markets</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Friday’s trading session, reported on Saturday, ended with the ASPI at 19,684.91 after a 33.01-point decline and the S&amp;P SL20 at 5,613.63. The ASPI declined 2.48% over the full week. A second newspaper account of the same Friday close has been merged rather than treated as another market event.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Capital-market volatility, bank equity prices and investor sentiment.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/front-page/CSE-falls-2-48-during-week/44-799113" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div><div class="source-list"><strong>Supporting source:</strong> <a href="https://www.dailymirror.lk/business/Week-ends-in-red/215-353303" rel="noopener noreferrer" target="_blank">Daily Mirror ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-26</div><h3>Government bond market sees volatile trading during week ending 23 October</h3></div></div><div class="compact-meta"><span class="topic-chip">Monetary Markets External</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The market report dated 26 October describes sharp movements in government-bond yields during the trading week ending 23 October, with higher yields initially attracting renewed demand. It also notes changes in foreign holdings of rupee Treasuries and exchange-rate conditions. This is a weekly market update rather than a fresh Monday trading-session close.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Bank Treasury valuation, liquidity and sovereign rate exposures.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/financial-services/Secondary-Bond-market-yields-see-saw-recover-to-close-steady-to-higher/42-799167" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">The Island <span class="dot">•</span> 2026-10-26</div><h3>Global energy-price volatility raises import and external-buffer risks</h3></div></div><div class="compact-meta"><span class="topic-chip">Monetary Markets External</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">A 26 October report drawing on CBSL data discusses elevated energy-price volatility and associated pressure on Sri Lanka’s import bill and external balances. It describes macroeconomic risks and should not be interpreted as a new CBSL monetary-policy decision.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> External-sector and inflation pressures can affect bank liquidity and borrower conditions.</div><div class="source-list"><strong>Source:</strong> <a href="https://island.lk/sri-lanka-managing-the-tide-amid-global-commodity-volatility-cbsl-data-shows" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article><article class="context-card" data-source="2026-10-26-428-article-extraction" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT<span class="dot">•</span>2026-10-23</div><h3>Industrial Asphalts placed on CSE Watch List following auditor disclaimer</h3></div></div><div class="compact-meta"><span class="topic-chip">Market Disclosure and Governance</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Industrial Asphalts (Ceylon) PLC disputed its external auditor’s disclaimer of opinion on financial statements for the year ended 31 March 2026. The company said the disclaimer prompted the Colombo Stock Exchange to move its securities to the Watch List from 20 October. Its acquisition process was also reportedly on hold. The development concerns listed-company reporting and investor-protection risks.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Auditor opinions, disclosure standards and CSE Watch List changes affect market governance and investor confidence.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/business/Industrial-Asphalts-disputes-auditor-s-disclaimer-that-led-to-Watch-List-move/34-799066" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source="2026-10-26-428-article-extraction" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT<span class="dot">•</span>2026-10-23</div><h3>Vallibel One raises Fortress Resorts holding in Rs. 730m related-party share purchase</h3></div></div><div class="compact-meta"><span class="topic-chip">Capital Markets and Corporate Ownership</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Vallibel One PLC acquired a 31.34% stake in The Fortress Resorts PLC from related parties for approximately Rs. 730 million through transactions on 21 October. Its direct holding rose to 49.93%; the report says related group holdings, including those of LB Finance and Royal Ceramics, brought the combined interest to approximately 53.89%.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> A material listed-company shareholding change involving related parties and a group that includes a finance company.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/front-page/Vallibel-One-snaps-up-Fortress-Resorts-stake-for-Rs-730-m-in-related-party-deal/44-799077" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article></section><section class="report-section"><div class="section-title-row"><div><div class="section-kicker">MACRO SYSTEMIC CONTEXT</div><h2>Macro &amp; Systemic Context</h2><p>Policy developments with a financial-system relevance</p></div></div><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">The Island <span class="dot">•</span> 2026-10-26</div><h3>IMF technology chief calls for governed, human-supervised AI at central banks</h3></div></div><div class="compact-meta"><span class="topic-chip">CBSL Technology Governance</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">At CBSL’s 76th anniversary oration on 23 October, IMF Chief Information Officer Shirin Hamid discussed the opportunities and risks of AI in central banking. Her address stressed trusted institutions, governance and human judgement rather than allowing technology to make final policy decisions. Reports published Friday and Monday describe the same address.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Central-bank technology governance, operational resilience and cyber-risk oversight.</div><div class="source-list"><strong>Source:</strong> <a href="https://island.lk/central-bank-of-the-future-needs-to-be-intelligence-driven-public-institution-says-imf-cio" rel="noopener noreferrer" target="_blank">The Island ↗</a></div><div class="source-list"><strong>Supporting source:</strong> <a href="https://english.newsfirst.lk/2026/10/23/you%e2%80%99re-closer-to-an-ai-future-than-you-think-imf-tells-sri-lanka" rel="noopener noreferrer" target="_blank">NewsFirst ↗</a></div><div class="source-list"><strong>Supporting source:</strong> <a href="https://dailynews.lk/2026/10/26/business/1046704/trust-a-national-asset-imf-chief-information-officer" rel="noopener noreferrer" target="_blank">Daily News ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-24"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-24</div><h3>IPS warns that vulnerable households remain outside social protection</h3></div></div><div class="compact-meta"><span class="topic-chip">Macro Systemic Context</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">IPS research presented findings that some poor households facing severe shocks are not adequately covered by social protection. The report highlights coverage gaps and calls for systems that can expand support during emergencies.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Household shock absorption and potential implications for debt-servicing capacity.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/front-page/Welfare-net-fails-to-track-household-shocks-IPS/44-799115" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-25"><div class="context-card-head"><div><div class="story-topline">The Morning <span class="dot">•</span> 2026-10-25</div><h3>IPS highlights productivity and structural reforms needed for durable growth</h3></div></div><div class="compact-meta"><span class="topic-chip">Economic Reform</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">At a roundtable discussing the State of the Economy 2026 report, IPS researchers and participants highlighted the need to move from crisis stabilisation towards productivity-enhancing reforms. Related weekend coverage of the same discussion has been combined.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Medium-term economic capacity, enterprise performance and financial stability.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.themorning.lk/articles/WTox9d1utxxutj53OtEE" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div><div class="source-list"><strong>Supporting source:</strong> <a href="https://island.lk/ips-report-outlines-reforms-for-durable-growth" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-25"><div class="context-card-head"><div><div class="story-topline">The Morning <span class="dot">•</span> 2026-10-25</div><h3>Colombo Port logistics-hub cancellation: new account describes proposed settlement</h3></div></div><div class="compact-meta"><span class="topic-chip">Macro Systemic Context</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Follow-up coverage of the discontinued US$ 392 million Colombo port logistics-hub joint venture describes a proposed US$ 21.9 million payout associated with Sri Lanka Ports Authority obligations. The cancellation and Access Engineering exposure were covered in the 21 October edition; this item is retained only for the separately reported settlement detail.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Potential fiscal, investment and counterparty implications of the terminated infrastructure project.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.themorning.lk/articles/O3etgTMFiJbbVFCV7Jkz" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-25"><div class="context-card-head"><div><div class="story-topline">The Morning <span class="dot">•</span> 2026-10-25</div><h3>IMF official flags reserves and revenue as post-programme warning indicators</h3></div></div><div class="compact-meta"><span class="topic-chip">Macro Systemic Context</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">An IMF Asia and Pacific Department official identified adequate external reserves and government revenue as important indicators for assessing macroeconomic stability after Sri Lanka’s current IMF arrangement. The comments were reported in a Sunday interview.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Sovereign funding risks, external stability and operating conditions for banks.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.themorning.lk/articles/NdUvgiO5vr0f7345Upoe" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">The Morning <span class="dot">•</span> 2026-10-26</div><h3>IMF representative highlights tax-base and compliance reforms</h3></div></div><div class="compact-meta"><span class="topic-chip">Macro Systemic Context</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">An IMF representative discussed work with Sri Lankan authorities on a Medium-Term Revenue Strategy, focusing on broadening the tax base and improving compliance. The article reports consultations and policy direction, not an enacted tax measure.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Fiscal sustainability, business operating costs and sovereign risk.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.themorning.lk/articles/I53ba4OBUB9zU4mHHfvq" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-26</div><h3>Prime Minister says IMF programme priorities align with Government policy</h3></div></div><div class="compact-meta"><span class="topic-chip">Macro Systemic Context</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The Prime Minister told CNN that governance, corruption, fiscal discipline and economic stability remain priorities in the Government’s engagement with the IMF. The comments are a policy-position update rather than a new IMF funding agreement.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Macroeconomic-policy continuity and sovereign confidence.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/front-page/PM-tells-CNN-IMF-priorities-align-with-Govt-s-own/44-799173" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source="2026-10-26-428-article-extraction" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily FT<span class="dot">•</span>2026-10-24</div><h3>President outlines Treasury position, possible SOE closures and higher capital spending</h3></div></div><div class="compact-meta"><span class="topic-chip">Fiscal Position and Public Enterprises</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">At the Government Surveyors’ Association event, the President said the Treasury account was approaching a Rs. 1 trillion surplus, compared with a roughly Rs. 700 billion deficit in 2022. A Finance Ministry committee was considering closing or amalgamating 34 state institutions, while planned capital expenditure would rise from approximately Rs. 1.33 trillion in 2026 to Rs. 2 trillion in 2027. These are government statements and plans, not independently audited outturns.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Public finances, government borrowing needs, external-payment pressures and SOE reform are relevant to sovereign and banking-system risk.</div><div class="source-list"><strong>Source:</strong> <a href="https://www.ft.lk/top-story/President-pledges-to-shed-34-SOEs-as-Treasury-surplus-nears-Rs-1-t/26-799120" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source="2026-10-26-428-article-extraction" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">NewsFirst<span class="dot">•</span>2026-10-25</div><h3>Tourism receipts reach approximately US$ 2.25bn through September</h3></div></div><div class="compact-meta"><span class="topic-chip">External Sector and Tourism Earnings</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lanka recorded 1,813,484 tourist arrivals between 1 January and 22 October 2026, according to figures cited by NewsFirst from the Sri Lanka Tourism Development Authority. Tourism earnings through September were reported at approximately US$ 2.245 billion. The arrival figure and earnings figure cover different end dates and should not be presented as the same reporting period.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Tourism foreign-exchange earnings and inflows are relevant to external liquidity, exchange rates and bank operating conditions.</div><div class="source-list"><strong>Source:</strong> <a href="https://english.newsfirst.lk/2026/10/25/sri-lanka-welcomes-over-1-8m-tourists-as-revenue-hits-2-24-billion-through-september" rel="noopener noreferrer" target="_blank">NewsFirst ↗</a></div></div></article><article class="context-card" data-source="2026-10-26-428-article-extraction" data-source-date="2026-10-26"><div class="context-card-head"><div><div class="story-topline">Daily News<span class="dot">•</span>2026-10-23</div><h3>CA Sri Lanka proposes tax-administration improvements for the 2027 Budget</h3></div></div><div class="compact-meta"><span class="topic-chip">Budget, Tax and Revenue Policy</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The Institute of Chartered Accountants of Sri Lanka submitted proposals for Budget 2027 that emphasise stronger tax compliance, digital administration and economic formalisation to improve revenue collection. These are recommendations made to the Government, not enacted tax measures.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters:</strong> Revenue administration and tax-compliance policy can affect the fiscal outlook and businesses served by banks.</div><div class="source-list"><strong>Source:</strong> <a href="https://dailynews.lk/2026/10/23/business/1046405/ca-sri-lanka-calls-for-smarter-tax-administration-and-compliance-led-revenue-growth-in-budget-2027" rel="noopener noreferrer" target="_blank">Daily News ↗</a></div></div></article></section></main><footer class="report-footer"><strong>Bank Supervision News Intelligence.</strong> Stories are grouped by the distinct underlying development; dates identify source publication, not necessarily the transaction or announcement date. Earlier editions are checked to avoid repeat reporting.</footer></div></body></html>

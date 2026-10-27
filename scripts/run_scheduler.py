@@ -21,9 +21,12 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 
-# ============================================================
-# PROJECT
-# ============================================================
+# NEWS_FULL_PIPELINE_SCHEDULER_V1
+# The scheduler has one responsibility:
+# invoke the same governed run_pipeline.py path that passed production QA.
+#
+# It must NOT maintain a second, partial intelligence workflow.
+
 
 PROJECT_ROOT = (
     Path(__file__)
@@ -31,10 +34,10 @@ PROJECT_ROOT = (
     .parents[1]
 )
 
-COLLECTION_SCRIPT = (
+PIPELINE_SCRIPT = (
     PROJECT_ROOT
     / "scripts"
-    / "run_collection.py"
+    / "run_pipeline.py"
 )
 
 LOG_DIR = (
@@ -57,23 +60,11 @@ SRI_LANKA_TZ = ZoneInfo(
     "Asia/Colombo"
 )
 
-
-# ============================================================
-# SCHEDULE
-# ============================================================
-
 SCHEDULE_HOURS = "8-17"
-
 SCHEDULE_MINUTE = 0
 
 
-# ============================================================
-# LOGGING
-# ============================================================
-
-
 def configure_logging() -> logging.Logger:
-
     LOG_DIR.mkdir(
         parents=True,
         exist_ok=True,
@@ -95,25 +86,15 @@ def configure_logging() -> logging.Logger:
         "%(message)s"
     )
 
-    # --------------------------------------------------------
-    # CONSOLE
-    # --------------------------------------------------------
-
     console_handler = logging.StreamHandler(
         sys.stdout
     )
-
     console_handler.setFormatter(
         formatter
     )
-
     logger.addHandler(
         console_handler
     )
-
-    # --------------------------------------------------------
-    # ROTATING LOG FILE
-    # --------------------------------------------------------
 
     file_handler = RotatingFileHandler(
         LOG_FILE,
@@ -121,11 +102,9 @@ def configure_logging() -> logging.Logger:
         backupCount=5,
         encoding="utf-8",
     )
-
     file_handler.setFormatter(
         formatter
     )
-
     logger.addHandler(
         file_handler
     )
@@ -136,17 +115,11 @@ def configure_logging() -> logging.Logger:
 LOGGER = configure_logging()
 
 
-# ============================================================
-# STATUS FILE
-# ============================================================
-
-
 def write_scheduler_status(
     *,
     status: str,
     **extra,
 ) -> None:
-
     SCHEDULER_STATUS_FILE.parent.mkdir(
         parents=True,
         exist_ok=True,
@@ -158,21 +131,16 @@ def write_scheduler_status(
 
     payload = {
         "scheduler_status": status,
-        "updated_at": (
-            now.isoformat()
-        ),
-        "timezone": (
-            "Asia/Colombo"
-        ),
+        "updated_at": now.isoformat(),
+        "timezone": "Asia/Colombo",
         "schedule": {
-            "days": (
-                "Monday-Friday"
-            ),
-            "hours": (
-                "08:00-17:00"
-            ),
+            "days": "Monday-Friday",
+            "hours": "08:00-17:00",
             "minute": 0,
         },
+        "execution_contract": (
+            "FULL_RUN_PIPELINE_V1"
+        ),
         **extra,
     }
 
@@ -194,16 +162,12 @@ def write_scheduler_status(
         encoding="utf-8",
     )
 
-    # Windows-safe replacement.
     try:
-
         os.replace(
             temp_path,
             SCHEDULER_STATUS_FILE,
         )
-
     except PermissionError:
-
         SCHEDULER_STATUS_FILE.write_text(
             json.dumps(
                 payload,
@@ -214,180 +178,278 @@ def write_scheduler_status(
         )
 
         try:
-
-            if temp_path.exists():
-                temp_path.unlink()
-
+            temp_path.unlink(
+                missing_ok=True
+            )
         except OSError:
             pass
 
 
-# ============================================================
-# MASTER COLLECTION JOB
-# ============================================================
+def load_json(path: Path) -> dict:
+    with path.open(
+        "r",
+        encoding="utf-8-sig",
+    ) as file:
+        payload = json.load(file)
+
+    if not isinstance(
+        payload,
+        dict,
+    ):
+        raise RuntimeError(
+            f"Expected JSON object: {path}"
+        )
+
+    return payload
 
 
-def run_collection_job() -> None:
+def validate_pipeline_outputs(
+    run_date: str,
+) -> dict:
+    report_root = (
+        PROJECT_ROOT
+        / "data"
+        / "processed"
+        / "reports"
+        / run_date
+        / "window_1d"
+    )
+
+    manifest_path = (
+        report_root
+        / "report_manifest.json"
+    )
+
+    if not manifest_path.is_file():
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            f"report manifest missing: {manifest_path}"
+        )
+
+    manifest = load_json(
+        manifest_path
+    )
+
+    if str(
+        manifest.get("status", "")
+    ).upper() != "SUCCESS":
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "report manifest status is not SUCCESS"
+        )
+
+    if str(
+        manifest.get(
+            "publication_date",
+            "",
+        )
+    ) != run_date:
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "report publication_date mismatch"
+        )
+
+    if int(
+        manifest.get(
+            "window_days",
+            0,
+        )
+        or 0
+    ) != 1:
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "window_days is not 1"
+        )
+
+    qa = (
+        manifest.get("qa", {})
+        or {}
+    )
+
+    if str(
+        qa.get("status", "")
+    ).upper() != "PASS":
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "final report QA is not PASS"
+        )
+
+    named_raw = str(
+        manifest.get(
+            "named_attachment",
+            "",
+        )
+        or ""
+    ).strip()
+
+    alias_raw = str(
+        manifest.get(
+            "final_attachment",
+            "",
+        )
+        or ""
+    ).strip()
+
+    if not named_raw:
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "named_attachment missing"
+        )
+
+    if not alias_raw:
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "final_attachment missing"
+        )
+
+    named_path = (
+        Path(named_raw)
+        if Path(named_raw).is_absolute()
+        else PROJECT_ROOT / named_raw
+    )
+
+    alias_path = (
+        Path(alias_raw)
+        if Path(alias_raw).is_absolute()
+        else PROJECT_ROOT / alias_raw
+    )
+
+    if not named_path.is_file():
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            f"named report missing: {named_path}"
+        )
+
+    if not alias_path.is_file():
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            f"production alias missing: {alias_path}"
+        )
+
+    if (
+        named_path.read_bytes()
+        != alias_path.read_bytes()
+    ):
+        raise RuntimeError(
+            "Scheduler output gate failed: "
+            "named report and production alias differ"
+        )
+
+    return {
+        "report_manifest": str(
+            manifest_path
+        ),
+        "named_report": str(
+            named_path
+        ),
+        "production_alias": str(
+            alias_path
+        ),
+        "article_count": int(
+            manifest.get(
+                "article_count",
+                0,
+            )
+            or 0
+        ),
+        "retained_article_count": int(
+            manifest.get(
+                "retained_article_count",
+                0,
+            )
+            or 0
+        ),
+        "consolidated_event_count": int(
+            manifest.get(
+                "consolidated_event_count",
+                0,
+            )
+            or 0
+        ),
+        "qa_status": "PASS",
+        "policy_version": str(
+            manifest.get(
+                "policy_version",
+                "",
+            )
+        ),
+    }
+
+
+def run_pipeline_job() -> dict:
     """
-    Execute the master collection runner.
+    Execute the exact full production pipeline.
 
-    Source selection remains controlled by registry.yaml.
+    The pipeline itself owns:
+        collection
+        Stage 1
+        Phase 2 ML
+        Phase 3 corpus intelligence
+        taxonomy
+        final financial brief
+        collection-completeness QA
+        final report QA
 
-    The scheduler does not know or care which newspapers
-    are active.
+    The scheduler performs an additional publication gate after
+    run_pipeline.py returns success.
     """
-
     started_at = datetime.now(
         SRI_LANKA_TZ
     )
+    run_date = started_at.date().isoformat()
 
     LOGGER.info(
-        "=" * 70
+        "=" * 78
     )
-
     LOGGER.info(
-        "Scheduled collection starting"
+        "Scheduled FULL news pipeline starting"
     )
-
     LOGGER.info(
         "Started at: %s",
         started_at.isoformat(),
     )
-
     LOGGER.info(
-        "Collector: %s",
-        COLLECTION_SCRIPT,
+        "Pipeline: %s",
+        PIPELINE_SCRIPT,
     )
 
-    # ========================================================
-    # COLLECTION SCRIPT EXISTS?
-    # ========================================================
-
-    if not COLLECTION_SCRIPT.exists():
-
-        completed_at = datetime.now(
-            SRI_LANKA_TZ
-        )
-
-        LOGGER.error(
-            "Master collection script "
-            "does not exist: %s",
-            COLLECTION_SCRIPT,
-        )
-
+    if not PIPELINE_SCRIPT.is_file():
         write_scheduler_status(
-            status="ERROR",
+            status="RUNNING",
             last_run_started_at=(
                 started_at.isoformat()
             ),
             last_run_completed_at=(
-                completed_at.isoformat()
+                datetime.now(
+                    SRI_LANKA_TZ
+                ).isoformat()
             ),
             last_run_result=(
-                "COLLECTION_SCRIPT_MISSING"
+                "PIPELINE_SCRIPT_MISSING"
             ),
         )
 
-        return
-
-    # ========================================================
-    # EXECUTE
-    # ========================================================
-
-    try:
-
-        result = subprocess.run(
-            [
-                sys.executable,
-                str(
-                    COLLECTION_SCRIPT
-                ),
-            ],
-
-            cwd=PROJECT_ROOT,
-
-            check=False,
+        raise RuntimeError(
+            "Pipeline script missing: "
+            f"{PIPELINE_SCRIPT}"
         )
 
-        completed_at = datetime.now(
-            SRI_LANKA_TZ
-        )
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(
+                PIPELINE_SCRIPT
+            ),
+        ],
+        cwd=PROJECT_ROOT,
+        check=False,
+    )
 
-        # ====================================================
-        # SUCCESS
-        # ====================================================
+    completed_at = datetime.now(
+        SRI_LANKA_TZ
+    )
 
-        if result.returncode == 0:
-
-            LOGGER.info(
-                "Scheduled collection "
-                "completed successfully."
-            )
-
-            LOGGER.info(
-                "Return code: %s",
-                result.returncode,
-            )
-
-            write_scheduler_status(
-                status="RUNNING",
-                last_run_started_at=(
-                    started_at.isoformat()
-                ),
-                last_run_completed_at=(
-                    completed_at.isoformat()
-                ),
-                last_run_result=(
-                    "SUCCESS"
-                ),
-                last_return_code=(
-                    result.returncode
-                ),
-            )
-
-        # ====================================================
-        # NON-ZERO RETURN CODE
-        # ====================================================
-
-        else:
-
-            LOGGER.error(
-                "Master collection returned "
-                "non-zero code: %s",
-                result.returncode,
-            )
-
-            write_scheduler_status(
-                status="RUNNING",
-                last_run_started_at=(
-                    started_at.isoformat()
-                ),
-                last_run_completed_at=(
-                    completed_at.isoformat()
-                ),
-                last_run_result=(
-                    "FAILED"
-                ),
-                last_return_code=(
-                    result.returncode
-                ),
-            )
-
-    # ========================================================
-    # EXECUTION ERROR
-    # ========================================================
-
-    except Exception as exc:
-
-        completed_at = datetime.now(
-            SRI_LANKA_TZ
-        )
-
-        LOGGER.exception(
-            "Scheduler could not execute "
-            "master collection."
-        )
-
+    if result.returncode != 0:
         write_scheduler_status(
             status="RUNNING",
             last_run_started_at=(
@@ -397,64 +459,130 @@ def run_collection_job() -> None:
                 completed_at.isoformat()
             ),
             last_run_result=(
-                "EXECUTION_ERROR"
+                "PIPELINE_FAILED"
+            ),
+            last_return_code=(
+                result.returncode
+            ),
+        )
+
+        raise RuntimeError(
+            "Full production pipeline failed "
+            f"with return code {result.returncode}"
+        )
+
+    try:
+        outputs = validate_pipeline_outputs(
+            run_date
+        )
+    except Exception as exc:
+        write_scheduler_status(
+            status="RUNNING",
+            last_run_started_at=(
+                started_at.isoformat()
+            ),
+            last_run_completed_at=(
+                completed_at.isoformat()
+            ),
+            last_run_result=(
+                "OUTPUT_GATE_FAILED"
+            ),
+            last_return_code=(
+                result.returncode
             ),
             error_type=(
                 type(exc).__name__
             ),
-            error_message=str(exc),
+            error_message=(
+                str(exc)
+            ),
         )
+        raise
 
-    LOGGER.info(
-        "=" * 70
+    summary = {
+        "run_date": run_date,
+        "started_at": (
+            started_at.isoformat()
+        ),
+        "completed_at": (
+            completed_at.isoformat()
+        ),
+        "return_code": (
+            result.returncode
+        ),
+        **outputs,
+    }
+
+    write_scheduler_status(
+        status="RUNNING",
+        last_run_started_at=(
+            started_at.isoformat()
+        ),
+        last_run_completed_at=(
+            completed_at.isoformat()
+        ),
+        last_run_result="SUCCESS",
+        last_return_code=(
+            result.returncode
+        ),
+        last_run_summary=summary,
     )
 
+    LOGGER.info(
+        "Full production pipeline completed "
+        "and scheduler output gate PASSED."
+    )
+    LOGGER.info(
+        "Articles reviewed: %s",
+        outputs[
+            "article_count"
+        ],
+    )
+    LOGGER.info(
+        "Articles retained: %s",
+        outputs[
+            "retained_article_count"
+        ],
+    )
+    LOGGER.info(
+        "Consolidated events: %s",
+        outputs[
+            "consolidated_event_count"
+        ],
+    )
+    LOGGER.info(
+        "Final report: %s",
+        outputs[
+            "named_report"
+        ],
+    )
+    LOGGER.info(
+        "=" * 78
+    )
 
-# ============================================================
-# SCHEDULER EVENT LISTENER
-# ============================================================
+    return summary
 
 
 def scheduler_event_listener(
     event,
 ) -> None:
-
     if event.code == EVENT_JOB_EXECUTED:
-
         LOGGER.info(
             "Scheduler job event: EXECUTED"
         )
-
     elif event.code == EVENT_JOB_MISSED:
-
         LOGGER.warning(
             "Scheduler job event: MISSED"
         )
-
     elif event.code == EVENT_JOB_ERROR:
-
         LOGGER.error(
             "Scheduler job event: ERROR"
         )
 
 
-# ============================================================
-# NEXT RUN CALCULATION
-# ============================================================
-
-
 def get_next_run_time(
     scheduler: BlockingScheduler,
 ) -> datetime | None:
-    """
-    Calculate the next scheduled occurrence directly from
-    each job trigger.
-
-    This deliberately avoids Job.next_run_time because pending
-    APScheduler jobs may not expose that attribute until the
-    scheduler has actually started.
-    """
-
     now = datetime.now(
         SRI_LANKA_TZ
     )
@@ -462,9 +590,7 @@ def get_next_run_time(
     next_times = []
 
     for job in scheduler.get_jobs():
-
         try:
-
             next_time = (
                 job.trigger
                 .get_next_fire_time(
@@ -472,19 +598,15 @@ def get_next_run_time(
                     now,
                 )
             )
-
         except Exception:
-
             next_time = None
 
         if next_time is not None:
-
             next_times.append(
                 next_time
             )
 
     if not next_times:
-
         return None
 
     return min(
@@ -492,40 +614,33 @@ def get_next_run_time(
     )
 
 
-# ============================================================
-# PRINT SCHEDULE
-# ============================================================
-
-
 def print_schedule(
     scheduler: BlockingScheduler,
 ) -> None:
-
     next_run = get_next_run_time(
         scheduler
     )
 
     print()
-    print("=" * 72)
-
+    print("=" * 78)
     print(
-        "BANK SUPERVISION NEWS SCHEDULER"
+        "BANK SUPERVISION NEWS "
+        "FULL-PIPELINE SCHEDULER"
     )
-
-    print("=" * 72)
-
+    print("=" * 78)
     print(
         "Timezone : Asia/Colombo"
     )
-
     print(
         "Days     : Monday-Friday"
     )
-
     print(
         "Runs     : 08:00 through 17:00 hourly"
     )
-
+    print(
+        "Contract : run_pipeline.py "
+        "(collection -> final QA/report)"
+    )
     print()
 
     print(
@@ -536,7 +651,6 @@ def print_schedule(
         8,
         18,
     ):
-
         print(
             f"    {hour:02d}:00"
         )
@@ -544,85 +658,158 @@ def print_schedule(
     print()
 
     if next_run is not None:
-
         print(
-            f"Next run : "
+            "Next run : "
             f"{next_run.isoformat()}"
         )
-
     else:
-
         print(
             "Next run : "
             "Unable to calculate"
         )
 
     print()
-
+    print(
+        "A scheduled run is successful only when "
+        "the full pipeline exits 0 AND final report "
+        "QA/output parity pass."
+    )
+    print()
     print(
         "Press Ctrl+C to stop scheduler."
     )
-
-    print("=" * 72)
-
+    print("=" * 78)
     print()
 
 
-# ============================================================
-# MAIN
-# ============================================================
-
-
 def main() -> None:
-
     parser = argparse.ArgumentParser(
         description=(
             "Bank Supervision News "
-            "Collection Scheduler"
+            "Full Production Pipeline Scheduler"
         )
     )
 
-    parser.add_argument(
+    mode = parser.add_mutually_exclusive_group()
+
+    mode.add_argument(
         "--run-now",
         action="store_true",
         help=(
-            "Run collection once immediately "
-            "before entering the normal schedule."
+            "Run the full pipeline immediately, "
+            "then continue into the normal schedule."
+        ),
+    )
+
+    mode.add_argument(
+        "--run-once",
+        action="store_true",
+        help=(
+            "Run the full pipeline once and exit. "
+            "Use this for scheduler acceptance testing."
         ),
     )
 
     args = parser.parse_args()
 
-    # ========================================================
-    # OPTIONAL IMMEDIATE RUN
-    # ========================================================
-
-    if args.run_now:
-
+    if args.run_once:
         LOGGER.info(
-            "Immediate run requested."
+            "One-shot scheduler acceptance run requested."
         )
 
-        run_collection_job()
+        try:
+            summary = run_pipeline_job()
+        except Exception:
+            write_scheduler_status(
+                status="STOPPED",
+                scheduler_mode=(
+                    "RUN_ONCE"
+                ),
+                last_run_result=(
+                    "FAILED"
+                ),
+                scheduler_stopped_at=(
+                    datetime.now(
+                        SRI_LANKA_TZ
+                    ).isoformat()
+                ),
+            )
+            raise
 
-    # ========================================================
-    # BUILD SCHEDULER
-    # ========================================================
+        write_scheduler_status(
+            status="STOPPED",
+            scheduler_mode=(
+                "RUN_ONCE"
+            ),
+            last_run_result=(
+                "SUCCESS"
+            ),
+            last_run_summary=(
+                summary
+            ),
+            scheduler_stopped_at=(
+                datetime.now(
+                    SRI_LANKA_TZ
+                ).isoformat()
+            ),
+        )
+
+        print()
+        print("=" * 78)
+        print(
+            "SCHEDULER RUN-ONCE ACCEPTANCE: PASS"
+        )
+        print("=" * 78)
+        print(
+            "Publication date :",
+            summary[
+                "run_date"
+            ],
+        )
+        print(
+            "Articles reviewed:",
+            summary[
+                "article_count"
+            ],
+        )
+        print(
+            "Retained         :",
+            summary[
+                "retained_article_count"
+            ],
+        )
+        print(
+            "Events           :",
+            summary[
+                "consolidated_event_count"
+            ],
+        )
+        print(
+            "Final QA         :",
+            summary[
+                "qa_status"
+            ],
+        )
+        print(
+            "Final report     :",
+            summary[
+                "named_report"
+            ],
+        )
+        print("=" * 78)
+        return
+
+    if args.run_now:
+        LOGGER.info(
+            "Immediate full-pipeline run requested."
+        )
+        run_pipeline_job()
 
     scheduler = BlockingScheduler(
         timezone=SRI_LANKA_TZ,
-
         job_defaults={
-            # Prevent overlap if a collection takes longer
-            # than expected.
             "max_instances": 1,
-
-            # If multiple scheduled runs are missed while the
-            # program is temporarily unavailable, combine them.
             "coalesce": True,
-
-            # Scheduled run may still execute if delayed by
-            # up to 30 minutes.
             "misfire_grace_time": 1800,
         },
     )
@@ -636,12 +823,12 @@ def main() -> None:
     )
 
     scheduler.add_job(
-        run_collection_job,
+        run_pipeline_job,
         trigger=trigger,
-        id="bank_news_collection",
+        id="bank_news_full_pipeline",
         name=(
-            "Bank Supervision "
-            "News Collection"
+            "Bank Supervision News "
+            "Full Production Pipeline"
         ),
         replace_existing=True,
     )
@@ -653,17 +840,9 @@ def main() -> None:
         | EVENT_JOB_MISSED,
     )
 
-    # ========================================================
-    # CALCULATE NEXT RUN BEFORE START
-    # ========================================================
-
     next_run = get_next_run_time(
         scheduler
     )
-
-    # ========================================================
-    # STATUS
-    # ========================================================
 
     write_scheduler_status(
         status="RUNNING",
@@ -679,35 +858,21 @@ def main() -> None:
         ),
     )
 
-    # ========================================================
-    # DISPLAY
-    # ========================================================
-
     print_schedule(
         scheduler
     )
 
-    # ========================================================
-    # START
-    # ========================================================
-
     try:
-
         scheduler.start()
-
     except (
         KeyboardInterrupt,
         SystemExit,
     ):
-
         LOGGER.info(
             "Scheduler shutdown requested."
         )
-
     finally:
-
         try:
-
             write_scheduler_status(
                 status="STOPPED",
                 scheduler_stopped_at=(
@@ -716,9 +881,7 @@ def main() -> None:
                     ).isoformat()
                 ),
             )
-
         except Exception:
-
             pass
 
         LOGGER.info(

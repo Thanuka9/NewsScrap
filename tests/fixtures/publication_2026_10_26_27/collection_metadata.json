@@ -1,0 +1,1928 @@
+{
+  "https://ceylontoday.lk/2026/10/26/red-alert-deep-depression-intensifies-into-cyclone-arnab": {
+    "published_at": "2026-10-26T10:45:00+05:30",
+    "first_seen_at": "2026-10-26T09:31:13.112512+00:00",
+    "collected_at": "2026-10-27T02:50:54.521151+00:00",
+    "collection_evidence": "data\\state\\ceylon_today.json"
+  },
+  "https://ft.lk/financial-services/Secondary-Bond-market-yields-see-saw-recover-to-close-steady-to-higher/42-799167": {
+    "published_at": "2026-10-26T06:23:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:42.744897+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/National-QR-payment-adoption-program-Lucky-Draw-debuts-tomorrow/42-799166": {
+    "published_at": "2026-10-26T06:21:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:42.866026+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/Amana-Bank-opens-50th-Self-Banking-Centre-in-Grandpass/42-799164": {
+    "published_at": "2026-10-26T06:20:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:43.223928+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/Assetline-Finance-deepens-footprint-with-64th-Branch-in-Wattala/42-799165": {
+    "published_at": "2026-10-26T06:19:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:43.375815+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/AIA-Sri-Lanka-advances-Project-NOVA-journey-with-launch-of-iAcademy/42-799163": {
+    "published_at": "2026-10-26T06:18:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:43.541958+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/British-Airways-celebrates-return-to-Sri-Lanka-with-special-fares/44-799174": {
+    "published_at": "2026-10-26T06:39:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:53.384470+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Digital-deal-can-jump-start-stalled-ETCA-Wijesinha/44-799172": {
+    "published_at": "2026-10-26T06:34:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:53.505435+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Finalise-ETCA-with-India-before-other-trade-deals-Ranil/44-799170": {
+    "published_at": "2026-10-26T06:30:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:53.604468+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Experts-outline-Sri-Lanka-s-priorities-in-new-world-order/44-799171": {
+    "published_at": "2026-10-26T06:30:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:53.707655+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/PM-tells-CNN-IMF-priorities-align-with-Govt-s-own/44-799173": {
+    "published_at": "2026-10-26T06:30:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:53.850302+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Sampath-Bank-s-Rs-10-b-debenture-issue-oversubscribed-by-22-7/44-799169": {
+    "published_at": "2026-10-26T06:29:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:53.958627+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/top-story/Ranil-s-10-point-plan-for-Sri-Lanka-to-survive-new-world-order/26-799168": {
+    "published_at": "2026-10-26T06:26:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:49:59.429107+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Lankan-pharmaceutical-manufacturers-gain-global-exposure-at-CPHI-Worldwide-2026-in-Milan/34-799185": {
+    "published_at": "2026-10-26T07:03:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:04.227264+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Lankan-envoy-in-Bangladesh-meets-Dhaka-Chamber-of-Commerce-and-Industry/34-799184": {
+    "published_at": "2026-10-26T07:01:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:04.328675+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Alumex-wins-Bronze-at-National-AI-Awards-2026-for-AI-powered-manufacturing-innovation/34-799183": {
+    "published_at": "2026-10-26T06:58:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:04.549186+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Reigning-Miss-International-2025-Catalina-Duque-visits-Lakarcade-flagship-showroom/34-799182": {
+    "published_at": "2026-10-26T06:54:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:04.664977+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Cabinet-awards-Rs-562-m-wastewater-plant-contract-for-Welipenna-Expressway-Service-Area-to-Water-Board/34-799179": {
+    "published_at": "2026-10-26T06:52:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:04.762807+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Cabinet-clears-drafting-of-Bill-to-amend-Ayurveda-Act/34-799180": {
+    "published_at": "2026-10-26T06:52:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:05.089336+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Sri-Lanka-invites-Georgian-businesses-to-SL-EXPO-2027/34-799181": {
+    "published_at": "2026-10-26T06:52:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:05.420600+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Vas-Kavi-menace-in-world-of-screenagers-and-sodcasters/4-799143": {
+    "published_at": "2026-10-26T04:42:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:12.457847+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Cleaner-but-not-yet-cheaper-to-invest-in-Sri-Lanka-s-anti-corruption-gains-and-investment-question/4-799142": {
+    "published_at": "2026-10-26T04:37:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:12.578860+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Reflections-from-IMF-and-World-Bank-Annuals-in-Bangkok/4-799146": {
+    "published_at": "2026-10-26T03:03:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:12.776847+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Agentic-AI-People-and-organisations-at-the-crossroads/4-799145": {
+    "published_at": "2026-10-26T02:57:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:13.751679+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Economic-transformation-in-Asian-countries-and-lessons-for-Sri-Lanka-on-new-ways-of-earning/4-799144": {
+    "published_at": "2026-10-26T02:49:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:13.954264+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/Monks-pause-protest-seeking-Gnanasara-release/56-799175": {
+    "published_at": "2026-10-26T06:44:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:20.954848+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/Gamani-Corea-Foundation-Memorial-Lecture-on-Sri-Lanka-s-foreign-policy-on-4-Nov/56-799177": {
+    "published_at": "2026-10-26T05:47:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:21.708845+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/National-forum-to-strengthen-dialogue-in-public-service/56-799178": {
+    "published_at": "2026-10-26T05:47:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:21.999911+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/Sri-Lanka-Romania-hold-sixth-round-of-political-consultations/56-799176": {
+    "published_at": "2026-10-26T05:46:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:22.251302+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/it-telecom-tech/Dialog-and-IITM-ink-MoU-to-advance-research-and-innovation-in-Sri-Lanka/50-799189": {
+    "published_at": "2026-10-26T07:19:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:24.554036+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/it-telecom-tech/Abans-unveils-Apple-s-iPhone-18-lineup-and-iPhone-Duo/50-799188": {
+    "published_at": "2026-10-26T07:17:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:24.933471+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/it-telecom-tech/Huawei-and-Qualcomm-announce-broad-patent-licence-agreement/50-799186": {
+    "published_at": "2026-10-26T07:15:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:25.048962+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/ft_view__editorial/Is-saffron-robe-above-the-law/58-799140": {
+    "published_at": "2026-10-26T04:35:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-26T09:30:48.666501+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/hr/BASL-to-host-inaugural-Board-Leader-Ready-Symposium-on-corporate-governance-and-boardroom-leadership/47-799162": {
+    "published_at": "2026-10-26T06:08:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:28.659422+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/hr/Sentiva-s-Workforce-Asia-Summit-on-4-Nov-to-explore-future-of-work-in-Colombo/47-799161": {
+    "published_at": "2026-10-26T06:06:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:28.798517+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/hr/Nirosh-De-Silva-elected-JASTECA-President-for-2026-28/47-799160": {
+    "published_at": "2026-10-26T06:04:00+05:30",
+    "first_seen_at": "2026-10-26T02:20:51.550487+00:00",
+    "collected_at": "2026-10-27T02:50:29.190468+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/CSE-starts-week-in-red-down-0-23/42-799214": {
+    "published_at": "2026-10-27T01:50:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:35.191703+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/Bond-market-yields-open-steady-to-higher-on-selected-tenors/42-799215": {
+    "published_at": "2026-10-27T01:50:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:36.471141+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/Fitch-assigns-A-EXP-lka-rating-to-Asia-Asset-Finance-s-proposed-debentures/42-799196": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:37.807618+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/Cargills-Bank-introduces-Sri-Lanka-s-first-ocean-plastic-debit-card/42-799198": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:39.240942+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/Resus-Energy-becomes-first-Sri-Lankan-corporate-to-list-Green-Bonds-on-Luxembourg-Stock-Exchange/42-799199": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:40.414255+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/financial-services/BOC-Meets-BOC-Two-banking-giants-two-nations-a-future-of-shared-prosperity/42-799200": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:41.572829+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Binod-Chaudhary-signals-plans-to-further-expand-investments-in-Sri-Lanka/44-799227": {
+    "published_at": "2026-10-27T02:09:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:45.252207+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/BOC-to-raise-up-to-Rs-30-b-in-Sri-Lanka-s-largest-ever-listed-debt-issue/44-799226": {
+    "published_at": "2026-10-27T02:07:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:46.355127+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Mark-Surgenor-wins-historic-BCC-International-President-s-Award-2026/44-799225": {
+    "published_at": "2026-10-27T02:06:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:47.552462+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/India-says-port-expansions-no-zero-sum-game-for-Colombo/44-799224": {
+    "published_at": "2026-10-27T02:04:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:48.671265+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/PDMO-rejects-all-Domestic-Dollar-Bond-bids-market-says-bid-rates-too-high/44-799223": {
+    "published_at": "2026-10-27T02:03:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:50.006953+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Japan-pledges-over-Rs-600-m-for-Kelani-River-water-quality-project/44-799221": {
+    "published_at": "2026-10-27T02:02:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:51.115433+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/front-page/Laugfs-Gas-weighs-stake-sale-in-Hambantota-LPG-terminal/44-799222": {
+    "published_at": "2026-10-27T02:02:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:52.239652+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/top-story/Exports-hit-record-in-Sept-nine-month-earnings-at-all-time-high/26-799228": {
+    "published_at": "2026-10-27T02:10:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:49:58.267798+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Sumathi-Holdings-celebrates-70-years-of-success/34-799217": {
+    "published_at": "2026-10-27T01:54:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:00.218254+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/OPA-presents-collective-professional-proposals-for-Budget-2027/34-799216": {
+    "published_at": "2026-10-27T01:53:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:01.791985+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/business/Corrugated-carton-industry-under-growing-cost-pressure/34-799203": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:02.912401+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Digital-VAT-in-Sri-Lanka-Why-platform-liability-and-reverse-charge-are-essential-to-avoid-costing-households-and-Treasury/4-799213": {
+    "published_at": "2026-10-27T01:46:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:07.339183+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Mango-Tree-test-of-Arahat-Mahinda/4-799212": {
+    "published_at": "2026-10-27T01:38:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:08.502915+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Mercy-robes-and-the-rule-of-law-in-Sri-Lanka/4-799195": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:09.854497+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/columns/Is-tourism-gentrification-a-useful-lens-to-understand-impacts-of-tourism-on-cities/4-799194": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:11.236292+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/UNP-demands-immediate-presidential-pardon-for-Gnanasara-Thera/56-799219": {
+    "published_at": "2026-10-27T01:58:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:16.683579+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/Sajith-discusses-proposed-anti-terrorism-organised-crime-laws-with-diplomatic-corps/56-799220": {
+    "published_at": "2026-10-27T01:58:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:17.825839+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/news/Supreme-Court-enters-decisive-judgement-in-relation-to-jurisdiction-of-Commercial-High-Court/56-799218": {
+    "published_at": "2026-10-27T01:57:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:18.945223+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/opinion/How-can-public-sector-become-more-customer-centric/14-799192": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:25.953994+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://ft.lk/ft_view__editorial/A-vision-for-SriLankan-Airlines/58-799211": {
+    "published_at": "2026-10-27T01:35:00+05:30",
+    "first_seen_at": "2026-10-27T02:49:35.037372+00:00",
+    "collected_at": "2026-10-27T02:50:27.302343+00:00",
+    "collection_evidence": "data\\state\\daily_ft.json"
+  },
+  "https://dailymirror.lk/business-main/Sri-Lanka-needs-hero-luxury-resort-to-reset-market-perception-Bawa-Trust-chief/245-353385": {
+    "published_at": "2026-10-26T12:16:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:00.616623+05:30",
+    "collected_at": "2026-10-27T08:32:14.792488+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/53701a7b11dab7f98ad0/v001.json",
+    "first_seen_evidence": "data/staged/daily_mirror/2026-10-26/3b3f1082f5236406d78d/v001.json"
+  },
+  "https://dailymirror.lk/business-news/CBSL-reviews-lenders-early-settlement-fees-and-parate-auctions-after-complaints-pile-up/273-353382": {
+    "published_at": "2026-10-26T12:12:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:03.306463+05:30",
+    "collected_at": "2026-10-27T08:32:16.734381+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/b26965f72ce551dc3955/v001.json",
+    "first_seen_evidence": "data/staged/daily_mirror/2026-10-26/82a8f7380ad8719e1d18/v001.json"
+  },
+  "https://dailymirror.lk/business-news/Jetstar-captures-Australian-holiday-growth-as-SriLankan-eyes-Perth/273-353384": {
+    "published_at": "2026-10-26T12:15:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:01.169311+05:30",
+    "collected_at": "2026-10-27T08:32:15.509705+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/545b3e95c0dc87fae981/v001.json",
+    "first_seen_evidence": "data/staged/daily_mirror/2026-10-26/7527f17745c7f391c153/v001.json"
+  },
+  "https://dailymirror.lk/business-news/Over-half-of-NBFI-household-borrowers-in-high-risk-bands-as-Stage-2-loans-nearly-double/273-353383": {
+    "published_at": "2026-10-26T12:13:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:01.994186+05:30",
+    "collected_at": "2026-10-27T08:32:16.060562+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/42530a861c3cf53f0157/v001.json",
+    "first_seen_evidence": "data/staged/daily_mirror/2026-10-26/6389886a2aaf6ebe1140/v001.json"
+  },
+  "https://dailymirror.lk/business-news/Sententia-ai-backed-by-Lankan-investment-banker-joins-NVIDIA-Inception-Programme/273-353380": {
+    "published_at": "2026-10-26T12:10:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:06.422070+05:30",
+    "collected_at": "2026-10-27T08:32:17.988127+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/b9d43e974814b850ce42/v001.json",
+    "first_seen_evidence": "data/staged/daily_mirror/2026-10-26/a4687e9257851a41c405/v001.json"
+  },
+  "https://dailymirror.lk/business-news/Softlogic-extends-warrant-conversion-window-to-November/273-353381": {
+    "published_at": "2026-10-26T12:11:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:04.799078+05:30",
+    "collected_at": "2026-10-27T08:32:17.366779+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/7532f2b3a55b46613770/v001.json",
+    "first_seen_evidence": "data/staged/daily_mirror/2026-10-26/5ff06ea7969d5a107ef3/v001.json"
+  },
+  "https://dailymirror.lk/business/CBSL-reviews-lenders-early-settlement-fees-and-parate-auctions-after-complaints-pile-up/215-353382": {
+    "published_at": "2026-10-26T12:12:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:03.306463+05:30",
+    "collected_at": "2026-10-26T15:13:03.306463+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/82a8f7380ad8719e1d18/v001.json"
+  },
+  "https://dailymirror.lk/business/Commercial-Bank-named-Sri-Lankas-Best-Bank-by-Global-Finance-for-24th-time/215-353370": {
+    "published_at": "2026-10-26T12:01:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:19.675495+05:30",
+    "collected_at": "2026-10-26T15:13:19.675495+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/b7d91614a0dfca27a1e1/v001.json"
+  },
+  "https://dailymirror.lk/business/Dialog-Axiata-and-IITM-Pravartak-forge-partnership-to-advance-research-and-innovation/215-353372": {
+    "published_at": "2026-10-26T12:03:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:16.866860+05:30",
+    "collected_at": "2026-10-26T15:13:16.866860+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/0fa4110b1b0bb9eda28b/v001.json"
+  },
+  "https://dailymirror.lk/business/Doc990-launches-SLs-1st-full-stack-AI-health-assistant/215-353379": {
+    "published_at": "2026-10-26T12:09:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:07.855467+05:30",
+    "collected_at": "2026-10-26T15:13:07.855467+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/60e7e925bb5e5fbbc893/v001.json"
+  },
+  "https://dailymirror.lk/business/HNB-FINANCE-Toyota-Lanka-expand-vehicle-leasing-solutions/215-353376": {
+    "published_at": "2026-10-26T12:06:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:12.296910+05:30",
+    "collected_at": "2026-10-26T15:13:12.296910+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/0d931c6f0e723f40083c/v001.json"
+  },
+  "https://dailymirror.lk/business/JXGs-Wasanthi-1st-female-recipient-of-CIPM-Lifetime-Gold/215-353378": {
+    "published_at": "2026-10-26T12:08:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:09.268648+05:30",
+    "collected_at": "2026-10-26T15:13:09.268648+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/762606df9b27d2cf36af/v001.json"
+  },
+  "https://dailymirror.lk/business/Jetstar-captures-Australian-holiday-growth-as-SriLankan-eyes-Perth/215-353384": {
+    "published_at": "2026-10-26T12:15:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:01.169311+05:30",
+    "collected_at": "2026-10-26T15:13:01.169311+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/7527f17745c7f391c153/v001.json"
+  },
+  "https://dailymirror.lk/business/Mosvold-Villa-featured-in-National-Geographic-Travellers-Indian-Ocean-Collection/215-353375": {
+    "published_at": "2026-10-26T12:05:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:13.808024+05:30",
+    "collected_at": "2026-10-26T15:13:13.808024+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/ccf2a80fea28452f97a8/v001.json"
+  },
+  "https://dailymirror.lk/business/Over-half-of-NBFI-household-borrowers-in-high-risk-bands-as-Stage-2-loans-nearly-double/215-353383": {
+    "published_at": "2026-10-26T12:13:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:01.994186+05:30",
+    "collected_at": "2026-10-26T15:13:01.994186+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/6389886a2aaf6ebe1140/v001.json"
+  },
+  "https://dailymirror.lk/business/Pine-Labs-and-WEBXPAY-bring-Indian-payment-experience-to-Sri-Lanka/215-353369": {
+    "published_at": "2026-10-26T12:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:21.011174+05:30",
+    "collected_at": "2026-10-26T15:13:21.011174+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/4783cffff426768816ba/v001.json"
+  },
+  "https://dailymirror.lk/business/SLUSABC-marks-10-years-of-bilateral-business-engagement/215-353371": {
+    "published_at": "2026-10-26T12:02:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:18.377927+05:30",
+    "collected_at": "2026-10-26T15:13:18.377927+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/f6bb778bfe51e59a5191/v001.json"
+  },
+  "https://dailymirror.lk/business/Sententia-ai-backed-by-Lankan-investment-banker-joins-NVIDIA-Inception-Programme/215-353380": {
+    "published_at": "2026-10-26T12:10:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:06.422070+05:30",
+    "collected_at": "2026-10-26T15:13:06.422070+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/a4687e9257851a41c405/v001.json"
+  },
+  "https://dailymirror.lk/business/Seylan-Bank-Fairway-Latitude-make-home-ownership-more-accessible/215-353377": {
+    "published_at": "2026-10-26T12:07:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:10.924525+05:30",
+    "collected_at": "2026-10-26T15:13:10.924525+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/b62708c58c1207b4e4a3/v001.json"
+  },
+  "https://dailymirror.lk/business/Softlogic-extends-warrant-conversion-window-to-November/215-353381": {
+    "published_at": "2026-10-26T12:11:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:04.799078+05:30",
+    "collected_at": "2026-10-26T15:13:04.799078+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/5ff06ea7969d5a107ef3/v001.json"
+  },
+  "https://dailymirror.lk/business/Sri-Lanka-needs-hero-luxury-resort-to-reset-market-perception-Bawa-Trust-chief/215-353385": {
+    "published_at": "2026-10-26T12:16:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:00.616623+05:30",
+    "collected_at": "2026-10-26T15:13:00.616623+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/3b3f1082f5236406d78d/v001.json"
+  },
+  "https://dailymirror.lk/business/Union-Assurance-NTB-strengthen-bancassurance-partnership/215-353374": {
+    "published_at": "2026-10-26T12:04:00+05:30",
+    "first_seen_at": "2026-10-26T15:13:15.374468+05:30",
+    "collected_at": "2026-10-26T15:13:15.374468+05:30",
+    "collection_evidence": "data/staged/daily_mirror/2026-10-26/865921b04c1494b6419b/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046782/police-advise-caution-when-interacting-with-strangers-online": {
+    "published_at": "2026-10-26T01:24:07+05:30",
+    "first_seen_at": "2026-10-26T07:57:58.358911+05:30",
+    "collected_at": "2026-10-26T07:57:58.358911+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/81a96daf0cbc620280fa/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046787/president-reviews-project": {
+    "published_at": "2026-10-26T01:40:10+05:30",
+    "first_seen_at": "2026-10-26T07:56:12.508850+05:30",
+    "collected_at": "2026-10-26T07:56:12.508850+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/14d018eed7205a0d62c2/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046788/ministry-issues-urgent-alert-over-critical-global-php-vulnerabilities": {
+    "published_at": "2026-10-26T01:52:12+05:30",
+    "first_seen_at": "2026-10-26T07:55:49.366150+05:30",
+    "collected_at": "2026-10-26T07:55:49.366150+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/1bb185d5032a69cfe334/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046790/depression-in-bay-of-bengal-to-intensify-into-cyclonic-storm": {
+    "published_at": "2026-10-26T01:28:18+05:30",
+    "first_seen_at": "2026-10-26T07:56:24.356878+05:30",
+    "collected_at": "2026-10-26T07:56:24.356878+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/5f96b11e13c21b05e438/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046796/namal-rajapaksa-marks-50-days-in-jail": {
+    "published_at": "2026-10-26T01:21:28+05:30",
+    "first_seen_at": "2026-10-26T07:58:10.204863+05:30",
+    "collected_at": "2026-10-26T07:58:10.204863+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/917a2e544e1a6d237384/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046807/narcotics-with-street-value-of-rs-97-bn-seized-this-year": {
+    "published_at": "2026-10-26T01:19:22+05:30",
+    "first_seen_at": "2026-10-26T07:56:36.179230+05:30",
+    "collected_at": "2026-10-26T07:56:36.179230+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/78e35525edb7caf674cf/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046837/brazils-left-wing-president-lula-wins-fourth-term-in-surprise-victory-over-flavio-bolsonaro": {
+    "published_at": "2026-10-26T09:22:12+05:30",
+    "first_seen_at": "2026-10-26T15:05:31.823900+05:30",
+    "collected_at": "2026-10-26T15:05:31.823900+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/c76b41669ab90e3b4836/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046848/landslide-early-warnings-issued-for-eight-districts-across-sri-lanka": {
+    "published_at": "2026-10-26T12:09:02+05:30",
+    "first_seen_at": "2026-10-26T15:05:14.221014+05:30",
+    "collected_at": "2026-10-26T15:05:14.221014+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/bfb384fb29c25afb7550/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/breaking-news/1046858/venezuelan-opposition-leader-maria-machado-returns-after-months-in-exile": {
+    "published_at": "2026-10-26T15:59:34+05:30",
+    "first_seen_at": "2026-10-27T08:27:29.591372+05:30",
+    "collected_at": "2026-10-27T08:27:29.591372+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/5768f8860bd03408b34c/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046668/sri-lanka-insurance-life-built-on-strength-trusted-for-generations": {
+    "published_at": "2026-10-26T01:02:42+05:30",
+    "first_seen_at": "2026-10-26T07:55:01.976899+05:30",
+    "collected_at": "2026-10-26T07:55:01.976899+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/a374971968061b73da28/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046683/bbdo-sri-lankas-wajinie-mahanama-named-among-campaign-asia-pacifics-women-to-watch-2026": {
+    "published_at": "2026-10-26T01:04:11+05:30",
+    "first_seen_at": "2026-10-26T07:54:38.792635+05:30",
+    "collected_at": "2026-10-26T07:54:38.792635+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/6fbcbe6377ce3f1324be/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046688/peoples-leasing-triumphs-at-cse-masterminds-quiz-2026": {
+    "published_at": "2026-10-26T01:03:06+05:30",
+    "first_seen_at": "2026-10-26T07:54:50.503582+05:30",
+    "collected_at": "2026-10-26T07:54:50.503582+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/78f4692cd87db095fd20/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046692/techcert-becomes-lankas-only-recipient-of-asocio-ai-in-cybersecurity-award": {
+    "published_at": "2026-10-26T01:01:10+05:30",
+    "first_seen_at": "2026-10-26T07:55:25.398662+05:30",
+    "collected_at": "2026-10-26T07:55:25.398662+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/3393ab4b165cd8e3da74/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046693/hnb-finance-toyota-lanka-forge-partnership-to-expand-vehicle-leasing-solutions": {
+    "published_at": "2026-10-26T01:01:12+05:30",
+    "first_seen_at": "2026-10-26T07:55:13.666738+05:30",
+    "collected_at": "2026-10-26T07:55:13.666738+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/10fe50fe41d108760580/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046704/trust-a-national-asset-imf-chief-information-officer": {
+    "published_at": "2026-10-26T01:17:27+05:30",
+    "first_seen_at": "2026-10-26T07:54:27.152606+05:30",
+    "collected_at": "2026-10-26T07:54:27.152606+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/10a0cf549a6613d95333/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046705/rare-loggerhead-turtle-released-after-year-long-treatment": {
+    "published_at": "2026-10-26T01:24:28+05:30",
+    "first_seen_at": "2026-10-26T07:54:15.381115+05:30",
+    "collected_at": "2026-10-26T07:54:15.381115+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/a92468b22c5cc86c8edd/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046706/sri-lankan-exporters-to-gain-lower-cost-access-to-chinese-market": {
+    "published_at": "2026-10-26T01:30:30+05:30",
+    "first_seen_at": "2026-10-26T07:54:03.280584+05:30",
+    "collected_at": "2026-10-26T07:54:03.280584+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/0a0781dd64c6d8d694b9/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046707/british-airways-returns-to-sri-lanka-after-11-years": {
+    "published_at": "2026-10-26T01:35:31+05:30",
+    "first_seen_at": "2026-10-26T07:53:51.520464+05:30",
+    "collected_at": "2026-10-26T07:53:51.520464+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/8a58366ad22eb0889005/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/business/1046710/sri-lanka-turning-page-toward-sustainable-long-term-transformation": {
+    "published_at": "2026-10-26T01:51:24+05:30",
+    "first_seen_at": "2026-10-26T07:53:39.952647+05:30",
+    "collected_at": "2026-10-26T07:53:39.952647+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/91db12f8a225180ab067/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/editorial/1046733/new-model-for-better-public-services": {
+    "published_at": "2026-10-26T01:00:12+05:30",
+    "first_seen_at": "2026-10-26T07:59:52.399419+05:30",
+    "collected_at": "2026-10-26T07:59:52.399419+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/c20cea15f8253217be17/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/features/1046724/can-focused-deterrence-reduce-violent-crime": {
+    "published_at": "2026-10-26T01:11:25+05:30",
+    "first_seen_at": "2026-10-26T15:12:22.085610+05:30",
+    "collected_at": "2026-10-26T15:12:22.085610+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/8584cb7f59e5a4f40fec/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/features/1046725/saving-taxpayers-money": {
+    "published_at": "2026-10-26T01:59:26+05:30",
+    "first_seen_at": "2026-10-26T07:55:37.267410+05:30",
+    "collected_at": "2026-10-26T07:55:37.267410+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/b5d2bc325bcc1d4a273c/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/features/1046759/rain-and-health-2": {
+    "published_at": "2026-10-26T01:18:32+05:30",
+    "first_seen_at": "2026-10-26T07:59:41.095634+05:30",
+    "collected_at": "2026-10-26T07:59:41.095634+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/e8307fb43bf3ea348f1e/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/general-opinion/1046726/a-practical-guide-to-internships-for-sri-lankan-students": {
+    "published_at": "2026-10-26T01:14:28+05:30",
+    "first_seen_at": "2026-10-26T07:59:07.128261+05:30",
+    "collected_at": "2026-10-26T07:59:07.128261+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/9243e00bd7d1979ee5de/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/general-opinion/1046734/learning-from-the-war": {
+    "published_at": "2026-10-26T01:17:14+05:30",
+    "first_seen_at": "2026-10-26T07:58:55.904613+05:30",
+    "collected_at": "2026-10-26T07:58:55.904613+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/454f8ff1dc53eb5ac87c/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046711/initiative-to-recruit-qualified-skilled-personnel-into-education-system-pm": {
+    "published_at": "2026-10-26T01:00:26+05:30",
+    "first_seen_at": "2026-10-26T07:57:46.877708+05:30",
+    "collected_at": "2026-10-26T07:57:46.877708+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/574c19747aeaf8a64809/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046756/sl-to-focus-on-growth-commends-indias-financial-assistance": {
+    "published_at": "2026-10-26T01:04:18+05:30",
+    "first_seen_at": "2026-10-26T07:56:47.702929+05:30",
+    "collected_at": "2026-10-26T07:56:47.702929+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/9d5d3d3c1a649f26a099/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046765/rs-350-mn-worth-comfort-care-home-for-palliative-patients-opened-in-chavakachcheri-jaffna": {
+    "published_at": "2026-10-26T01:03:59+05:30",
+    "first_seen_at": "2026-10-26T07:57:10.739481+05:30",
+    "collected_at": "2026-10-26T07:57:10.739481+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/2f7bda5fd029ce1e3631/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046766/sl-student-wins-bronze-medal-at-international-astronomy-olympiad": {
+    "published_at": "2026-10-26T01:04:00+05:30",
+    "first_seen_at": "2026-10-26T07:56:59.165238+05:30",
+    "collected_at": "2026-10-26T07:56:59.165238+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/8b5e51b70a1b93a66f21/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046777/dtna-calls-for-international-investigation-into-ethnic-conflict": {
+    "published_at": "2026-10-26T01:00:35+05:30",
+    "first_seen_at": "2026-10-26T07:57:34.010362+05:30",
+    "collected_at": "2026-10-26T07:57:34.010362+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/1430214804eaf2552aca/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046801/ten-students-injured-after-their-bus-collides-with-train": {
+    "published_at": "2026-10-26T01:00:53+05:30",
+    "first_seen_at": "2026-10-26T07:57:22.472053+05:30",
+    "collected_at": "2026-10-26T07:57:22.472053+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/7927c1d8c0e61a679b9d/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/local/1046835/rainfall-to-increase-in-several-parts-of-the-island-over-next-few-days": {
+    "published_at": "2026-10-26T08:54:19+05:30",
+    "first_seen_at": "2026-10-26T15:05:45.864632+05:30",
+    "collected_at": "2026-10-26T15:05:45.864632+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/2e4c9f007606db936e66/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046664/trinity-stamps-tt-supremacy-over-thomians-with-clean-sweep": {
+    "published_at": "2026-10-26T01:02:36+05:30",
+    "first_seen_at": "2026-10-26T08:02:22.865042+05:30",
+    "collected_at": "2026-10-26T08:02:22.865042+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/6c92e7f25dd4023c65aa/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046665/navy-men-win-14th-defence-services-handball-title": {
+    "published_at": "2026-10-26T01:02:38+05:30",
+    "first_seen_at": "2026-10-26T08:02:11.276343+05:30",
+    "collected_at": "2026-10-26T08:02:11.276343+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/b92d2ae4dd545e20a521/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046666/hindu-jaffna-meets-cms-sri-jayawardenapura-mv-in-semis-today": {
+    "published_at": "2026-10-26T01:01:39+05:30",
+    "first_seen_at": "2026-10-26T08:02:34.451694+05:30",
+    "collected_at": "2026-10-26T08:02:34.451694+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/470641668ca42827e033/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046671/record-cash-awards-for-nysf-best-performers": {
+    "published_at": "2026-10-26T01:04:59+05:30",
+    "first_seen_at": "2026-10-26T15:12:46.215555+05:30",
+    "collected_at": "2026-10-26T15:12:46.215555+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/5a566e97e846c5e1ce33/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046783/newan-yasiru-in-fine-performances": {
+    "published_at": "2026-10-26T01:19:08+05:30",
+    "first_seen_at": "2026-10-26T08:01:48.051943+05:30",
+    "collected_at": "2026-10-26T08:01:48.051943+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/0d739aaee0711b21f104/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046802/lankas-asian-para-heroes-return-home-today": {
+    "published_at": "2026-10-26T01:40:54+05:30",
+    "first_seen_at": "2026-10-26T07:56:00.734338+05:30",
+    "collected_at": "2026-10-26T07:56:00.734338+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/71263acdfcff6e2c9508/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046804/navy-women-win-bronze-at-cism-world-beach-volleyball-championship": {
+    "published_at": "2026-10-26T01:23:17+05:30",
+    "first_seen_at": "2026-10-26T08:01:36.636511+05:30",
+    "collected_at": "2026-10-26T08:01:36.636511+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/60814aadc415e498061c/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046811/sri-lanka-climb-to-sixth-in-odi-rankings": {
+    "published_at": "2026-10-26T01:29:35+05:30",
+    "first_seen_at": "2026-10-26T08:01:13.473915+05:30",
+    "collected_at": "2026-10-26T08:01:13.473915+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/c92f0f65b369cd9ecd43/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046812/paddler-senura-qualifies-for-world-championship": {
+    "published_at": "2026-10-26T01:25:37+05:30",
+    "first_seen_at": "2026-10-26T08:01:24.879912+05:30",
+    "collected_at": "2026-10-26T08:01:24.879912+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/03a778ad049bd94633c1/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/sports/1046824/moratu-mv-meets-de-mazenod-in-quarters-today": {
+    "published_at": "2026-10-26T01:14:13+05:30",
+    "first_seen_at": "2026-10-26T08:01:59.660481+05:30",
+    "collected_at": "2026-10-26T08:01:59.660481+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/c5b612000c3737ea2606/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/world/1046722/over-1000-arrested-as-clashes-follow-another-day-of-mass-protests-across-france": {
+    "published_at": "2026-10-26T01:00:22+05:30",
+    "first_seen_at": "2026-10-26T08:01:01.988660+05:30",
+    "collected_at": "2026-10-26T08:01:01.988660+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/f7cb1660e325b39d127e/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/world/1046748/us-listed-global-terrorist-sarwar-dies-in-pakistan": {
+    "published_at": "2026-10-26T01:00:38+05:30",
+    "first_seen_at": "2026-10-26T08:00:50.431715+05:30",
+    "collected_at": "2026-10-26T08:00:50.431715+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/f17e11b8c06ed1e4eebc/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/world/1046749/bangladesh-at-least-187-killed-in-mob-violence-in-nine-months": {
+    "published_at": "2026-10-26T01:00:40+05:30",
+    "first_seen_at": "2026-10-26T08:00:38.575303+05:30",
+    "collected_at": "2026-10-26T08:00:38.575303+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/953540f30c252b77a5f0/v001.json"
+  },
+  "https://dailynews.lk/2026/10/26/world/1046750/iranian-plots-to-kill-us-officials-in-middle-east-have-reached-advanced-stages-intel-memo-warns": {
+    "published_at": "2026-10-26T01:00:42+05:30",
+    "first_seen_at": "2026-10-26T08:00:27.004092+05:30",
+    "collected_at": "2026-10-26T08:00:27.004092+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-26/dec3f778c6f84627d1fc/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/breaking-news/1047006/sc-imposes-travel-ban-on-keheliya-four-others": {
+    "published_at": "2026-10-27T01:24:28+05:30",
+    "first_seen_at": "2026-10-27T08:26:52.430467+05:30",
+    "collected_at": "2026-10-27T08:26:52.430467+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/b43d35661394c2cff625/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/breaking-news/1047012/rains-to-pound-most-provinces-today": {
+    "published_at": "2026-10-27T01:45:21+05:30",
+    "first_seen_at": "2026-10-27T08:24:05.584727+05:30",
+    "collected_at": "2026-10-27T08:24:05.584727+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/dbc4daf51ff18303f402/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/breaking-news/1047014/proposed-laws-threaten-fr-opposition-reiterates": {
+    "published_at": "2026-10-27T01:19:54+05:30",
+    "first_seen_at": "2026-10-27T08:27:17.774974+05:30",
+    "collected_at": "2026-10-27T08:27:17.774974+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/b570ce1e6962e1b36ad8/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046879/hnb-invests-rs-3-2-mn-for-vocational-training-at-sos-childrens-villages-sri-lanka": {
+    "published_at": "2026-10-27T01:03:17+05:30",
+    "first_seen_at": "2026-10-27T08:31:25.682794+05:30",
+    "collected_at": "2026-10-27T08:31:25.682794+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/d1eb398d1f54a5233233/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046880/hnb-life-wins-gold-at-slitad-people-development-awards": {
+    "published_at": "2026-10-27T01:03:19+05:30",
+    "first_seen_at": "2026-10-27T08:23:53.522610+05:30",
+    "collected_at": "2026-10-27T08:23:53.522610+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/e0c0836aa11b84636294/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046882/sri-lankas-first-agri-pv-pilot-demonstrator-opens-in-kandy": {
+    "published_at": "2026-10-27T01:03:22+05:30",
+    "first_seen_at": "2026-10-27T08:23:41.641602+05:30",
+    "collected_at": "2026-10-27T08:23:41.641602+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/78dda96bdf29adc5a98b/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046883/hilton-colombo-hosts-33rd-original-oktoberfest-26-in-partnership-with-sampathcards-and-visa": {
+    "published_at": "2026-10-27T01:04:23+05:30",
+    "first_seen_at": "2026-10-27T08:22:52.593266+05:30",
+    "collected_at": "2026-10-27T08:22:52.593266+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/27152a110c48a88ab2b0/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046891/peoples-bank-explores-banking-opportunities-for-lankans-in-uae": {
+    "published_at": "2026-10-27T01:03:47+05:30",
+    "first_seen_at": "2026-10-27T08:23:29.824539+05:30",
+    "collected_at": "2026-10-27T08:23:29.824539+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/536c6ad56060afb3abe7/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046892/dialog-axiata-and-iitm-pravartak-forge-partnership-to-advance-research-and-innovation-in-sri-lanka": {
+    "published_at": "2026-10-27T01:03:50+05:30",
+    "first_seen_at": "2026-10-27T08:23:16.719032+05:30",
+    "collected_at": "2026-10-27T08:23:16.719032+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/9c66f0c84ee0ffd384bb/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046897/assetline-finance-opens-64th-branch-in-wattala": {
+    "published_at": "2026-10-27T01:03:52+05:30",
+    "first_seen_at": "2026-10-27T08:23:04.116761+05:30",
+    "collected_at": "2026-10-27T08:23:04.116761+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/207725790248526b2819/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046914/minister-highlights-new-investment-opportunities-ahead-of-sl-expo-2027": {
+    "published_at": "2026-10-27T01:36:57+05:30",
+    "first_seen_at": "2026-10-27T08:22:02.658396+05:30",
+    "collected_at": "2026-10-27T08:22:02.658396+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/46885729960812090bc9/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046915/sri-lankas-exports-top-us13-6-bn-in-first-nine-months": {
+    "published_at": "2026-10-27T01:27:58+05:30",
+    "first_seen_at": "2026-10-27T08:22:15.330943+05:30",
+    "collected_at": "2026-10-27T08:22:15.330943+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/499e4d8a05793a798e49/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046916/boc-opens-largest-ever-debenture-issue-on-november-3-2026": {
+    "published_at": "2026-10-27T01:24:00+05:30",
+    "first_seen_at": "2026-10-27T08:22:27.960458+05:30",
+    "collected_at": "2026-10-27T08:22:27.960458+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/eff5d896b31075206ef2/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/business/1046929/ocean-lanka-honours-long-standing-employee-dedication": {
+    "published_at": "2026-10-27T01:04:43+05:30",
+    "first_seen_at": "2026-10-27T08:22:40.852435+05:30",
+    "collected_at": "2026-10-27T08:22:40.852435+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/856c7b6c63d09b605c78/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/editorial/1047026/a-preventable-threat": {
+    "published_at": "2026-10-27T01:00:40+05:30",
+    "first_seen_at": "2026-10-27T08:29:28.122970+05:30",
+    "collected_at": "2026-10-27T08:29:28.122970+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/c61ef99ba5e9315e4625/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/features/1046966/policy-priorities-to-achieve-durable-growth-in-sri-lanka": {
+    "published_at": "2026-10-27T01:14:50+05:30",
+    "first_seen_at": "2026-10-27T08:29:16.793410+05:30",
+    "collected_at": "2026-10-27T08:29:16.793410+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/4b4fdab26c9ce06d76a7/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/features/1047027/cheap-aluminium-utensils-among-sources-of-lead-poisoning-in-south-asia": {
+    "published_at": "2026-10-27T01:30:42+05:30",
+    "first_seen_at": "2026-10-27T08:24:29.459937+05:30",
+    "collected_at": "2026-10-27T08:24:29.459937+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/1d2e1d8b44e9caf2fa09/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/general-opinion/1046969/combating-crime-while-safeguarding-the-right-to-democratic-dissent": {
+    "published_at": "2026-10-27T01:18:43+05:30",
+    "first_seen_at": "2026-10-27T08:27:41.138284+05:30",
+    "collected_at": "2026-10-27T08:27:41.138284+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/53ce5a1b03029cee759b/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/general-opinion/1046979/national-purpose-beyond-the-classroom": {
+    "published_at": "2026-10-27T01:30:30+05:30",
+    "first_seen_at": "2026-10-27T08:24:41.106617+05:30",
+    "collected_at": "2026-10-27T08:24:41.106617+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/89bc69c0fb2a6adb7e47/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/lawnorder/1047009/sc-nullifies-ranil-wickremesinghes-remission": {
+    "published_at": "2026-10-27T01:22:35+05:30",
+    "first_seen_at": "2026-10-27T08:27:05.253652+05:30",
+    "collected_at": "2026-10-27T08:27:05.253652+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/fc013ce315955f342033/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/lawnorder/1047015/naufer-moulavi-co-accused-sentenced-to-12-years-ri": {
+    "published_at": "2026-10-27T01:26:56+05:30",
+    "first_seen_at": "2026-10-27T08:26:40.684115+05:30",
+    "collected_at": "2026-10-27T08:26:40.684115+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/aeae59e24f9914c2e310/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/lawnorder/1047054/foreign-suspect-arrested-at-bia-with-narcotics-worth-rs-51-mn": {
+    "published_at": "2026-10-27T01:08:58+05:30",
+    "first_seen_at": "2026-10-27T08:29:39.515603+05:30",
+    "collected_at": "2026-10-27T08:29:39.515603+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/b404c7090e17a873c62d/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047002/all-schools-closed-today": {
+    "published_at": "2026-10-27T01:00:55+05:30",
+    "first_seen_at": "2026-10-27T08:25:41.822897+05:30",
+    "collected_at": "2026-10-27T08:25:41.822897+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/a132a0a58a2d53fd4281/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047007/any-police-officer-in-uniform-can-enforce-traffic-rules-spokesman-says": {
+    "published_at": "2026-10-27T01:00:30+05:30",
+    "first_seen_at": "2026-10-27T08:26:05.329123+05:30",
+    "collected_at": "2026-10-27T08:26:05.329123+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/8dde6ab9be4ce17d59c6/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047030/sri-lanka-romania-expand-co-operation-on-employment-trade-and-investment": {
+    "published_at": "2026-10-27T01:03:46+05:30",
+    "first_seen_at": "2026-10-27T08:25:06.520602+05:30",
+    "collected_at": "2026-10-27T08:25:06.520602+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/0b6a2d1ea316dc09707e/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047036/president-commends-lula-da-silvas-victory": {
+    "published_at": "2026-10-27T01:03:25+05:30",
+    "first_seen_at": "2026-10-27T08:25:29.876913+05:30",
+    "collected_at": "2026-10-27T08:25:29.876913+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/64a332ddb1bfe3fdc2dc/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047048/assistant-scout-commissioner-munasinghe-passes-away": {
+    "published_at": "2026-10-27T01:03:30+05:30",
+    "first_seen_at": "2026-10-27T08:25:18.187854+05:30",
+    "collected_at": "2026-10-27T08:25:18.187854+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/74dc5345dc246808d24a/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047049/international-diplomat-day-celebrated-in-colombo": {
+    "published_at": "2026-10-27T01:06:31+05:30",
+    "first_seen_at": "2026-10-27T08:24:53.804292+05:30",
+    "collected_at": "2026-10-27T08:24:53.804292+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/7d44e564d7ec062040ce/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047050/temple-elephant-kills-man": {
+    "published_at": "2026-10-27T01:00:33+05:30",
+    "first_seen_at": "2026-10-27T08:25:53.795464+05:30",
+    "collected_at": "2026-10-27T08:25:53.795464+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/b019ab414d4eb4bcdb40/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/local/1047060/public-servants-briefed-on-next-steps-of-prajashakthi-movement": {
+    "published_at": "2026-10-27T01:00:07+05:30",
+    "first_seen_at": "2026-10-27T08:26:16.952624+05:30",
+    "collected_at": "2026-10-27T08:26:16.952624+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/afea219f52bb35afe1bc/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/politics/1047039/sixty-percent-of-slpp-electorate-level-branch-committees-established-d-v-chanaka": {
+    "published_at": "2026-10-27T01:05:58+05:30",
+    "first_seen_at": "2026-10-27T08:28:06.863878+05:30",
+    "collected_at": "2026-10-27T08:28:06.863878+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/f7a66e6e428ae3aeeaa6/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/sports/1046861/jaffna-bulls-bag-inaugural-next-xv-rugby-league-title": {
+    "published_at": "2026-10-27T01:03:54+05:30",
+    "first_seen_at": "2026-10-27T08:30:48.955068+05:30",
+    "collected_at": "2026-10-27T08:30:48.955068+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/e36e24aa3b33a9bebc7c/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/sports/1046864/international-athletes-backed-by-carnage-dominate-on-global-stage": {
+    "published_at": "2026-10-27T01:03:07+05:30",
+    "first_seen_at": "2026-10-27T08:31:13.757888+05:30",
+    "collected_at": "2026-10-27T08:31:13.757888+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/126583eaf7c6a2fedf57/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/sports/1046867/vidyartha-zahira-colombo-christ-king-and-dharmashoka-into-semis": {
+    "published_at": "2026-10-27T01:03:12+05:30",
+    "first_seen_at": "2026-10-27T08:31:01.798051+05:30",
+    "collected_at": "2026-10-27T08:31:01.798051+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/d464b105b5cb3c763a2d/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/sports/1046948/finalist-pakistan-to-block-lankas-safe-passage-to-final": {
+    "published_at": "2026-10-27T01:30:05+05:30",
+    "first_seen_at": "2026-10-27T08:27:53.355986+05:30",
+    "collected_at": "2026-10-27T08:27:53.355986+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/e240a6ad04f13ee0e316/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/sports/1046950/world-no-two-taavi-claims-tt-gold-in-italy": {
+    "published_at": "2026-10-27T01:26:08+05:30",
+    "first_seen_at": "2026-10-27T08:30:25.390821+05:30",
+    "collected_at": "2026-10-27T08:30:25.390821+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/1b33ca2464a701c90da6/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/sports/1046951/pakistan-under-17s-sweep-limited-overs-series-4-1-over-sri-lanka": {
+    "published_at": "2026-10-27T01:17:10+05:30",
+    "first_seen_at": "2026-10-27T08:30:36.901986+05:30",
+    "collected_at": "2026-10-27T08:30:36.901986+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/5f82a10ba74723c134c8/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/world/1046987/brazils-lula-wins-re-election-with-victory-over-trump-ally-bolsonaro": {
+    "published_at": "2026-10-27T01:31:43+05:30",
+    "first_seen_at": "2026-10-27T08:24:17.622225+05:30",
+    "collected_at": "2026-10-27T08:24:17.622225+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/59a8a7bc2d1197131e4b/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/world/1046988/aleksandar-vucic-the-serbian-leader-brought-down-by-students": {
+    "published_at": "2026-10-27T01:28:45+05:30",
+    "first_seen_at": "2026-10-27T08:29:50.918619+05:30",
+    "collected_at": "2026-10-27T08:29:50.918619+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/1eef44ab805b8b19fdab/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/world/1047000/afghanistan-pakistan-trade-declines-sharply-as-border-crossings-remain-closed": {
+    "published_at": "2026-10-27T01:00:52+05:30",
+    "first_seen_at": "2026-10-27T08:30:13.981138+05:30",
+    "collected_at": "2026-10-27T08:30:13.981138+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/c7ad63462526cb85065d/v001.json"
+  },
+  "https://dailynews.lk/2026/10/27/world/1047001/inflation-pushes-nearly-10-mn-people-below-poverty-line-in-bangladesh": {
+    "published_at": "2026-10-27T01:00:54+05:30",
+    "first_seen_at": "2026-10-27T08:30:02.363375+05:30",
+    "collected_at": "2026-10-27T08:30:02.363375+05:30",
+    "collection_evidence": "data/staged/daily_news/2026-10-27/2e793a5bdcb3fb7fd641/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/%e2%80%98people-cannot-be-fooled%e2%80%99-akd-reacts-to-lula%e2%80%99s-victory": {
+    "published_at": "2026-10-26T10:20:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:58.777394+05:30",
+    "collected_at": "2026-10-26T15:31:58.777394+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/b276976f7b6fca99190f/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/advanced-us-warship-makes-second-colombo-visit-this-year": {
+    "published_at": "2026-10-26T10:43:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:57.899340+05:30",
+    "collected_at": "2026-10-26T15:31:57.899340+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/07e5d03b60ee87f99a2b/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/bus-involved-in-koggala-accident-to-be-inspected-today-26": {
+    "published_at": "2026-10-26T08:18:00+05:30",
+    "first_seen_at": "2026-10-26T15:32:01.399323+05:30",
+    "collected_at": "2026-10-26T15:32:01.399323+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/67e74ec40fb22a6df62f/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/cyclone-arnab-gains-strength-fishermen-told-to-stay-away": {
+    "published_at": "2026-10-26T12:47:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:57.216351+05:30",
+    "collected_at": "2026-10-26T15:31:57.216351+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/00d70ae0d7582180cfb6/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/deep-depression-formed-in-bay-of-bengal-rainfall-above-100mm-forecast-across-several-areas": {
+    "published_at": "2026-10-26T07:29:00+05:30",
+    "first_seen_at": "2026-10-26T08:17:25.432882+05:30",
+    "collected_at": "2026-10-26T08:17:25.432882+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/00c977a91968334dffc2/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/indian-arrested-at-bia-with-rs-51-mn-worth-of-kush": {
+    "published_at": "2026-10-26T15:43:00+05:30",
+    "first_seen_at": "2026-10-27T10:06:04.321067+05:30",
+    "collected_at": "2026-10-27T10:06:04.321067+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/6aae3d86b12786ef6b75/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/indian-national-arrested-with-rs-51-million-worth-of-kush": {
+    "published_at": "2026-10-26T15:28:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:06.271639+05:30",
+    "collected_at": "2026-10-26T15:31:06.271639+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/42f932b83b3d29758e28/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/keheliya-released-on-bail-after-court-reviews-compensation-dispute": {
+    "published_at": "2026-10-26T14:47:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:07.001721+05:30",
+    "collected_at": "2026-10-26T15:31:07.001721+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/7b95a6f17bf3077938b5/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/koggala-train-bus-collision-driver-and-assistant-remanded-until-november-4": {
+    "published_at": "2026-10-26T21:42:00+05:30",
+    "first_seen_at": "2026-10-27T10:05:10.426617+05:30",
+    "collected_at": "2026-10-27T10:05:10.426617+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/070682f85d5bd3839f30/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/police-issue-warning-over-scams-through-dating-apps": {
+    "published_at": "2026-10-26T08:53:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:59.527294+05:30",
+    "collected_at": "2026-10-26T15:31:59.527294+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/7ebd097a13f977d2c625/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/police-launch-investigation-into-alleged-inciting-remarks-by-balangoda-kassapa-thera": {
+    "published_at": "2026-10-26T19:24:00+05:30",
+    "first_seen_at": "2026-10-27T10:05:11.891030+05:30",
+    "collected_at": "2026-10-27T10:05:11.891030+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/136665041bf696186345/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/several-reservoirs-spill-amid-heavy-rains-across-sri-lanka": {
+    "published_at": "2026-10-26T14:11:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:07.214651+05:30",
+    "collected_at": "2026-10-26T15:31:07.214651+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/aa5a0fda397b6a5bb78c/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/slns-gajabahu-departs-for-india-for-inaugural-bimstec-2026-maritime-exercise": {
+    "published_at": "2026-10-26T08:47:00+05:30",
+    "first_seen_at": "2026-10-26T15:32:00.608117+05:30",
+    "collected_at": "2026-10-26T15:32:00.608117+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/c1fee6bf5c76a1888101/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/sri-lanka-earns-us-13-6-bn-in-exports-in-just-nine-months": {
+    "published_at": "2026-10-26T18:08:00+05:30",
+    "first_seen_at": "2026-10-27T10:05:14.226473+05:30",
+    "collected_at": "2026-10-27T10:05:14.226473+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/4e951b32c67a55d1cecc/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/26/suspect-in-kalutara-double-murder-shot-while-fleeing-arrest": {
+    "published_at": "2026-10-26T13:59:00+05:30",
+    "first_seen_at": "2026-10-26T15:31:07.971834+05:30",
+    "collected_at": "2026-10-26T15:31:07.971834+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-26/8e7956323e36a235e117/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/27/indian-navy-training-fleet-anchors-in-colombo-with-135-trainees": {
+    "published_at": "2026-10-27T09:52:00+05:30",
+    "first_seen_at": "2026-10-27T10:05:06.094719+05:30",
+    "collected_at": "2026-10-27T10:05:06.094719+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-27/bf475e3f716f58ceab05/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/27/nearly-perfect-gpa-international-awards-and-a-mission-to-serve-sri-lanka": {
+    "published_at": "2026-10-27T09:46:00+05:30",
+    "first_seen_at": "2026-10-27T10:05:07.529844+05:30",
+    "collected_at": "2026-10-27T10:05:07.529844+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-27/edd08195ddd8efe8e11f/v001.json"
+  },
+  "https://english.newsfirst.lk/2026/10/27/new-online-system-to-obtain-passports-from-regional-offices": {
+    "published_at": "2026-10-27T08:27:00+05:30",
+    "first_seen_at": "2026-10-27T10:05:08.854079+05:30",
+    "collected_at": "2026-10-27T10:05:08.854079+05:30",
+    "collection_evidence": "data/staged/newsfirst/2026-10-27/c108678452c0c6a0edb4/v001.json"
+  },
+  "https://island.lk/294648-2": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:59:49.626554+05:30",
+    "collected_at": "2026-10-27T08:59:49.626554+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/6f258387c890db37a328/v001.json"
+  },
+  "https://island.lk/adb-approves-100-million-programme-to-strengthen-social-protection-and-expand-economic-opportunities-in-sri-lanka": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:23.222607+05:30",
+    "collected_at": "2026-10-26T08:03:23.222607+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/f2bb1a56cd917d670c79/v001.json"
+  },
+  "https://island.lk/ai-the-more-we-outsource-thinking": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:18.576339+05:30",
+    "collected_at": "2026-10-26T08:14:18.576339+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/cc309d358cace91d3a62/v001.json"
+  },
+  "https://island.lk/all-inclusive-constitution-harinis-statement-in-cnn-interview-draws-criticism": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:26.908372+05:30",
+    "collected_at": "2026-10-26T08:14:26.908372+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/975105858cd2daee578a/v001.json"
+  },
+  "https://island.lk/baila-scene-this-31st-night": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:38:29.768413+05:30",
+    "collected_at": "2026-10-27T09:38:29.768413+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/976ccea83f4484115bdc/v001.json"
+  },
+  "https://island.lk/beyond-recovery-policy-priorities-to-achieve-durable-growth-in-sri-lanka": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:35:26.121858+05:30",
+    "collected_at": "2026-10-27T08:35:26.121858+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/979edfca7abfd63b17fd/v001.json"
+  },
+  "https://island.lk/central-bank-of-the-future-needs-to-be-intelligence-driven-public-institution-says-imf-cio": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:15.615009+05:30",
+    "collected_at": "2026-10-26T08:03:15.615009+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/279ccf2539886eb1ae76/v001.json"
+  },
+  "https://island.lk/colombo-based-diplomatic-corps-marks-intl-diplomat-day": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:21.471722+05:30",
+    "collected_at": "2026-10-26T08:14:21.471722+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/be54f4210bb56693ad93/v001.json"
+  },
+  "https://island.lk/commercial-bank-named-sri-lankas-best-bank-by-global-finance-for-24th-time": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:18.451588+05:30",
+    "collected_at": "2026-10-26T08:03:18.451588+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/1b7dd9b8e1c3b14ce1fb/v001.json"
+  },
+  "https://island.lk/communist-party-opposes-proposed-counterterror-organised-crime-laws": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:16.262483+05:30",
+    "collected_at": "2026-10-26T08:14:16.262483+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/cdbee789b1a8869f7b79/v001.json"
+  },
+  "https://island.lk/darley-butler-helpage-partnership-helps-to-conduct-free-mobile-medical-camps": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:33:02.393969+05:30",
+    "collected_at": "2026-10-27T08:33:02.393969+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/89a29290e4126835e6d8/v001.json"
+  },
+  "https://island.lk/dengue-far-from-beaten-over-105000-cases-79-deaths-so-far": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:38:06.549244+05:30",
+    "collected_at": "2026-10-27T09:38:06.549244+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/5a81d2d0cb35d9721f74/v001.json"
+  },
+  "https://island.lk/dialog-axiata-and-iitm-pravartak-partner-for-sri-lankan-technological-advancement": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:16.554062+05:30",
+    "collected_at": "2026-10-26T08:03:16.554062+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/60f69af127ca9cd708d2/v001.json"
+  },
+  "https://island.lk/disciplining-students-without-the-cane": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:26:44.744626+05:30",
+    "collected_at": "2026-10-26T15:26:44.744626+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/f2e8cf21dceae906620c/v001.json"
+  },
+  "https://island.lk/eccsl-celebrates-30-years-of-resilience-achievement-and-a-new-chapter": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:35:17.292164+05:30",
+    "collected_at": "2026-10-27T08:35:17.292164+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/9d19869419569be66c3e/v001.json"
+  },
+  "https://island.lk/flood-threat-intensifies-as-cyclone-arnab-drives-heavy-rain-and-rising-river-levels": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:39:22.829250+05:30",
+    "collected_at": "2026-10-27T09:39:22.829250+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/55ee5ecfad1fb0a7e9c0/v001.json"
+  },
+  "https://island.lk/flood-warning-issued-for-kelani-river-basin": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:58:28.212343+05:30",
+    "collected_at": "2026-10-27T08:58:28.212343+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/3bd5d6c053247adc4084/v001.json"
+  },
+  "https://island.lk/foundation-stones-laid-for-kelaniya-temples-centenary-sacred-area": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:29.524014+05:30",
+    "collected_at": "2026-10-26T08:14:29.524014+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/e2324e91c0b8b9a2834f/v001.json"
+  },
+  "https://island.lk/future-life-investments-marks-its-10th-anniversary-at-employee-convention": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:52.302648+05:30",
+    "collected_at": "2026-10-26T08:03:52.302648+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/ded0123d1aabf0d183e4/v001.json"
+  },
+  "https://island.lk/gamani-corea-foundation-to-hold-memorial-lecture-on-sri-lankas-foreign-policy": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:39:44.177332+05:30",
+    "collected_at": "2026-10-27T09:39:44.177332+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/45bd70c7c13ab0a54194/v001.json"
+  },
+  "https://island.lk/gnanasara-thera-release-campaign-suspended": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:40:11.043147+05:30",
+    "collected_at": "2026-10-27T09:40:11.043147+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/1e5ffe36b0f72684f1d7/v001.json"
+  },
+  "https://island.lk/growing-anger-in-jaffna-over-indian-poaching-and-proposed-fisheries-bill": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:46:10.943917+05:30",
+    "collected_at": "2026-10-27T09:46:10.943917+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/b9293a5ac8de7d399cf0/v001.json"
+  },
+  "https://island.lk/heavy-rains-disrupt-school-attendance-in-kandy": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:43:07.528484+05:30",
+    "collected_at": "2026-10-27T09:43:07.528484+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/3b198c915db77b4cd78d/v001.json"
+  },
+  "https://island.lk/historic-kithulgala-rest-house-reimagined-under-ekho-banner": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:33.356057+05:30",
+    "collected_at": "2026-10-26T08:03:33.356057+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/d1ed6227df181980c271/v001.json"
+  },
+  "https://island.lk/hlab-fund-launches-lkr-3bn-initiative-to-scale-sri-lankan-startups": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:25.136536+05:30",
+    "collected_at": "2026-10-26T08:03:25.136536+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/4ffc41a9166d3693bd17/v001.json"
+  },
+  "https://island.lk/indian-high-commissioner-meets-lalkantha": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:17.649426+05:30",
+    "collected_at": "2026-10-26T08:14:17.649426+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/2bc2645f6924a0b405a9/v001.json"
+  },
+  "https://island.lk/ins-tir-ins-sujata-and-icgs-sarathi-arrives-in-colombo": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:58:48.422117+05:30",
+    "collected_at": "2026-10-27T08:58:48.422117+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/db75a69ae0394f0aacb8/v001.json"
+  },
+  "https://island.lk/insecurity-haunts-affluent-europe": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:26:42.450580+05:30",
+    "collected_at": "2026-10-26T15:26:42.450580+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/cf1850da08c2bf98c084/v001.json"
+  },
+  "https://island.lk/ipl-2027-auction-to-be-held-on-december-16": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:59:16.490026+05:30",
+    "collected_at": "2026-10-27T08:59:16.490026+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/30094fb762ffb7fee4b4/v001.json"
+  },
+  "https://island.lk/its-demagoguery-not-democracy": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:23.371772+05:30",
+    "collected_at": "2026-10-26T08:14:23.371772+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/a26d89d0a1f391cfcdf4/v001.json"
+  },
+  "https://island.lk/jaffna-based-customs-refuse-to-release-books-ordered-from-tn": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:38:56.919868+05:30",
+    "collected_at": "2026-10-27T09:38:56.919868+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/084db3db2890ce58591f/v001.json"
+  },
+  "https://island.lk/jxgs-wasanthi-stephen-makes-history-as-first-female-recipient-of-cipm-sri-lanka-lifetime-gold-award": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:34.293709+05:30",
+    "collected_at": "2026-10-26T08:03:34.293709+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/cbfed411d593521672d7/v001.json"
+  },
+  "https://island.lk/lakdhanavi-clinches-five-major-asian-engineering-awards": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:19.425778+05:30",
+    "collected_at": "2026-10-26T08:03:19.425778+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/84bf416924c0689de08e/v001.json"
+  },
+  "https://island.lk/lanka-records-lowest-hunger-score-in-south-asia": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:19.583612+05:30",
+    "collected_at": "2026-10-26T08:14:19.583612+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/598d054731e6f9b9293b/v001.json"
+  },
+  "https://island.lk/lanka-rushes-27-iranian-sailors-ashore-for-treatment": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:27.920856+05:30",
+    "collected_at": "2026-10-26T08:14:27.920856+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/2c344f12207400071861/v001.json"
+  },
+  "https://island.lk/lula-holds-off-far-right-with-victory-in-brazil-presidential-election": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:26:18.739130+05:30",
+    "collected_at": "2026-10-26T15:26:18.739130+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/fdbbcf49f0255c13472b/v001.json"
+  },
+  "https://island.lk/mark-surgenor-wins-historic-british-chambers-of-commerce-international-presidents-award-2026-a-first-for-sri-lanka": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:33:28.150180+05:30",
+    "collected_at": "2026-10-27T08:33:28.150180+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/64c0f99584aa59186e1b/v001.json"
+  },
+  "https://island.lk/mecca-defence-alliance-members-in-tehran-to-defuse-iran-us-yemen-tensions": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:57:53.963220+05:30",
+    "collected_at": "2026-10-27T08:57:53.963220+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/cddd71c6d4d83b1e97cd/v001.json"
+  },
+  "https://island.lk/mlf-asks-govt-to-address-unresolved-concerns-of-muslims": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:49:28.733530+05:30",
+    "collected_at": "2026-10-27T09:49:28.733530+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/735c12e080fc398d384b/v001.json"
+  },
+  "https://island.lk/new-lankan-rhythm-echoing-across-scotland": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:37:45.246875+05:30",
+    "collected_at": "2026-10-27T09:37:45.246875+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/2ff1d90b67eb589e620b/v001.json"
+  },
+  "https://island.lk/nirosh-de-silva-elected-president-of-jasteca": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:20.367388+05:30",
+    "collected_at": "2026-10-26T08:03:20.367388+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/cd3a2216bab9295a6d41/v001.json"
+  },
+  "https://island.lk/over-22-kilos-of-heroin-ice-seized-in-two-raids": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:20.533002+05:30",
+    "collected_at": "2026-10-26T08:14:20.533002+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/8b8c0e2a0fc9f8036e08/v001.json"
+  },
+  "https://island.lk/over-561-kg-ice-heroin-haul-linked-to-georgia-based-dehi-bale": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:31.401633+05:30",
+    "collected_at": "2026-10-26T08:14:31.401633+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/9fb2ad899ec05f1e102e/v001.json"
+  },
+  "https://island.lk/part-of-antarctica-named-after-former-bbc-science-correspondent": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:58:09.494331+05:30",
+    "collected_at": "2026-10-27T08:58:09.494331+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/aaf85ad64d1471d0b0a6/v001.json"
+  },
+  "https://island.lk/police-warn-of-dating-app-scams": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:30.460758+05:30",
+    "collected_at": "2026-10-26T08:14:30.460758+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/e62473fbdbd1a799db28/v001.json"
+  },
+  "https://island.lk/port-city-colombo-and-university-of-moratuwa-sign-framework-agreement": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:59.984195+05:30",
+    "collected_at": "2026-10-26T08:03:59.984195+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/5797faaf885b047b24a0/v001.json"
+  },
+  "https://island.lk/probe-ordered-into-delay-in-extradition-of-dippitigoda-lahiru-from-japan": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:37:17.792211+05:30",
+    "collected_at": "2026-10-27T09:37:17.792211+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/99d53ab2f1f219d2cc6c/v001.json"
+  },
+  "https://island.lk/protest-against-death-of-youth-in-police-custody": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:37:43.402033+05:30",
+    "collected_at": "2026-10-27T09:37:43.402033+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/ead533e25bee00846e6a/v001.json"
+  },
+  "https://island.lk/protests-against-killing-of-kavantissa": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:22.391243+05:30",
+    "collected_at": "2026-10-26T08:14:22.391243+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/3711d63af4496fd96758/v001.json"
+  },
+  "https://island.lk/red-warning-for-multi-day-boats-in-the-bay-of-bengal-deep-and-shallow-sea-areas": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:26:16.790409+05:30",
+    "collected_at": "2026-10-26T15:26:16.790409+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/085c955dc76155b5963c/v001.json"
+  },
+  "https://island.lk/sajith-sumanthiran-seek-diplomatic-scrutiny-of-proposed-security-laws": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:39:47.771027+05:30",
+    "collected_at": "2026-10-27T09:39:47.771027+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/851ca2f429d7378713a8/v001.json"
+  },
+  "https://island.lk/sc-nullifies-ranils-pardon-for-man-jailed-over-maintenance-arrears": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:39:49.760792+05:30",
+    "collected_at": "2026-10-27T09:39:49.760792+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/6829464d22b0537e7951/v001.json"
+  },
+  "https://island.lk/showers-above-100-mm-are-likely-at-some-places-in-the-northern-western-sabaragamuwa-southern-north-western-central-and-north-central-provinces-and-in-trincomalee-district": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:26:20.897570+05:30",
+    "collected_at": "2026-10-26T15:26:20.897570+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/ab1ba044cfde288eb520/v001.json"
+  },
+  "https://island.lk/showers-in-the-western-sabaragamuwa-southern-and-north-western-provinces-and-in-kandy-and-nuwara-eliya-districts": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:57:38.392738+05:30",
+    "collected_at": "2026-10-27T08:57:38.392738+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/4276f7473c1a79c66255/v001.json"
+  },
+  "https://island.lk/sl-balances-humanitarian-obligations-and-mounting-geopolitical-pressures": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:39:45.998231+05:30",
+    "collected_at": "2026-10-27T09:39:45.998231+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/319335710eaf669c6362/v001.json"
+  },
+  "https://island.lk/sl-faces-toxic-fallout-from-unregulated-battery-recycling-cej-warns": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:14:25.972782+05:30",
+    "collected_at": "2026-10-26T08:14:25.972782+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/9decd3342932af0a7d7b/v001.json"
+  },
+  "https://island.lk/sri-lanka-managing-the-tide-amid-global-commodity-volatility-cbsl-data-shows": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:17.494878+05:30",
+    "collected_at": "2026-10-26T08:03:17.494878+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/079ebf04d3ff9ca5da77/v001.json"
+  },
+  "https://island.lk/sri-lanka-urged-to-turn-strategic-location-into-economic-freedom": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:32:41.825875+05:30",
+    "collected_at": "2026-10-27T08:32:41.825875+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/1dd578d702a898702ab2/v001.json"
+  },
+  "https://island.lk/state-institutions-warned-over-critical-php-security-flaws": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:46:35.762635+05:30",
+    "collected_at": "2026-10-27T09:46:35.762635+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/14526dc9993da73e75f1/v001.json"
+  },
+  "https://island.lk/stock-market-rattled-by-oil-supply-chain-disruptions": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:35:34.855816+05:30",
+    "collected_at": "2026-10-27T08:35:34.855816+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/83fc496c5383637b70dc/v001.json"
+  },
+  "https://island.lk/sunshine-healthcare-expands-into-digital-healthcare-with-strategic-investment-in-doc990": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:24.182050+05:30",
+    "collected_at": "2026-10-26T08:03:24.182050+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/e378f879b37de366ea68/v001.json"
+  },
+  "https://island.lk/tbwasri-lanka-earns-international-recognition-at-the-dragons-of-asia-awards-in-kuala-lumpur": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T08:35:10.710883+05:30",
+    "collected_at": "2026-10-27T08:35:10.710883+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/5b1767d503e20311cbfc/v001.json"
+  },
+  "https://island.lk/us-coastal-combat-ship-canberra-returns-to-colombo-for-second-visit-this-year": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:49:42.329973+05:30",
+    "collected_at": "2026-10-27T09:49:42.329973+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/d216e21eb7dc51470897/v001.json"
+  },
+  "https://island.lk/uss-canberra-lcs-30-makes-port-call-in-colombo": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:04:22.323589+05:30",
+    "collected_at": "2026-10-27T10:04:22.323589+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/b8948f135a454baa5e94/v001.json"
+  },
+  "https://island.lk/what-fowzies-public-apology-signifies": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:37:18.709328+05:30",
+    "collected_at": "2026-10-27T09:37:18.709328+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/4fcfd557ccd1192b0324/v001.json"
+  },
+  "https://island.lk/why-supreme-court-needs-additional-layers-of-safety": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T09:37:19.676942+05:30",
+    "collected_at": "2026-10-27T09:37:19.676942+05:30",
+    "collection_evidence": "data/staged/island/2026-10-27/0345c80a1aca2442e98a/v001.json"
+  },
+  "https://island.lk/xcommerz-by-xiteb-earns-international-honours-at-asia-ecommerce-awards-2026-for-third-consecutive-year": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:03:22.301938+05:30",
+    "collected_at": "2026-10-26T08:03:22.301938+05:30",
+    "collection_evidence": "data/staged/island/2026-10-26/22e6f7d540a17d034e66/v001.json"
+  },
+  "https://themorning.lk/articles/1AwUUQot53gyPpMzTq2b": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:20:19.662357+05:30",
+    "collected_at": "2026-10-26T08:20:19.662357+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/28315f227938789bb2b1/v001.json"
+  },
+  "https://themorning.lk/articles/1ishc26ObmXGrfawqD2V": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:45.806467+05:30",
+    "collected_at": "2026-10-27T10:07:45.806467+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/6f66aa2e13f8f362fda8/v001.json"
+  },
+  "https://themorning.lk/articles/1wyy9fPMHLMJzNhj6Kz4": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:19:58.970492+05:30",
+    "collected_at": "2026-10-26T08:19:58.970492+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/398e3d7f7c76e5b8d916/v001.json"
+  },
+  "https://themorning.lk/articles/3mFSFFdEdmSkZaWE2AdH": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:29.145157+05:30",
+    "collected_at": "2026-10-27T10:07:29.145157+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/4f3c2edf3f04fb460629/v001.json"
+  },
+  "https://themorning.lk/articles/3rJTM7qZRuq87N3T0wgd": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:10:01.228482+05:30",
+    "collected_at": "2026-10-27T10:10:01.228482+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/1a46ccbac3a2ad3194b5/v001.json"
+  },
+  "https://themorning.lk/articles/3tzX2YqgV20CKRajAz7d": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:42.813041+05:30",
+    "collected_at": "2026-10-26T08:22:42.813041+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/d9720ac3896221e457c9/v001.json"
+  },
+  "https://themorning.lk/articles/66LInGPJIGRMrGUeHgKh": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:38:54.291214+05:30",
+    "collected_at": "2026-10-26T15:38:54.291214+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/815bce3a2b0c27a5f6d6/v001.json"
+  },
+  "https://themorning.lk/articles/7lSd2LVNnerjrp8DPN6l": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:48.473355+05:30",
+    "collected_at": "2026-10-27T10:07:48.473355+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/fee1efdcd5b4b6dbdca6/v001.json"
+  },
+  "https://themorning.lk/articles/99uj5FUCbAFLc9xYjDZE": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:10:57.152949+05:30",
+    "collected_at": "2026-10-27T10:10:57.152949+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/9e2cc451db3e443571c1/v001.json"
+  },
+  "https://themorning.lk/articles/9Poz3eJPCoalfgDlKWWD": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:19:53.718960+05:30",
+    "collected_at": "2026-10-26T08:19:53.718960+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/3806faebe494790437f7/v001.json"
+  },
+  "https://themorning.lk/articles/B9TciyPy6kOO2QwBHDVW": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:58.114831+05:30",
+    "collected_at": "2026-10-27T10:09:58.114831+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/9ef7c94ec4f91e9bc6d4/v001.json"
+  },
+  "https://themorning.lk/articles/CbG9Wf1uyX0ASDahuBH7": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:40.290790+05:30",
+    "collected_at": "2026-10-27T10:07:40.290790+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/d5aaff4fe97ff965b2df/v001.json"
+  },
+  "https://themorning.lk/articles/E4Ig5DSH7UsoV0DZ9PpE": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:46.042106+05:30",
+    "collected_at": "2026-10-26T08:22:46.042106+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/58112d18f132b3a3358e/v001.json"
+  },
+  "https://themorning.lk/articles/El22C103n61KqBBoDweT": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:36:38.794605+05:30",
+    "collected_at": "2026-10-26T15:36:38.794605+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/7c118c490c44df2b8bef/v001.json"
+  },
+  "https://themorning.lk/articles/FFegZiYd0I6QCGdz3b4W": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:44.574330+05:30",
+    "collected_at": "2026-10-27T10:09:44.574330+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/56f42e1718932d2f8e20/v001.json"
+  },
+  "https://themorning.lk/articles/G3oylAnce3P1o1d2pGNS": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:25:32.987672+05:30",
+    "collected_at": "2026-10-26T08:25:32.987672+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/8d941aa06a4206b979a5/v001.json"
+  },
+  "https://themorning.lk/articles/GmuhvYkkgEqtu1UhVNvb": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:10:04.568705+05:30",
+    "collected_at": "2026-10-27T10:10:04.568705+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/d057d8c925927dd8d40f/v001.json"
+  },
+  "https://themorning.lk/articles/HDQJ4hHrLuSMn7AljOFt": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:36:37.365242+05:30",
+    "collected_at": "2026-10-26T15:36:37.365242+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/5765daf20c4aeb93ae6a/v001.json"
+  },
+  "https://themorning.lk/articles/I53ba4OBUB9zU4mHHfvq": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:20:05.728188+05:30",
+    "collected_at": "2026-10-26T08:20:05.728188+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/ffc72bc767a105ce11fd/v001.json"
+  },
+  "https://themorning.lk/articles/IOrZ4i0tkqSTOwtF4oUQ": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:23:53.822718+05:30",
+    "collected_at": "2026-10-26T08:23:53.822718+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/0ede4d8e99518693b151/v001.json"
+  },
+  "https://themorning.lk/articles/JuMV2b9g91vYuPAWXM72": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:34.267626+05:30",
+    "collected_at": "2026-10-26T08:22:34.267626+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/dcfd2638ee37788ef858/v001.json"
+  },
+  "https://themorning.lk/articles/KyqCXVvzghRadIK39CqR": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:11:45.858942+05:30",
+    "collected_at": "2026-10-27T10:11:45.858942+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/337582e475235962a846/v001.json"
+  },
+  "https://themorning.lk/articles/M6MWg5xtAwypRHBZSaeN": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:20:08.461185+05:30",
+    "collected_at": "2026-10-26T08:20:08.461185+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/e6ee4f42af003dadf72e/v001.json"
+  },
+  "https://themorning.lk/articles/MVQLWvSqAIw99wnRID9D": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:36:40.125968+05:30",
+    "collected_at": "2026-10-26T15:36:40.125968+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/2ac8965516e2ce0aaa44/v001.json"
+  },
+  "https://themorning.lk/articles/NDziU5rW0nV9lTd2ZdNE": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:41.321927+05:30",
+    "collected_at": "2026-10-27T10:09:41.321927+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/439bed7516eefcd44a74/v001.json"
+  },
+  "https://themorning.lk/articles/NHPCQErtfo2s0E5sM3UY": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:10:10.047555+05:30",
+    "collected_at": "2026-10-27T10:10:10.047555+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/89e22d0f0eccacab3379/v001.json"
+  },
+  "https://themorning.lk/articles/PhlSRod4x9sueirNf1AA": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:39:03.664243+05:30",
+    "collected_at": "2026-10-26T15:39:03.664243+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/6c0e3d094528af6384f7/v001.json"
+  },
+  "https://themorning.lk/articles/QhEJwk1npVwSF0RpqHuC": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:38:52.993382+05:30",
+    "collected_at": "2026-10-26T15:38:52.993382+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/9cb1e2bc702bd5f8c312/v001.json"
+  },
+  "https://themorning.lk/articles/ReIbtFtXfn1q8YG74oJo": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:39.579020+05:30",
+    "collected_at": "2026-10-26T08:22:39.579020+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/e37c12d976079be49149/v001.json"
+  },
+  "https://themorning.lk/articles/SQFzs2xAm9LrBgpYZZjg": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:34.235876+05:30",
+    "collected_at": "2026-10-27T10:07:34.235876+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/f2878b338bef36782fb2/v001.json"
+  },
+  "https://themorning.lk/articles/TS6NSOo1EduNhUL5gnmL": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:38:51.696154+05:30",
+    "collected_at": "2026-10-26T15:38:51.696154+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/0103aac9feece1b9d348/v001.json"
+  },
+  "https://themorning.lk/articles/Ywl8cZC5wXZhUeDTl9jJ": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:29.923944+05:30",
+    "collected_at": "2026-10-27T10:07:29.923944+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/d16ec07bb26444f7d5ab/v001.json"
+  },
+  "https://themorning.lk/articles/azdVCgQHsCJ1ab6HSSWx": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:19:47.585797+05:30",
+    "collected_at": "2026-10-26T08:19:47.585797+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/9e4c85cf23831ca72a4e/v001.json"
+  },
+  "https://themorning.lk/articles/bljMcQceXzHBDtuztEXm": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:27.873616+05:30",
+    "collected_at": "2026-10-26T08:22:27.873616+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/138fa9b9a483ee96accc/v001.json"
+  },
+  "https://themorning.lk/articles/djiWxJddPNB7vMjcn40N": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:59.247799+05:30",
+    "collected_at": "2026-10-26T08:22:59.247799+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/14d8f74fb4310b4898b7/v001.json"
+  },
+  "https://themorning.lk/articles/gAW2WkupPqnSkauQpNe7": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:47.991636+05:30",
+    "collected_at": "2026-10-27T10:09:47.991636+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/acac740c0bca1760b5b6/v001.json"
+  },
+  "https://themorning.lk/articles/hMp6h3xUvMiFV0fDQ9rd": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:31.497534+05:30",
+    "collected_at": "2026-10-27T10:07:31.497534+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/b1ddce230e0656f181b8/v001.json"
+  },
+  "https://themorning.lk/articles/icVcToWo12bcuzS3kCwn": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:43.039302+05:30",
+    "collected_at": "2026-10-27T10:07:43.039302+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/8ff35e9ccb96772eccfd/v001.json"
+  },
+  "https://themorning.lk/articles/ivvmMnILeVaspj3MYhLb": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:49.164822+05:30",
+    "collected_at": "2026-10-26T08:22:49.164822+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/2c89b0f25722dfde4bad/v001.json"
+  },
+  "https://themorning.lk/articles/jXcASHiQYDYa1TO10MY9": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:37.374053+05:30",
+    "collected_at": "2026-10-26T08:22:37.374053+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/23d3b5f62bb3980660f5/v001.json"
+  },
+  "https://themorning.lk/articles/jh1mUgZNrizcrna2EBvV": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:12:29.570647+05:30",
+    "collected_at": "2026-10-27T10:12:29.570647+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/0686fef1da1a1525b704/v001.json"
+  },
+  "https://themorning.lk/articles/kKUUmIOHSDH8R8QGf7rC": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:10:26.475054+05:30",
+    "collected_at": "2026-10-27T10:10:26.475054+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/492bf16b9ca4e102c18b/v001.json"
+  },
+  "https://themorning.lk/articles/kTBhAqSEPTHmceXcLxv9": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:08:01.660198+05:30",
+    "collected_at": "2026-10-27T10:08:01.660198+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/db889bcf462473968dc1/v001.json"
+  },
+  "https://themorning.lk/articles/kt4yzjocAHIONc6aTOAT": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:20:18.920357+05:30",
+    "collected_at": "2026-10-26T08:20:18.920357+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/e49040957bfdd5740f44/v001.json"
+  },
+  "https://themorning.lk/articles/lqThkoz8LBDDVFVrACBp": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:30.681939+05:30",
+    "collected_at": "2026-10-27T10:07:30.681939+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/fb3c39ee97161001e770/v001.json"
+  },
+  "https://themorning.lk/articles/mxhPD98UnE7WrGBDWK0N": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:35.015569+05:30",
+    "collected_at": "2026-10-27T10:07:35.015569+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/a469b0343e7390c4bb1b/v001.json"
+  },
+  "https://themorning.lk/articles/nS0QU5jawroSUJMxiF5R": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:20:09.602183+05:30",
+    "collected_at": "2026-10-26T08:20:09.602183+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/51d80f626f573dffd1ae/v001.json"
+  },
+  "https://themorning.lk/articles/o6BBrXRTS4gAVCwx3YmW": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:36:32.941679+05:30",
+    "collected_at": "2026-10-26T15:36:32.941679+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/2b23411319fbb4cc9094/v001.json"
+  },
+  "https://themorning.lk/articles/oGBOfCmx3Hlb53bBnovb": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:54.781820+05:30",
+    "collected_at": "2026-10-27T10:09:54.781820+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/6b5b05fa2a868fa96b0c/v001.json"
+  },
+  "https://themorning.lk/articles/pJkuVAUzaYASHaVmKlqc": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:51.316181+05:30",
+    "collected_at": "2026-10-27T10:09:51.316181+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/e89a48e3cfab8fa517d1/v001.json"
+  },
+  "https://themorning.lk/articles/pQul1LjYqKFJK6DnctiK": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:37.687399+05:30",
+    "collected_at": "2026-10-27T10:07:37.687399+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/ad89d061e78537c7e8ee/v001.json"
+  },
+  "https://themorning.lk/articles/qKkAxVOjCJAZ5qcQWUWM": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:52.526830+05:30",
+    "collected_at": "2026-10-26T08:22:52.526830+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/059dfc7f16dade9b5328/v001.json"
+  },
+  "https://themorning.lk/articles/u92UeoFZ3dbUunCitelA": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:36:41.492470+05:30",
+    "collected_at": "2026-10-26T15:36:41.492470+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/ff4ec9b599a8b7428afc/v001.json"
+  },
+  "https://themorning.lk/articles/uKpeE09mqAgch056rDTd": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:19:46.852802+05:30",
+    "collected_at": "2026-10-26T08:19:46.852802+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/5ad16d24210361e8e3c6/v001.json"
+  },
+  "https://themorning.lk/articles/ujFdlV23zqXOCleRBBOg": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:53.613467+05:30",
+    "collected_at": "2026-10-27T10:07:53.613467+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/f2f1a1e483b133697c07/v001.json"
+  },
+  "https://themorning.lk/articles/vkV2IyvjGmhI3wj9UHNz": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:38:57.497855+05:30",
+    "collected_at": "2026-10-26T15:38:57.497855+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/4b6a2e8251d39710b3de/v001.json"
+  },
+  "https://themorning.lk/articles/wnDumtqxKPPR733fIypg": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:09:38.221461+05:30",
+    "collected_at": "2026-10-27T10:09:38.221461+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/2f83c462e446e0e6f7fb/v001.json"
+  },
+  "https://themorning.lk/articles/xSL53NQZzh2qowqrT0Gt": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T15:39:00.555532+05:30",
+    "collected_at": "2026-10-26T15:39:00.555532+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/bb54a66ec4d9dbad04ae/v001.json"
+  },
+  "https://themorning.lk/articles/xhm8bLxiBbGlEkP9JsqG": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:51.118251+05:30",
+    "collected_at": "2026-10-27T10:07:51.118251+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/a017502d97f153a61edb/v001.json"
+  },
+  "https://themorning.lk/articles/xulU9zmwMCAvWC4nGuHr": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:19:56.265602+05:30",
+    "collected_at": "2026-10-26T08:19:56.265602+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/7c72300b97a740db7d70/v001.json"
+  },
+  "https://themorning.lk/articles/yMynLepsewcJAQjKoT6F": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:07:56.336528+05:30",
+    "collected_at": "2026-10-27T10:07:56.336528+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/a3896d8407143ca42c9a/v001.json"
+  },
+  "https://themorning.lk/articles/yhAfKVJbR4fQxGUounIO": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:22:31.097647+05:30",
+    "collected_at": "2026-10-26T08:22:31.097647+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/a8cc8c0db22ca19cce83/v001.json"
+  },
+  "https://themorning.lk/articles/ynLcHh2x06dspRj1lmre": {
+    "published_at": "2026-10-26T00:00:00+05:30",
+    "first_seen_at": "2026-10-26T08:20:16.277389+05:30",
+    "collected_at": "2026-10-26T08:20:16.277389+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-26/1071fe527063cf761713/v001.json"
+  },
+  "https://themorning.lk/articles/yxTLzzZ6Q5xP6doCCvGb": {
+    "published_at": "2026-10-27T00:00:00+05:30",
+    "first_seen_at": "2026-10-27T10:10:23.726777+05:30",
+    "collected_at": "2026-10-27T10:10:23.726777+05:30",
+    "collection_evidence": "data/staged/the_morning/2026-10-27/7b1afda6c57d7ffffb4a/v001.json"
+  }
+}

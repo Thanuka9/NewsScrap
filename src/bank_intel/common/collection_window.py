@@ -224,6 +224,16 @@ def get_collection_window(
             "WEEKEND_MANUAL"
         )
 
+    # If the previous daily edition is still held, its unreported coverage
+    # must not disappear from tomorrow's discovery window. Read-only check.
+    from pathlib import Path
+    from bank_intel.publication.backlog import earliest_unpublished_day
+    report_root = Path(__file__).resolve().parents[3] / "data" / "processed" / "reports"
+    backlog_start = earliest_unpublished_day(report_root, run_date)
+    if backlog_start < start_date:
+        start_date = backlog_start
+        mode = "UNSENT_PREVIOUS_EDITION_CATCHUP"
+
     return CollectionWindow(
         start_date=start_date,
         end_date=run_date,
@@ -355,3 +365,61 @@ def classify_intake_status(
         )
 
     return "NEW_TODAY"
+
+
+# ============================================================
+# INTELLIGENCE PUBLICATION DATES
+# ============================================================
+
+
+def publication_dates_for_window(
+    window: CollectionWindow,
+) -> list[str]:
+    """
+    Return every ACTUAL publication date Stage-1 intelligence
+    should inspect after a successful collection run.
+
+    This deliberately uses the same operational lookback window
+    as collection.
+
+    Examples
+    --------
+
+    Monday 2026-09-14:
+        [
+            "2026-09-11",
+            "2026-09-12",
+            "2026-09-13",
+            "2026-09-14",
+        ]
+
+    Wednesday 2026-09-16:
+        [
+            "2026-09-15",
+            "2026-09-16",
+        ]
+    """
+
+    values = []
+
+    current = (
+        window.start_date
+    )
+
+    while (
+        current
+        <= window.end_date
+    ):
+
+        values.append(
+            current.isoformat()
+        )
+
+        current = (
+            current
+            + timedelta(
+                days=1
+            )
+        )
+
+    return values

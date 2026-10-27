@@ -1,0 +1,303 @@
+version: taxonomy-v0.2.1
+provenance_status: RULE_ASSISTED_PROVISIONAL
+policy:
+  run_only_on_stage_a_keep: true
+  multilabel: true
+  maximum_topics_per_article: 3
+  minimum_topic_score: 4.0
+  other_supervisory_fallback: true
+  not_applicable_is_for_filtered_or_human_review_only: true
+text_scoring:
+  lead_characters: 1400
+  maximum_occurrences_per_phrase_per_section: 3
+  section_weights:
+    headline: 3.0
+    lead: 2.0
+    body: 1.0
+  phrase_weights:
+    normal: 1.0
+    strong: 3.0
+topics:
+  CREDIT_RISK:
+    minimum_score: 4.0
+    strong:
+    - credit risk
+    - default risk
+    - credit concentration
+    - loan concentration
+    - lending standards
+    - expected credit loss
+    normal:
+    - loan portfolio
+    - credit portfolio
+    - loan growth
+    - credit growth
+    - borrower
+    - lending
+    - loan exposure
+  ASSET_QUALITY_NPL_STAGE3:
+    minimum_score: 4.0
+    strong:
+    - non performing loan
+    - non-performing loan
+    - non performing loans
+    - non-performing loans
+    - npl
+    - stage 3
+    - stage three
+    - impaired loan
+    - impaired loans
+    - asset quality
+    normal:
+    - impairment
+    - provisioning
+    - loan loss provision
+    - delinquency
+    - past due
+  LIQUIDITY_FUNDING:
+    minimum_score: 4.0
+    strong:
+    - liquidity coverage ratio
+    - lcr
+    - net stable funding ratio
+    - nsfr
+    - funding risk
+    - liquidity risk
+    - deposit outflow
+    - debenture issue
+    - debt issuance
+    - debt issue
+    normal:
+    - liquidity
+    - funding
+    - deposits
+    - deposit base
+    - money market liquidity
+    - refinancing
+    - borrowings
+  CAPITAL_SOLVENCY:
+    minimum_score: 4.0
+    strong:
+    - capital adequacy
+    - capital adequacy ratio
+    - tier 1
+    - tier one
+    - tier 2
+    - tier two
+    - common equity tier
+    - cet1
+    - solvency
+    - basel iii
+    - basel 3
+    - subordinated debt
+    normal:
+    - capital ratio
+    - regulatory capital
+    - capital buffer
+    - capital requirement
+  PROFITABILITY_FINANCIAL_CONDITION:
+    minimum_score: 4.0
+    strong:
+    - profit after tax
+    - profit before tax
+    - net profit
+    - financial results
+    - return on equity
+    - return on assets
+    - net interest margin
+    - net interest income
+    normal:
+    - profitability
+    - earnings
+    - operating profit
+    - financial performance
+    - quarterly results
+    - annual results
+  MARKET_RATE_FX_RISK:
+    minimum_score: 4.0
+    strong:
+    - foreign exchange risk
+    - interest rate risk
+    - market risk
+    - exchange rate risk
+    - currency risk
+    normal:
+    - bond yield
+    - bond yields
+    - treasury bill
+    - treasury bills
+    - treasury bond
+    - treasury bonds
+    - exchange rate
+    - foreign exchange
+    - forex
+    - policy rate
+    - interest rate
+    - yield curve
+  OPERATIONAL_RISK:
+    minimum_score: 4.0
+    strong:
+    - operational risk
+    - operational resilience
+    - business continuity
+    - disaster recovery
+    - service disruption
+    - system outage
+    - process failure
+    - iso 22301
+    normal:
+    - internal control
+    - control failure
+    - service resilience
+    - operational failure
+    - outsourcing risk
+  CYBER_RISK:
+    minimum_score: 4.0
+    strong:
+    - cyber risk
+    - cyber attack
+    - cyberattack
+    - data breach
+    - ransomware
+    - phishing
+    - malware
+    - information security
+    normal:
+    - cybersecurity
+    - cyber security
+    - digital security
+    - security breach
+  FRAUD_FINANCIAL_CRIME:
+    minimum_score: 4.0
+    strong:
+    - fraud
+    - financial crime
+    - misappropriation
+    - embezzlement
+    - forgery
+    - fraudulent
+    normal:
+    - scam
+    - unauthorised transaction
+    - unauthorized transaction
+    - identity theft
+    - false documents
+  AML_CFT_SANCTIONS:
+    minimum_score: 4.0
+    strong:
+    - money laundering
+    - terrorist financing
+    - aml
+    - cft
+    - aml cft
+    - anti money laundering
+    - anti-money laundering
+    - fatf
+    - sanctions
+    normal:
+    - know your customer
+    - kyc
+    - suspicious transaction
+    - customer due diligence
+    - beneficial ownership
+  GOVERNANCE_CONDUCT:
+    minimum_score: 4.0
+    strong:
+    - corporate governance
+    - governance failure
+    - fit and proper
+    - related party transaction
+    - conduct risk
+    normal:
+    - board of directors
+    - board appointment
+    - director appointment
+    - chief executive officer
+    - ceo appointment
+    - governance
+    - senior management
+  REGULATORY_PRUDENTIAL_ACTION:
+    minimum_score: 5.0
+    strong:
+    - prudential regulation
+    - prudential requirement
+    - regulatory action
+    - supervisory action
+    - central bank directive
+    - central bank direction
+    - bank resolution
+    - licence revoked
+    - license revoked
+    - moratorium
+    normal:
+    - banking regulation
+    - financial regulation
+    - prudential
+    - supervision
+    - supervisory
+    - central bank directive
+    - central bank direction
+    - compliance requirement
+  PAYMENTS_DIGITAL_FINANCE:
+    minimum_score: 4.0
+    strong:
+    - digital finance
+    - digital banking
+    - mobile banking
+    - online banking
+    - payment system
+    - payment systems
+    - lankaqr
+    - fintech
+    normal:
+    - qr payment
+    - digital wallet
+    - mobile wallet
+    - banking app
+    - internet banking
+    - card payments
+    - digital lending
+  OWNERSHIP_MA_RESTRUCTURING:
+    minimum_score: 5.0
+    strong:
+    - merger
+    - takeover
+    - change of control
+    - ownership change
+    - acquisition of shares
+    - acquisition of stake
+    - bank restructuring
+    - financial institution restructuring
+    - corporate restructuring
+    normal:
+    - stake
+    - shareholding
+    - shareholder
+    - ownership
+    - divestment
+    - strategic investor
+  MACRO_FINANCIAL_SYSTEMIC:
+    minimum_score: 2.0
+    strong:
+    - financial stability
+    - systemic risk
+    - macroprudential
+    - macro prudential
+    - financial system stability
+    - banking sector stability
+    normal:
+    - imf
+    - inflation
+    - gdp
+    - economic growth
+    - foreign reserves
+    - external debt
+    - debt restructuring
+    - monetary policy
+    - fiscal policy
+    - budget
+    - financial sector
+  OTHER_SUPERVISORY:
+    minimum_score: 0.0
+    strong: []
+    normal: []

@@ -1,0 +1,91 @@
+version: generic-source-v1
+sources:
+  newsfirst:
+    name: NewsFirst
+    section_name: Multi-section
+    listing_url: https://english.newsfirst.lk/business
+    enabled: true
+    status: ACTIVE
+    listing_prefer_browser: false
+    article_prefer_browser: false
+    article_url_patterns:
+    - ^https://english\.newsfirst\.lk/20\d{2}/\d{2}/\d{2}/.+
+    exclude_url_patterns:
+    - /business/?$
+    - /corporate-brief
+    minimum_article_words: 80
+    date_regexes:
+    - (\d{2}-\d{2}-20\d{2}\s*\|\s*\d{1,2}:\d{2}\s*[AP]M)
+    browser_retry_on_invalid: true
+    production_approved: true
+    listing_urls:
+    - name: LatestPaginated
+      url: https://english.newsfirst.lk/latest
+      listing_prefer_browser: true
+      pagination_click_pages: 8
+    - name: Local
+      url: https://english.newsfirst.lk/local
+      listing_prefer_browser: false
+    - name: World
+      url: https://english.newsfirst.lk/world
+      listing_prefer_browser: false
+    - name: Business
+      url: https://english.newsfirst.lk/business
+      listing_prefer_browser: false
+    - name: Homepage
+      url: https://english.newsfirst.lk/
+      listing_prefer_browser: false
+  the_morning:
+    name: The Morning
+    section_name: Business
+    listing_url: https://www.themorning.lk/categories/business
+    enabled: true
+    status: ACTIVE
+    listing_prefer_browser: true
+    article_prefer_browser: false
+    article_url_patterns:
+    - ^https://www\.themorning\.lk/articles/[A-Za-z0-9]+
+    exclude_url_patterns:
+    - /categories/
+    - /archives
+    minimum_article_words: 80
+    date_regexes:
+    - (\d{1,2}\s+[A-Za-z]{3}\s+20\d{2})
+    browser_retry_on_invalid: true
+    production_approved: true
+    listing_urls:
+    - name: Business
+      url: https://www.themorning.lk/categories/business
+      listing_prefer_browser: true
+    - name: Homepage
+      url: https://www.themorning.lk/
+      listing_prefer_browser: true
+  daily_news:
+    name: Daily News
+    section_name: Multi-section
+    listing_url: https://dailynews.lk/category/business/
+    enabled: true
+    status: ACTIVE
+    listing_prefer_browser: true
+    article_prefer_browser: true
+    article_url_patterns:
+    - ^https://(?:www\.)?dailynews\.lk/20\d{2}/\d{2}/\d{2}/.+
+    exclude_url_patterns:
+    - /category/
+    - /author/
+    - /tag/
+    minimum_article_words: 80
+    date_regexes:
+    - ([A-Za-z]{3,9}\s+\d{1,2},\s+20\d{2}(?:\s+\d{1,2}:\d{2}\s*[AP]M)?)
+    browser_retry_on_invalid: true
+    production_approved: true
+    listing_urls:
+    - name: Business
+      url: https://dailynews.lk/category/business/
+      listing_prefer_browser: true
+    - name: Local
+      url: https://dailynews.lk/category/local/
+      listing_prefer_browser: true
+    - name: Homepage
+      url: https://dailynews.lk/
+      listing_prefer_browser: true

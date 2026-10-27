@@ -1,0 +1,269 @@
+version: "cbsl-bank-entities-2026-05-31"
+as_of: "2026-05-31"
+
+sources:
+  licensed_commercial_banks:
+    url: "https://www.cbsl.gov.lk/authorized-financial-institutions/licensed-commercial-banks"
+
+  licensed_specialised_banks:
+    url: "https://www.cbsl.gov.lk/authorized-financial-institutions/licensed-specialised-banks"
+
+policy:
+  authoritative_helper_only: true
+  hard_filter: false
+
+  notes:
+    - "CBSL licensed-bank lists are used as high-confidence entity seeds."
+    - "An article is never excluded simply because an entity is absent from this registry."
+    - "Non-bank entities, foreign institutions, regulators, finance companies, insurers, markets and newly observed organisations remain eligible."
+
+institutions:
+
+  # ==========================================================
+  # LICENSED COMMERCIAL BANKS
+  # ==========================================================
+
+  - canonical_name: "Amana Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Amana Bank"
+      - "Amana"
+
+  - canonical_name: "Bank of Ceylon"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Bank of Ceylon"
+      - "BOC"
+
+  - canonical_name: "Bank of China Limited"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Bank of China"
+      - "Bank of China Limited"
+
+  - canonical_name: "Cargills Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Cargills Bank"
+
+  - canonical_name: "Citibank, N.A."
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Citibank"
+      - "Citi Bank"
+      - "Citi"
+
+  - canonical_name: "Commercial Bank of Ceylon PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Commercial Bank of Ceylon"
+      - "Commercial Bank"
+      - "ComBank"
+
+  - canonical_name: "Deutsche Bank AG, Colombo Branch"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Deutsche Bank"
+      - "Deutsche Bank Colombo"
+
+  - canonical_name: "DFCC Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "DFCC Bank"
+      - "DFCC"
+
+  - canonical_name: "Habib Bank Ltd"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Habib Bank"
+      - "HBL"
+
+  - canonical_name: "Hatton National Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Hatton National Bank"
+      - "HNB"
+
+  - canonical_name: "Indian Bank"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Indian Bank"
+
+  - canonical_name: "Indian Overseas Bank"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Indian Overseas Bank"
+      - "IOB"
+
+  - canonical_name: "MCB Bank Ltd"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "MCB Bank"
+      - "MCB"
+
+  - canonical_name: "National Development Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "National Development Bank"
+      - "NDB Bank"
+      - "NDB"
+
+  - canonical_name: "Nations Trust Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Nations Trust Bank"
+      - "NTB"
+
+  - canonical_name: "Pan Asia Banking Corporation PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Pan Asia Banking Corporation"
+      - "Pan Asia Bank"
+      - "PABC"
+
+  - canonical_name: "People's Bank"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "People's Bank"
+      - "Peoples Bank"
+
+  - canonical_name: "Public Bank Berhad"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Public Bank Berhad"
+      - "Public Bank"
+
+  - canonical_name: "Sampath Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Sampath Bank"
+      - "Sampath"
+
+  - canonical_name: "Seylan Bank PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Seylan Bank"
+      - "Seylan"
+
+  - canonical_name: "Standard Chartered Bank"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Standard Chartered Bank"
+      - "Standard Chartered"
+      - "SCB"
+
+  - canonical_name: "State Bank of India"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "State Bank of India"
+      - "SBI"
+
+  - canonical_name: "The Hongkong & Shanghai Banking Corporation Ltd (HSBC)"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "HSBC"
+      - "Hongkong and Shanghai Banking Corporation"
+      - "Hongkong & Shanghai Banking Corporation"
+
+  - canonical_name: "Union Bank of Colombo PLC"
+    institution_type: "LICENSED_COMMERCIAL_BANK"
+    aliases:
+      - "Union Bank of Colombo"
+      - "Union Bank"
+
+  # ==========================================================
+  # LICENSED SPECIALISED BANKS
+  # ==========================================================
+
+  - canonical_name: "Housing Development Finance Corporation Bank of Sri Lanka"
+    institution_type: "LICENSED_SPECIALISED_BANK"
+    aliases:
+      - "Housing Development Finance Corporation Bank of Sri Lanka"
+      - "HDFC Bank Sri Lanka"
+      - "HDFC"
+
+  - canonical_name: "National Savings Bank"
+    institution_type: "LICENSED_SPECIALISED_BANK"
+    aliases:
+      - "National Savings Bank"
+      - "NSB"
+
+  - canonical_name: "Pradeshiya Sanwardhana Bank"
+    institution_type: "LICENSED_SPECIALISED_BANK"
+    aliases:
+      - "Pradeshiya Sanwardhana Bank"
+      - "Regional Development Bank"
+      - "RDB"
+
+  - canonical_name: "Sanasa Development Bank PLC"
+    institution_type: "LICENSED_SPECIALISED_BANK"
+    aliases:
+      - "Sanasa Development Bank"
+      - "SDB Bank"
+      - "SDB"
+
+  - canonical_name: "Sri Lanka Savings Bank Ltd"
+    institution_type: "LICENSED_SPECIALISED_BANK"
+    aliases:
+      - "Sri Lanka Savings Bank"
+      - "SLBS"
+
+    notes:
+      - "CBSL page notes an ongoing merger with NSB as at 31 May 2026."
+
+  - canonical_name: "State Mortgage & Investment Bank"
+    institution_type: "LICENSED_SPECIALISED_BANK"
+    aliases:
+      - "State Mortgage & Investment Bank"
+      - "State Mortgage and Investment Bank"
+      - "SMIB"
+
+
+# ============================================================
+# ADDITIONAL HIGH-CONFIDENCE FINANCIAL-SYSTEM ENTITIES
+#
+# These are helpers only.
+# They do NOT define the complete entity universe.
+# ============================================================
+
+additional_entities:
+
+  - canonical_name: "Central Bank of Sri Lanka"
+    institution_type: "REGULATOR"
+    aliases:
+      - "Central Bank of Sri Lanka"
+      - "CBSL"
+      - "Central Bank"
+
+  - canonical_name: "Financial Intelligence Unit of Sri Lanka"
+    institution_type: "REGULATOR_UNIT"
+    aliases:
+      - "Financial Intelligence Unit"
+      - "FIU Sri Lanka"
+      - "FIU"
+
+  - canonical_name: "Colombo Stock Exchange"
+    institution_type: "MARKET_INFRASTRUCTURE"
+    aliases:
+      - "Colombo Stock Exchange"
+      - "CSE"
+
+  - canonical_name: "Credit Information Bureau of Sri Lanka"
+    institution_type: "MARKET_INFRASTRUCTURE"
+    aliases:
+      - "Credit Information Bureau"
+      - "CRIB"
+
+  - canonical_name: "LankaPay"
+    institution_type: "PAYMENT_INFRASTRUCTURE"
+    aliases:
+      - "LankaPay"
+  - canonical_name: "Merchant Bank of Sri Lanka & Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Merchant Bank of Sri Lanka & Finance PLC"
+      - "Merchant Bank of Sri Lanka and Finance PLC"
+      - "Merchant Bank of Sri Lanka"
+      - "MBSL"
+    notes:
+      - "High-confidence licensed finance-company entity used for supervisory news matching."

@@ -6,7 +6,10 @@ from datetime import datetime
 import json
 from pathlib import Path
 import re
+import shutil
 from zoneinfo import ZoneInfo
+
+import yaml
 
 from bank_intel.intelligence.stage1_gate import (
     analyse_stage1,
@@ -51,13 +54,118 @@ SRI_LANKA_TZ = ZoneInfo(
 # ============================================================
 # ACTIVE INGESTION SOURCES
 #
-# Future sources can simply be added here when activated.
+# Keep source activation in one place: config/sources/registry.yaml.
+# Stage 1 reads the same enabled + ACTIVE source set as the master
+# collection runner.
 # ============================================================
 
-ACTIVE_SOURCE_FOLDERS = [
-    "daily_ft",
-    "ceylon_today",
-]
+REGISTRY_FILE = (
+    PROJECT_ROOT
+    / "config"
+    / "sources"
+    / "registry.yaml"
+)
+
+
+def load_active_source_folders() -> list[str]:
+    """
+    Return sources that are both:
+
+        enabled: true
+        production_status: ACTIVE
+
+    This prevents Stage 1 from maintaining a second hardcoded list
+    that can drift away from the master collector configuration.
+    """
+
+    if not REGISTRY_FILE.exists():
+
+        raise FileNotFoundError(
+            "Source registry does not exist:\n"
+            f"{REGISTRY_FILE}"
+        )
+
+    with REGISTRY_FILE.open(
+        "r",
+        encoding="utf-8",
+    ) as file:
+
+        data = yaml.safe_load(
+            file
+        )
+
+    if not isinstance(
+        data,
+        dict,
+    ):
+
+        raise ValueError(
+            "registry.yaml must contain a mapping."
+        )
+
+    sources = data.get(
+        "sources"
+    )
+
+    if not isinstance(
+        sources,
+        dict,
+    ):
+
+        raise ValueError(
+            "registry.yaml must contain "
+            "a 'sources' mapping."
+        )
+
+    active_sources = []
+
+    for (
+        source_key,
+        config,
+    ) in sources.items():
+
+        if not isinstance(
+            config,
+            dict,
+        ):
+
+            continue
+
+        enabled = bool(
+            config.get(
+                "enabled",
+                False,
+            )
+        )
+
+        production_status = (
+            str(
+                config.get(
+                    "production_status",
+                    "",
+                )
+            )
+            .upper()
+        )
+
+        if (
+            enabled
+            and production_status
+            == "ACTIVE"
+        ):
+
+            active_sources.append(
+                str(
+                    source_key
+                )
+            )
+
+    return active_sources
+
+
+ACTIVE_SOURCE_FOLDERS = (
+    load_active_source_folders()
+)
 
 
 # ============================================================
@@ -222,78 +330,94 @@ def path_date(
 # ============================================================
 
 
+# NEWS_STAGE1_BOUNDED_LATE_DISCOVERY_V3
 def matches_target_date(
     *,
     path: Path,
     payload: dict,
     target_date: str,
-) -> tuple[
-    bool,
-    str | None,
-]:
+) -> tuple[bool, str | None]:
     """
-    Determine whether an article belongs in this Stage-1 run.
+    Decide whether a staged article belongs in this intelligence run.
 
-    Priority evidence:
+    Normal authority:
+        - published_at == target_date
 
-        collection_run_date
-        path date
-        published_at
-
-    We deliberately support old files created before
-    collection_run_date existed.
+    Production late-arrival exception:
+        - article was first collected on target_date
+        - actual publication date is before target_date
+        - publication is inside the bounded lookback:
+              normal day: previous day only
+              Monday: Friday-Sunday
+        - explicit intake_status=LATE_DISCOVERY, OR
+          legacy v1 evidence shows first stored version collected today.
     """
+    article_pub_date = published_date(payload)
 
-    collection_date = payload.get(
-        "collection_run_date"
-    )
+    if article_pub_date is not None:
+        if article_pub_date == target_date:
+            return True, "published_at"
 
-    if (
-        collection_date
-        and str(
-            collection_date
-        ) == target_date
-    ):
+        try:
+            target_day = datetime.strptime(target_date, "%Y-%m-%d").date()
+            published_day = datetime.strptime(
+                article_pub_date,
+                "%Y-%m-%d",
+            ).date()
+        except (TypeError, ValueError):
+            return False, None
 
-        return (
-            True,
-            "collection_run_date",
-        )
+        collection_date = str(
+            payload.get("collection_run_date") or ""
+        ).strip()
 
-    file_date = path_date(
-        path
-    )
+        if collection_date == target_date and published_day < target_day:
+            lookback_days = 3 if target_day.weekday() == 0 else 1
+            age_days = (target_day - published_day).days
 
-    if (
-        file_date
-        == target_date
-    ):
+            if 1 <= age_days <= lookback_days:
+                intake_status = str(
+                    payload.get("intake_status") or ""
+                ).strip().upper()
+                collection_status = str(
+                    payload.get("collection_status") or ""
+                ).strip().upper()
 
-        return (
-            True,
-            "path_date",
-        )
+                try:
+                    article_version = int(
+                        payload.get("article_version", 0) or 0
+                    )
+                except (TypeError, ValueError):
+                    article_version = 0
 
-    article_pub_date = (
-        published_date(
-            payload
-        )
-    )
+                # First-time generic articles also qualify as late discoveries.
+                explicit_late = (
+                    intake_status == "LATE_DISCOVERY"
+                    or (intake_status == "NEW_ARTICLE" and article_version == 1)
+                )
 
-    if (
-        article_pub_date
-        == target_date
-    ):
+                legacy_first_collection = (
+                    not intake_status
+                    and article_version == 1
+                    and collection_status in {"", "NEW"}
+                )
 
-        return (
-            True,
-            "published_at",
-        )
+                if explicit_late or legacy_first_collection:
+                    return True, "late_discovery"
 
-    return (
-        False,
-        None,
-    )
+        return False, None
+
+    collection_date = payload.get("collection_run_date")
+
+    if collection_date and str(collection_date) == target_date:
+        return True, "collection_run_date_fallback"
+
+    file_date = path_date(path)
+
+    if file_date == target_date:
+        return True, "path_date_fallback"
+
+    return False, None
 
 
 # ============================================================
@@ -383,9 +507,10 @@ def find_latest_article_files(
     source_counts = {}
 
     match_methods = {
-        "collection_run_date": 0,
-        "path_date": 0,
         "published_at": 0,
+        "late_discovery": 0,
+        "collection_run_date_fallback": 0,
+        "path_date_fallback": 0,
     }
 
     load_failures = 0
@@ -625,6 +750,17 @@ def find_latest_article_files(
 def find_available_dates() -> dict:
     """
     Helpful diagnostic when the requested date has no files.
+
+    Reports ONE effective date per article.
+
+    Priority:
+
+        1. published_at
+        2. collection_run_date fallback
+        3. path date fallback
+
+    This prevents the same article being counted under both its
+    storage date and its real publication date.
     """
 
     dates = {}
@@ -662,56 +798,60 @@ def find_available_dates() -> dict:
 
                 continue
 
-            candidates = set()
+            # =================================================
+            # AUTHORITATIVE: PUBLISHED_AT
+            # =================================================
 
-            collection_date = (
-                payload.get(
-                    "collection_run_date"
+            effective_date = (
+                published_date(
+                    payload
                 )
             )
 
-            if (
-                collection_date
-                and DATE_PATTERN.match(
-                    str(
-                        collection_date
+            # =================================================
+            # FALLBACK 1: COLLECTION DATE
+            # =================================================
+
+            if effective_date is None:
+
+                collection_date = (
+                    payload.get(
+                        "collection_run_date"
                     )
                 )
-            ):
 
-                candidates.add(
-                    str(
+                if (
+                    collection_date
+                    and DATE_PATTERN.match(
+                        str(
+                            collection_date
+                        )
+                    )
+                ):
+
+                    effective_date = str(
                         collection_date
+                    )
+
+            # =================================================
+            # FALLBACK 2: PATH DATE
+            # =================================================
+
+            if effective_date is None:
+
+                effective_date = (
+                    path_date(
+                        path
                     )
                 )
 
-            file_date = path_date(
-                path
-            )
-
-            if file_date:
-
-                candidates.add(
-                    file_date
-                )
-
-            pub_date = published_date(
-                payload
-            )
-
-            if pub_date:
-
-                candidates.add(
-                    pub_date
-                )
-
-            for value in candidates:
+            if effective_date:
 
                 source_dates[
-                    value
+                    effective_date
                 ] = (
                     source_dates.get(
-                        value,
+                        effective_date,
                         0,
                     )
                     + 1
@@ -726,6 +866,7 @@ def find_available_dates() -> dict:
         )
 
     return dates
+
 
 
 # ============================================================
@@ -772,6 +913,8 @@ def article_id_from_path(
         not in {
             "daily_ft",
             "ceylon_today",
+            "daily_mirror",
+            "island",
         }
         and not DATE_PATTERN.match(
             path.parent.name
@@ -797,6 +940,169 @@ def article_id_from_path(
         "_",
         path.stem,
     )
+
+
+# ============================================================
+# STAGE-1 OUTPUT MANAGEMENT
+# ============================================================
+
+
+def stage1_date_root(
+    run_date: str,
+) -> Path:
+
+    return (
+        PROCESSED_ROOT
+        / run_date
+    )
+
+
+def reset_stage1_output(
+    run_date: str,
+) -> Path:
+    """
+    Rebuild one publication-date Stage-1 directory from scratch.
+
+    This prevents stale JSON files from older date-selection
+    logic or previous runs remaining inside the current output
+    directory.
+
+    Human review CSV files are stored separately under
+    data/review and are therefore not deleted here.
+    """
+
+    root = (
+        stage1_date_root(
+            run_date
+        )
+    )
+
+    if root.exists():
+
+        shutil.rmtree(
+            root
+        )
+
+    root.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    return root
+
+
+def write_stage1_manifest(
+    *,
+    run_date: str,
+    rules_version: str | None,
+    discovery_diagnostics: dict,
+    analysis_paths: list[Path],
+    failed_count: int,
+) -> Path:
+    """
+    Write the authoritative list of Stage-1 analysis files.
+
+    Downstream ML must read this manifest instead of blindly
+    scanning every JSON file under the date directory.
+    """
+
+    root = (
+        stage1_date_root(
+            run_date
+        )
+    )
+
+    root.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    status = (
+        "SUCCESS"
+        if failed_count == 0
+        else "PARTIAL_FAILURE"
+    )
+
+    analysis_files = []
+
+    for path in (
+        analysis_paths
+    ):
+
+        try:
+
+            value = str(
+                path.relative_to(
+                    PROJECT_ROOT
+                )
+            )
+
+        except ValueError:
+
+            value = str(
+                path
+            )
+
+        analysis_files.append(
+            value
+        )
+
+    payload = {
+        "manifest_version": 1,
+
+        "created_at": (
+            datetime.now(
+                SRI_LANKA_TZ
+            )
+            .isoformat()
+        ),
+
+        "publication_date": (
+            run_date
+        ),
+
+        "status": (
+            status
+        ),
+
+        "rules_version": (
+            rules_version
+        ),
+
+        "article_count": (
+            len(
+                analysis_files
+            )
+        ),
+
+        "failed_count": (
+            failed_count
+        ),
+
+        "analysis_files": (
+            analysis_files
+        ),
+
+        "discovery_diagnostics": (
+            discovery_diagnostics
+        ),
+    }
+
+    path = (
+        root
+        / "stage1_manifest.json"
+    )
+
+    path.write_text(
+        json.dumps(
+            payload,
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    return path
 
 
 # ============================================================
@@ -962,6 +1268,97 @@ def save_analysis(
 
 
 # ============================================================
+# EXISTING HUMAN REVIEW ANNOTATIONS
+# ============================================================
+
+
+def load_existing_review_annotations(
+    review_path: Path,
+) -> dict[
+    str,
+    dict[
+        str,
+        str,
+    ],
+]:
+    """
+    Preserve analyst-entered labels across scheduled re-runs.
+
+    The scheduler may analyse the same publication date several
+    times during the day so that late-discovered articles can be
+    included.
+
+    Re-running Stage-1 must therefore NOT erase:
+
+        human_label
+        review_notes
+    """
+
+    if not review_path.exists():
+
+        return {}
+
+    annotations = {}
+
+    try:
+
+        with review_path.open(
+            "r",
+            newline="",
+            encoding="utf-8-sig",
+        ) as file:
+
+            reader = csv.DictReader(
+                file
+            )
+
+            for row in reader:
+
+                source_url = str(
+                    row.get(
+                        "source_url",
+                        "",
+                    )
+                    or ""
+                ).strip()
+
+                if not source_url:
+
+                    continue
+
+                annotations[
+                    source_url
+                ] = {
+                    "human_label": str(
+                        row.get(
+                            "human_label",
+                            "",
+                        )
+                        or ""
+                    ),
+
+                    "review_notes": str(
+                        row.get(
+                            "review_notes",
+                            "",
+                        )
+                        or ""
+                    ),
+                }
+
+    except Exception:
+
+        # Review preservation should never stop Stage-1 itself.
+        #
+        # If an old/manual review file is malformed we continue
+        # with empty annotations and let the main run complete.
+
+        return {}
+
+    return annotations
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -978,9 +1375,10 @@ def main() -> None:
     parser.add_argument(
         "--date",
         help=(
-            "Target date YYYY-MM-DD. "
-            "Matches collection date, staged path date, "
-            "or publication date."
+            "Target publication date YYYY-MM-DD. "
+            "published_at is authoritative; collection "
+            "date and staged path date are legacy "
+            "fallbacks only."
         ),
     )
 
@@ -1047,7 +1445,7 @@ def main() -> None:
     print("=" * 80)
 
     print(
-        f"Target date       : "
+        f"Publication date  : "
         f"{run_date}"
     )
 
@@ -1111,20 +1509,48 @@ def main() -> None:
         )
 
     # ========================================================
+    # REBUILD OUTPUT DIRECTORY
+    #
+    # This must happen before the empty-result branch so stale
+    # files are removed even when the authoritative result for
+    # the requested publication date is now zero articles.
+    # ========================================================
+
+    reset_stage1_output(
+        run_date
+    )
+
+    # ========================================================
     # NOTHING FOUND
     # ========================================================
 
     if not article_files:
 
-        print()
-        print(
-            "No staged articles matched "
-            "the requested date."
+        manifest_path = (
+            write_stage1_manifest(
+                run_date=run_date,
+                rules_version=(
+                    config.get(
+                        "version"
+                    )
+                ),
+                discovery_diagnostics=(
+                    discovery_diagnostics
+                ),
+                analysis_paths=[],
+                failed_count=0,
+            )
         )
 
         print()
         print(
-            "Available staged dates:"
+            "No staged articles matched "
+            "the requested publication date."
+        )
+
+        print()
+        print(
+            "Available effective publication dates:"
         )
 
         available_dates = (
@@ -1172,6 +1598,13 @@ def main() -> None:
                 "exist under data/staged."
             )
 
+        print()
+
+        print(
+            f"Stage-1 manifest:\n"
+            f"{manifest_path}"
+        )
+
         return
 
     # ========================================================
@@ -1191,7 +1624,15 @@ def main() -> None:
         )
     )
 
+    existing_annotations = (
+        load_existing_review_annotations(
+            review_path
+        )
+    )
+
     review_rows = []
+
+    analysis_paths = []
 
     include_count = 0
 
@@ -1285,6 +1726,10 @@ def main() -> None:
                 )
             )
 
+            analysis_paths.append(
+                output_path
+            )
+
             # ================================================
             # COUNTERS
             # ================================================
@@ -1352,6 +1797,13 @@ def main() -> None:
                         terms
                     )
                 )
+
+            previous_review = (
+                existing_annotations.get(
+                    source_url,
+                    {},
+                )
+            )
 
             review_rows.append(
                 {
@@ -1432,9 +1884,19 @@ def main() -> None:
                     # HUMAN SUPERVISORY LABEL
                     # ----------------------------------------
 
-                    "human_label": "",
+                    "human_label": (
+                        previous_review.get(
+                            "human_label",
+                            "",
+                        )
+                    ),
 
-                    "review_notes": "",
+                    "review_notes": (
+                        previous_review.get(
+                            "review_notes",
+                            "",
+                        )
+                    ),
 
                     "analysis_file": (
                         str(
@@ -1556,6 +2018,30 @@ def main() -> None:
         )
 
     # ========================================================
+    # AUTHORITATIVE STAGE-1 MANIFEST
+    # ========================================================
+
+    manifest_path = (
+        write_stage1_manifest(
+            run_date=run_date,
+            rules_version=(
+                config.get(
+                    "version"
+                )
+            ),
+            discovery_diagnostics=(
+                discovery_diagnostics
+            ),
+            analysis_paths=(
+                analysis_paths
+            ),
+            failed_count=(
+                failed_count
+            ),
+        )
+    )
+
+    # ========================================================
     # SUMMARY
     # ========================================================
 
@@ -1606,6 +2092,21 @@ def main() -> None:
         f"Analysis JSON root:\n"
         f"{PROCESSED_ROOT / run_date}"
     )
+
+    print()
+
+    print(
+        f"Stage-1 manifest:\n"
+        f"{manifest_path}"
+    )
+
+    # Scheduler contract:
+    # Stage-1 cannot be reported as successful when one or more
+    # selected articles failed to analyse.
+
+    if failed_count > 0:
+
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

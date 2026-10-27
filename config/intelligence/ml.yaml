@@ -1,0 +1,267 @@
+version: "ml-v0.3.0"
+
+# ============================================================
+# BASE FINBERT
+# ============================================================
+#
+# Base ProsusAI/finbert is retained for:
+#   - finance-domain sentiment
+#   - finance-domain embeddings used by similarity/clustering
+#
+# Historical inference is offline/local-cache only.
+# ============================================================
+
+finbert:
+  model_name: "ProsusAI/finbert"
+  max_length: 512
+  stride: 96
+  batch_size: 8
+  headline_weight: 0.35
+  body_weight: 0.65
+  device: "auto"
+  local_files_only: true
+  use_safetensors: false
+
+
+# ============================================================
+# FROZEN TWO-STAGE SUPERVISORY RELEVANCE
+# ============================================================
+#
+# Stage A is the operational ML relevance filter:
+#   NOISE vs KEEP
+#
+# Stage B runs only when Stage A predicts KEEP:
+#   WATCH vs RELEVANT
+#
+# Stage B is AUXILIARY ONLY. It must never automatically
+# discard, promote, or override Stage A.
+# ============================================================
+
+supervisory_relevance:
+  architecture: "TWO_STAGE"
+
+  stage_a:
+    enabled: true
+    required: true
+    frozen: true
+
+    model_id: "stage_a_v7_augmented_epoch4"
+
+    model_path: "data/processed/relevance_two_stage/supervisory_relevance_v7_augmented_stage_a/finbert_lr1e-05_chunks5_sched5_seed42/best_model"
+
+    tokenizer_name: ""
+
+    label_order:
+      - "NOISE"
+      - "KEEP"
+
+    max_length: 512
+    stride: 96
+    batch_size: 8
+
+    headline_weight: 0.35
+    body_weight: 0.65
+
+    max_body_chunks: 5
+    chunk_weighting: "token_count"
+
+    device: "auto"
+
+    experiment_name: "finbert_lr1e-05_chunks5_sched5_seed42"
+    expected_best_epoch: 4
+    expected_validation_macro_f1: 0.9388
+
+    provenance_status: "AI_ASSISTED_PROVISIONAL"
+    production_role: "OPERATIONAL_RELEVANCE_FILTER"
+
+    automatic_gate: true
+
+  stage_b:
+    enabled: true
+    required: true
+    frozen: true
+
+    model_id: "stage_b_targeted_v5_watch_vs_relevant_epoch2"
+
+    model_path: "data/processed/relevance_two_stage/supervisory_relevance_v5_stage_b_targeted/stage_b_watch_vs_relevant/finbert_lr1e-05_chunks5_sched5_seed42/best_model"
+
+    tokenizer_name: ""
+
+    label_order:
+      - "WATCH"
+      - "RELEVANT"
+
+    max_length: 512
+    stride: 96
+    batch_size: 8
+
+    headline_weight: 0.35
+    body_weight: 0.65
+
+    max_body_chunks: 5
+    chunk_weighting: "token_count"
+
+    device: "auto"
+
+    experiment_name: "finbert_lr1e-05_chunks5_sched5_seed42"
+    expected_best_epoch: 2
+    expected_validation_macro_f1: 0.6905
+
+    provenance_status: "AI_ASSISTED_PROVISIONAL"
+    production_role: "AUXILIARY_REVIEW_SIGNAL"
+
+    run_when_stage_a_label: "KEEP"
+    automatic_gate: false
+
+  policy:
+    stage_a_operational_filter: true
+    stage_b_run_only_on_stage_a_keep: true
+    stage_b_auxiliary_only: true
+    stage_b_may_override_stage_a: false
+    stage_b_may_auto_discard: false
+    stage_b_may_auto_promote: false
+
+  governance:
+    frozen_after_model_selection: true
+    production_inference_static_parity: "PASS"
+    production_inference_numerical_parity: "PASS"
+    numerical_parity_max_probability_abs_diff: 0.0
+
+    stage_a_final_test:
+      rows: 35
+      accuracy: 0.8571
+      balanced_accuracy: 0.8487
+      macro_f1: 0.8528
+      keep_precision: 0.9231
+      keep_recall: 0.7500
+      keep_f1: 0.8276
+
+    stage_b_final_test:
+      rows: 16
+      accuracy: 0.6250
+      balanced_accuracy: 0.4545
+      macro_f1: 0.3846
+      relevant_precision: 0.0
+      relevant_recall: 0.0
+      relevant_f1: 0.0
+
+    stage_b_test_interpretation:
+      - "TARGETED_V5 remains the frozen selected candidate."
+      - "Stage B is not reliable enough to act as an automatic production gate."
+      - "Stage B output is retained only for analyst review and ranking."
+
+
+# ============================================================
+# EMBEDDINGS
+# ============================================================
+
+embeddings:
+  normalize: true
+  dtype: "float32"
+
+
+# ============================================================
+# SIMILARITY
+# ============================================================
+
+similarity:
+  top_related_pairs: 250
+  related_min_cosine_similarity: 0.88
+  same_event_min_cosine_similarity: 0.94
+  near_duplicate_min_cosine_similarity: 0.96
+  same_event_max_date_gap_days: 3
+  same_event_min_headline_jaccard: 0.30
+  near_duplicate_min_headline_jaccard: 0.55
+
+
+# ============================================================
+# CLUSTERING
+# ============================================================
+
+clustering:
+  enabled: true
+  minimum_articles: 12
+
+  dimensionality_reduction:
+    method: "pca"
+    max_components: 50
+
+  hdbscan:
+    enabled: true
+    min_cluster_size: 3
+    min_samples: null
+    cluster_selection_method: "eom"
+
+  kmeans_diagnostic:
+    enabled: true
+    min_k: 2
+    max_k: 12
+    random_state: 42
+
+
+# ============================================================
+# TRAINING / LABEL GOVERNANCE
+# ============================================================
+
+training:
+  relevance_labels:
+    - "RELEVANT"
+    - "WATCH"
+    - "NOISE"
+
+  stage1_is_gold_label: false
+
+  minimum_labeled_examples_for_first_finetune: 100
+  recommended_initial_label_target: 300
+
+
+# ============================================================
+# SUPERVISORY TAXONOMY
+# ============================================================
+
+taxonomy:
+  supervisory_topics:
+    - "CREDIT_RISK"
+    - "ASSET_QUALITY_NPL_STAGE3"
+    - "LIQUIDITY_FUNDING"
+    - "CAPITAL_SOLVENCY"
+    - "PROFITABILITY_FINANCIAL_CONDITION"
+    - "MARKET_RATE_FX_RISK"
+    - "OPERATIONAL_RISK"
+    - "CYBER_RISK"
+    - "FRAUD_FINANCIAL_CRIME"
+    - "AML_CFT_SANCTIONS"
+    - "GOVERNANCE_CONDUCT"
+    - "REGULATORY_PRUDENTIAL_ACTION"
+    - "PAYMENTS_DIGITAL_FINANCE"
+    - "OWNERSHIP_MA_RESTRUCTURING"
+    - "MACRO_FINANCIAL_SYSTEMIC"
+    - "OTHER_SUPERVISORY"
+
+
+# ============================================================
+# CORPUS ANALYSIS
+# ============================================================
+
+corpus_analysis:
+  default_days: 30
+  notes:
+    - "Base FinBERT inference uses locally cached PyTorch weights."
+    - "Historical ML inference runs without Hugging Face network access."
+    - "Stage A is the frozen operational NOISE-vs-KEEP relevance filter."
+    - "Stage B is the frozen TARGETED_V5 WATCH-vs-RELEVANT auxiliary review signal."
+    - "Stage B runs only for Stage-A KEEP articles."
+    - "Stage B never automatically discards, promotes, or overrides Stage A."
+    - "Stage-1 remains an independent rule-based signal."
+    - "Stage-1/model disagreements are retained for review and active learning."
+    - "Similarity and topic clustering use the base FinBERT embeddings."
+    - "Similarity and topic clustering are evaluated over a rolling multi-day corpus."
+
+
+# ============================================================
+# CLUSTER PROFILING
+# ============================================================
+
+cluster_profiling:
+  top_headline_terms: 12
+  representative_articles: 5

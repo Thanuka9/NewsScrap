@@ -1,0 +1,122 @@
+version: "review-v0.2.0"
+
+labels:
+  relevance:
+    - RELEVANT
+    - WATCH
+    - NOISE
+
+  supervisory_topics:
+    - CREDIT_RISK
+    - ASSET_QUALITY_NPL_STAGE3
+    - LIQUIDITY_FUNDING
+    - CAPITAL_SOLVENCY
+    - PROFITABILITY_FINANCIAL_CONDITION
+    - MARKET_RATE_FX_RISK
+    - OPERATIONAL_RISK
+    - CYBER_RISK
+    - FRAUD_FINANCIAL_CRIME
+    - AML_CFT_SANCTIONS
+    - GOVERNANCE_CONDUCT
+    - REGULATORY_PRUDENTIAL_ACTION
+    - PAYMENTS_DIGITAL_FINANCE
+    - OWNERSHIP_MA_RESTRUCTURING
+    - MACRO_FINANCIAL_SYSTEMIC
+    - OTHER_SUPERVISORY
+    - NOT_APPLICABLE
+
+  review_status:
+    - DONE
+    - NEEDS_DISCUSSION
+
+selection:
+  default_target: 100
+
+  weights:
+    # HDBSCAN label -1 is a semantic outlier, not relevance NOISE.
+    hdbscan_outlier: 50
+
+    cluster_representative: 35
+
+    stage1_watch: 25
+    stage1_include: 10
+
+    # Frozen Stage-A operational filter.
+    stage_a_disagreement: 60
+    stage_a_noise_stage1_keep: 20
+    stage_a_low_confidence: 15
+
+    # Frozen TARGETED_V5 Stage B: auxiliary only.
+    stage_b_relevant_auxiliary: 15
+    stage_b_disagreement_auxiliary: 10
+    stage_b_low_confidence: 10
+
+    pr_relevance_conflict: 30
+    structural_topic_signal: 10
+    structural_stage1_exclude: 45
+    strong_financial_low_pr_signal: 15
+
+    story_continuation: 15
+    shared_event_context: 10
+    same_event_candidate: 5
+
+    low_sentiment_confidence: 5
+    primary_regulated_entity: 10
+
+  thresholds:
+    stage_a_low_confidence: 0.65
+    stage_b_low_confidence: 0.60
+
+    low_sentiment_confidence: 0.60
+    pr_score_conflict: 40
+    financial_score_conflict: 35
+    strong_financial_score: 80
+    strong_financial_max_pr_score: 39
+
+  structural_review_terms:
+    - stake
+    - shareholding
+    - shareholder
+    - ownership
+    - acquisition
+    - acquire
+    - merger
+    - capital
+    - subordinated debt
+    - debenture
+    - liquidity
+    - impairment
+    - impaired
+    - stage 3
+    - non-performing
+    - npl
+    - default
+    - downgrade
+    - rating
+    - fraud
+    - aml
+    - sanction
+    - governance
+    - director
+    - board
+    - regulatory
+    - central bank
+    - cbsl
+    - fitch
+    - moody
+    - s&p
+
+review:
+  article_preview_characters: 1200
+  preserve_annotations_on_rerun: true
+  topic_labels_are_multilabel: true
+  topic_label_separator: ";"
+
+  notes:
+    - "This queue is for analyst review/validation, not automatic retraining."
+    - "Stage A is the frozen operational NOISE-vs-KEEP filter."
+    - "Stage B TARGETED_V5 is an auxiliary review signal only."
+    - "HDBSCAN label -1 means semantic outlier, not supervisory/relevance NOISE."
+    - "Use human_relevance_label only when a human reviewer actually adjudicates the article."
+    - "Use semicolon-separated human_topic_labels when more than one supervisory topic applies."
+    - "For NOISE, use NOT_APPLICABLE unless a supervisory topic is intentionally retained for analysis."

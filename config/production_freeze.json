@@ -1,0 +1,55 @@
+﻿{
+    "freeze_version":  "news-production-freeze-v1",
+    "created_at":  "2026-10-13T11:53:06.2808157+05:30",
+    "project_root":  "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
+    "files":  [
+                  {
+                      "path":  "scripts\\run_pipeline.py",
+                      "sha256":  "C090E9D6A8A976D2149AB8253DE71B36D8594F6243AE2F8FA68FCA33D1C11F1F"
+                  },
+                  {
+                      "path":  "scripts\\run_collection.py",
+                      "sha256":  "2DA931D16B5AFE8152C4EE460B817DB56296A9913C26E4F022AB4405A7F06363"
+                  },
+                  {
+                      "path":  "scripts\\run_intelligence_stage1.py",
+                      "sha256":  "E3A9CD2A53048C62EA0CBE6F6EA2BB941187525E815507DD4FD9BE374BCC7B8A"
+                  },
+                  {
+                      "path":  "scripts\\run_intelligence_ml.py",
+                      "sha256":  "0CE21884F93A86F9F2AA378C045BAA3A0EC1F5CA47EE0ED0FED043CDF4009EE6"
+                  },
+                  {
+                      "path":  "scripts\\run_ml_corpus_analysis.py",
+                      "sha256":  "1833CC4F4B99593437A842F634D5FABB6F1728622B5BB515C6715951BE1EB104"
+                  },
+                  {
+                      "path":  "scripts\\run_supervisory_taxonomy.py",
+                      "sha256":  "524088B2EE78B32DF451D4BF72402D205CF37B31653DE9E1B189DCB01A74194C"
+                  },
+                  {
+                      "path":  "scripts\\build_supervisory_digest.py",
+                      "sha256":  "5F5228514EBBD53352F28DCFF0AEFDCF48DE0F47A99E1A0FC287BF1B4041A196"
+                  },
+                  {
+                      "path":  "scripts\\run_daily_ft.py",
+                      "sha256":  "F7473A0958944C82E3596AB338F2475846545784BD27D6B5E4E6DD65A54A01D6"
+                  },
+                  {
+                      "path":  "scripts\\run_ceylon_today.py",
+                      "sha256":  "C01F621E44246E8C0B7522A35290B8A7EE10EE7BAD5168A119EEF74A541ED7E1"
+                  },
+                  {
+                      "path":  "scripts\\run_daily_mirror.py",
+                      "sha256":  "10ADAF5AEFAAB65017501A8EE0EAA38372A9599364EA1E02B126F627E66A7F71"
+                  },
+                  {
+                      "path":  "scripts\\run_island.py",
+                      "sha256":  "EB30DEBC13BDAABB56059E42CBA3CE0C0F13D9DE72FAC44F76D5A9526C170107"
+                  },
+                  {
+                      "path":  "src\\bank_intel\\intelligence\\production_policy.py",
+                      "sha256":  "473672BEE2B93AF62F1C95FC38DA82DEB897FF01AC9411429255004413583AB9"
+                  }
+              ]
+}

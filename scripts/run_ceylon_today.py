@@ -7,6 +7,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from bank_intel.collectors.http_client import HttpClient
+from bank_intel.common.discovery_policy import OldPageStopper
 
 from bank_intel.collectors.sources.ceylon_today import (
     SOURCE_NAME,
@@ -79,6 +80,11 @@ STATE_FILE = (
 
 
 MAX_SECTION_PAGES = 4
+CEYLON_SURFACES = (
+    ("DAILY_FINANCE", "https://ceylontoday.lk/category/ceylon-today-daily/finance-today/"),
+    ("SUNDAY_FINANCE", "https://ceylontoday.lk/category/ceylon-today-sunday/finance-today-ceylon-today-sunday/"),
+    ("HOMEPAGE", "https://ceylontoday.lk/"),
+)
 
 REQUEST_DELAY_SECONDS = 1.0
 
@@ -280,12 +286,14 @@ def save_article_json(
     return path
 
 
-def discover_required_articles(
+def _discover_required_articles_archives(
     *,
     client: HttpClient,
     window,
 ) -> list:
 
+    global _DISCOVERY_EVIDENCE
+    _DISCOVERY_EVIDENCE=[]
     discovered_by_url = {}
 
     print()
@@ -303,145 +311,161 @@ def discover_required_articles(
         f"Mode: {window.mode}"
     )
 
-    for page_number in range(
-        1,
-        MAX_SECTION_PAGES + 1,
-    ):
+    for surface_name, base_url in CEYLON_SURFACES:
+        old_pages = OldPageStopper(window.start_date)
+        page_limit = 1 if surface_name == "HOMEPAGE" else MAX_SECTION_PAGES
+        surface_evidence={"listing_name":surface_name,"listing_url":base_url,"pagination_complete":surface_name=="HOMEPAGE","pages":[]}
+        _DISCOVERY_EVIDENCE.append(surface_evidence)
+        print(f"[DISCOVERY SURFACE] {surface_name}: {base_url}")
+        for page_number in range(
+            1,
+            page_limit + 1,
+        ):
 
-        page_url = (
-            build_section_page_url(
-                page_number
-            )
-        )
-
-        print()
-        print(
-            f"[DISCOVERY] Page "
-            f"{page_number}"
-        )
-
-        print(
-            f"            "
-            f"{page_url}"
-        )
-
-        try:
-
-            result = client.get(
-                page_url
+            page_url = (
+                base_url if page_number == 1 else
+                base_url.rstrip("/") + f"/page/{page_number}/"
             )
 
-        except Exception as exc:
+            print()
+            print(
+                f"[DISCOVERY] Page "
+                f"{page_number}"
+            )
 
             print(
-                f"[DISCOVERY ERROR] "
-                f"{type(exc).__name__}: "
-                f"{exc}"
-            )
-
-            raise RuntimeError(
-                "Ceylon Today discovery "
-                "failed on archive page "
-                f"{page_number}: "
+                f"            "
                 f"{page_url}"
-            ) from exc
-
-        page_articles = (
-            discover_articles(
-                result.html
             )
-        )
 
-        print(
-            f"            "
-            f"Articles discovered: "
-            f"{len(page_articles)}"
-        )
+            try:
 
-        if not page_articles:
-            break
+                result = client.get(
+                    page_url
+                )
 
-        found_in_window = 0
-        found_older = 0
-        unknown_date = 0
+            except Exception as exc:
 
-        for item in page_articles:
+                print(
+                    f"[DISCOVERY ERROR] "
+                    f"{type(exc).__name__}: "
+                    f"{exc}"
+                )
 
-            hint_date = (
-                parse_article_date(
-                    item.published_at_hint
+                raise RuntimeError(
+                    "Ceylon Today discovery "
+                    "failed on archive page "
+                    f"{page_number}: "
+                    f"{page_url}"
+                ) from exc
+
+            surface_evidence["pages"].append({"page":page_number,"url":page_url})
+            page_articles = (
+                discover_articles(
+                    result.html
                 )
             )
 
-            if hint_date is None:
+            print(
+                f"            "
+                f"Articles discovered: "
+                f"{len(page_articles)}"
+            )
 
-                unknown_date += 1
+            if not page_articles:
+                break
 
-                discovered_by_url[
-                    item.url
-                ] = item
+            found_in_window = 0
+            found_older = 0
+            unknown_date = 0
 
-                continue
+            for item in page_articles:
 
-            if window.contains_date(
-                hint_date
-            ):
+                hint_date = (
+                    parse_article_date(
+                        item.published_at_hint
+                    )
+                )
 
-                found_in_window += 1
+                if hint_date is None:
 
-                discovered_by_url[
-                    item.url
-                ] = item
+                    unknown_date += 1
 
-                continue
+                    discovered_by_url[
+                        item.url
+                    ] = item
 
-            if (
-                hint_date
-                < window.start_date
-            ):
+                    continue
 
-                found_older += 1
+                if window.contains_date(
+                    hint_date
+                ):
 
-        print(
-            f"            "
-            f"In window: "
-            f"{found_in_window}"
-        )
+                    found_in_window += 1
 
-        print(
-            f"            "
-            f"Older: "
-            f"{found_older}"
-        )
+                    discovered_by_url[
+                        item.url
+                    ] = item
 
-        print(
-            f"            "
-            f"Unknown date: "
-            f"{unknown_date}"
-        )
+                    continue
 
-        if found_older > 0:
+                if (
+                    hint_date
+                    < window.start_date
+                ):
+
+                    found_older += 1
 
             print(
-                "            "
-                "Reached articles older "
-                "than required window."
+                f"            "
+                f"In window: "
+                f"{found_in_window}"
             )
 
             print(
-                "            "
-                "Stopping pagination."
+                f"            "
+                f"Older: "
+                f"{found_older}"
             )
 
-            break
+            print(
+                f"            "
+                f"Unknown date: "
+                f"{unknown_date}"
+            )
 
-        time.sleep(
-            REQUEST_DELAY_SECONDS
-        )
+            dated = [parse_article_date(item.published_at_hint)
+                     for item in page_articles]
+            if old_pages.observe(dated, unknown_dates=unknown_date):
+                surface_evidence["pagination_complete"]=True
+                surface_evidence["stop_reason"]="TWO_CONFIRMED_OLDER_PAGES"
+                print("            Two older pages confirmed; stopping pagination.")
+                break
+
+            time.sleep(
+                REQUEST_DELAY_SECONDS
+            )
 
     return list(
         discovered_by_url.values()
     )
+
+
+# CEYLON_TODAY_WP_API_V1
+_CEYLON_WP_API_AUDIT = {}
+
+
+def discover_required_articles(*, client, window):
+    global _CEYLON_WP_API_AUDIT
+    from bank_intel.collectors.sources.ceylon_today_wp_api import discover_wp_posts
+    wp_articles, _CEYLON_WP_API_AUDIT = discover_wp_posts(client=client, window=window)
+    print("[CEYLON WORDPRESS API]", _CEYLON_WP_API_AUDIT)
+    archive_articles = _discover_required_articles_archives(client=client, window=window)
+    unique = {item.url: item for item in archive_articles}
+    for item in wp_articles:
+        unique[item.url] = item
+    print(f"[CEYLON DISCOVERY] Archive={len(archive_articles)} API={len(wp_articles)} Unique={len(unique)}")
+    return list(unique.values())
 
 
 def collect() -> dict:
@@ -492,6 +516,7 @@ def collect() -> dict:
     changed_count = 0
     unchanged_count = 0
     invalid_count = 0
+    extraction_failures = []
     missing_date_count = 0
     wrong_date_count = 0
     failure_count = 0
@@ -622,6 +647,7 @@ def collect() -> dict:
                 if actual_date is None:
 
                     missing_date_count += 1
+                    extraction_failures.append({"url":discovered_article.url,"kind":"MISSING_PUBLICATION_DATE"})
 
                     print(
                         "Status: DATE UNKNOWN"
@@ -645,6 +671,7 @@ def collect() -> dict:
                 if not validation.valid:
 
                     invalid_count += 1
+                    extraction_failures.append({"url":discovered_article.url,"kind":"INVALID_EXTRACTION","errors":list(validation.errors)})
 
                     print(
                         "Status: INVALID"
@@ -850,6 +877,7 @@ def collect() -> dict:
             except Exception as exc:
 
                 failure_count += 1
+                extraction_failures.append({"url":discovered_article.url,"kind":"FETCH_OR_EXTRACTION_EXCEPTION","error":str(exc)})
 
                 print(
                     f"FAILED: "
@@ -998,7 +1026,9 @@ def collect() -> dict:
         "source_name": SOURCE_NAME,
         "section_name": SECTION_NAME,
         "execution_status": "SUCCESS",
-        "health_status": health_status,
+        "health_status": "PARTIAL_ERROR" if any(not x["pagination_complete"] for x in globals().get("_DISCOVERY_EVIDENCE",[])) else health_status,
+        "listing_pages": globals().get("_DISCOVERY_EVIDENCE",[]),
+        "failed_discovery_surfaces": [x["listing_name"] for x in globals().get("_DISCOVERY_EVIDENCE",[]) if not x["pagination_complete"]],
         "content_status": content_status,
         "collection_mode": window.mode,
         "window_start": (
@@ -1027,6 +1057,8 @@ def collect() -> dict:
         "missing_date": (
             missing_date_count
         ),
+        "extraction_failures": extraction_failures,
+        "unresolved_fetch_urls": [x["url"] for x in extraction_failures],
         "invalid_extraction": (
             invalid_count
         ),
@@ -1036,6 +1068,8 @@ def collect() -> dict:
         "recent_duplicates": (
             skipped_recent
         ),
+        "discovery_surfaces": [name for name, _ in CEYLON_SURFACES] + ["WORDPRESS_API"],
+        "wp_api_discovery": dict(_CEYLON_WP_API_AUDIT),
     }
 
 

@@ -1,0 +1,109 @@
+version: reporting-v0.3.0
+title:
+  daily: Daily Financial Brief
+  weekly: Weekly Financial Brief
+  rolling: Financial Brief
+policy:
+  main_digest_stage_a_keep_only: true
+  stage_b_is_auxiliary_only: true
+  taxonomy_is_provisional: true
+  hdbscan_minus_one_is_semantic_outlier: true
+  stakeholder_report_uses_primary_entities_only: true
+  secondary_entities_are_audit_only: true
+display:
+  summary_characters: 950
+  summary_max_sentences: 5
+  max_priority_items: 20
+  max_macro_market_items: 20
+  max_other_items: 20
+  max_review_items: 30
+  max_event_groups: 10
+  collapse_other_items: false
+  collapse_analyst_qa: false
+sections:
+  core_supervisory_topics:
+  - CREDIT_RISK
+  - ASSET_QUALITY_NPL_STAGE3
+  - LIQUIDITY_FUNDING
+  - CAPITAL_SOLVENCY
+  - OPERATIONAL_RISK
+  - CYBER_RISK
+  - FRAUD_FINANCIAL_CRIME
+  - AML_CFT_SANCTIONS
+  - GOVERNANCE_CONDUCT
+  - REGULATORY_PRUDENTIAL_ACTION
+  - PAYMENTS_DIGITAL_FINANCE
+  - OWNERSHIP_MA_RESTRUCTURING
+  - PROFITABILITY_FINANCIAL_CONDITION
+  macro_market_topics:
+  - MARKET_RATE_FX_RISK
+  - MACRO_FINANCIAL_SYSTEMIC
+  other_topics:
+  - OTHER_SUPERVISORY
+topic_display_names:
+  CREDIT_RISK: Credit Risk
+  ASSET_QUALITY_NPL_STAGE3: Asset Quality / NPL / Stage 3
+  LIQUIDITY_FUNDING: Liquidity / Funding
+  CAPITAL_SOLVENCY: Capital / Solvency
+  PROFITABILITY_FINANCIAL_CONDITION: Profitability / Financial Condition
+  MARKET_RATE_FX_RISK: Market / Rate / FX Risk
+  OPERATIONAL_RISK: Operational Risk
+  CYBER_RISK: Cyber Risk
+  FRAUD_FINANCIAL_CRIME: Fraud / Financial Crime
+  AML_CFT_SANCTIONS: AML / CFT / Sanctions
+  GOVERNANCE_CONDUCT: Governance / Conduct
+  REGULATORY_PRUDENTIAL_ACTION: Regulatory / Prudential Action
+  PAYMENTS_DIGITAL_FINANCE: Payments / Digital Finance
+  OWNERSHIP_MA_RESTRUCTURING: Ownership / M&A / Restructuring
+  MACRO_FINANCIAL_SYSTEMIC: Macro-Financial / Systemic
+  OTHER_SUPERVISORY: Other Monitored Development
+institution_type_display_names:
+  LICENSED_COMMERCIAL_BANK: Licensed Commercial Bank
+  LICENSED_SPECIALISED_BANK: Licensed Specialised Bank
+  LICENSED_FINANCE_COMPANY: Licensed Finance Company
+  SPECIALISED_LEASING_COMPANY: Specialised Leasing Company
+  REGULATOR: Regulator
+  REGULATOR_UNIT: Regulatory Unit
+  MARKET_INFRASTRUCTURE: Market Infrastructure
+  PAYMENT_INFRASTRUCTURE: Payment Infrastructure
+supervisory_lens:
+  CREDIT_RISK: Potential implications for lending standards, borrower quality, concentration, or credit losses.
+  ASSET_QUALITY_NPL_STAGE3: Potential implications for impaired assets, provisioning, Stage 3 exposures, or asset quality.
+  LIQUIDITY_FUNDING: Potential implications for funding profile, deposit stability, refinancing, or liquidity position.
+  CAPITAL_SOLVENCY: Potential implications for regulatory capital, solvency, or loss-absorbing capacity.
+  PROFITABILITY_FINANCIAL_CONDITION: Potential implications for earnings capacity and overall financial condition.
+  MARKET_RATE_FX_RISK: Potential implications from interest-rate, bond-market, or foreign-exchange movements.
+  OPERATIONAL_RISK: Potential implications for operational resilience, controls, continuity, or service disruption.
+  CYBER_RISK: Potential implications for cyber resilience, information security, or technology-related loss.
+  FRAUD_FINANCIAL_CRIME: Potential implications for fraud exposure, financial-crime controls, or operational losses.
+  AML_CFT_SANCTIONS: Potential implications for AML/CFT compliance, sanctions, KYC, or transaction monitoring.
+  GOVERNANCE_CONDUCT: Potential implications for governance, board oversight, senior management, or conduct.
+  REGULATORY_PRUDENTIAL_ACTION: Potential implications from supervisory, prudential, or regulatory action.
+  PAYMENTS_DIGITAL_FINANCE: Potential implications for payment systems, digital banking, fintech, or digital-service risk.
+  OWNERSHIP_MA_RESTRUCTURING: Potential implications from ownership changes, mergers, acquisitions, or restructuring.
+  MACRO_FINANCIAL_SYSTEMIC: Potential implications for the financial system from macroeconomic or systemic developments.
+  OTHER_SUPERVISORY: Retained for monitoring because no more specific supervisory topic was supported.
+importance:
+  topic_weights:
+    FRAUD_FINANCIAL_CRIME: 50
+    AML_CFT_SANCTIONS: 50
+    REGULATORY_PRUDENTIAL_ACTION: 50
+    ASSET_QUALITY_NPL_STAGE3: 45
+    CAPITAL_SOLVENCY: 45
+    LIQUIDITY_FUNDING: 45
+    CREDIT_RISK: 45
+    CYBER_RISK: 40
+    OPERATIONAL_RISK: 40
+    GOVERNANCE_CONDUCT: 35
+    OWNERSHIP_MA_RESTRUCTURING: 35
+    PAYMENTS_DIGITAL_FINANCE: 30
+    PROFITABILITY_FINANCIAL_CONDITION: 25
+    MARKET_RATE_FX_RISK: 15
+    MACRO_FINANCIAL_SYSTEMIC: 15
+    OTHER_SUPERVISORY: 5
+  primary_regulated_entity_bonus: 15
+review_flags:
+  include_stage1_stage_a_disagreement: true
+  include_stage_b_relevant: true
+  include_hdbscan_outlier: true
+  include_phase2_high_priority: true

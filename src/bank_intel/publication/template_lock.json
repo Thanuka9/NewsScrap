@@ -1,0 +1,8 @@
+{
+  "source": "User-confirmed distributed October 26 template",
+  "sha256": {
+    "report_template.html": "1839a8fa96366aacfd7ef92f062d05266d13735d58aee36f7cb90f04044141f5",
+    "news_style.css": "095135657f9f312066e342e77e2db751da22a75606a83b2b410e32f7df85e1d4",
+    "section_headers.json": "b23c9f9499174087b97c809736ad13ab13f4e19d38c16f01b76d6c08ae046a31"
+  }
+}
