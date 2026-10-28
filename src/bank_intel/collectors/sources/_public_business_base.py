@@ -1210,6 +1210,8 @@ def run_collection(
 
     seen_urls: set[str] = set()
 
+    # URLs behind invalid_extraction, so coverage review can inspect them.
+    extraction_failures = []
     counts = {
         "candidate_urls": 0,
         "new_articles": 0,
@@ -1367,6 +1369,7 @@ def run_collection(
                 )
                 if not article.headline or (word_count < 80 and not short_official_notice):
                     counts["invalid_extraction"] += 1
+                    extraction_failures.append({"url": url, "reason": ";".join(article.warnings) or f"WORDS:{word_count}"})
                     print(
                         "              SKIP: invalid extraction "
                         f"{article.warnings}"
@@ -1444,6 +1447,7 @@ def run_collection(
             )
             if not article.headline or (word_count < 80 and not short_official_notice):
                 counts["invalid_extraction"] += 1
+                extraction_failures.append({"url": url, "reason": ";".join(article.warnings) or f"WORDS:{word_count}"})
                 continue
             if short_official_notice:
                 counts["short_publisher_notices"] += 1
@@ -1545,6 +1549,7 @@ def run_collection(
         "discovery_surfaces": surfaces_report,
         "discovered_urls": sorted(seen_urls),
         "unresolved_fetch_urls": unresolved,
+        "extraction_failures": extraction_failures,
         "recovered_failed_urls": len(set(failed_article_urls)) - len(unresolved),
         **counts,
     }
