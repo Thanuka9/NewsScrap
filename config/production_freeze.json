@@ -1,55 +1,449 @@
-﻿{
-    "freeze_version":  "news-production-freeze-v1",
-    "created_at":  "2026-10-13T11:53:06.2808157+05:30",
-    "project_root":  "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
-    "files":  [
-                  {
-                      "path":  "scripts\\run_pipeline.py",
-                      "sha256":  "C090E9D6A8A976D2149AB8253DE71B36D8594F6243AE2F8FA68FCA33D1C11F1F"
-                  },
-                  {
-                      "path":  "scripts\\run_collection.py",
-                      "sha256":  "2DA931D16B5AFE8152C4EE460B817DB56296A9913C26E4F022AB4405A7F06363"
-                  },
-                  {
-                      "path":  "scripts\\run_intelligence_stage1.py",
-                      "sha256":  "E3A9CD2A53048C62EA0CBE6F6EA2BB941187525E815507DD4FD9BE374BCC7B8A"
-                  },
-                  {
-                      "path":  "scripts\\run_intelligence_ml.py",
-                      "sha256":  "0CE21884F93A86F9F2AA378C045BAA3A0EC1F5CA47EE0ED0FED043CDF4009EE6"
-                  },
-                  {
-                      "path":  "scripts\\run_ml_corpus_analysis.py",
-                      "sha256":  "1833CC4F4B99593437A842F634D5FABB6F1728622B5BB515C6715951BE1EB104"
-                  },
-                  {
-                      "path":  "scripts\\run_supervisory_taxonomy.py",
-                      "sha256":  "524088B2EE78B32DF451D4BF72402D205CF37B31653DE9E1B189DCB01A74194C"
-                  },
-                  {
-                      "path":  "scripts\\build_supervisory_digest.py",
-                      "sha256":  "5F5228514EBBD53352F28DCFF0AEFDCF48DE0F47A99E1A0FC287BF1B4041A196"
-                  },
-                  {
-                      "path":  "scripts\\run_daily_ft.py",
-                      "sha256":  "F7473A0958944C82E3596AB338F2475846545784BD27D6B5E4E6DD65A54A01D6"
-                  },
-                  {
-                      "path":  "scripts\\run_ceylon_today.py",
-                      "sha256":  "C01F621E44246E8C0B7522A35290B8A7EE10EE7BAD5168A119EEF74A541ED7E1"
-                  },
-                  {
-                      "path":  "scripts\\run_daily_mirror.py",
-                      "sha256":  "10ADAF5AEFAAB65017501A8EE0EAA38372A9599364EA1E02B126F627E66A7F71"
-                  },
-                  {
-                      "path":  "scripts\\run_island.py",
-                      "sha256":  "EB30DEBC13BDAABB56059E42CBA3CE0C0F13D9DE72FAC44F76D5A9526C170107"
-                  },
-                  {
-                      "path":  "src\\bank_intel\\intelligence\\production_policy.py",
-                      "sha256":  "473672BEE2B93AF62F1C95FC38DA82DEB897FF01AC9411429255004413583AB9"
-                  }
-              ]
+{
+  "freeze_version": "news-production-freeze-v2",
+  "created_at": "2026-10-28T14:21:53.949414+05:30",
+  "created_by": "Claude (for thanuka)",
+  "tests": "207 passed, 3 subtests passed in 44.66s",
+  "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
+  "files": [
+    {
+      "path": "scripts\\run_pipeline.py",
+      "sha256": "848EFAC7888259EAD49CEF98F436011700FD495D1FB0FC27BA5D916CE00FF60B"
+    },
+    {
+      "path": "scripts\\run_collection.py",
+      "sha256": "23CDE1BF19F774A81A16EDF96FAA2E3F8251A428CE88ED4D82123EED396B15BF"
+    },
+    {
+      "path": "scripts\\run_intelligence_stage1.py",
+      "sha256": "06A40E19058F9F619C37B57341D929C3DDFA5717E303778F35CFF1DD25995313"
+    },
+    {
+      "path": "scripts\\run_intelligence_ml.py",
+      "sha256": "0CE21884F93A86F9F2AA378C045BAA3A0EC1F5CA47EE0ED0FED043CDF4009EE6"
+    },
+    {
+      "path": "scripts\\run_ml_corpus_analysis.py",
+      "sha256": "1833CC4F4B99593437A842F634D5FABB6F1728622B5BB515C6715951BE1EB104"
+    },
+    {
+      "path": "scripts\\run_supervisory_taxonomy.py",
+      "sha256": "524088B2EE78B32DF451D4BF72402D205CF37B31653DE9E1B189DCB01A74194C"
+    },
+    {
+      "path": "scripts\\build_financial_brief_v2.py",
+      "sha256": "9A9C65C44B2075737CE27257FF9E57DF78BD6BFC111BC91DEF516A5B595DEAA0"
+    },
+    {
+      "path": "scripts\\recover_collection_gaps.py",
+      "sha256": "5AC8A0F93ED5B2C44514E561DD61A89A8EDD8F28E826925889426B7C0B8228F0"
+    },
+    {
+      "path": "scripts\\audit_news_flow.py",
+      "sha256": "A86989530ECCCC158BD1A86C0BB547C7518393A23B02E975896BA45157D33E45"
+    },
+    {
+      "path": "scripts\\run_integrated_release.py",
+      "sha256": "27C1DEA2B023B319A85A66F708A4F184760AEC525E756BF6D9C59A7407DEE9EF"
+    },
+    {
+      "path": "scripts\\news_release_gate.py",
+      "sha256": "82A1556C52B2612B98581EFF395DEBFC34CE49D7D2521367C575DB0AE220CC62"
+    },
+    {
+      "path": "scripts\\news_publication_history.py",
+      "sha256": "772A0A95FE2D36A3DCF696EFF73DD398440C157AB9729102DFA2DA80A124948E"
+    },
+    {
+      "path": "scripts\\check_release.py",
+      "sha256": "2C3928E32C0FE7CEC56AC9B1518A4C5EE099D1CBD16793BBF86D3C52AB648096"
+    },
+    {
+      "path": "scripts\\_runtime.py",
+      "sha256": "1C77566A1EF377F4540DD65898227F9B1325B31CD03F90D2CA49B98C251D0E23"
+    },
+    {
+      "path": "scripts\\run_daily_ft.py",
+      "sha256": "CC6DDC43FF0E4E605F8D88528D18EE6263B134B5F30DAB1224006DA8F0C3E008"
+    },
+    {
+      "path": "scripts\\run_ceylon_today.py",
+      "sha256": "27F9AB599E4B48B1D139199844C60C5817144749C83C0C451879A07AC8974EDA"
+    },
+    {
+      "path": "scripts\\run_daily_mirror.py",
+      "sha256": "B84BFFD16B5B5ECE5E343C612F8A2FEC9D757B345566BB049D0F58D9CE1EC117"
+    },
+    {
+      "path": "scripts\\run_island.py",
+      "sha256": "7B0F3E515AC67F5B969F30382704A6BDF1089EF45313029370C7D44194513901"
+    },
+    {
+      "path": "scripts\\run_generic_sources.py",
+      "sha256": "5653093DE4C2BC2C1090E0F6635710903D9D0FC5A299BCA84DBCEBBD40BF265C"
+    },
+    {
+      "path": "scripts\\run_daily_news_task.ps1",
+      "sha256": "6D577A9B950ACAC80CC13EE9BDC449763C1D28B3819DF7FE9B73F1CABE24D647"
+    },
+    {
+      "path": "scripts\\run_scheduler.py",
+      "sha256": "E3939A05E2EAEB9A1823F218D793CA4E216704B670FA264086B4FE2419DB5120"
+    },
+    {
+      "path": "config\\sources\\registry.yaml",
+      "sha256": "7C424A16D7D8C50D2966E8A38807185453AF74929C5E6F7AA15EAFDEDF5D5EFA"
+    },
+    {
+      "path": "config\\sources\\generic_registry.yaml",
+      "sha256": "F1F509086639E5CF6CE045EE030A83B4AAF651B988F105F208B1D1B502C0D492"
+    },
+    {
+      "path": "config\\sources\\daily_ft.yaml",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "config\\sources\\ceylon_today.yaml",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "config\\sources\\daily_mirror.yaml",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "config\\sources\\daily_news.yaml",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "config\\sources\\island.yaml",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "config\\intelligence\\entities_cbsl.yaml",
+      "sha256": "1920373C696ADDE5375EB16FB1200D1878BB47684429B5D569B8139C17DD27F4"
+    },
+    {
+      "path": "config\\intelligence\\ml.yaml",
+      "sha256": "80589173BF4E40ECFF3A47E1C80808074A24CB6EBDB84EC9F259E1AE70A3DD13"
+    },
+    {
+      "path": "config\\intelligence\\stage1.yaml",
+      "sha256": "A525BC2F5C088FCD219795AC6160C281D00E4DDDC8CF47AF5D52AA5B381BA073"
+    },
+    {
+      "path": "config\\intelligence\\taxonomy.yaml",
+      "sha256": "1B1298B652B8DBDB32871528DBEB775A7F6A619FB9A699B537E6B083A4C3B2E5"
+    },
+    {
+      "path": "config\\intelligence\\reporting.yaml",
+      "sha256": "9E8A79C699E081A8629448D70A5A33BAD027211E88A90EFE5FCB8909C782BCCE"
+    },
+    {
+      "path": "config\\intelligence\\review.yaml",
+      "sha256": "50EC150058C0E4067DEDF4AEE767BADFB3D040B01662CC2B5D4CC0D203E82540"
+    },
+    {
+      "path": "src\\bank_intel\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\collection\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\collection\\generic_source_engine.py",
+      "sha256": "837AE565E1C541DB418C682EE05171C2DCEAE06684D88EB5B047317803AB9DA0"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\base.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\browser_client.py",
+      "sha256": "861FB847A359C88DDE15D81B4D09BE676408EA1F1FE8E27F6BCA814C2182F020"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\diagnostic.py",
+      "sha256": "4FDC24C031A2D5C97C3BFB7B97FB864690E5BC3985A6347735E9857BC6D4BB22"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\http_client.py",
+      "sha256": "2C4F977E56DBC49152071096233FADA61FEAB7FB495BFD459BC39A6AC16ADB2C"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\popup_handler.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\_public_business_base.before_backfill.py",
+      "sha256": "C34801F586CE7D3DBE96EB405AB64D1F1A2BECBA198DB80306F7EB7E463053E8"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\_public_business_base.py",
+      "sha256": "99D8A1934F66B2757A3AC015B79B89D7358C0EE3A557F1E1AA47DA776C8782AE"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\ceylon_today.py",
+      "sha256": "DFCD1C227439C697EC55ABE26312AD018F8729FFA46FBE3750130D13AE1175EB"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\ceylon_today_wp_api.py",
+      "sha256": "7BC821AE84847664D001EC422359C69D4237B01DDEF5CBA58DB863F7678EB3D1"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\daily_ft.py",
+      "sha256": "1466B8E90B0273A2BCFF1934F9CC5865955EFAA54D57C8D832C95768DE263C36"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\daily_mirror.py",
+      "sha256": "D401E8E8EB11E2991B4BB8DA399DDCC657AC5B16DC7E63AC23CD93F051F755A7"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\daily_news.py",
+      "sha256": "7FF72F108E7D0B55CD6269408FEB18D4D8EE7DFE3505CCFA7040EAC061E737D8"
+    },
+    {
+      "path": "src\\bank_intel\\collectors\\sources\\island.py",
+      "sha256": "3F963F139332226FB8A0B622C7E97E0A8C35EE2980A4E035D690535D934DB6E0"
+    },
+    {
+      "path": "src\\bank_intel\\common\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\common\\collection_window.py",
+      "sha256": "8E4EA99995EE30A07B06CD039D70CF47D7456572C0361E2B0D76CFF20E226B47"
+    },
+    {
+      "path": "src\\bank_intel\\common\\discovery_policy.py",
+      "sha256": "CC06FA8A59CE76AE0D8DC0BDC91B5C1F4FCAEEE1759548E8B261322D908FFABF"
+    },
+    {
+      "path": "src\\bank_intel\\common\\hashing.py",
+      "sha256": "807A1143B4ADCAF582672B7AD4C060EBAE313E3E6E21C7DBECB2E57C5C2B2A34"
+    },
+    {
+      "path": "src\\bank_intel\\common\\logging.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\common\\reliability.py",
+      "sha256": "2BBF0CF54FB9AE6B96A9DD80BDC39AC12D3A95E517DC98DF936BDE8A384D0648"
+    },
+    {
+      "path": "src\\bank_intel\\common\\source_status.py",
+      "sha256": "22E01D611373A958EE4198340FA5733B5118840749690CC4C90FFA20FA8B8443"
+    },
+    {
+      "path": "src\\bank_intel\\common\\state.py",
+      "sha256": "8BA13EA6A318CCF7E70D8B23C1F50E85CDE81D5BA554694D06E8FD5FD4B9F20B"
+    },
+    {
+      "path": "src\\bank_intel\\common\\urls.py",
+      "sha256": "8A7555E256056EE914821BC247EA1B92353172F882FF7FF73F7E4669811E4BA4"
+    },
+    {
+      "path": "src\\bank_intel\\database\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\database\\base.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\database\\models\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\database\\models\\article.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\database\\models\\crawl.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\database\\models\\source.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\database\\session.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\extraction\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\extraction\\article.py",
+      "sha256": "D691C2CAC22990F8C5752579044652E4A7D353AA16D5CE3CAB3E0B7691D22FD2"
+    },
+    {
+      "path": "src\\bank_intel\\extraction\\validator.py",
+      "sha256": "A53384F2583944CC29ACB07A0903ADAA2681641B3F2C60336E18CAA21C5674FE"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\__init__.py",
+      "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\cluster_profile.py",
+      "sha256": "6B9953D4C9A6D5A2A9406E0C82021B6F9177EDBD3CD5136D910D10586EDE383C"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\clustering.py",
+      "sha256": "F6D2F72A9B9179812D231230393660CA78DD01243EBC37ECFB3E530C37326976"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\entity_registry.py",
+      "sha256": "32162AFA33C1D586DDECDD94A497C52CE4631A096243960F55FFD378309776CD"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\entity_roles.py",
+      "sha256": "A32B8256B7B1D0A309AE4CCB27BAAF5F5CC48998CCFE87ADD36C70F2CE98760E"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\finbert_engine.py",
+      "sha256": "3986126ACF998CC9101D356CFE4F4F7EFF3BD6862D872560C93368730C2B8B7C"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\ml_pipeline.py",
+      "sha256": "0E5630CF6D70D7821010DDB2979839EB64FD8BC146B638136DF0F43505B61A79"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\production_policy.py",
+      "sha256": "8899DAF39AE2B9D68AFE9D594B14DA08F6B3BF98263598CA2ECB6E02CC1D942D"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\publication_guard.py",
+      "sha256": "2902F11EA2818FE5F596571D153DCB7DFBBCE5DAE4B3D81320C4A9144DCB14D6"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\relevance_engine.py",
+      "sha256": "7A1F0044234BC4E44C226D438A6EFDC206BE72FFA5D5EB9FD50A51450D33EF06"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\reporting.py",
+      "sha256": "62AE17D4008E4A0FDB00E844267E1C0706D202752E93461FDB88DE732D7E98FA"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\review_category_learning.py",
+      "sha256": "49FB32288FB8597E964C590B82F5B3C6607CF6E570C40F97DEEFC61013C9E234"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\review_selection.py",
+      "sha256": "1A30A6249B13431A0313DDA08F0CD039F8CEDFB89B07E9A50A6B2C18122260AE"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\stage1_gate.py",
+      "sha256": "7163ECD1E7DCD97E875D0561EC0A84F32B98CBFA82B625FFC11AC991D02BF1EE"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\story_similarity.py",
+      "sha256": "51EC44A171CB5B4C2329E2BBFEBB007314C135F7C9FA751711D9F48A62C04290"
+    },
+    {
+      "path": "src\\bank_intel\\intelligence\\supervisory_taxonomy.py",
+      "sha256": "AC897B51EB1B27132AED1C7D4EE1BA628EC89780ECB93D98C54C50D8B4F714CB"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\__init__.py",
+      "sha256": "3E4B3641DC542ABC7BEDCC90A610E5D6D92164B5D767911EE400BE04606D04C7"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\backlog.py",
+      "sha256": "849835327ABFCB414F2758A14E9FBE02473B7F30BD89A88FF531ADF5C2F975D1"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\backlog_audit.py",
+      "sha256": "98F5D9D4A9D15E8A428D703D177F5B0829F073345EFD2F1047CDD207A72F36BB"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\contract.py",
+      "sha256": "BAB1E7346F7F5351E2F615D366880388630261DF53714C6F8A077917330965BE"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\coverage.py",
+      "sha256": "581DF8576A4C84E7DE9241C20F020E7CBBE3A06AA99182F9D8217747283A50FD"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\decisions.py",
+      "sha256": "AC46643ACFF4D8FA605A2231950ACB2DAAFF99EF8F18F7037EC871E43BB3222A"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\delivery.py",
+      "sha256": "204866ABE56B13724CC4D1C485FAA4C8A1C7D8B6FE20BD95729BA622F9175047"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\evidence.py",
+      "sha256": "176BDDA55AC05385DB65C5079B31D23548ECFE011C60BFD613FC59F9A8389F3E"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\history_import.py",
+      "sha256": "B6ACC516855FA753AE0A6F4588935A529D1BEEE124061D489221547F8759F572"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\identity.py",
+      "sha256": "E6A5ED8DC1BFC09A05E4E39966A24E27F2D0172BA6A19D0129B5AE6B4F698D21"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\ledger.py",
+      "sha256": "E77B6CB0E938692E4A41FA961012DF81060FB7C8498F3BC36DFB3D66CB91213D"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\materiality.py",
+      "sha256": "1300FA088FAC9882DFF5B42EFD546B638BE377948C217FDED55186548DD74751"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\ml_diagnostics.py",
+      "sha256": "003300BD37E015F47745E1C97B367382BD8D867D65856B97EF1EFD8B84920D97"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\ml_trace.py",
+      "sha256": "5AF3B649BB39E6C143B1596C51FFEA9BDCC34BC0096E6EB9F467AE230F85C487"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\model_policy.py",
+      "sha256": "9C99B289D53C2AED00232E286BEF189F8369E2EA43C8E99B8FCD34394EDEE613"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\news_style.css",
+      "sha256": "095135657F9F312066E342E77E2DB751DA22A75606A83B2B410E32F7DF85E1D4"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\reconcile.py",
+      "sha256": "2D6BF50739AE74FBA97CF57861688033DD8C4A218B2FB4C80F8636E36C241461"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\release.py",
+      "sha256": "4172BBD46E4145858E43B752D7ED6C89C608799EE96A97B109FA88898D60295D"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\report_template.html",
+      "sha256": "1839A8FA96366AACFD7EF92F062D05266D13735D58AEE36F7CB90F04044141F5"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\section_headers.json",
+      "sha256": "B23C9F9499174087B97C809736AD13AB13F4E19D38C16F01B76D6C08AE046A31"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\template_lock.json",
+      "sha256": "A0FFC11ECCEA91070FAFC49B2A6F03445EB635A92E98508D780D493EDA8772D6"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\temporal.py",
+      "sha256": "3206BF7BACC76ED5B2699CB954840D18CF01D6FD6D9762737F527238DE9F533F"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\workflow.py",
+      "sha256": "6CD1200C641E2FA6BB14C679095E6C8970A8297431F7065E3AACE2F57B598072"
+    }
+  ]
 }
