@@ -126,6 +126,16 @@ def main(argv=None) -> int:
     # authoritative when integrated QA has not cleared.
     report_manifest=report/'report_manifest.json'
     original=json.loads(report_manifest.read_text(encoding='utf-8-sig')) if report_manifest.is_file() else {}
+    # A version already approved by an editor stays the one at the send path;
+    # a rebuild with different bytes needs that approval withdrawn first.
+    prior_approval=output/'APPROVED_EDITION.json'
+    if not issues and prior_approval.is_file():
+        held=json.loads(prior_approval.read_text(encoding='utf-8'))
+        if held.get('attachment_sha256')!=manifest['sha256']:
+            issues.append({'kind':'DIFFERENT_VERSION_ALREADY_APPROVED','approved_by':held.get('reviewer'),
+                           'approved_at':held.get('approved_at'),'approved_sha256':held.get('attachment_sha256')})
+            manifest.update(issues=issues,status='HOLD_FOR_REVIEW')
+            write_json(output/'candidate_edition.json',manifest)
     approved=not issues
     original.update({
        'status':'QA_PASS_NOT_DELIVERED' if approved else 'HOLD_FOR_REVIEW',
