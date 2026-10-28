@@ -56,7 +56,7 @@ def decide(r: dict) -> dict:
  result['evidence_issues']=issues
  if BLOCK_POLITICS.search(h) and not re.search(r'banking act|financial system|treasury surplus|fiscal revenue',h,re.I):
   result['reason']='POLITICAL_NONFINANCIAL';return result
- if re.search(r'award|best bank by|children.s day|anniversary celebration|honour|sponsor',h,re.I) and not re.search(r'fine|penalty|regulatory breach|fraud|cyber',h,re.I):
+ if re.search(r'award|best bank by|children.s day|anniversary celebration|honour|sponsor|quiz|contest|competition|shines at|triumphs at',h,re.I) and not re.search(r'fine|penalty|regulatory breach|fraud|cyber',h,re.I):
   result['reason']='LOW_MATERIALITY_PROMOTIONAL';return result
  # Supervisory headline requires a material action, not just mentioning CBSL in macro commentary.
  # The verified event signature is narrower than generic source keywords.
@@ -125,7 +125,7 @@ def decide(r: dict) -> dict:
  # previous day's edition. Its publication date is not its market-session date.
  # Without the actual previous event facts, flag for review rather than
  # silently publish or automatically delete a possibly new weekly recap.
- if result['decision']=='INCLUDE' and DIRECT_BANK.search(h) and re.search(r'(?i)explores?|discuss(?:es|ions)?|courtesy',h) and not RISK_ACTION.search(h):
+ if result['decision']=='INCLUDE' and (licensed_bank_in(h) or DIRECT_BANK.search(h)) and re.search(r'(?i)explores?|discuss(?:es|ions)?|courtesy|meets?|welcomes?|visit\w*',h) and not RISK_ACTION.search(h):
   result.update(decision='REVIEW',reason='BANK_EXPLORATORY_ACTIVITY_MATERIALITY_REVIEW')
  if result['decision']=='INCLUDE' and result['category']=='MARKET_EXTERNAL' and re.search(r'(?i)\b(?:aspi|cse|indices|stock market|bourse)\b',h):
   from datetime import date as _Date

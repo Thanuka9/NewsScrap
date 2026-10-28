@@ -304,6 +304,12 @@ def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
  if ta and tb and main_type(ta)!=main_type(tb):return False
  ea,eb=entities(a),entities(b)
  shared=ea&eb
+ # Older sent records keep only the headline; look for the other report's
+ # named organisations in that headline instead.
+ for one,other,names in ((a,b,ea),(b,a,eb)):
+  if not _lead(other).strip():
+   words={_stem(w) for w in re.findall(r'[a-z0-9]+',str(other.get('headline') or '').casefold())}
+   shared|={n for n in names if n.startswith('name:') and n[5:] in words}
  overlap=headline_overlap(a,b)
  fa=figures(a.get('headline','')+' '+_lead(a));fb=figures(b.get('headline','')+' '+_lead(b))
  common=shared_figures(fa,fb)
