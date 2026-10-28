@@ -503,6 +503,10 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
         if slug in self.REJECT_SLUGS:
             return False
 
+        # Homepage advertisement slots are posts too ('homepage-advertiesment-left-1').
+        if re.search(r"advertie?se?ment", slug):
+            return False
+
         if len(slug) < 8:
             return False
 

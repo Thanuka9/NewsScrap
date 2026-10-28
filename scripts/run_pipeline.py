@@ -6,6 +6,7 @@ import json
 import re
 from pathlib import Path
 import subprocess
+from _runtime import run_process, locked_main
 import sys
 import time
 from zoneinfo import ZoneInfo
@@ -113,7 +114,7 @@ def run_step(
     started = time.perf_counter()
     started_at = datetime.now(SRI_LANKA_TZ)
 
-    result = subprocess.run(
+    result = run_process(
         command,
         cwd=PROJECT_ROOT,
         check=False,
@@ -681,6 +682,11 @@ def main() -> None:
         today=today,
     )
 
+    from bank_intel.publication.contract import sent_record
+    if sent_record(PROJECT_ROOT, target_date):
+        print('[ALREADY_SENT] Immutable edition retained. Use run_collection.py to collect later arrivals.')
+        return
+
     # NEWS_SENT_EDITION_IMMUTABILITY_V1: protect the actually emailed
     # report before any collection, staging or report generation occurs.
     # Skip-collection is not an override for an immutable sent edition.
@@ -710,6 +716,13 @@ def main() -> None:
 
     for script in required_scripts:
         require_file(script, "Required script")
+
+    pending_report = PROJECT_ROOT/'data/processed/reports'/target_date/f'window_{args.days}d'
+    pending_report.mkdir(parents=True, exist_ok=True)
+    for filename in (f'Daily Financial Sector News Brief {target_date}.html', 'supervisory_digest.html'):
+        (pending_report/filename).unlink(missing_ok=True)
+    from bank_intel.common.reliability import atomic_json
+    atomic_json(pending_report/'report_manifest.json', {'status':'RUNNING', 'publication_date':target_date})
 
     steps: list[dict] = []
     pipeline_started = datetime.now(SRI_LANKA_TZ)
@@ -1031,8 +1044,8 @@ def main() -> None:
         )
 
         brief_name = f"Daily Financial Sector News Brief {target_date}"
-        final_html = report_root / f"{brief_name}.html"
-        report_manifest_path = report_root / "report_manifest.json"
+        final_html = report_root / f"{brief_name} Source Preview.html"
+        report_manifest_path = report_root / "legacy_report_manifest.json"
 
         require_file(final_html, "Final HTML brief")
         require_file(report_manifest_path, "Report manifest")
@@ -1052,7 +1065,7 @@ def main() -> None:
                 + str(report_qa.get("failures"))
             )
 
-        production_alias = report_root / "supervisory_digest.html"
+        production_alias = report_root / "legacy_source_preview.html"
         require_file(production_alias, "Production alias")
 
         if final_html.read_bytes() != production_alias.read_bytes():
@@ -1095,7 +1108,7 @@ def main() -> None:
         print("\n=== INTEGRATED ARTICLE / MODEL / SENT / RELEASE GATE ===")
         started_at=datetime.now(SRI_LANKA_TZ)
         started=time.perf_counter()
-        integrated_result=subprocess.run(integrated_cmd,cwd=PROJECT_ROOT,check=False)
+        integrated_result=run_process(integrated_cmd,cwd=PROJECT_ROOT,check=False)
         steps.append({
            'name':'INTEGRATED EDITION AND INDEPENDENT RELEASE GATE',
            'command':integrated_cmd,'started_at':started_at.isoformat(),
@@ -1115,6 +1128,12 @@ def main() -> None:
             raise RuntimeError('Integrated release failed: '+str(integrated_result.returncode))
         # The named and alias files are now generated only by integrated
         # release after independent QA; existing published locks remain.
+        final_html = report_root / f"{brief_name}.html"
+        production_alias = report_root / "supervisory_digest.html"
+        report_manifest_path = report_root / "report_manifest.json"
+        from bank_intel.publication.contract import validate_release
+        validate_release(PROJECT_ROOT, target_date)
+        run_step(name="FINAL GOVERNED SOURCE FLOW", command=flow_command, steps=steps)
         require_file(final_html, 'Integrated final attachment')
         require_file(production_alias, 'Integrated production alias')
         if final_html.read_bytes()!=production_alias.read_bytes():
@@ -1153,6 +1172,11 @@ def main() -> None:
         raise
 
     finally:
+        if final_status != 'SUCCESS':
+            for filename in (f'Daily Financial Sector News Brief {target_date}.html', 'supervisory_digest.html'):
+                (pending_report/filename).unlink(missing_ok=True)
+            if final_status != 'REVIEW_REQUIRED':
+                atomic_json(pending_report/'report_manifest.json', {'status':'FAILED', 'publication_date':target_date, 'error':error_message})
         completed = datetime.now(SRI_LANKA_TZ)
 
         payload = {
@@ -1176,4 +1200,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    locked_main(main)

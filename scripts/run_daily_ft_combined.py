@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from _runtime import locked_main
 import importlib.util
 import json
 import os
@@ -205,4 +206,4 @@ def main() -> None:
     print("=" * 80)
 
 if __name__ == "__main__":
-    main()
+    locked_main(main)

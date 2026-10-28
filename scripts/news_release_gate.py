@@ -290,7 +290,15 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
             if missing: issues.append('MISSING_SECTIONS:'+','.join(sorted(missing)))
             if payload.get('execution_status')!='SUCCESS':issues.append('COLLECTOR_NOT_SUCCESS')
             if str(payload.get('completed_at',''))[:10]!=date_arg.isoformat():issues.append('STALE_STATUS')
-            if (payload.get('failed_discovery_surfaces') or payload.get('unresolved_fetch_urls')
+            # A verified, newest-first WordPress API whose oldest post predates
+            # the window lists every post in it, so failed HTML archive pages
+            # for the same sections no longer leave coverage unknown.
+            api=payload.get('wp_api_discovery') or {}
+            api_covers_window=(api.get('api_status')=='VERIFIED' and api.get('api_pagination_complete') is True
+                               and str(api.get('api_oldest_date') or '9999')<out['window_start'])
+            covered_surfaces={'daily_finance','sunday_finance'} if api_covers_window else set()
+            failed_surfaces={str(x).casefold() for x in payload.get('failed_discovery_surfaces') or []}-covered_surfaces
+            if (failed_surfaces or payload.get('unresolved_fetch_urls')
                 or int(payload.get('fetch_failures') or 0)):
                 issues.append('UNRESOLVED_FETCH_OR_DISCOVERY')
             if int(payload.get('truncated_discovery_urls') or 0):issues.append('TRUNCATED_LISTING')
@@ -299,7 +307,9 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
             if payload.get('health_status') not in {'HEALTHY','SUCCESS'}:
                 issues.append('COLLECTOR_HEALTH:'+str(payload.get('health_status')))
             for page in payload.get('listing_pages',[]):
-                if page.get('pagination_complete') is False:issues.append('INCOMPLETE_PAGINATION:'+str(page.get('listing_name') or page.get('listing_url')))
+                listing=str(page.get('listing_name') or page.get('listing_url'))
+                if page.get('pagination_complete') is False and listing.casefold() not in covered_surfaces:
+                    issues.append('INCOMPLETE_PAGINATION:'+listing)
             if payload.get('wp_api_discovery',{}).get('api_pagination_complete') is False:issues.append('INCOMPLETE_WORDPRESS_PAGINATION')
             if int(payload.get('invalid_extraction') or 0) and not payload.get('extraction_failures'):issues.append('EXTRACTION_FAILURE_URLS_NOT_RECORDED')
             # Identify evidence by content, not by how the project root was
@@ -375,6 +385,47 @@ def record_send_time(date_arg: date, root: Path, sent_at: str, operator: str):
     return fill(record,sent_at,operator)
 
 
+FREEZE_SCRIPTS=('run_pipeline.py','run_collection.py','run_intelligence_stage1.py','run_intelligence_ml.py',
+    'run_ml_corpus_analysis.py','run_supervisory_taxonomy.py','build_financial_brief_v2.py','recover_collection_gaps.py',
+    'audit_news_flow.py','run_integrated_release.py','news_release_gate.py','news_publication_history.py',
+    'check_release.py','_runtime.py','run_daily_ft.py','run_ceylon_today.py','run_daily_mirror.py','run_island.py',
+    'run_generic_sources.py','run_daily_news_task.ps1','run_scheduler.py')
+FREEZE_CONFIG=('config/sources/registry.yaml','config/sources/generic_registry.yaml','config/sources/daily_ft.yaml',
+    'config/sources/ceylon_today.yaml','config/sources/daily_mirror.yaml','config/sources/daily_news.yaml',
+    'config/sources/island.yaml','config/intelligence/entities_cbsl.yaml','config/intelligence/ml.yaml',
+    'config/intelligence/stage1.yaml','config/intelligence/taxonomy.yaml','config/intelligence/reporting.yaml',
+    'config/intelligence/review.yaml')
+
+
+def write_freeze(root: Path, operator: str) -> Path:
+    """Freeze the production code the scheduled run verifies, only from a passing build.
+
+    Covers every pipeline entrypoint, all of src/bank_intel and production
+    configuration, so a later change to any of them stops the scheduled run
+    until it is tested and frozen again.
+    """
+    import subprocess,sys
+    from datetime import datetime
+    root=Path(root).resolve()
+    tests=subprocess.run([sys.executable,'-m','pytest','-q','-p','no:cacheprovider'],cwd=root,capture_output=True,text=True)
+    if tests.returncode!=0:
+        raise RuntimeError('Refusing to freeze: test suite failed\n'+tests.stdout[-2000:])
+    paths=[root/'scripts'/name for name in FREEZE_SCRIPTS]+[root/p for p in FREEZE_CONFIG]
+    paths+=sorted(p for p in (root/'src'/'bank_intel').rglob('*') if p.is_file()
+                  and p.suffix in ('.py','.html','.css','.json') and '__pycache__' not in p.parts)
+    missing=[str(p) for p in paths if not p.is_file()]
+    if missing:raise RuntimeError('Refusing to freeze: missing '+'; '.join(missing))
+    payload={'freeze_version':'news-production-freeze-v2','created_at':datetime.now().astimezone().isoformat(),
+             'created_by':operator,'tests':tests.stdout.strip().splitlines()[-1],'project_root':str(root),
+             'files':[{'path':str(p.relative_to(root)),'sha256':hashlib.sha256(p.read_bytes()).hexdigest().upper()} for p in paths]}
+    out=root/'config'/'production_freeze.json'
+    sys.path.insert(0,str(root/'src'))
+    from bank_intel.common.reliability import atomic_json
+    atomic_json(out,payload)
+    print('[FREEZE WRITTEN]',out,len(payload['files']),'files;',payload['tests'])
+    return out
+
+
 def main():
     p = argparse.ArgumentParser(description="News Scrap: final independent brief QA and actual-sent edition inventory")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -410,7 +461,13 @@ def main():
     t.add_argument("--sent-at", required=True, help="ISO 8601 with offset, e.g. 2026-10-26T09:10:00+05:30")
     t.add_argument("--operator", required=True)
     t.add_argument("--reports-root", type=Path, default=Path("data/processed/reports"))
+    f = sub.add_parser("freeze", help="Run the test suite and, if it passes, write config/production_freeze.json")
+    f.add_argument("--operator", required=True)
+    f.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
     args = p.parse_args()
+    if args.cmd == "freeze":
+        write_freeze(args.project_root, args.operator)
+        return
     d = date.fromisoformat(args.date)
     if args.cmd == "prepare-coverage":
         out = args.out or Path("data/processed/reports")/args.date/"window_1d"/"news_coverage_verified.json"

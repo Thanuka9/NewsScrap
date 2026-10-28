@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from _runtime import locked_main
 import argparse
 from datetime import date, datetime, timedelta
 import json
@@ -283,4 +284,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    locked_main(main)

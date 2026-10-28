@@ -22,7 +22,8 @@ sources:
     - name: LatestPaginated
       url: https://english.newsfirst.lk/latest
       listing_prefer_browser: true
-      pagination_click_pages: 8
+      # Upper bound only: paging normally stops at two pages of older dated URLs.
+      pagination_click_pages: 30
     - name: Local
       url: https://english.newsfirst.lk/local
       listing_prefer_browser: false

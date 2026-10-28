@@ -134,20 +134,49 @@ def clean_lead(raw: str, headline: str='') -> str:
  return t.strip()
 
 
-def summary(article: dict, max_words: int=115) -> str:
- t=clean_lead(article.get('body') or article.get('summary') or '',article.get('headline',''))
- # No invented content: extract contiguous sentences, and avoid cut-off words.
- chunks=re.split(r'(?<=[.!?])\s+(?=[A-Z“‘\'\(])', t)
- parts=[]; n=0
- for c in chunks:
-  w=len(c.split())
-  if n+w > max_words and parts: break
-  if w>max_words and not parts:
-   # Long article lead: cut at word boundary, disclose truncation via ellipsis.
-   return ' '.join(c.split()[:max_words]).rstrip(',:;-')+'…'
-  parts.append(c); n+=w
-  if n >= 48 and len(parts)>=2: break
- return ' '.join(parts).strip()
+ABBREVIATION = re.compile(r'(?i)(?:\b(?:dr|mr|mrs|ms|prof|eng|hon|govt|rs|no|st|jr|sr|vs|jan|feb|mar|apr|jun|jul|aug|sep|sept|oct|nov|dec)|\b[A-Z]|(?:\b[A-Z]\.)+[A-Z])\.$')
+
+
+def sentence_spans(text: str) -> list[tuple[int, int]]:
+ """Offsets in cleaned source text, retaining decimals and honorifics."""
+ start=0; spans=[]
+ for match in re.finditer(r'[.!?][”"\']?(?:\s+|$)',text):
+  end=match.end()
+  prefix=text[:match.start()+1]
+  if text[match.start()]=='.' and ABBREVIATION.search(prefix):continue
+  if text[start:end].strip():spans.append((start,end))
+  start=end
+ if text[start:].strip():spans.append((start,len(text)))
+ return spans
+
+
+def summary_evidence(article: dict, max_words: int=150) -> dict:
+ """Select complete source sentences; keep offsets and amounts for inspection.
+
+ The lead establishes the event. Later numerical and policy-status sentences
+ take precedence over repetitive introductory language. No facts are invented.
+ """
+ text=clean_lead(article.get('body') or article.get('summary') or '',article.get('headline',''))
+ spans=sentence_spans(text)
+ choices=[]
+ for index,(start,end) in enumerate(spans):
+  sentence=text[start:end].strip()
+  if not re.search(r'[.!?][”"\']?$',sentence) or ABBREVIATION.search(sentence):continue
+  score=(100 if index==0 else 0)+(5 if re.search(r'\d',sentence) else 0)+(4 if re.search(r'(?i)propos|approv|sign|gazette|subject to|not yet|conditional|revenue|capital|credit|risk|regulat',sentence) else 0)
+  choices.append((score,index,start,end,sentence))
+ chosen=[]; total=0
+ for choice in sorted(choices,key=lambda x:(-x[0],x[1])):
+  size=len(choice[4].split())
+  if total+size<=max_words or not chosen and choice[1]==0:
+   chosen.append(choice);total+=size
+ chosen.sort(key=lambda x:x[1])
+ sentences=[{'source_url':article.get('source_url',''),'start':c[2],'end':c[3],
+             'text':c[4],'figures':re.findall(r'\d[\d,.]*(?:\s*%|\s*(?:million|billion))?',c[4])} for c in chosen]
+ return {'text':' '.join(c['text'] for c in sentences),'cleaned_source':text,'sentences':sentences}
+
+
+def summary(article: dict, max_words: int=150) -> str:
+ return summary_evidence(article,max_words)['text']
 
 
 def evidence_issues(article: dict) -> list[str]:

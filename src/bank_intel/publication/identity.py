@@ -295,6 +295,18 @@ def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
  if canonical(a.get('source_url',''))==canonical(b.get('source_url','')) and canonical(a.get('source_url','')): return True
  aa=publisher_article_id(a.get('source_url',''))
  if aa and aa==publisher_article_id(b.get('source_url','')):return True
+ # Shared lenders and amounts recur across unrelated programmes. Resolve
+ # purpose and transaction stage before broad entity/figure similarity.
+ financing_a, financing_b = financing_identity(a), financing_identity(b)
+ if financing_a or financing_b:
+  if not (financing_a and financing_b):return False
+  if financing_a['purposes'] and financing_b['purposes'] and not (financing_a['purposes'] & financing_b['purposes']):return False
+  if financing_a['stage'] and financing_b['stage'] and financing_a['stage'] != financing_b['stage']:return False
+  if not _date(a) or not _date(b):return False
+  if not financing_a['purposes'] & financing_b['purposes']:return False
+ # Aggregate exports and a sector's export release are distinct observations.
+ if 'export' in str(a.get('headline','')).lower() and 'export' in str(b.get('headline','')).lower():
+  if export_scope(a) != export_scope(b):return False
  ka,kb=event_signature(a),event_signature(b)
  if ka and ka==kb: return True
  da,db=_date(a),_date(b)
@@ -329,3 +341,29 @@ def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
   if len(orgs)>=2 and any(not o.startswith('name:') for o in orgs) and ta&tb:return True
   return False
  return overlap>=0.6 and (gap==0 or common>=1)
+
+
+def export_scope(article: dict) -> str:
+ text=str(article.get('headline','')).casefold()
+ return next((sector for sector in ('apparel','tea','rubber','coconut','services','merchandise') if sector in text),'aggregate')
+
+
+def financing_identity(article: dict) -> dict:
+ text=(str(article.get('headline',''))+' '+str(article.get('body') or article.get('summary') or '')[:1800]).casefold()
+ head=str(article.get('headline','')).casefold()
+ # Only a story *about* a lender's financing: a body that merely mentions
+ # the IMF and a dollar figure must not change how other stories match.
+ if not re.search(r'\b(?:adb|asian development bank|opec fund|ofid|world bank|imf|jica|aiib)\b',head) or not re.search(r'loan|financ|facility|credit|grant|\$|million|billion|approv',head):return {}
+ purposes={key for key,pattern in {
+  'social_protection':r'social protection|elderly care|economic opportunities',
+  'macro_recovery':r'macro.recovery|economic recovery|policy.based',
+  'water_security':r'water security|mahaweli|irrigation',
+  'energy':r'energy|electricity|power grid',
+  'transport':r'transport|railway|highway',
+ }.items() if re.search(pattern,text)}
+ h=str(article.get('headline','')).casefold()
+ stage=('cabinet_approval' if 'cabinet' in h and re.search(r'approv|clear',h) else
+        'disbursement' if re.search(r'disburs|releases? funds',h) else
+        'signing' if re.search(r'\bsign',h) else
+        'lender_approval' if re.search(r'approv',h) else '')
+ return {'purposes':purposes,'stage':stage}

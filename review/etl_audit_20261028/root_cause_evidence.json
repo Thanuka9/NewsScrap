@@ -1,0 +1,41 @@
+{
+  "adb_suppression": {
+    "current_headline": "Cabinet approves $ 100 m ADB loan to support Sri Lanka’s economic recovery",
+    "current_url": "https://www.ft.lk/front-page/Cabinet-approves-100-m-ADB-loan-to-support-Sri-Lanka-s-economic-recovery/44-799234",
+    "current_lead": "- Facility comprises equal $ 50 m policy-based and investment loans - Financing falls under ADB’s $ 620 m Macro-Recovery Sectoral Development Program - Cabinet Spokesman says Govt. to assess need for fresh IMF deal in early 2027 amid global uncertainties The Cabinet of Ministers has approved a $ 100 million loan agreement with the Asian Development Bank (ADB) to support Sri Lanka’s economic recovery and reform agenda. The approval follows the conclusion of formal loan negotiations between the Department of External Resources and the ADB. The proposal was submitted by President Anura Kumara Dissanayake in his capacity as Finance, Planning and Economic Development Minister. “The financing will be provided from the ADB’s regular general capital resources and will consist of two equal components; a policy-based loan of $ 50 million and an investment loan of $ 50 million,” Cabinet Spokesman and Minister Dr. Nalinda Jayatissa said at the weekly post-Cabinet meeting media briefing yesterday. The facility forms part of the Macro-Recovery Sectoral Development Program, which the Cabinet approved for implementation on 7 September 2026. The program draws on $ 100 million from a broader $ 620 million ADB policy-based loan facility. The wider facility, approved by the Cabinet on 16 March 2026, covers five sub-programs and is intended to advance Sri Lanka’s reform agenda in line with the IMF’s Extended Fund Facility (EFF) program. The Cabinet had also authorised negotiations with the ADB at that time. The latest approval comes as the Government considers whether Sri Lanka will require a fresh IMF arrangement after the current EFF program expires in March 2027. Dr. Jayatissa said the question of a new IMF facility had not been discussed at Monday’s Cabinet meeting. He noted that the ev",
+    "matched_prior": [
+      {
+        "source_url": "https://www.ft.lk/front-page/ADB-approves-100-m-to-strengthen-social-protection-and-expand-economic-opportunities/44-798982",
+        "headline": "ADB approves $ 100 m to strengthen social protection and expand economic opportunities",
+        "publication_date": "",
+        "summary": "",
+        "body": "",
+        "event_signature": "",
+        "distributed_report": "",
+        "sent_at": "2026-10-22T08:28:59.077519+00:00"
+      }
+    ],
+    "possible_updates": [],
+    "history_issues": []
+  },
+  "apg_summary": {
+    "text": "Sri Lanka’s efforts to strengthen its financial system, combat money laundering and counter terrorist financing have entered a crucial phase with the commencement of the third Mutual Evaluation Conference of the Asia/Pacific Group (APG) on Money Laundering in Colombo. The inaugural event, held on Monday (26) under the patronage of Prime Minister Dr.",
+    "word_count": 53,
+    "ends_with_dr": true
+  },
+  "scheduler_validation": {
+    "type": "RuntimeError",
+    "message": "Scheduler output gate failed: report manifest status is not SUCCESS"
+  },
+  "corrupt_state_load": {
+    "raised_error": false,
+    "loaded_articles": 0
+  },
+  "replacement_character_count": 0,
+  "input_hashes": {
+    "scripts\\run_scheduler.py": "57633d9676c9b11059c7f792a8fc0f105959fb59ad13f32f0f6c0b1ca5cb07e4",
+    "src\\bank_intel\\publication\\identity.py": "6473a91be4fad1592f1a55c7d8e0cae856e1abcae018529331928de1bd0a1a79",
+    "src\\bank_intel\\publication\\reconcile.py": "dadf6d8b20d9b2cad151f222c851a875569a9d1eae280b3078984ec77863cf93",
+    "src\\bank_intel\\publication\\evidence.py": "3ccdd79a790e9f18eb3793f9fadeca67551519c3d334017bbb6df04760301148"
+  }
+}

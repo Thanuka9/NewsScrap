@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from _runtime import locked_main
 import json
 import re
 import time

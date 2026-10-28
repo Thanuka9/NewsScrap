@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+from _runtime import run_process, locked_main
 import sys
 import time
 import uuid
@@ -252,7 +253,7 @@ def run_source(
 
     try:
 
-        result = subprocess.run(
+        result = run_process(
             command,
             cwd=PROJECT_ROOT,
             env=env,

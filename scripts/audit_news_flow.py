@@ -104,6 +104,16 @@ def source_audit(root: Path, target: date, days: int) -> dict:
     report = root / 'data' / 'processed' / 'reports' / target.isoformat() / f'window_{days}d'
     obj = json.loads((report / 'stakeholder_brief_v2_audit.json').read_text(encoding='utf-8-sig'))
     governed=report/'integrated_edition/publication_decisions.json'
+    release_path=report/'report_manifest.json'
+    if release_path.is_file():
+        release=json.loads(release_path.read_text(encoding='utf-8-sig'))
+        if release.get('integrated_manifest'):
+            candidate_path=Path(release['integrated_manifest'])
+            candidate=json.loads(candidate_path.read_text(encoding='utf-8-sig'))
+            governed=candidate_path.parent/candidate['decision_ledger']
+        else:
+            governed=report/'no_current_governed_edition.json'
+
     if governed.is_file():
         final=json.loads(governed.read_text(encoding='utf-8'))
         manifest=json.loads((governed.parent/'candidate_edition.json').read_text(encoding='utf-8'))

@@ -64,34 +64,24 @@ class JsonArticleState:
             if "articles" not in self.data:
                 self.data["articles"] = {}
 
-        except Exception:
-            # Do not destroy a crawl simply because
-            # the state file is malformed.
-            self.data = {
-                "articles": {}
-            }
+        except (OSError, ValueError, TypeError) as exc:
+            raise RuntimeError(f'CORRUPT_ARTICLE_STATE: {self.path}; restore a verified snapshot before collection') from exc
+        if not isinstance(loaded, dict) or not isinstance(loaded.get('articles'), dict):
+            raise RuntimeError(f'INVALID_ARTICLE_STATE_SCHEMA: {self.path}')
 
     def save(self) -> None:
         """
         Persist state atomically.
         """
 
-        temp_path = self.path.with_suffix(
-            ".tmp"
-        )
-
-        temp_path.write_text(
-            json.dumps(
-                self.data,
-                indent=2,
-                ensure_ascii=False,
-            ),
-            encoding="utf-8",
-        )
-
-        temp_path.replace(
-            self.path
-        )
+        from .reliability import atomic_json
+        if self.path.is_file():
+            # Preserve only a validated last-good snapshot.
+            previous = json.loads(self.path.read_text(encoding='utf-8'))
+            if not isinstance(previous, dict) or not isinstance(previous.get('articles'), dict):
+                raise RuntimeError(f'INVALID_ARTICLE_STATE_SCHEMA: {self.path}')
+            atomic_json(self.path.with_suffix('.last_good.json'), previous)
+        atomic_json(self.path, self.data)
 
     def get(
         self,

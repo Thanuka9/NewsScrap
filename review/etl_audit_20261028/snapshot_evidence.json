@@ -1,0 +1,1298 @@
+{
+  "audit_time": "2026-10-28T13:40:28.744599+05:30",
+  "scope": "Local snapshot; replay current code against stored evidence, not a historical execution replay",
+  "hashes": {
+    "downloaded": {
+      "path": "C:\\Users\\thanuka\\Downloads\\Daily Financial Sector News Brief 2026-10-28.html",
+      "sha256": "3d64416793d14e2a2d1a8d7a9fbac9d52ccdfe2004ebf7cee70e641fe7431d75"
+    },
+    "named": {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-28\\window_1d\\Daily Financial Sector News Brief 2026-10-28.html",
+      "sha256": "3d64416793d14e2a2d1a8d7a9fbac9d52ccdfe2004ebf7cee70e641fe7431d75"
+    },
+    "archive": {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-28\\window_1d\\distributed_archive\\Daily Financial Sector News Brief 2026-10-28.html",
+      "sha256": "3d64416793d14e2a2d1a8d7a9fbac9d52ccdfe2004ebf7cee70e641fe7431d75"
+    },
+    "approved": {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-28\\window_1d\\integrated_edition\\Daily Financial Sector News Brief 2026-10-28.html",
+      "sha256": "3def69883c363b31037b553b9de92922bb4234afddd65aa471f2e7fdb492f2eb"
+    },
+    "qa_preview": {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-28\\window_1d\\integrated_edition\\Daily Financial Sector News Brief 2026-10-28 QA.html",
+      "sha256": "890a6367f690ca5fca8a68e3da6a1eff98f415bfbb8f06bc02e272bc6d3ffb4c"
+    }
+  },
+  "recorded_hashes": {
+    "qa": "890a6367f690ca5fca8a68e3da6a1eff98f415bfbb8f06bc02e272bc6d3ffb4c",
+    "approval": "3def69883c363b31037b553b9de92922bb4234afddd65aa471f2e7fdb492f2eb",
+    "sent": "3d64416793d14e2a2d1a8d7a9fbac9d52ccdfe2004ebf7cee70e641fe7431d75"
+  },
+  "release": {
+    "status": "QA_PASS_NOT_DELIVERED",
+    "source_row_count": 299,
+    "event_count": 8,
+    "model_trace_coverage": 299,
+    "counts": {
+      "raw": 299,
+      "in_window": 299,
+      "external_source": 0,
+      "excluded": 270,
+      "review": 0,
+      "included": 8,
+      "sent": 21,
+      "publisher_aliases": 0
+    },
+    "issues": []
+  },
+  "story_comparison": [
+    {
+      "headline": "Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 138,
+      "generated_summary_words": 53,
+      "generated_summary": "Sri Lanka’s efforts to strengthen its financial system, combat money laundering and counter terrorist financing have entered a crucial phase with the commencement of the third Mutual Evaluation Conference of the Asia/Pacific Group (APG) on Money Laundering in Colombo. The inaugural event, held on Monday (26) under the patronage of Prime Minister Dr.",
+      "approved_summary": "Sri Lanka’s efforts to strengthen its financial system, combat money laundering and counter terrorist financing have entered a crucial phase with the commencement of the third Mutual Evaluation Conference of the Asia/Pacific Group (APG) on Money Laundering in Colombo. The inaugural event, held on Monday (26) under the patronage of Prime Minister Dr.",
+      "sent_summary": "Sri Lanka has begun its third mutual evaluation by the Asia/Pacific Group on Money Laundering (APG), with the inaugural meeting held in Colombo on 26 October. The exercise examines the country's compliance with and practical implementation of international standards on anti-money laundering, countering terrorist financing and countering proliferation financing (AML/CFT/CPF). Speaking at the opening, Prime Minister Harini Amarasuriya emphasised that a credible framework requires institutions, laws, supervision, investigation and enforcement to work effectively together—not merely to exist on paper. She also highlighted the damage that corruption and weak public trust can cause to financial stability, and recalled Sri Lanka's previous periods of increased monitoring by the Financial Action Task Force. The Government committed to engage with the assessment team and continue addressing weaknesses. The evaluation has started; this is not an announcement of a final rating or outcome.",
+      "added_source_urls": [
+        "https://english.newsfirst.lk/2026/10/27/sri-lanka-determined-to-stay-off-global-financial-watchlists-says-pm",
+        "https://ft.lk/front-page/APG-opens-Sri-Lanka-s-third-AML-CFT-evaluation/44-799238"
+      ],
+      "sent_source_urls": [
+        "https://dailynews.lk/2026/10/28/business/1047137/sri-lankas-aml-cft-framework-under-international-scrutiny-as-apg-evaluation-begins",
+        "https://www.ft.lk/front-page/APG-opens-Sri-Lanka-s-third-AML-CFT-evaluation/44-799238",
+        "https://english.newsfirst.lk/2026/10/27/sri-lanka-determined-to-stay-off-global-financial-watchlists-says-pm"
+      ]
+    },
+    {
+      "headline": "CRIB expands credit information ecosystem",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "CRIB expands credit information ecosystem",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 129,
+      "generated_summary_words": 75,
+      "generated_summary": "The Credit Information Bureau of Sri Lanka (CRIB) has announced a significant expansion of the country’s credit information ecosystem with the onboarding of four licenced microfinance institutions, following the publication of the relevant Government Gazette Notification. This initiative marks an important step towards strengthening credit information sharing within the microfinance sector, enhancing the availability of reliable credit information, and promoting greater financial inclusion by facilitating improved access to formal credit for underserved individuals and businesses.",
+      "approved_summary": "Sri Lanka (CRIB) has announced a significant expansion of the country’s credit information ecosystem with the onboarding of four licenced microfinance institutions, following the publication of the relevant Government Gazette Notification. This initiative marks an important step towards strengthening credit information sharing within the microfinance sector, enhancing the availability of reliable credit information, and promoting greater financial inclusion by facilitating improved access to formal credit for underserved individuals and businesses.",
+      "sent_summary": "The Credit Information Bureau of Sri Lanka (CRIB) has brought four licensed microfinance companies into its national credit-information network following a Gazette notification under the CRIB Act. The institutions are Berendina Micro Investments Company, Lak Jaya Micro Finance, Dumbara Micro Credit and Sejaya Micro Credit. As designated lending institutions, they can contribute borrowers' credit information to CRIB and obtain credit profiles through the established information-sharing framework. CRIB said the change extends formal credit reporting beyond the mainstream banking sector and improves visibility of borrowers who have historically had a limited credit footprint. The onboarding was marked at an event attended by CRIB leadership and Central Bank officials. It is an expansion of the reporting ecosystem, not an announcement of new lending volumes or an automatic improvement in borrowers' creditworthiness.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://www.ft.lk/business/CRIB-expands-credit-information-ecosystem/34-799259"
+      ]
+    },
+    {
+      "headline": "Sri Lanka aims to be South Asia’s Fintech Hub",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "Sri Lanka aims to be South Asia’s Fintech Hub",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 124,
+      "generated_summary_words": 76,
+      "generated_summary": "Digital Economy Deputy Minister Eng. Eranga Weeraratne believes fintech will play a key role in moving Sri Lanka from a cash-heavy to a cash-light economy. Ahead of the Sri Lanka FinTech Festival 2026, organised by the FinTech Forum Sri Lanka with the Ministry and scheduled at Shangri-La Colombo from 2-3 November, he reiterated the Ministry’s vision for the event, the investment and policy changes under way, and plans to make Sri Lanka a regional fintech hub.",
+      "approved_summary": "Digital Economy Deputy Minister Eng. Eranga Weeraratne Digital Economy Deputy Minister Eng. Eranga Weeraratne believes fintech will play a key role in moving Sri Lanka from a cash-heavy to a cash-light economy. Ahead of the Sri Lanka FinTech Festival 2026, organised by the FinTech Forum Sri Lanka with the Ministry and scheduled at Shangri-La Colombo from 2-3 November, he reiterated the Ministry’s vision for the event, the investment and policy changes under way, and plans to make Sri Lanka a regional fintech hub.",
+      "sent_summary": "Deputy Minister of Digital Economy Eranga Weeraratne outlined the Government's ambition to shift Sri Lanka from a cash-heavy to a cash-light economy and establish a stronger regional fintech industry. In an interview ahead of the Sri Lanka FinTech Festival on 2–3 November, he said banks, regulated financial institutions and fintech providers must work together on interoperable digital-payment channels and services such as tap-and-go and card-based transactions. He described proposals to revisit policies that limit independent fintech services, develop a matching-investment 'fund of funds' for startups, and establish a regulatory framework for venture-capital funds. The Ministry is also exploring cloud and artificial-intelligence infrastructure investment. These are policy intentions and projects at different stages of development; the proposed regulatory changes are not yet confirmed as implemented.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://www.ft.lk/business/Sri-Lanka-aims-to-be-South-Asia-s-Fintech-Hub/34-799255"
+      ]
+    },
+    {
+      "headline": "Govt. signals stronger capital market push in 2027 Budget",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "Govt. signals stronger capital market push in 2027 Budget",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 126,
+      "generated_summary_words": 50,
+      "generated_summary": "Finance and Planning Deputy Minister Dr. Anil Jayantha Fernando yesterday said the Government’s capital market policies would be far more visible in the 2027 Budget, conceding that steps taken over the past two years had not been widely seen, leading some to conclude it had done little for the market.",
+      "approved_summary": "the Government’s capital market policies would be far more visible in the 2027 Budget, conceding that steps taken over the past two years had not been widely seen, leading some to conclude it had done little for the market. “You will see that visibility in a bigger way in this (2027) Budget,” Dr.",
+      "sent_summary": "Deputy Finance Minister Anil Jayantha Fernando said capital-market initiatives should become more visible in the 2027 Budget, scheduled for presentation on 12 November. Speaking at an institutional investor forum, he stated that most of the 12 proposals submitted by the Securities and Exchange Commission (SEC) had been discussed and accepted by the Finance Ministry, with some measures expected in the Budget and others to be developed with the SEC and Colombo Stock Exchange. He framed the proposals as part of a transition from economic stabilisation towards investment and longer-term growth. The Government also signalled substantial planned capital expenditure and further work on state-owned enterprise restructuring, including prospective legal changes. These announcements describe policy direction; the detailed Budget measures and legislative provisions remain to be formally presented.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://www.ft.lk/top-story/Govt-signals-stronger-capital-market-push-in-2027-Budget/26-799231"
+      ]
+    },
+    {
+      "headline": "Optimism over upcoming quarterly corporate results energizes CSE",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "Optimism over upcoming quarterly corporate results energizes CSE",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 120,
+      "generated_summary_words": 49,
+      "generated_summary": "The CSE yesterday indicated a gradual pick up as investors are anticipating positive second quarter corporate earnings, coupled with healthy exports earnings. Amid those developments both indices moved upwards. The All Share Price Index went up by 52.11 points while the S and P SL20 rose by 18.26 points.",
+      "approved_summary": "The CSE yesterday indicated a gradual pick up as investors are anticipating positive second quarter corporate earnings, coupled with healthy exports earnings. Amid those developments both indices moved upwards. The All Share Price Index went up by 52.11 points while the S and P SL20 rose by 18.26 points.",
+      "sent_summary": "Sri Lankan equities recovered during the 27 October trading session as investors positioned ahead of forthcoming corporate results and considered recent export-sector developments. The Colombo Stock Exchange's All Share Price Index (ASPI) advanced 52.11 points, equivalent to approximately 0.27%, to close at 19,692.67. The Island attributed the stronger session partly to expectations of favourable quarterly earnings. The gain followed a weaker opening to the week, when domestic equity-market sentiment had been subdued. Separate contemporaneous reports gave inconsistent figures for the more liquid S&P SL20 and certain trading statistics, so those details have deliberately not been reproduced here without a common, verified exchange record. The market movement is a daily observation, not evidence that expected earnings growth has already been realised.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://island.lk/optimism-over-upcoming-quarterly-corporate-results-energizes-cse"
+      ]
+    },
+    {
+      "headline": "Secondary Bond market yields increase",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "Secondary Bond market yields increase",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 121,
+      "generated_summary_words": 60,
+      "generated_summary": "The secondary Bond market yesterday saw yields increase, mainly on selected tenors on the back of selling interest. Activity was seen at a moderate level while transaction volumes were boosted by the execution of several block transactions as the elevated yield levels attracted absorptive buying interest. In terms of the trade summary, the 15.10.30 traded at the rates of 11.60%-11.63%.",
+      "approved_summary": "Trust Securities The secondary Bond market yesterday saw yields increase, mainly on selected tenors on the back of selling interest. Activity was seen at a moderate level while transaction volumes were boosted by the execution of several block transactions as the elevated yield levels attracted absorptive buying interest.",
+      "sent_summary": "Trading in Sri Lanka's secondary government-bond market on 27 October saw yields rise on selected maturities amid selling interest. The market commentary published by Daily FT described activity as moderate overall, with several block transactions contributing to recorded turnover. Investors were also reported to have bought securities at the higher yield levels, partly absorbing the selling pressure. The movement was therefore not uniform across every bond or maturity: it reflected trading conditions in particular parts of the yield curve and demand returning at revised prices. The source extract available for this review supports the direction of yields and the character of trading, but does not independently substantiate a complete set of maturity-by-maturity closing rates; unsupported numerical quotes have not been inserted.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://www.ft.lk/financial-services/Secondary-Bond-market-yields-increase/42-799257"
+      ]
+    },
+    {
+      "headline": "Tourist arrivals in October top 135,000",
+      "publication_date": "2026-10-28",
+      "generated_match": true,
+      "generated_headline": "Tourist arrivals in October top 135,000",
+      "headline_changed": false,
+      "summary_changed": true,
+      "sent_summary_words": 113,
+      "generated_summary_words": 52,
+      "generated_summary": "The number of tourists that have arrived in Sri Lanka so far this month has surpassed 135,000. Sri Lanka welcomed 136,096 international tourists in the first 25 days of October, with India continuing to dominate the tourism market, according to the latest figures released by the Sri Lanka Tourism Development Authority (SLTDA).",
+      "approved_summary": "The number of tourists that have arrived in Sri Lanka so far this month has surpassed 135,000. Sri Lanka welcomed 136,096 international tourists in the first 25 days of October, with India continuing to dominate the tourism market, according to the latest figures released by the Sri Lanka Tourism Development Authority (SLTDA).",
+      "sent_summary": "Sri Lanka received 136,096 international tourists during the first 25 days of October 2026, according to Sri Lanka Tourism Development Authority figures reported by The Morning. India accounted for 51,424 visitors, or roughly 38% of the month's arrivals to that point. The United Kingdom contributed 10,117 visitors and China 9,411, followed by Australia at 6,844 and Germany at 6,269. The new October observations brought cumulative tourist arrivals for 2026 to 1,829,772. India's position as the largest source market remained evident in the year-to-date totals, with 488,838 arrivals, followed by the UK and China. These are visitor counts for a partial month, rather than a full-month forecast, foreign-exchange receipt figure or hotel occupancy measure.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://www.themorning.lk/articles/uKUqMHtWxwmVXROlU6jy"
+      ]
+    },
+    {
+      "headline": "Cabinet approves US$100 million ADB macro-recovery financing",
+      "publication_date": "2026-10-28",
+      "generated_match": false,
+      "generated_headline": "",
+      "headline_changed": false,
+      "summary_changed": false,
+      "sent_summary_words": 133,
+      "generated_summary_words": null,
+      "generated_summary": "",
+      "approved_summary": "",
+      "sent_summary": "The Cabinet approved entering into a US$100 million financing agreement with the Asian Development Bank (ADB) for the Macro-Recovery Sector Development Programme, after the Department of External Resources completed formal negotiations. The package is split evenly between a US$50 million policy-based loan and a US$50 million investment loan, both from ADB's ordinary capital resources. It forms part of a broader US$620 million framework covering five sub-programmes intended to advance economic reforms alongside Sri Lanka's IMF Extended Fund Facility programme. The Cabinet had previously endorsed this macro-recovery programme on 7 September; the latest development is approval to proceed with the negotiated agreement, not evidence of a new US$620 million commitment or funds already disbursed. It is separate from earlier ADB social-protection financing and from the Mahaweli water project financing reported elsewhere in this brief.",
+      "added_source_urls": [
+        "https://ft.lk/front-page/Cabinet-approves-100-m-ADB-loan-to-support-Sri-Lanka-s-economic-recovery/44-799234"
+      ],
+      "sent_source_urls": [
+        "https://www.ft.lk/front-page/Cabinet-approves-100-m-ADB-loan-to-support-Sri-Lanka-s-economic-recovery/44-799234"
+      ]
+    },
+    {
+      "headline": "Cabinet clears US$60 million OPEC Fund loan for Mahaweli water security",
+      "publication_date": "2026-10-28",
+      "generated_match": false,
+      "generated_headline": "",
+      "headline_changed": false,
+      "summary_changed": false,
+      "sent_summary_words": 129,
+      "generated_summary_words": null,
+      "generated_summary": "",
+      "approved_summary": "",
+      "sent_summary": "The Cabinet approved proceeding with a US$60 million loan arrangement from the OPEC Fund for International Development to help finance Phase 2 of the Mahaweli Water Security Investment Programme. According to contemporaneous reports of the Cabinet decision, the proposed facility is made up of US$48 million and US$12 million components. Phase 2 has an estimated overall cost of US$536.5 million and is expected to involve multiple development partners; the Asian Development Bank has separately agreed to provide US$200 million towards this water-security programme. Proposed work includes completion of a section of the main water-transfer tunnel, additional canals and irrigation infrastructure, and improvements intended to support dry-zone agriculture and climate resilience. This OPEC facility is for an infrastructure programme and must not be conflated with the separate ADB macro-recovery package.",
+      "added_source_urls": [
+        "https://ft.lk/news/Cabinet-clears-60-m-OPEC-Fund-Loan/56-799245",
+        "https://themorning.lk/articles/Q6J4DJThsa8uNKW42tOo"
+      ],
+      "sent_source_urls": [
+        "https://www.ft.lk/news/Cabinet-clears-60-m-OPEC-Fund-Loan/56-799245",
+        "https://www.themorning.lk/articles/Q6J4DJThsa8uNKW42tOo"
+      ]
+    },
+    {
+      "headline": "Apparel exports rise in September but remain lower over nine months",
+      "publication_date": "2026-10-28",
+      "generated_match": false,
+      "generated_headline": "",
+      "headline_changed": false,
+      "summary_changed": false,
+      "sent_summary_words": 119,
+      "generated_summary_words": null,
+      "generated_summary": "",
+      "approved_summary": "",
+      "sent_summary": "Sri Lanka's apparel exports returned to growth in September 2026 but remained below the previous year's level over the first nine months, according to data highlighted by the Joint Apparel Association Forum (JAAF). Exports for September reached US$416.99 million, up 3.47% from US$403.01 million in September 2025. The United States market grew 7.17% to US$172.03 million, while shipments to the European Union excluding the UK rose 6.5% to US$132.46 million. By contrast, exports to the UK fell 5.92% and sales to other markets also declined. For January–September, total apparel exports stood at US$3,588.46 million against US$3,798.25 million a year earlier, a contraction of 5.52%. These are apparel-industry figures; they should not be confused with aggregate merchandise-export growth reported separately.",
+      "added_source_urls": [
+        "https://ft.lk/front-page/Apparel-exports-grow-in-Sept-YTD-picture-remains-cautious-JAAF/44-799232"
+      ],
+      "sent_source_urls": [
+        "https://www.ft.lk/front-page/Apparel-exports-grow-in-Sept-YTD-picture-remains-cautious-JAAF/44-799232"
+      ]
+    },
+    {
+      "headline": "Government signals conditional tax relief after stronger revenue mobilisation",
+      "publication_date": "2026-10-27",
+      "generated_match": true,
+      "generated_headline": "Sri Lanka’s Tax Burden May Ease; But Only After Revenue Reaches a Safer Level",
+      "headline_changed": true,
+      "summary_changed": true,
+      "sent_summary_words": 137,
+      "generated_summary_words": 81,
+      "generated_summary": "Sri Lanka will not reduce its high indirect taxes immediately, Deputy Minister of Finance and Planning Anil Jayantha Fernando has said, arguing that the country must first secure stronger revenue mobilisation before it can “reset” a tax structure he acknowledged is burdensome. Fernando said the government remains committed to fiscal consolidation, but signalled that tax relief, including a possible reduction in the 18% Value Added Tax (VAT), could become possible once government revenue reaches a more sustainable share of the economy.",
+      "approved_summary": "Sri Lanka will not reduce its high indirect taxes immediately, Deputy Minister of Finance and Planning Anil Jayantha Fernando has said, arguing that the country must first secure stronger revenue mobilisation before it can “reset” a tax structure he acknowledged is burdensome. Fernando said the government remains committed to fiscal consolidation, but signalled that tax relief, including a possible reduction in the 18% Value Added Tax (VAT), could become possible once government revenue reaches a more sustainable share of the economy.",
+      "sent_summary": "In remarks reported late on 27 October, Deputy Finance Minister Anil Jayantha Fernando said Sri Lanka could reconsider its heavy indirect-tax burden only when government revenue is sufficiently secure to support fiscal consolidation and public investment. He acknowledged concerns about the current 18% Value Added Tax (VAT) rate and other taxes, but did not announce an immediate VAT reduction or new tax rate. Fernando said revenue had reached approximately 16.7% of GDP by the end of 2025, exceeding an earlier benchmark, and described a longer-term ambition to move it towards around 18% of GDP by 2030. He indicated that further revenue space would be needed before the authorities could reset the tax structure, while continuing to prioritise infrastructure and other investment spending. The remarks complement, rather than implement, the 2027 Budget proposals described in the capital-markets section.",
+      "added_source_urls": [],
+      "sent_source_urls": [
+        "https://english.newsfirst.lk/2026/10/27/sri-lanka%e2%80%99s-tax-burden-may-ease-but-only-after-revenue-reaches-a-safer-level"
+      ]
+    }
+  ],
+  "sent_url_decisions": [
+    {
+      "headline": "Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins",
+      "source_url": "https://dailynews.lk/2026/10/28/business/1047137/sri-lankas-aml-cft-framework-under-international-scrutiny-as-apg-evaluation-begins",
+      "decision": "INCLUDE",
+      "reason": "SIGNED_EDITORIAL_APG third-round mutual evaluation of Sri Lanka AML/CFT framework begins; directly affects banks and supervisory AML obligations."
+    },
+    {
+      "headline": "Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins",
+      "source_url": "https://ft.lk/front-page/APG-opens-Sri-Lanka-s-third-AML-CFT-evaluation/44-799238",
+      "decision": "EXCLUDE",
+      "reason": "OUT_OF_SCOPE"
+    },
+    {
+      "headline": "Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins",
+      "source_url": "https://english.newsfirst.lk/2026/10/27/sri-lanka-determined-to-stay-off-global-financial-watchlists-says-pm",
+      "decision": "EXCLUDE",
+      "reason": "OUT_OF_SCOPE"
+    },
+    {
+      "headline": "CRIB expands credit information ecosystem",
+      "source_url": "https://ft.lk/business/CRIB-expands-credit-information-ecosystem/34-799259",
+      "decision": "INCLUDE",
+      "reason": "SIGNED_EDITORIAL_CRIB onboards four licensed microfinance institutions after gazette; expands credit-information coverage of regulated lenders."
+    },
+    {
+      "headline": "Sri Lanka aims to be South Asia’s Fintech Hub",
+      "source_url": "https://ft.lk/business/Sri-Lanka-aims-to-be-South-Asia-s-Fintech-Hub/34-799255",
+      "decision": "INCLUDE",
+      "reason": "FINANCIAL_SECTOR_HEADLINE"
+    },
+    {
+      "headline": "Govt. signals stronger capital market push in 2027 Budget",
+      "source_url": "https://ft.lk/top-story/Govt-signals-stronger-capital-market-push-in-2027-Budget/26-799231",
+      "decision": "INCLUDE",
+      "reason": "SIGNED_EDITORIAL_Government signals capital-market measures in Budget 2027; market policy signal (top story)."
+    },
+    {
+      "headline": "Optimism over upcoming quarterly corporate results energizes CSE",
+      "source_url": "https://island.lk/optimism-over-upcoming-quarterly-corporate-results-energizes-cse",
+      "decision": "INCLUDE",
+      "reason": "SIGNED_EDITORIAL_CSE session report for 27 Oct (ASPI +52.11); the day's equity market session."
+    },
+    {
+      "headline": "Secondary Bond market yields increase",
+      "source_url": "https://ft.lk/financial-services/Secondary-Bond-market-yields-increase/42-799257",
+      "decision": "INCLUDE",
+      "reason": "FINANCIAL_MARKET_HEADLINE"
+    },
+    {
+      "headline": "Tourist arrivals in October top 135,000",
+      "source_url": "https://themorning.lk/articles/uKUqMHtWxwmVXROlU6jy",
+      "decision": "INCLUDE",
+      "reason": "MATERIAL_TOURISM_EXTERNAL_STATISTICS"
+    },
+    {
+      "headline": "Cabinet approves US$100 million ADB macro-recovery financing",
+      "source_url": "https://ft.lk/front-page/Cabinet-approves-100-m-ADB-loan-to-support-Sri-Lanka-s-economic-recovery/44-799234",
+      "decision": "ALREADY_SENT",
+      "reason": "SENT_EDITION_SAME_EVENT"
+    },
+    {
+      "headline": "Cabinet clears US$60 million OPEC Fund loan for Mahaweli water security",
+      "source_url": "https://ft.lk/news/Cabinet-clears-60-m-OPEC-Fund-Loan/56-799245",
+      "decision": "EXCLUDE",
+      "reason": "OUT_OF_SCOPE"
+    },
+    {
+      "headline": "Cabinet clears US$60 million OPEC Fund loan for Mahaweli water security",
+      "source_url": "https://themorning.lk/articles/Q6J4DJThsa8uNKW42tOo",
+      "decision": "NOT_IN_INVENTORY",
+      "reason": ""
+    },
+    {
+      "headline": "Apparel exports rise in September but remain lower over nine months",
+      "source_url": "https://ft.lk/front-page/Apparel-exports-grow-in-Sept-YTD-picture-remains-cautious-JAAF/44-799232",
+      "decision": "EXCLUDE",
+      "reason": "SIGNED_EDITORIAL_Apparel export detail; external-sector headline already covered by the 27 Oct exports story."
+    },
+    {
+      "headline": "Government signals conditional tax relief after stronger revenue mobilisation",
+      "source_url": "https://english.newsfirst.lk/2026/10/27/sri-lanka%e2%80%99s-tax-burden-may-ease-but-only-after-revenue-reaches-a-safer-level",
+      "decision": "INCLUDE",
+      "reason": "SIGNED_EDITORIAL_Deputy Finance Minister signals indirect-tax relief only after revenue consolidation; fiscal policy signal relevant to sovereign and banking-sector risk. First discovered 28 Oct (late discovery)."
+    }
+  ],
+  "trace": {
+    "rows": 299,
+    "unique_canonical_urls": 299,
+    "counts": {
+      "decision": {
+        "EXCLUDE": 270,
+        "ALREADY_SENT": 21,
+        "INCLUDE": 8
+      },
+      "source_name": {
+        "Daily FT": 63,
+        "NewsFirst": 30,
+        "Daily News": 85,
+        "Daily Mirror": 23,
+        "Ceylon Today": 1,
+        "The Morning": 51,
+        "The Island": 46
+      },
+      "publication_date": {
+        "2026-10-27": 176,
+        "2026-10-28": 123
+      },
+      "ml_action": {
+        "AGREEMENT_OR_UNSPECIFIED": 263,
+        "POST_MODEL_PROMOTION": 8,
+        "POST_MODEL_SUPPRESSION": 28
+      },
+      "late_news_status": {
+        "LATE_DISCOVERY": 50,
+        "TODAY": 123,
+        "LATE_NEWS_NOT_ESTABLISHED": 126
+      }
+    },
+    "nulls": {
+      "source_url": 0,
+      "headline": 0,
+      "publication_date": 0,
+      "first_discovered_at": 0,
+      "published_at": 0,
+      "collected_at": 0
+    },
+    "signed_decisions_in_final_trace": 54
+  },
+  "editorial": {
+    "rows": 54,
+    "counts": {
+      "EXCLUDE": 49,
+      "INCLUDE": 5
+    }
+  },
+  "sources": {
+    "daily_ft": {
+      "execution_status": "SUCCESS",
+      "health_status": "PARTIAL_ERROR",
+      "completed_at": "2026-10-28T09:49:58.895383+05:30",
+      "candidate_urls": 62,
+      "invalid_extraction": 1,
+      "fetch_failures": 0,
+      "failed_discovery_surfaces": [],
+      "wp_api_discovery": null,
+      "unresolved_url_count": 1,
+      "extraction_failures": [
+        {
+          "url": "https://www.ft.lk/financial-services/People-s-Bank-explores-banking-opportunities-for-Sri-Lankans-in-UAE/42-799197",
+          "kind": "INVALID_EXTRACTION",
+          "errors": [
+            "ARTICLE_TOO_SHORT:78"
+          ]
+        }
+      ]
+    },
+    "daily_mirror": {
+      "execution_status": "SUCCESS",
+      "health_status": "HEALTHY",
+      "completed_at": "2026-10-28T10:04:57.946797+05:30",
+      "candidate_urls": 40,
+      "invalid_extraction": 0,
+      "fetch_failures": 0,
+      "failed_discovery_surfaces": null,
+      "wp_api_discovery": null,
+      "unresolved_url_count": 0,
+      "extraction_failures": null
+    },
+    "daily_news": {
+      "execution_status": "SUCCESS",
+      "health_status": "HEALTHY",
+      "completed_at": "2026-10-28T10:03:51.417565+05:30",
+      "candidate_urls": 50,
+      "invalid_extraction": 0,
+      "fetch_failures": 0,
+      "failed_discovery_surfaces": [],
+      "wp_api_discovery": null,
+      "unresolved_url_count": 0,
+      "extraction_failures": []
+    },
+    "the_morning": {
+      "execution_status": "SUCCESS",
+      "health_status": "HEALTHY",
+      "completed_at": "2026-10-28T10:39:51.749767+05:30",
+      "candidate_urls": 121,
+      "invalid_extraction": 0,
+      "fetch_failures": 0,
+      "failed_discovery_surfaces": [],
+      "wp_api_discovery": null,
+      "unresolved_url_count": 0,
+      "extraction_failures": []
+    },
+    "island": {
+      "execution_status": "SUCCESS",
+      "health_status": "PARTIAL_ERROR",
+      "completed_at": "2026-10-28T11:58:44.014748+05:30",
+      "candidate_urls": 46,
+      "invalid_extraction": 2,
+      "fetch_failures": 27,
+      "failed_discovery_surfaces": null,
+      "wp_api_discovery": null,
+      "unresolved_url_count": 23,
+      "extraction_failures": [
+        {
+          "url": "https://island.lk/ceylinco-life-sales-team-sharpens-leadership-skills-in-malaysia",
+          "reason": "ARTICLE_TOO_SHORT:0"
+        },
+        {
+          "url": "https://island.lk/boc-welcomes-bank-of-china-president-zhang-hui-for-bilateral-financial-talks",
+          "reason": "ARTICLE_TOO_SHORT:0"
+        }
+      ]
+    },
+    "newsfirst": {
+      "execution_status": "SUCCESS",
+      "health_status": "PARTIAL_ERROR",
+      "completed_at": "2026-10-28T10:34:00.465983+05:30",
+      "candidate_urls": 62,
+      "invalid_extraction": 4,
+      "fetch_failures": 0,
+      "failed_discovery_surfaces": [
+        "LatestPaginated"
+      ],
+      "wp_api_discovery": null,
+      "unresolved_url_count": 4,
+      "extraction_failures": [
+        {
+          "url": "https://english.newsfirst.lk/2026/10/28/two-suspects-arrested-over-soysapura-restaurant-owner%e2%80%99s-murder",
+          "errors": [
+            "ARTICLE_TOO_SHORT:67"
+          ],
+          "first_attempt_errors": [
+            "ARTICLE_TOO_SHORT:67"
+          ],
+          "attempts": 2
+        },
+        {
+          "url": "https://english.newsfirst.lk/2026/10/27/pillayan-remanded-until-november-10-over-murders",
+          "errors": [
+            "ARTICLE_TOO_SHORT:71"
+          ],
+          "first_attempt_errors": [
+            "ARTICLE_TOO_SHORT:71"
+          ],
+          "attempts": 2
+        },
+        {
+          "url": "https://english.newsfirst.lk/2026/10/27/new-date-for-sabaragamuwa-students-who-missed-o-l-aesthetic-practicals",
+          "errors": [
+            "ARTICLE_TOO_SHORT:55"
+          ],
+          "first_attempt_errors": [
+            "ARTICLE_TOO_SHORT:55"
+          ],
+          "attempts": 2
+        },
+        {
+          "url": "https://english.newsfirst.lk/2026/10/27/heavy-rains-affect-12-districts-over-12-000-people-impacted",
+          "errors": [
+            "ARTICLE_TOO_SHORT:76"
+          ],
+          "first_attempt_errors": [
+            "ARTICLE_TOO_SHORT:76"
+          ],
+          "attempts": 2
+        }
+      ]
+    },
+    "ceylon_today": {
+      "execution_status": "SUCCESS",
+      "health_status": "PARTIAL_ERROR",
+      "completed_at": "2026-10-28T09:50:25.140983+05:30",
+      "candidate_urls": 2,
+      "invalid_extraction": 1,
+      "fetch_failures": 0,
+      "failed_discovery_surfaces": [
+        "DAILY_FINANCE",
+        "SUNDAY_FINANCE"
+      ],
+      "wp_api_discovery": {
+        "api_status": "VERIFIED",
+        "api_pages": 1,
+        "api_posts_checked": 100,
+        "api_window_candidates": 2,
+        "api_invalid_links": 0,
+        "api_date_mismatches": 0,
+        "api_pagination_complete": true,
+        "api_oldest_date": "2026-09-29",
+        "api_newest_date": "2026-10-27"
+      },
+      "unresolved_url_count": 1,
+      "extraction_failures": [
+        {
+          "url": "https://ceylontoday.lk/2026/10/27/court-orders-namal-rajapaksa-produced-before-trial-at-bar-in-airbus-case",
+          "kind": "INVALID_EXTRACTION",
+          "errors": [
+            "ARTICLE_TOO_SHORT:79"
+          ]
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "Daily FT": {
+      "status": "VERIFIED",
+      "automatic_issues": [
+        "UNRESOLVED_FETCH_OR_DISCOVERY",
+        "INVALID_ARTICLE_EXTRACTION",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR"
+      ],
+      "accepted_issues": {
+        "UNRESOLVED_FETCH_OR_DISCOVERY": "One article failed: People's Bank UAE exploratory meeting; the same story was collected from Daily News and reviewed.",
+        "INVALID_ARTICLE_EXTRACTION": "Same single URL (People's Bank UAE); not material and covered by Daily News.",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR": "One or more individual pages failed; each failed URL is recorded and was inspected (see per-issue notes)."
+      }
+    },
+    "Daily Mirror": {
+      "status": "VERIFIED",
+      "automatic_issues": [],
+      "accepted_issues": {}
+    },
+    "Daily News": {
+      "status": "VERIFIED",
+      "automatic_issues": [],
+      "accepted_issues": {}
+    },
+    "The Morning": {
+      "status": "VERIFIED",
+      "automatic_issues": [],
+      "accepted_issues": {}
+    },
+    "The Island": {
+      "status": "VERIFIED",
+      "automatic_issues": [
+        "UNRESOLVED_FETCH_OR_DISCOVERY",
+        "INVALID_ARTICLE_EXTRACTION",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR"
+      ],
+      "accepted_issues": {
+        "UNRESOLVED_FETCH_OR_DISCOVERY": "Publisher returned HTTP 500 for its News section; pages recovered from the official RSS feed. Remaining unresolved URLs are homepage advertisement slots, sport, weather (including the \"Schools closed tomorrow (27)\" notice at /294648-2, which returns a publisher database error), foreign news and two opinion columns; none financial.",
+        "INVALID_ARTICLE_EXTRACTION": "Two RSS-recovered pages with empty bodies: Ceylinco Life sales-team training (promotional) and BOC welcomes Bank of China president (courtesy visit, collected from Daily FT and Daily Mirror and reviewed).",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR": "One or more individual pages failed; each failed URL is recorded and was inspected (see per-issue notes)."
+      }
+    },
+    "NewsFirst": {
+      "status": "VERIFIED",
+      "automatic_issues": [
+        "UNRESOLVED_FETCH_OR_DISCOVERY",
+        "INVALID_ARTICLE_EXTRACTION",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR",
+        "INCOMPLETE_PAGINATION:LatestPaginated"
+      ],
+      "accepted_issues": {
+        "UNRESOLVED_FETCH_OR_DISCOVERY": "Four Latest-section articles failed: a murder arrest, a remand, an exam date and flood impact; none financial.",
+        "INVALID_ARTICLE_EXTRACTION": "Same four non-financial URLs.",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR": "One or more individual pages failed; each failed URL is recorded and was inspected (see per-issue notes).",
+        "INCOMPLETE_PAGINATION:LatestPaginated": "Latest listing paged eight times with HTTP 200 and no listing errors; Business and Local sections, which carry financial news, completed fully."
+      }
+    },
+    "Ceylon Today": {
+      "status": "VERIFIED",
+      "automatic_issues": [
+        "UNRESOLVED_FETCH_OR_DISCOVERY",
+        "INVALID_ARTICLE_EXTRACTION",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR",
+        "INCOMPLETE_PAGINATION:DAILY_FINANCE",
+        "INCOMPLETE_PAGINATION:SUNDAY_FINANCE"
+      ],
+      "accepted_issues": {
+        "UNRESOLVED_FETCH_OR_DISCOVERY": "One article failed: Airbus case court order (Namal Rajapaksa); not financial-sector news.",
+        "INVALID_ARTICLE_EXTRACTION": "Same single non-financial URL.",
+        "COLLECTOR_HEALTH:PARTIAL_ERROR": "One or more individual pages failed; each failed URL is recorded and was inspected (see per-issue notes).",
+        "INCOMPLETE_PAGINATION:DAILY_FINANCE": "Finance listing pagination incomplete, but the WordPress API surface for the same posts is VERIFIED with complete pagination (100 posts checked, back to 29 Sept).",
+        "INCOMPLETE_PAGINATION:SUNDAY_FINANCE": "As for DAILY_FINANCE: covered by the complete, verified WordPress API discovery."
+      }
+    }
+  },
+  "model_warnings": [],
+  "replay": {
+    "without_editorial": {
+      "counts": {
+        "raw": 299,
+        "in_window": 299,
+        "external_source": 0,
+        "excluded": 222,
+        "review": 53,
+        "included": 3,
+        "sent": 21,
+        "publisher_aliases": 0
+      },
+      "event_count": 3,
+      "window_start": "2026-10-27",
+      "review_reasons": {
+        "FINBERT_KEEP_RULE_EXCLUSION_REVIEW": 30,
+        "BANK_EXPLORATORY_ACTIVITY_MATERIALITY_REVIEW": 3,
+        "LEGACY_INCLUDE_NEEDS_EVIDENCE": 11,
+        "MATERIAL_INFRASTRUCTURE_REVIEW": 4,
+        "MACRO_CONTEXT_REVIEW": 2,
+        "LATE_NEWS_NOT_ESTABLISHED": 3
+      }
+    },
+    "with_editorial": {
+      "counts": {
+        "raw": 299,
+        "in_window": 299,
+        "external_source": 0,
+        "excluded": 270,
+        "review": 0,
+        "included": 8,
+        "sent": 21,
+        "publisher_aliases": 0
+      },
+      "event_count": 8,
+      "window_start": "2026-10-27",
+      "review_reasons": {}
+    }
+  },
+  "replay_changed_decisions": [
+    {
+      "source_url": "https://ft.lk/columns/Building-through-challenges-Why-construction-matters-to-Sri-Lanka-s-economic-future/4-799202",
+      "headline": "Building through challenges: Why construction matters to Sri Lanka’s economic future",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Opinion column on construction sector; no financial-sector development."
+    },
+    {
+      "source_url": "https://dailymirror.lk/business-news/BOC-Meets-BOC-Two-Banking-Giants-Two-Nations-A-Future-of-Shared-Prosperity/273-353485",
+      "headline": "BOC Meets BOC -Two Banking Giants Two Nations A Future of Shared Prosperity",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "BANK_EXPLORATORY_ACTIVITY_MATERIALITY_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Courtesy visit of 16 Oct by Bank of China president; low materiality."
+    },
+    {
+      "source_url": "https://dailymirror.lk/business-news/Mixed-tones-mark-weeks-start/273-353497",
+      "headline": "Mixed tones mark week’s start",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Monday bond-market recap superseded by the current secondary bond market report."
+    },
+    {
+      "source_url": "https://dailymirror.lk/business-news/Indices-close-in-red/273-353498",
+      "headline": "Indices close in red",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_CSE session of 26 Oct; superseded by the 27 Oct session report included."
+    },
+    {
+      "source_url": "https://dailymirror.lk/business-news/Laugfs-Gas-explores-partial-or-full-exit-from-terminal-subsidiary/273-353499",
+      "headline": "Laugfs Gas explores partial or full exit from terminal subsidiary",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "MATERIAL_INFRASTRUCTURE_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Laugfs Gas subsidiary sale talks; non-financial corporate disclosure."
+    },
+    {
+      "source_url": "https://dailymirror.lk/business-news/International-Monetary-Fund-sees-Sri-Lanka-primed-for-AI-leapfrog/273-353503",
+      "headline": "International Monetary Fund sees Sri Lanka primed for AI leapfrog",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "MACRO_CONTEXT_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_IMF CIO AI remarks from the CBSL oration week; already covered and not a new development."
+    },
+    {
+      "source_url": "https://dailymirror.lk/business-main/Exports-jump-17-in-September/245-353505",
+      "headline": "Exports jump 17% in September",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_September export figures from the same release as the nine-month exports story sent on 27 Oct; no material new development."
+    },
+    {
+      "source_url": "https://english.newsfirst.lk/2026/10/27/smarter-colombo-port-could-mean-faster-trade-and-lower-costs",
+      "headline": "Smarter Colombo Port Could Mean Faster Trade and Lower Costs",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "MATERIAL_INFRASTRUCTURE_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Port digitalisation speech; infrastructure commentary without financial-sector impact."
+    },
+    {
+      "source_url": "https://english.newsfirst.lk/2026/10/27/sri-lanka%e2%80%99s-tax-burden-may-ease-but-only-after-revenue-reaches-a-safer-level",
+      "headline": "Sri Lanka’s Tax Burden May Ease; But Only After Revenue Reaches a Safer Level",
+      "before": "REVIEW",
+      "after": "INCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Deputy Finance Minister signals indirect-tax relief only after revenue consolidation; fiscal policy signal relevant to sovereign and banking-sector risk. First discovered 28 Oct (late discovery)."
+    },
+    {
+      "source_url": "https://ft.lk/business/EDB-business-clinics-target-export-readiness-of-North-Western-SMEs/34-799261",
+      "headline": "EDB business clinics target export readiness of North Western SMEs",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_EDB SME export clinics; not financial-sector news."
+    },
+    {
+      "source_url": "https://ft.lk/top-story/Govt-signals-stronger-capital-market-push-in-2027-Budget/26-799231",
+      "headline": "Govt. signals stronger capital market push in 2027 Budget",
+      "before": "REVIEW",
+      "after": "INCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_Government signals capital-market measures in Budget 2027; market policy signal (top story)."
+    },
+    {
+      "source_url": "https://ft.lk/business/PickMe-s-growing-network-drives-operating-leverage-and-value-for-earners-and-shareholders/34-799262",
+      "headline": "PickMe’s growing network drives operating leverage and value for earners and shareholders",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_PickMe quarterly results; non-financial company."
+    },
+    {
+      "source_url": "https://ft.lk/ft_view__editorial/Placating-demons-still/58-799249",
+      "headline": "Placating demons still",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_Editorial on political folklore; out of scope."
+    },
+    {
+      "source_url": "https://ft.lk/business/Standard-Capital-mandatory-offer-awaits-SEC-nod/34-799252",
+      "headline": "Standard Capital mandatory offer awaits SEC nod",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Mandatory offer for a small listed company awaiting SEC determination; low materiality."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/MYpe2r2wluO4L5nivlQq",
+      "headline": "AMLL: Financial system strength relies on institutions, regulations: PM",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Same APG AML/CFT evaluation event as the Daily News report included; avoids duplicate coverage."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/FGNLPxPmCv2u8l9du7qG",
+      "headline": "Landslide preparedness needs urgency",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Editorial on landslide preparedness; not financial-sector news."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/7NtnKcXtxtpMHOPcugQB",
+      "headline": "Maritime: ‘Digital capabilities must be prioritised with port infra’",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "MATERIAL_INFRASTRUCTURE_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Port digitalisation speech (same event as #7); no financial-sector impact."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/PZGauKGRhcZRZXHCtYu4",
+      "headline": "Renewable Energy: Financing channels, infrastructure not kept pace",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_Renewable energy research commentary; no direct financial-sector development."
+    },
+    {
+      "source_url": "https://ft.lk/business/CRIB-expands-credit-information-ecosystem/34-799259",
+      "headline": "CRIB expands credit information ecosystem",
+      "before": "REVIEW",
+      "after": "INCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_CRIB onboards four licensed microfinance institutions after gazette; expands credit-information coverage of regulated lenders."
+    },
+    {
+      "source_url": "https://ft.lk/front-page/Apparel-exports-grow-in-Sept-YTD-picture-remains-cautious-JAAF/44-799232",
+      "headline": "Apparel exports grow in Sept., YTD picture remains cautious: JAAF",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Apparel export detail; external-sector headline already covered by the 27 Oct exports story."
+    },
+    {
+      "source_url": "https://ft.lk/columns/Why-Sri-Lanka-needs-Singapore-Temasek-style-holding-model-for-SOEs/4-799248",
+      "headline": "Why Sri Lanka needs Singapore Temasek-style holding model for SOEs",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Opinion column on SOE holding model; commentary only."
+    },
+    {
+      "source_url": "https://ft.lk/columns/From-consumption-to-capacity-Taxing-those-who-can-pay/4-799251",
+      "headline": "From consumption to capacity: Taxing those who can pay",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Opinion column on tax policy; commentary only."
+    },
+    {
+      "source_url": "https://dailynews.lk/2026/10/28/business/1047139/nce-council-reviews-export-sector-barriers-and-forex-opportunities",
+      "headline": "NCE Council reviews export sector barriers and forex opportunities",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Exporters chamber council meeting; low materiality."
+    },
+    {
+      "source_url": "https://dailynews.lk/2026/10/28/business/1047137/sri-lankas-aml-cft-framework-under-international-scrutiny-as-apg-evaluation-begins",
+      "headline": "Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins",
+      "before": "REVIEW",
+      "after": "INCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_APG third-round mutual evaluation of Sri Lanka AML/CFT framework begins; directly affects banks and supervisory AML obligations."
+    },
+    {
+      "source_url": "https://island.lk/optimism-over-upcoming-quarterly-corporate-results-energizes-cse",
+      "headline": "Optimism over upcoming quarterly corporate results energizes CSE",
+      "before": "REVIEW",
+      "after": "INCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_CSE session report for 27 Oct (ASPI +52.11); the day's equity market session."
+    },
+    {
+      "source_url": "https://island.lk/apparel-exports-grow-in-september-but-the-year-to-date-picture-remains-cautious-jaaf",
+      "headline": "Apparel exports grow in September, but the year-to-date picture remains cautious: JAAF",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Apparel export detail (same as #19); already covered."
+    },
+    {
+      "source_url": "https://island.lk/tertiary-education-advancement-key-to-producing-workers-with-problem-solving-skills",
+      "headline": "‘Tertiary education advancement, key to producing workers with problem-solving skills’",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_Education commentary; out of scope."
+    },
+    {
+      "source_url": "https://island.lk/returns-on-ethics-a-new-compass-for-global-finance-in-an-age-of-debt-and-inequality",
+      "headline": "Returns on ethics: A new compass for global finance in an age of debt and inequality",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_Opinion essay on global finance ethics; commentary only."
+    },
+    {
+      "source_url": "https://island.lk/disaster-management-need-for-radical-rethink",
+      "headline": "Disaster management: Need for radical rethink",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Editorial on disaster management; out of scope."
+    },
+    {
+      "source_url": "https://island.lk/norochcholai-unit-goes-offline-again-raising-fresh-questions-over-power-security",
+      "headline": "Norochcholai unit goes offline again, raising fresh questions over power security",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Power plant outage; energy-sector news without financial-sector impact."
+    },
+    {
+      "source_url": "https://island.lk/opposition-alleges-govt-move-to-arm-military-with-police-powers",
+      "headline": "Opposition alleges govt. move to arm military with police powers",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Political statement on security legislation; out of scope."
+    },
+    {
+      "source_url": "https://ft.lk/financial-services/BOC-Meets-BOC-Two-banking-giants-two-nations-a-future-of-shared-prosperity/42-799200",
+      "headline": "BOC Meets BOC: Two banking giants, two nations, a future of shared prosperity",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "BANK_EXPLORATORY_ACTIVITY_MATERIALITY_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Courtesy visit of 16 Oct; low materiality and not established as late news."
+    },
+    {
+      "source_url": "https://ft.lk/business/Corrugated-carton-industry-under-growing-cost-pressure/34-799203",
+      "headline": "Corrugated carton industry under growing cost pressure",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Manufacturing cost pressure; not financial-sector news."
+    },
+    {
+      "source_url": "https://ft.lk/columns/Digital-VAT-in-Sri-Lanka-Why-platform-liability-and-reverse-charge-are-essential-to-avoid-costing-households-and-Treasury/4-799213",
+      "headline": "Digital VAT in Sri Lanka: Why platform liability and reverse charge are essential to avoid costing households and Treasury",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Opinion column on digital VAT design; commentary only."
+    },
+    {
+      "source_url": "https://ft.lk/opinion/How-can-public-sector-become-more-customer-centric/14-799192",
+      "headline": "How can public sector become more customer-centric?",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Opinion on public-sector service; out of scope."
+    },
+    {
+      "source_url": "https://ft.lk/front-page/Laugfs-Gas-weighs-stake-sale-in-Hambantota-LPG-terminal/44-799222",
+      "headline": "Laugfs Gas weighs stake sale in Hambantota LPG terminal",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "MATERIAL_INFRASTRUCTURE_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Laugfs Gas terminal stake (same as #4); non-financial corporate."
+    },
+    {
+      "source_url": "https://ft.lk/business/OPA-presents-collective-professional-proposals-for-Budget-2027/34-799216",
+      "headline": "OPA presents collective professional proposals for Budget 2027",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "MACRO_CONTEXT_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Professional body budget proposals; advocacy, not a fiscal development."
+    },
+    {
+      "source_url": "https://ft.lk/news/Sajith-discusses-proposed-anti-terrorism-organised-crime-laws-with-diplomatic-corps/56-799220",
+      "headline": "Sajith discusses proposed anti-terrorism, organised crime laws with diplomatic corps",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Opposition meeting on security bills; out of scope."
+    },
+    {
+      "source_url": "https://dailynews.lk/2026/10/27/business/1046879/hnb-invests-rs-3-2-mn-for-vocational-training-at-sos-childrens-villages-sri-lanka",
+      "headline": "HNB invests Rs. 3.2 Mn for vocational training at SOS Children’s Villages Sri Lanka",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LATE_NEWS_NOT_ESTABLISHED",
+      "after_reason": "SIGNED_EDITORIAL_Bank CSR donation; low materiality."
+    },
+    {
+      "source_url": "https://dailynews.lk/2026/10/27/business/1046914/minister-highlights-new-investment-opportunities-ahead-of-sl-expo-2027",
+      "headline": "Minister highlights new investment opportunities ahead of SL EXPO 2027",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_Investment promotion forum; low materiality."
+    },
+    {
+      "source_url": "https://dailynews.lk/2026/10/27/business/1046891/peoples-bank-explores-banking-opportunities-for-lankans-in-uae",
+      "headline": "People’s Bank explores banking opportunities for Lankans in UAE",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "BANK_EXPLORATORY_ACTIVITY_MATERIALITY_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Exploratory meeting on UAE banking services; no decision or development."
+    },
+    {
+      "source_url": "https://dailynews.lk/2026/10/27/features/1046966/policy-priorities-to-achieve-durable-growth-in-sri-lanka",
+      "headline": "Policy priorities to achieve durable growth in Sri Lanka",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_IPS roundtable summary of 14 Oct; commentary and not late news."
+    },
+    {
+      "source_url": "https://island.lk/beyond-recovery-policy-priorities-to-achieve-durable-growth-in-sri-lanka",
+      "headline": "Beyond recovery: Policy priorities to achieve durable growth in Sri Lanka",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LEGACY_INCLUDE_NEEDS_EVIDENCE",
+      "after_reason": "SIGNED_EDITORIAL_IPS roundtable summary (same as #41)."
+    },
+    {
+      "source_url": "https://island.lk/heavy-rains-disrupt-school-attendance-in-kandy",
+      "headline": "Heavy rains disrupt school attendance in Kandy",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Weather disruption to schools; out of scope."
+    },
+    {
+      "source_url": "https://island.lk/state-institutions-warned-over-critical-php-security-flaws",
+      "headline": "State institutions warned over critical PHP security flaws",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Government PHP security circular of 23 Oct; aimed at state institutions and not established as late news."
+    },
+    {
+      "source_url": "https://island.lk/stock-market-rattled-by-oil-supply-chain-disruptions",
+      "headline": "Stock market rattled by oil supply chain disruptions",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LATE_NEWS_NOT_ESTABLISHED",
+      "after_reason": "SIGNED_EDITORIAL_CSE session of 26 Oct; superseded and not late news."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/SQFzs2xAm9LrBgpYZZjg",
+      "headline": "All schools closed today",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_School closures due to weather; out of scope."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/xhm8bLxiBbGlEkP9JsqG",
+      "headline": "CBSL stresses public trust in AI adoption",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "LATE_NEWS_NOT_ESTABLISHED",
+      "after_reason": "SIGNED_EDITORIAL_CBSL AI oration remarks of 23 Oct; already covered and not late news."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/FFegZiYd0I6QCGdz3b4W",
+      "headline": "Electricity tariffs: Electricity consumers seek 10% reduction",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Electricity tariff consumer demand; not financial-sector news."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/yMynLepsewcJAQjKoT6F",
+      "headline": "NCE reviews export sector barriers, FX ops",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Exporters chamber meeting (same as #22)."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/ujFdlV23zqXOCleRBBOg",
+      "headline": "Oil slips from near six-months highs",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Global oil price movement; international market context only."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/yxTLzzZ6Q5xP6doCCvGb",
+      "headline": "Review: The Social Reckoning",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Documentary review; out of scope."
+    },
+    {
+      "source_url": "https://themorning.lk/articles/B9TciyPy6kOO2QwBHDVW",
+      "headline": "Transformation Committees formed: Gamage suspends cycling and badminton bodies",
+      "before": "REVIEW",
+      "after": "EXCLUDE",
+      "before_reason": "FINBERT_KEEP_RULE_EXCLUSION_REVIEW",
+      "after_reason": "SIGNED_EDITORIAL_Sports body suspensions; out of scope."
+    }
+  ],
+  "replay_vs_recorded_differences": [],
+  "freeze": {
+    "created_at": "2026-10-13T11:53:06.2808157+05:30",
+    "entries": 12,
+    "mismatches": [
+      "scripts\\run_pipeline.py",
+      "scripts\\run_collection.py",
+      "scripts\\run_intelligence_stage1.py",
+      "scripts\\build_supervisory_digest.py",
+      "scripts\\run_daily_ft.py",
+      "scripts\\run_ceylon_today.py",
+      "scripts\\run_daily_mirror.py",
+      "scripts\\run_island.py",
+      "src\\bank_intel\\intelligence\\production_policy.py"
+    ]
+  },
+  "scheduler": {
+    "run_id": "20261028_083005",
+    "run_date": "2026-10-28",
+    "status": "FAILED",
+    "message": "Frozen production code has changed: scripts\\run_pipeline.py [HASH CHANGED]; scripts\\run_collection.py [HASH CHANGED]; scripts\\run_intelligence_stage1.py [HASH CHANGED]; scripts\\build_supervisory_digest.py [HASH CHANGED]; scripts\\run_daily_ft.py [HASH CHANGED]; scripts\\run_ceylon_today.py [HASH CHANGED]; scripts\\run_daily_mirror.py [HASH CHANGED]; scripts\\run_island.py [HASH CHANGED]; src\\bank_intel\\intelligence\\production_policy.py [HASH CHANGED]",
+    "exit_code": 12,
+    "timestamp": "2026-10-28T08:30:07.8884089+05:30",
+    "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
+    "log_file": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\logs\\scheduler\\news_pipeline_20261028_083005.log",
+    "alert_file": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\scheduler\\alerts\\FAILED_20261028_083005.txt"
+  },
+  "runs": [
+    {
+      "file": "news_pipeline_20261020_082636.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 1/6 COLLECTION failed with return code 2.",
+      "started_at": "2026-10-20T08:26:36.178221+05:30",
+      "completed_at": "2026-10-20T09:03:15.389123+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261020_091541.json",
+      "status": "SUCCESS",
+      "error": null,
+      "started_at": "2026-10-20T09:15:41.952623+05:30",
+      "completed_at": "2026-10-20T09:30:13.926692+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261021_095001.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 1/6 COLLECTION failed with return code 2.",
+      "started_at": "2026-10-21T09:50:01.924498+05:30",
+      "completed_at": "2026-10-21T10:19:02.165388+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261021_103346.json",
+      "status": "SUCCESS",
+      "error": null,
+      "started_at": "2026-10-21T10:33:46.971417+05:30",
+      "completed_at": "2026-10-21T10:49:52.526395+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261021_122937.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 1/6 COLLECTION failed with return code 2.",
+      "started_at": "2026-10-21T12:29:37.902445+05:30",
+      "completed_at": "2026-10-21T12:50:10.487807+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261021_135726.json",
+      "status": "FAILED",
+      "error": "RuntimeError: SEVEN-SOURCE PUBLICATION GATE: INCOMPLETE_SURFACES:daily_ft; INCOMPLETE_SURFACES:ceylon_today; INCOMPLETE_SURFACES:daily_news; INCOMPLETE_SURFACES:newsfirst; INCOMPLETE_SURFACES:the_morning",
+      "started_at": "2026-10-21T13:57:26.790570+05:30",
+      "completed_at": "2026-10-21T14:12:42.187224+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261021_142243.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 6/6 FINAL FINANCIAL BRIEF failed with return code 1.",
+      "started_at": "2026-10-21T14:22:43.482767+05:30",
+      "completed_at": "2026-10-21T14:46:39.525352+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261022_080055.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 6/6 FINAL FINANCIAL BRIEF failed with return code 1.",
+      "started_at": "2026-10-22T08:00:55.680846+05:30",
+      "completed_at": "2026-10-22T08:51:40.199692+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261022_142847.json",
+      "status": "FAILED",
+      "error": "RuntimeError: FINAL RELEASE HOLD: review C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-22\\window_1d\\news_release_qa.json before sending",
+      "started_at": "2026-10-22T14:28:47.129288+05:30",
+      "completed_at": "2026-10-22T15:27:46.279002+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261023_081331.json",
+      "status": "FAILED",
+      "error": "RuntimeError: FINAL RELEASE HOLD: preview C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-23\\window_1d\\Daily Financial Sector News Brief 2026-10-23 QA.html; review C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-23\\window_1d\\news_release_qa.json before sending",
+      "started_at": "2026-10-23T08:13:31.970218+05:30",
+      "completed_at": "2026-10-23T09:12:09.536778+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261026_075033.json",
+      "status": "FAILED",
+      "error": "RuntimeError: FINAL RELEASE HOLD: preview C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\Daily Financial Sector News Brief 2026-10-26 QA.html; review C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\news_release_qa.json before sending",
+      "started_at": "2026-10-26T07:50:33.411833+05:30",
+      "completed_at": "2026-10-26T08:54:10.423539+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261026_113115.json",
+      "status": "REVIEW_REQUIRED",
+      "error": "Independent editorial/coverage QA HOLD. See C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\integrated_release_result.json",
+      "started_at": "2026-10-26T11:31:15.845519+05:30",
+      "completed_at": "2026-10-26T12:03:40.667547+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261026_134256.json",
+      "status": "REVIEW_REQUIRED",
+      "error": "Independent editorial/coverage QA HOLD. See C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\integrated_release_result.json",
+      "started_at": "2026-10-26T13:42:56.545837+05:30",
+      "completed_at": "2026-10-26T14:19:10.195983+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261026_145947.json",
+      "status": "REVIEW_REQUIRED",
+      "error": "Independent editorial/coverage QA HOLD. See C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\integrated_release_result.json",
+      "started_at": "2026-10-26T14:59:47.180701+05:30",
+      "completed_at": "2026-10-27T07:42:53.574860+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261027_081914.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 6/6 FINAL FINANCIAL BRIEF failed with return code 1.",
+      "started_at": "2026-10-27T08:19:14.540141+05:30",
+      "completed_at": "2026-10-27T10:37:39.216791+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261028_083503.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 1/6 COLLECTION failed with return code 1.",
+      "started_at": "2026-10-28T08:35:03.708908+05:30",
+      "completed_at": "2026-10-28T08:57:51.738923+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261028_094934.json",
+      "status": "FAILED",
+      "error": "RuntimeError: 1/6 COLLECTION failed with return code 1.",
+      "started_at": "2026-10-28T09:49:34.748233+05:30",
+      "completed_at": "2026-10-28T10:39:51.915688+05:30",
+      "collection_skipped": false
+    },
+    {
+      "file": "news_pipeline_20261028_105426.json",
+      "status": "FAILED",
+      "error": "RuntimeError: SEVEN-SOURCE PUBLICATION GATE: UNRESOLVED_FETCHES:daily_ft; UNRESOLVED_FETCHES:ceylon_today; FAILED_SURFACE:ceylon_today; UNRESOLVED_FETCHES:island; UNRESOLVED_FETCHES:newsfirst; FAILED_SURFACE:newsfirst",
+      "started_at": "2026-10-28T10:54:26.458671+05:30",
+      "completed_at": "2026-10-28T11:17:05.941680+05:30",
+      "collection_skipped": true
+    },
+    {
+      "file": "news_pipeline_20261028_112044.json",
+      "status": "REVIEW_REQUIRED",
+      "error": "Independent editorial/coverage QA HOLD. See C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-28\\window_1d\\integrated_release_result.json",
+      "started_at": "2026-10-28T11:20:44.263330+05:30",
+      "completed_at": "2026-10-28T11:43:01.484500+05:30",
+      "collection_skipped": true
+    }
+  ],
+  "sent_history": [
+    {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\SENT_EDITION.json",
+      "state": "DELIVERED_CONFIRMED_BY_OPERATOR",
+      "sent_at": "2026-10-26T09:33:00+05:30",
+      "sent_time_status": "OPERATOR_RECORDED",
+      "event_count": 30
+    },
+    {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-27\\window_1d\\SENT_EDITION.json",
+      "state": "DELIVERED_CONFIRMED_BY_OPERATOR",
+      "sent_at": "2026-10-27T12:19:00+05:30",
+      "sent_time_status": "OPERATOR_RECORDED",
+      "event_count": 11
+    },
+    {
+      "path": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-28\\window_1d\\SENT_EDITION.json",
+      "state": "DELIVERED_CONFIRMED_BY_OPERATOR",
+      "sent_at": "",
+      "sent_time_status": "NOT_PROVIDED",
+      "event_count": 11
+    }
+  ]
+}

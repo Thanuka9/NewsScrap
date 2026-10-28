@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from _runtime import locked_main
 import argparse
 
 from bank_intel.collectors.sources._public_business_base import (
@@ -96,4 +97,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    locked_main(main)

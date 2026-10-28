@@ -2,6 +2,7 @@ from __future__ import annotations
 
 # NEWS_DAILY_MIRROR_LATE_REPLAY_V1
 
+from _runtime import locked_main
 import argparse
 from datetime import timedelta
 
@@ -91,4 +92,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    locked_main(main)

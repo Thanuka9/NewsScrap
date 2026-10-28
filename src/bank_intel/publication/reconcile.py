@@ -97,6 +97,15 @@ def was_sent(row:dict,prior:list[dict])->bool:
  return bool(prior_matches(row,prior)[0])
 
 
+SINGLE_EVENT_REASONS={'AML_MUTUAL_EVALUATION'}
+
+
+def _days_apart(a:dict,b:dict)->int:
+ from datetime import date
+ try:return abs((date.fromisoformat(str(a.get('publication_date'))[:10])-date.fromisoformat(str(b.get('publication_date'))[:10])).days)
+ except ValueError:return 99
+
+
 def group(assessments:list[dict])->list[dict]:
  """Group single events, but preserve complete source links and article trace."""
  events=[]; keys={}
@@ -106,8 +115,14 @@ def group(assessments:list[dict])->list[dict]:
    e=events[keys[key]]
    e['members'].append(entry)
    continue
-  # Same development from another publisher joins the existing event.
-  other=next((i for i,e in enumerate(events) if any(same_event(row,m['article'],max_gap_days=1) for m in e['members'])),None)
+  # Same development from another publisher joins the existing event. A
+  # classification that names one specific event (an AML mutual evaluation)
+  # on the same day is the same story even when the wording differs.
+  reason=entry['assessment'].get('reason','')
+  other=next((i for i,e in enumerate(events) if any(same_event(row,m['article'],max_gap_days=1) or
+             (reason in SINGLE_EVENT_REASONS and m['assessment'].get('reason')==reason and
+              _days_apart(m['article'],row)<=1)
+             for m in e['members'])),None)
   if other is not None:
    events[other]['members'].append(entry)
    if sig:keys[key]=other

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from _runtime import locked_main
 import json
 import time
 from datetime import datetime

@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+from _runtime import run_process, locked_main
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,7 +65,7 @@ def main(argv=None):
     try:
         for label,cmd in steps:
             print('\n=== '+label+' ===',flush=True)
-            result=subprocess.run(cmd,cwd=str(ROOT),check=False)
+            result=run_process(cmd,cwd=str(ROOT),check=False)
             if result.returncode:
                 rc=result.returncode
                 print(f'[RESUME] {label} exited {rc}. No approved attachment.',flush=True)
@@ -85,4 +86,4 @@ def main(argv=None):
                 (output/name).unlink(missing_ok=True)
 
 if __name__=='__main__':
-    raise SystemExit(main())
+    raise SystemExit(locked_main(main))

@@ -14,7 +14,9 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+from _runtime import run_process, locked_main
 import sys
+import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
@@ -22,7 +24,8 @@ from bank_intel.publication.workflow import build
 
 
 def write_json(path: Path, obj: dict) -> None:
-    path.write_text(json.dumps(obj, indent=2, ensure_ascii=False), encoding='utf-8')
+    from bank_intel.common.reliability import atomic_json
+    atomic_json(path, obj)
 
 
 def main(argv=None) -> int:
@@ -40,7 +43,8 @@ def main(argv=None) -> int:
     inventory=report/(title+' Articles.csv')
     statuses=root/'data'/'source_status'
     script_dir=root/'scripts'
-    output=report/'integrated_edition'
+    revision_id=datetime.now(ZoneInfo('Asia/Colombo')).strftime('%Y%m%dT%H%M%S')+'_'+uuid.uuid4().hex[:10]
+    output=report/'integrated_edition'/'revisions'/revision_id
     history=root/'data'/'processed'/'reports'
     named=report/(title+'.html')
     alias=report/'supervisory_digest.html'
@@ -77,9 +81,16 @@ def main(argv=None) -> int:
           'all=',source_merge['full_window_count'])
     if inventory.is_file():shutil.copyfile(inventory,legacy_folder/inventory.name)
     review=args.review_decisions or report/'news_material_editorial_decisions.csv'
+    inputs=output/'inputs';inputs.mkdir(parents=True,exist_ok=True)
+    for original_input,filename in ((merged_audit,'audit.json'),(merged_inventory,'inventory.csv')):
+        shutil.copyfile(original_input,inputs/filename)
+    merged_audit=inputs/'audit.json';merged_inventory=inputs/'inventory.csv'
+    frozen_statuses=inputs/'source_status';shutil.copytree(statuses,frozen_statuses)
+    if review.is_file():
+        shutil.copyfile(review,inputs/'editorial_decisions.csv');review=inputs/'editorial_decisions.csv'
     manifest,preview=build(
         date_iso=date,audit=merged_audit,inventory=merged_inventory,output=output,sent=[],
-        review=review if review.is_file() else None,source_status=statuses,
+        review=review if review.is_file() else None,source_status=frozen_statuses,
         model_project_root=root,sent_report_root=history,window_days=args.days,
         css_file=root/'src'/'bank_intel'/'publication'/'news_style.css')
     # NEWS_OCT27_UNSENT_BACKLOG_AUDIT: a held Monday edition must be visible
@@ -96,17 +107,23 @@ def main(argv=None) -> int:
               'unexplained=',len(carryover.get('missing_priority_candidates') or []))
     source_qa=report/'news_coverage_verified.json'
     gate=script_dir/'news_release_gate.py'
-    prep=subprocess.run([sys.executable,str(gate),'prepare-coverage','--date',date,
+    prep=run_process([sys.executable,str(gate),'prepare-coverage','--date',date,
                          '--project-root',str(root),'--out',str(source_qa)],
                          cwd=root,check=False)
-    qa_path=report/'news_release_qa.json'
+    qa_path=output/'news_release_qa.json'
+    if source_qa.is_file():
+        shutil.copyfile(source_qa, inputs/'coverage.json');source_qa=inputs/'coverage.json'
+    snapshot={'revision_id':revision_id,'files':[{'path':str(f.relative_to(output)), 'sha256':hashlib.sha256(f.read_bytes()).hexdigest()} for f in sorted(inputs.rglob('*')) if f.is_file()]}
+    write_json(output/'input_snapshot.json',snapshot)
+    manifest.update(revision_id=revision_id,input_snapshot='input_snapshot.json')
+    write_json(output/'candidate_edition.json',manifest)
     if prep.returncode==0:
         command=[sys.executable,str(gate),'audit','--date',date,'--report',str(preview),
                  '--inventory',str(merged_inventory),'--coverage',str(source_qa),
                  '--decision-manifest',str(output/'candidate_edition.json'),
                  '--out',str(qa_path)]
         if review.is_file():command+=['--reviewed',str(review)]
-        independent=subprocess.run(command,cwd=root,check=False)
+        independent=run_process(command,cwd=root,check=False)
     else:
         independent=None
     issues=list(manifest.get('issues') or []) + list(carryover.get('issues') or [])
@@ -125,11 +142,14 @@ def main(argv=None) -> int:
     # Preserve any existing report manifest and clearly mark it no longer
     # authoritative when integrated QA has not cleared.
     report_manifest=report/'report_manifest.json'
-    original=json.loads(report_manifest.read_text(encoding='utf-8-sig')) if report_manifest.is_file() else {}
+    legacy_manifest=report/'legacy_report_manifest.json'
+    original=json.loads(legacy_manifest.read_text(encoding='utf-8-sig')) if legacy_manifest.is_file() else {'publication_date':date,'window_days':args.days}
     # A version already approved by an editor stays the one at the send path;
     # a rebuild with different bytes needs that approval withdrawn first.
-    prior_approval=output/'APPROVED_EDITION.json'
-    if not issues and prior_approval.is_file():
+    # Each run is a new revision folder, so look across all earlier revisions.
+    approvals=sorted((report/'integrated_edition').rglob('APPROVED_EDITION.json'))
+    for prior_approval in approvals:
+        if issues:break
         held=json.loads(prior_approval.read_text(encoding='utf-8'))
         if held.get('attachment_sha256')!=manifest['sha256']:
             issues.append({'kind':'DIFFERENT_VERSION_ALREADY_APPROVED','approved_by':held.get('reviewer'),
@@ -138,6 +158,11 @@ def main(argv=None) -> int:
             write_json(output/'candidate_edition.json',manifest)
     approved=not issues
     original.update({
+       'contract':'NEWS_RELEASE_V1', 'revision_id':revision_id,
+       'article_count':manifest['source_row_count'], 'retained_article_count':manifest['counts']['included'],
+       'consolidated_event_count':manifest['event_count'],
+       'coverage_dates':sorted({r['publication_date'] for r in json.loads(merged_audit.read_text(encoding='utf-8-sig'))['audit']}),
+       'qa':{'status':'PASS' if approved else 'HOLD_FOR_REVIEW','issues':issues},
        'status':'QA_PASS_NOT_DELIVERED' if approved else 'HOLD_FOR_REVIEW',
        'integrated_manifest':str(output/'candidate_edition.json'),
        'decision_ledger':str(output/'publication_decisions.json'),
@@ -166,6 +191,8 @@ def main(argv=None) -> int:
        'model_trace_coverage':manifest['model_trace_coverage'],'issues':issues,
        'preview':str(preview),'final_attachment':str(named) if approved else None}
     write_json(preview_result,status)
+    if qa_path.is_file():shutil.copyfile(qa_path,report/'news_release_qa.json')
+    write_json(report/'integrated_edition'/'current_revision.json', {'revision_id':revision_id,'manifest':str(output/'candidate_edition.json')})
     print('[INTEGRATED RELEASE]',status['status'],'articles=',status['articles'],
           'events=',status['events'],'model_traces=',status['model_trace_coverage'])
     print('[PREVIEW]',preview)
@@ -180,4 +207,4 @@ def main(argv=None) -> int:
     return 0 if approved else 2
 
 if __name__=='__main__':
-    raise SystemExit(main())
+    raise SystemExit(locked_main(main))

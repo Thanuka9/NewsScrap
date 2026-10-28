@@ -1,4 +1,4 @@
-﻿param()
+param()
 
 $ErrorActionPreference = "Stop"
 
@@ -182,85 +182,42 @@ Freeze       : PASS
         Pop-Location
     }
 
+    if ($PipelineExitCode -eq 2) {
+        Write-RunStatus -Status "REVIEW_REQUIRED" -Message "Collection or editorial exceptions require review; no attachment delivered." -ExitCode 2
+        exit 2
+    }
+
     if ($PipelineExitCode -ne 0) {
         Fail-Run `
             -Message "run_pipeline.py returned exit code $PipelineExitCode" `
             -Code $PipelineExitCode
     }
 
-    # Validate final outputs
+    # Both schedulers use this exact contract, including attachment/ledger hashes.
+    Push-Location $Root
+    try {
+        $ValidatedJson = & $Python (Join-Path $Root "scripts\check_release.py") --date $RunDate
+        $ValidationExitCode = $LASTEXITCODE
+    }
+    finally { Pop-Location }
+    if ($ValidationExitCode -ne 0) {
+        Fail-Run -Message ("Release contract rejected outputs: " + ($ValidatedJson -join "`n")) -Code 22
+    }
+    $Validated = ($ValidatedJson -join "`n") | ConvertFrom-Json
+    if ($Validated.status -eq "ALREADY_SENT") {
+        Write-RunStatus -Status "ALREADY_SENT" -Message "Sent edition retained; no duplicate delivery." -ExitCode 0
+        exit 0
+    }
+    if ($Validated.status -ne "QA_PASS_NOT_DELIVERED") {
+        Fail-Run -Message "Unsupported release result: $($Validated.status)" -Code 22
+    }
     $ReportRoot = Join-Path $Root "data\processed\reports\$RunDate\window_1d"
-    $ReportManifest = Join-Path $ReportRoot "report_manifest.json"
-    $DigestHtml = Join-Path $ReportRoot "$BriefName.html"
+    $ReportManifest = $Validated.report_manifest
+    $DigestHtml = $Validated.named_report
     $DigestCsv = Join-Path $ReportRoot "$BriefName Articles.csv"
-    $CorpusManifest = Join-Path $Root "data\processed\ml_corpus\$RunDate\window_1d\corpus_manifest.json"
-    $TaxonomyManifest = Join-Path $Root "data\processed\taxonomy\$RunDate\window_1d\taxonomy_manifest.json"
-
-    foreach ($Required in @(
-        $ReportManifest,
-        $DigestHtml,
-        $DigestCsv,
-        $CorpusManifest,
-        $TaxonomyManifest
-    )) {
-        if (-not (Test-Path $Required)) {
-            Fail-Run -Message "Required production output missing: $Required" -Code 20
-        }
-    }
-
-    if ((Get-Item $DigestHtml).Length -lt 500) {
-        Fail-Run -Message "Final $BriefName.html is unexpectedly small." -Code 21
-    }
-
-    $Report = Get-Content -Path $ReportManifest -Raw | ConvertFrom-Json
-    $Corpus = Get-Content -Path $CorpusManifest -Raw | ConvertFrom-Json
-    $Taxonomy = Get-Content -Path $TaxonomyManifest -Raw | ConvertFrom-Json
-
-    if ($Report.status -ne "SUCCESS") {
-        Fail-Run -Message "Report manifest status is not SUCCESS: $($Report.status)" -Code 22
-    }
-
-    if ($Corpus.status -ne "SUCCESS") {
-        Fail-Run -Message "Corpus manifest status is not SUCCESS: $($Corpus.status)" -Code 23
-    }
-
-    if ($Taxonomy.status -ne "SUCCESS") {
-        Fail-Run -Message "Taxonomy manifest status is not SUCCESS: $($Taxonomy.status)" -Code 24
-    }
-
-    $All = [int]$Report.metrics.all_phase2_article_count
-    $Keep = [int]$Report.metrics.stage_a_keep_article_count
-    $Noise = [int]$Report.metrics.stage_a_noise_audit_count
-
-    if (($Keep + $Noise) -ne $All) {
-        Fail-Run `
-            -Message "Final report does not reconcile: ALL=$All KEEP=$Keep NOISE=$Noise" `
-            -Code 25
-    }
-
-    $CorpusKeep = [int]$Corpus.stage_a_keep_article_count
-    $CorpusNoise = [int]$Corpus.stage_a_noise_audit_count
-
-    if (($CorpusKeep -ne $Keep) -or ($CorpusNoise -ne $Noise)) {
-        Fail-Run `
-            -Message "Phase-3/report mismatch: Phase3=$CorpusKeep/$CorpusNoise Report=$Keep/$Noise" `
-            -Code 26
-    }
-
-    $TaxonomyCount = $null
-
-    if ($null -ne $Taxonomy.stage_a_keep_article_count) {
-        $TaxonomyCount = [int]$Taxonomy.stage_a_keep_article_count
-    }
-    elseif ($null -ne $Taxonomy.article_count) {
-        $TaxonomyCount = [int]$Taxonomy.article_count
-    }
-
-    if (($null -ne $TaxonomyCount) -and ($TaxonomyCount -ne $Keep)) {
-        Fail-Run `
-            -Message "Taxonomy/report mismatch: Taxonomy=$TaxonomyCount Report=$Keep" `
-            -Code 27
-    }
+    $All = [int]$Validated.article_count
+    $Keep = [int]$Validated.retained_article_count
+    $Noise = $All - $Keep
 
     # Publish only after all QA passes
     New-Item -ItemType Directory -Path $DailyDelivery -Force | Out-Null
@@ -286,8 +243,17 @@ Freeze       : PASS
         -Destination (Join-Path $LatestDelivery "report_manifest.json") `
         -Force
 
+    foreach ($PublishedCopy in @((Join-Path $DailyDelivery "$BriefName.html"), (Join-Path $LatestDelivery "$BriefName.html"))) {
+        if ((Get-FileHash -LiteralPath $PublishedCopy -Algorithm SHA256).Hash.ToLowerInvariant() -ne $Validated.sha256) {
+            Remove-Item -LiteralPath $PublishedCopy -Force
+            Fail-Run -Message "Delivery copy differs from validated revision." -Code 28
+        }
+    }
+
     $DeliveryStatus = [ordered]@{
-        status            = "READY"
+        status            = "QA_PASS_NOT_DELIVERED"
+        revision_id       = $Validated.revision_id
+        attachment_sha256 = $Validated.sha256
         run_id            = $RunId
         publication_date  = $RunDate
         generated_at      = (Get-Date).ToString("o")

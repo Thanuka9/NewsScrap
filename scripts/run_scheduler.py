@@ -203,177 +203,10 @@ def load_json(path: Path) -> dict:
     return payload
 
 
-def validate_pipeline_outputs(
-    run_date: str,
-) -> dict:
-    report_root = (
-        PROJECT_ROOT
-        / "data"
-        / "processed"
-        / "reports"
-        / run_date
-        / "window_1d"
-    )
-
-    manifest_path = (
-        report_root
-        / "report_manifest.json"
-    )
-
-    if not manifest_path.is_file():
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            f"report manifest missing: {manifest_path}"
-        )
-
-    manifest = load_json(
-        manifest_path
-    )
-
-    if str(
-        manifest.get("status", "")
-    ).upper() != "SUCCESS":
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "report manifest status is not SUCCESS"
-        )
-
-    if str(
-        manifest.get(
-            "publication_date",
-            "",
-        )
-    ) != run_date:
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "report publication_date mismatch"
-        )
-
-    if int(
-        manifest.get(
-            "window_days",
-            0,
-        )
-        or 0
-    ) != 1:
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "window_days is not 1"
-        )
-
-    qa = (
-        manifest.get("qa", {})
-        or {}
-    )
-
-    if str(
-        qa.get("status", "")
-    ).upper() != "PASS":
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "final report QA is not PASS"
-        )
-
-    named_raw = str(
-        manifest.get(
-            "named_attachment",
-            "",
-        )
-        or ""
-    ).strip()
-
-    alias_raw = str(
-        manifest.get(
-            "final_attachment",
-            "",
-        )
-        or ""
-    ).strip()
-
-    if not named_raw:
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "named_attachment missing"
-        )
-
-    if not alias_raw:
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "final_attachment missing"
-        )
-
-    named_path = (
-        Path(named_raw)
-        if Path(named_raw).is_absolute()
-        else PROJECT_ROOT / named_raw
-    )
-
-    alias_path = (
-        Path(alias_raw)
-        if Path(alias_raw).is_absolute()
-        else PROJECT_ROOT / alias_raw
-    )
-
-    if not named_path.is_file():
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            f"named report missing: {named_path}"
-        )
-
-    if not alias_path.is_file():
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            f"production alias missing: {alias_path}"
-        )
-
-    if (
-        named_path.read_bytes()
-        != alias_path.read_bytes()
-    ):
-        raise RuntimeError(
-            "Scheduler output gate failed: "
-            "named report and production alias differ"
-        )
-
-    return {
-        "report_manifest": str(
-            manifest_path
-        ),
-        "named_report": str(
-            named_path
-        ),
-        "production_alias": str(
-            alias_path
-        ),
-        "article_count": int(
-            manifest.get(
-                "article_count",
-                0,
-            )
-            or 0
-        ),
-        "retained_article_count": int(
-            manifest.get(
-                "retained_article_count",
-                0,
-            )
-            or 0
-        ),
-        "consolidated_event_count": int(
-            manifest.get(
-                "consolidated_event_count",
-                0,
-            )
-            or 0
-        ),
-        "qa_status": "PASS",
-        "policy_version": str(
-            manifest.get(
-                "policy_version",
-                "",
-            )
-        ),
-    }
+def validate_pipeline_outputs(run_date: str) -> dict:
+    from _runtime import ROOT
+    from bank_intel.publication.contract import validate_release
+    return validate_release(PROJECT_ROOT, run_date)
 
 
 def run_pipeline_job() -> dict:
@@ -434,7 +267,8 @@ def run_pipeline_job() -> dict:
             f"{PIPELINE_SCRIPT}"
         )
 
-    result = subprocess.run(
+    from _runtime import run_process
+    result = run_process(
         [
             sys.executable,
             str(
@@ -443,11 +277,21 @@ def run_pipeline_job() -> dict:
         ],
         cwd=PROJECT_ROOT,
         check=False,
+        # The full pipeline takes about an hour; each stage has its own limit.
+        timeout=4 * 3600,
     )
 
     completed_at = datetime.now(
         SRI_LANKA_TZ
     )
+
+    if result.returncode == 2:
+        outputs = validate_pipeline_outputs(run_date)
+        if outputs.get('status') != 'REVIEW_REQUIRED':
+            raise RuntimeError('Review exit code without a held edition')
+        write_scheduler_status(status='RUNNING', last_run_result='REVIEW_REQUIRED', last_return_code=2,
+                               last_run_completed_at=completed_at.isoformat(), last_run_summary=outputs)
+        return outputs
 
     if result.returncode != 0:
         write_scheduler_status(
@@ -498,6 +342,11 @@ def run_pipeline_job() -> dict:
             ),
         )
         raise
+
+    if outputs.get('status') == 'ALREADY_SENT':
+        write_scheduler_status(status='RUNNING', last_run_result='ALREADY_SENT', last_return_code=0,
+                               last_run_completed_at=completed_at.isoformat(), last_run_summary=outputs)
+        return outputs
 
     summary = {
         "run_date": run_date,

@@ -3695,13 +3695,13 @@ def main() -> None:
             "FINAL BRIEF QA FAILED: " + "; ".join(qa["failures"])
         )
 
-    named_html = output_root / f"Daily Financial Sector News Brief {end_date.isoformat()}.html"
+    named_html = output_root / f"Daily Financial Sector News Brief {end_date.isoformat()} Source Preview.html"
     qa_html = output_root / f"Daily Financial Sector News Brief {end_date.isoformat()} QA.html"
-    production_alias = output_root / "supervisory_digest.html"
+    production_alias = output_root / "legacy_source_preview.html"
     review_path = output_root / "stakeholder_category_review.csv"
     audit_json_path = output_root / "stakeholder_brief_v2_audit.json"
     article_csv_path = output_root / f"Daily Financial Sector News Brief {end_date.isoformat()} Articles.csv"
-    report_manifest_path = output_root / "report_manifest.json"
+    report_manifest_path = output_root / "legacy_report_manifest.json"
 
     html = render_html(
         end_date=end_date,
