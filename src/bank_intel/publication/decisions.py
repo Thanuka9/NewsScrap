@@ -125,7 +125,7 @@ def decide(r: dict) -> dict:
  # previous day's edition. Its publication date is not its market-session date.
  # Without the actual previous event facts, flag for review rather than
  # silently publish or automatically delete a possibly new weekly recap.
- if result['decision']=='INCLUDE' and (licensed_bank_in(h) or DIRECT_BANK.search(h)) and re.search(r'(?i)explores?|discuss(?:es|ions)?|courtesy|meets?|welcomes?|visit\w*',h) and not RISK_ACTION.search(h):
+ if result['decision']=='INCLUDE' and (licensed_bank_in(h) or DIRECT_BANK.search(h)) and re.search(r'(?i)explores?|discuss(?:es|ions)?|courtesy|\bmeets?\b|welcomes?|visit\w*',h) and not RISK_ACTION.search(h):
   result.update(decision='REVIEW',reason='BANK_EXPLORATORY_ACTIVITY_MATERIALITY_REVIEW')
  if result['decision']=='INCLUDE' and result['category']=='MARKET_EXTERNAL' and re.search(r'(?i)\b(?:aspi|cse|indices|stock market|bourse)\b',h):
   from datetime import date as _Date
