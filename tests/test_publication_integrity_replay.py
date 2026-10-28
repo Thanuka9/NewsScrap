@@ -288,3 +288,14 @@ def test_send_time_recorded_once_for_imported_edition(tmp_path):
     with pytest.raises(FileExistsError):record_send_time(record,'2026-10-26T10:00:00+05:30','op')
     previous,issues=load_confirmed_history(tmp_path,'2026-10-27')
     assert not issues and {p['sent_at'] for p in previous}=={'2026-10-26T09:10:00+05:30'}
+
+
+def test_coverage_exception_needs_reason_and_permitted_defect():
+    from bank_intel.publication.coverage import open_issues
+    evidence={'automatic_issues':['INVALID_ARTICLE_EXTRACTION','COLLECTOR_HEALTH:PARTIAL_ERROR']}
+    assert open_issues(evidence)==evidence['automatic_issues']
+    evidence['accepted_issues']={'INVALID_ARTICLE_EXTRACTION':'Photo-only page, URL inspected','COLLECTOR_HEALTH:PARTIAL_ERROR':' '}
+    assert open_issues(evidence)==['COLLECTOR_HEALTH:PARTIAL_ERROR']
+    # Unknowable coverage can never be signed away.
+    for issue in ('COLLECTOR_NOT_SUCCESS','STALE_STATUS','MISSING_SECTIONS:business','EXTRACTION_FAILURE_URLS_NOT_RECORDED'):
+        assert open_issues({'automatic_issues':[issue],'accepted_issues':{issue:'reason'}})==[issue]

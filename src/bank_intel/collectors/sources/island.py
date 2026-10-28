@@ -377,14 +377,19 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
         if not record:
             # Direct article calls (without a listing fetch) can consult the
             # latest official feeds. Historical URL recovery is not guaranteed.
-            for section in ("business", "news", "homepage"):
-                try:
-                    self._read_rss_page(section, 1)
-                except RuntimeError:
-                    # One feed may be unavailable while another is live.
-                    # The failed feed remains visible in RSS diagnostics.
-                    continue
-                record = self._rss_item_cache.get(requested)
+            # A collection window spans about two days, deeper than one
+            # ten-item feed page; search a few pages before giving up.
+            for page in (1, 2, 3, 4):
+                for section in ("business", "news", "homepage"):
+                    try:
+                        self._read_rss_page(section, page)
+                    except RuntimeError:
+                        # One feed may be unavailable while another is live.
+                        # The failed feed remains visible in RSS diagnostics.
+                        continue
+                    record = self._rss_item_cache.get(requested)
+                    if record:
+                        break
                 if record:
                     break
         if not record:
@@ -420,6 +425,15 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
             return super().fetch(url)
         except Exception as exc:
             detail = str(exc).lower()
+            # The publisher's own server errors (HTTP 5xx) on a page that the
+            # official feed carries in full: recover that page only.
+            if re.search(r"status[= ]5\d\d|http 5\d\d|\b5\d\d server error", detail):
+                try:
+                    recovered = self._rss_for_url(url)
+                except RuntimeError:
+                    raise exc
+                print(f"[ISLAND] Publisher server error; recovered from official RSS: {url}", flush=True)
+                return recovered
             # Only switch to RSS for a recognised Sucuri redirect/challenge;
             # unrelated network errors are handled by existing retry logic.
             if not ("307" in detail or "you are being redirected" in detail):

@@ -10,6 +10,21 @@ REQUIRED_SURFACES={
 }
 
 
+# Collector defects a reviewer may accept with a written reason once the
+# affected URLs are recorded. Anything else (collector failure, stale or
+# missing status, missing sections, unrecorded failure URLs) leaves coverage
+# unknown and can never be accepted.
+ACCEPTABLE_ISSUES=('INVALID_ARTICLE_EXTRACTION','COLLECTOR_HEALTH:PARTIAL_ERROR','UNRESOLVED_FETCH_OR_DISCOVERY',
+                   'INCOMPLETE_PAGINATION:','TRUNCATED_LISTING','MISSING_PUBLICATION_DATE')
+
+
+def open_issues(evidence):
+    """Automatic issues not covered by a signed, permitted acceptance."""
+    accepted=evidence.get('accepted_issues') or {}
+    return [i for i in evidence.get('automatic_issues',[])
+            if not (i.startswith(ACCEPTABLE_ISSUES) and str(accepted.get(i) or '').strip())]
+
+
 def missing_surfaces(publisher,surfaces):
     names={str(x.get('name') or x.get('listing_name') or '').casefold() if isinstance(x,dict) else str(x).casefold() for x in surfaces}
     return sorted(REQUIRED_SURFACES[publisher]-names)

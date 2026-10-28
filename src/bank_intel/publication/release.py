@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from .identity import SOURCES, canonical
 from .ledger import validate_outputs
-from .coverage import missing_surfaces
+from .coverage import missing_surfaces, open_issues
 
 
 def audit_release(*, report, manifest_path, inventory, coverage, out, report_date):
@@ -32,10 +32,10 @@ def audit_release(*, report, manifest_path, inventory, coverage, out, report_dat
             evidence = verified.get('publishers', {}).get(source, {})
             if (evidence.get('status') != 'VERIFIED' or not evidence.get('reviewer')
                     or not evidence.get('reviewed_at') or not evidence.get('evidence')
-                    or missing_surfaces(source,evidence.get('surfaces', [])) or evidence.get('automatic_issues')):
+                    or missing_surfaces(source,evidence.get('surfaces', [])) or open_issues(evidence)):
                 issues.append({'kind': 'PUBLISHER_COVERAGE_NOT_VERIFIED', 'publisher': source,
                                'evidence': evidence.get('evidence'),
-                               'open_defects': evidence.get('automatic_issues', [])})
+                               'open_defects': open_issues(evidence)})
     except (OSError, ValueError, TypeError, AttributeError) as exc:
         issues.append({'kind': 'COVERAGE_MANIFEST_INVALID', 'details': str(exc)})
     result = {'release_status': 'HOLD_FOR_REVIEW' if issues else 'PASS',

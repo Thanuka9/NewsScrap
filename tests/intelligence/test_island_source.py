@@ -99,3 +99,24 @@ def test_island_body_stops_before_related_content():
     )
 
     assert "another recommended story" not in result.article_text.lower()
+
+
+def test_publisher_server_error_recovers_page_from_official_rss(monkeypatch):
+    from bank_intel.collectors.sources import _public_business_base as base
+    adapter = IslandBusinessAdapter.__new__(IslandBusinessAdapter)
+    def failing(self, url):
+        raise RuntimeError("Browser fallback returned unusable page (status=500): " + url)
+    monkeypatch.setattr(base.BusinessSourceAdapter, "fetch", failing)
+    monkeypatch.setattr(IslandBusinessAdapter, "_rss_for_url", lambda self, url: "RSS:" + url)
+    assert adapter.fetch("https://island.lk/a-story") == "RSS:https://island.lk/a-story"
+    # Not a permanent switch: the next page still tries the publisher first.
+    assert not adapter._rss_mode
+
+
+def test_unrelated_fetch_error_is_not_masked_by_rss(monkeypatch):
+    import pytest
+    from bank_intel.collectors.sources import _public_business_base as base
+    adapter = IslandBusinessAdapter.__new__(IslandBusinessAdapter)
+    monkeypatch.setattr(base.BusinessSourceAdapter, "fetch", lambda self, url: (_ for _ in ()).throw(RuntimeError("getaddrinfo failed")))
+    with pytest.raises(RuntimeError, match="getaddrinfo"):
+        adapter.fetch("https://island.lk/a-story")

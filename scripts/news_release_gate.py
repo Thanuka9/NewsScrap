@@ -295,6 +295,7 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
                 issues.append('UNRESOLVED_FETCH_OR_DISCOVERY')
             if int(payload.get('truncated_discovery_urls') or 0):issues.append('TRUNCATED_LISTING')
             if int(payload.get('invalid_extraction') or 0):issues.append('INVALID_ARTICLE_EXTRACTION')
+            if int(payload.get('missing_date') or 0):issues.append('MISSING_PUBLICATION_DATE')
             if payload.get('health_status') not in {'HEALTHY','SUCCESS'}:
                 issues.append('COLLECTOR_HEALTH:'+str(payload.get('health_status')))
             for page in payload.get('listing_pages',[]):
@@ -328,6 +329,8 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
                         entry['status']='VERIFIED'
                         entry['reviewer']=old.get('reviewer','')
                         entry['reviewed_at']=old.get('reviewed_at','')
+                        entry['review_notes']=old.get('review_notes','')
+                        entry['accepted_issues']=old.get('accepted_issues') or {}
         except (ValueError,OSError,TypeError,AttributeError) as exc:
             raise RuntimeError(f'Unable to reconcile old coverage worksheet: {output}') from exc
     output.write_text(json.dumps(out,indent=2,ensure_ascii=False),encoding='utf-8')

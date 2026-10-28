@@ -237,7 +237,7 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
  ledger=make_ledger(work,events,date_iso)
  ledger_path=output/'publication_decisions.json'
  ledger_path.write_text(json.dumps(ledger,indent=2,ensure_ascii=False),encoding='utf-8')
- cards=[];issues=template_issues(Path(__file__).parent,css_file)
+ cards=[];issues=template_issues(Path(__file__).parent,css_file);coverage_defects=[]
  for e in events:
   primary=e['members'][0]['article'];ass=e['members'][0]['assessment']
   bad=evidence_issues(primary)
@@ -259,7 +259,10 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
    if not p.is_file():issues.append({'kind':'MISSING_PUBLISHER_STATUS','publisher':source});continue
    info=read_json(p)
    defects=status_defects(source,info,date_iso)
-   if defects:issues.append({'kind':'SOURCE_COVERAGE_PARTIAL','publisher':source,'evidence':str(p),'defects':defects,'failed_articles':info.get('extraction_failures',[])})
+   # Defects are evidence for the signed coverage worksheet, which the
+   # release audit enforces; blocking here too would make a recorded,
+   # reviewed single-article failure impossible to clear.
+   if defects:coverage_defects.append({'kind':'SOURCE_COVERAGE_PARTIAL','publisher':source,'evidence':str(p),'defects':defects,'failed_articles':info.get('extraction_failures',[])})
  else:issues.append({'kind':'COVERAGE_NOT_AUDITED','message':'Supply current source_status snapshots for release review'})
  contents=render_html(date_iso,events,css_file.read_text(encoding='utf-8'))
  path=output/f'Daily Financial Sector News Brief {date_iso} QA.html'
@@ -290,7 +293,7 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
     'renderer':'bank_intel.publication.workflow.render_html','template_css_sha256':hashlib.sha256(css_file.read_bytes()).hexdigest(),
     'sha256':sha,'source_audit_path':str(audit),'source_inventory_path':str(inventory),
     'confirmed_sent_inputs':[str(p) for p in sent],'sent_history_root':str(sent_report_root) if sent_report_root else None,'model_trace_coverage':matched_model_traces, 'model_traces_available':len(model_data),
-    'model_trace_warnings':model_warnings[:40],'issues':issues,
+    'model_trace_warnings':model_warnings[:40],'coverage_defects':coverage_defects,'issues':issues,
     'status': 'HOLD_FOR_REVIEW' if issues else 'QA_PASS_NOT_DELIVERED','events':cards}
  manifest['issues'].extend(validate_outputs(ledger,manifest,contents))
  manifest['status']='HOLD_FOR_REVIEW' if manifest['issues'] else 'QA_PASS_NOT_DELIVERED'
