@@ -24,28 +24,62 @@ def flatten(raw: str) -> str:
 LEAD_VERB=re.compile(r'(?i)\b(?:has|have|had|is|was|were|can|could|must|will|would|announced|launched|introduced|rejected|reported|recorded|reached|said|signed|issued|approved|opened|assigned|warned|rose|fell|marked|celebrated|elected|secured|expanded)\b')
 
 
-def strip_deck(t: str, headline: str='') -> str:
- """Drop flattened '- point - point' subheadline decks ahead of the real lead.
+CAPTION_MARKER=re.compile(r'(?i)\b(?:pic(?:ture)? by|photo(?: by)?|from left|chief guest|ceo|chairman|director|minister|deputy|governor|president)\b')
+INLINE_BYLINE=re.compile(r"\bBy\s+(?:[A-Z][\w&.'’-]*\s+){1,5}?(?=(?:The|A|An)\s)")
 
- Flattening loses the line break, so the lead is found where a deck point
+
+def _sentence_break(t: str):
+ """First real sentence end; 'Nov.', 'Dr.', 'Govt.' and 'Rs.' are not."""
+ for m in re.finditer(r"(\S+)[.!?]\s+(?=[A-Z])",t):
+  word=m.group(1)
+  if word[:1].isupper() and len(word)<=5:continue
+  if re.fullmatch(r'(?:[A-Z]\.)*[A-Z]',word):continue  # initials: R.M.C.H.K.
+  return m
+ return None
+
+
+def strip_deck(t: str, headline: str='') -> str:
+ """Drop a photo caption and flattened '- point - point' subheadline deck.
+
+ Flattening loses the line breaks, so the lead is found where a deck point
  runs into a capitalised clause ('...conservation Cargills Bank has launched').
- The lead must start with 'The' or a multi-word proper name, carry a news
- verb, and (unless it starts with 'The') name something in the headline;
- otherwise the text is returned unchanged rather than guessed at.
+ A caption (names, titles, 'Pic by') may precede the deck. The lead must
+ start with 'The' or a multi-word proper name, carry a news verb, and name
+ something in the headline; otherwise the text is returned unchanged.
  """
- if not re.match(r'^\s*[-–•]\s',t):return t
+ offset=0
+ if not re.match(r'^\s*[-–•]\s',t):
+  dash=re.search(r'\s[-–]\s',t[:500])
+  # Only a caption may precede a deck: no sentence, but names and titles.
+  if not dash or _sentence_break(t[:dash.start()+1]) or not CAPTION_MARKER.search(t[:dash.start()]):return t
+  offset=dash.start()+1
+ body=t[offset:]
+ byline=INLINE_BYLINE.search(body[:900])
+ if byline:body=body[:byline.start()]+body[byline.end():]
  wanted=tokens(headline)
  # Deck points carry no full stops; past the first sentence break the
  # candidate would be body text, not the lead.
- end=re.search(r'[.!?]\s+(?=[A-Z])',t[:900])
- for m in re.finditer(r'(?<=[a-z0-9%,;)’\'])\s+(?=[A-Z])',t[:end.start() if end else 900]):
-  lead=t[m.end():]
-  if not re.match(r"(?:The\s|[A-Z][\w&'’.-]*\s+(?:\([A-Z]+\)\s+)?[A-Z])",lead):continue
-  opening=' '.join(lead.split()[:22])
+ end=_sentence_break(body[:900])
+ for m in re.finditer(r"(?<=[a-z0-9%,;)’'])\s+(?=[A-Z])",body[:end.start() if end else 900]):
+  lead=body[m.end():]
+  if not re.match(r"(?:The\s|[A-Z][\w&'’.-]*(?:\s+(?:and|of|&))?\s+(?:\([A-Z]+\)\s+)?[A-Z])",lead):continue
+  # Still inside the deck if another '- point' follows straight away.
+  if re.search(r'\s[-–]\s',lead[:200]):continue
+  opening=' '.join(lead.split()[:30])
   if not LEAD_VERB.search(opening):continue
-  if not lead.startswith('The ') and not (wanted & tokens(' '.join(lead.split()[:6]))):continue
+  # A lead names the headline's subject at once, or opens with a full
+  # title-and-name ('Finance and Planning Deputy Minister Dr. X said').
+  name_run=len(re.match(r"(?:[A-Z][\w&'’.-]*|and|of|&)(?:\s+(?:[A-Z][\w&'’.-]*|and|of|&))*",lead).group().split())
+  titled=name_run>=4 and LEAD_VERB.search(' '.join(lead.split()[:15]))
+  if not (lead.startswith('The ') or wanted & tokens(' '.join(lead.split()[:6])) or titled):continue
   return lead
  return t
+
+
+def drop_repeated_caption(t: str) -> str:
+ """'Deputy Minister X Deputy Minister X believes...' -> caption removed."""
+ m=re.match(r'^(.{12,160}?)\s+\1\b',t)
+ return t[len(m.group(1)):].lstrip() if m else t
 
 
 def strip_byline(t: str) -> str:
@@ -65,7 +99,7 @@ def clean_lead(raw: str, headline: str='') -> str:
   lead=re.search(r'(?i)\b(?:HNB FINANCE PLC|Amana Bank has|HNB PLC has|Bank of Ceylon \(BOC\)|The Central Bank of Sri Lanka|The Sri Lanka Computer Emergency)\b',t[12:750])
   if lead:t=t[12+lead.start():]
  for _ in range(4): t=re.sub(BOILER,'',t,flags=re.I)
- t=strip_byline(strip_deck(t,headline))
+ t=strip_byline(strip_deck(drop_repeated_caption(t),headline))
  t=re.sub(r'(?i)^\s*\d{1,2}\s+[A-Za-z]{3}\s+20\d{2}\s*\|\s*By\s+[A-Za-z]+\s+[A-Za-z]+\s+', '', t)
  if re.match(r'(?i)^Emphasises technology should never',t):
   marker=re.search(r'\bAs artificial intelligence\b',t,re.I)

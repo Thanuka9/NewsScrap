@@ -272,7 +272,7 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
         'newsfirst':{'latestpaginated','local','world','business','homepage'},
         'ceylon_today':{'daily_finance','sunday_finance','homepage'},
     }
-    root=Path(project_root)
+    root=Path(project_root).resolve()
     out={'report_date':date_arg.isoformat(),'window_start':earliest_eligible_day(date_arg).isoformat(),
          'workflow':'COLLECTOR_EVIDENCE_REQUIRES_EDITORIAL_VERIFICATION',
          'publishers':{}}
@@ -302,7 +302,9 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
                 if page.get('pagination_complete') is False:issues.append('INCOMPLETE_PAGINATION:'+str(page.get('listing_name') or page.get('listing_url')))
             if payload.get('wp_api_discovery',{}).get('api_pagination_complete') is False:issues.append('INCOMPLETE_WORDPRESS_PAGINATION')
             if int(payload.get('invalid_extraction') or 0) and not payload.get('extraction_failures'):issues.append('EXTRACTION_FAILURE_URLS_NOT_RECORDED')
-            evidence=f'{status_file}: {len(surfaces)} discovery surfaces; '+str(payload.get('completed_at'))+'; sha256='+hashlib.sha256(status_file.read_bytes()).hexdigest()
+            # Identify evidence by content, not by how the project root was
+            # spelled, so a signature survives an absolute/relative rerun.
+            evidence=f'data/source_status/{key}.json: {len(surfaces)} discovery surfaces; '+str(payload.get('completed_at'))+'; sha256='+hashlib.sha256(status_file.read_bytes()).hexdigest()
         except (OSError, ValueError, TypeError) as exc:
             surfaces=[]
             issues.append('MISSING_OR_INVALID_STATUS:'+type(exc).__name__)
@@ -329,8 +331,10 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
                         entry['status']='VERIFIED'
                         entry['reviewer']=old.get('reviewer','')
                         entry['reviewed_at']=old.get('reviewed_at','')
+                        # Preserve signed, individually reasoned exceptions only
+                        # while the collector evidence is byte-for-byte unchanged.
+                        entry['accepted_issues']=dict(old.get('accepted_issues') or {})
                         entry['review_notes']=old.get('review_notes','')
-                        entry['accepted_issues']=old.get('accepted_issues') or {}
         except (ValueError,OSError,TypeError,AttributeError) as exc:
             raise RuntimeError(f'Unable to reconcile old coverage worksheet: {output}') from exc
     output.write_text(json.dumps(out,indent=2,ensure_ascii=False),encoding='utf-8')

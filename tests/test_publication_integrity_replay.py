@@ -299,3 +299,16 @@ def test_coverage_exception_needs_reason_and_permitted_defect():
     # Unknowable coverage can never be signed away.
     for issue in ('COLLECTOR_NOT_SUCCESS','STALE_STATUS','MISSING_SECTIONS:business','EXTRACTION_FAILURE_URLS_NOT_RECORDED'):
         assert open_issues({'automatic_issues':[issue],'accepted_issues':{issue:'reason'}})==[issue]
+
+
+def test_coverage_signature_survives_relative_and_absolute_root(tmp_path, monkeypatch):
+    statuses=tmp_path/'data/source_status';statuses.mkdir(parents=True)
+    for key in ('daily_ft','daily_mirror','daily_news','the_morning','island','newsfirst','ceylon_today'):
+        (statuses/(key+'.json')).write_text(json.dumps({'execution_status':'SUCCESS','health_status':'HEALTHY','completed_at':'2026-11-04T09:00:00+05:30','discovery_surfaces':[]}))
+    out=tmp_path/'coverage.json'
+    prepare_coverage(date(2026,11,4),tmp_path,out)
+    sheet=read(out);sheet['publishers']['Daily FT'].update(status='VERIFIED',reviewer='r',reviewed_at='t')
+    out.write_text(json.dumps(sheet))
+    monkeypatch.chdir(tmp_path)
+    prepare_coverage(date(2026,11,4),Path('.'),out)
+    assert read(out)['publishers']['Daily FT']['status']=='VERIFIED'
