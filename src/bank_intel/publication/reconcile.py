@@ -4,7 +4,7 @@ from collections import defaultdict
 import re
 from html.parser import HTMLParser
 from pathlib import Path
-from .identity import canonical,event_signature,same_event,tokens,publisher_article_id
+from .identity import canonical,same_event,publisher_article_id,figures,_close
 
 class SentHTML(HTMLParser):
  """Read the actual distributed facts, including nested summary markup."""
@@ -63,22 +63,38 @@ def is_material_follow_up(row: dict, previous: dict) -> bool:
  return bool(old and fact in current and fact not in old)
 
 
-def was_sent(row:dict,prior:list[dict])->bool:
- url=canonical(row.get('source_url',''))
- sig=event_signature(row)
+OUTCOME=re.compile(r'(?i)\b(?:oversubscri\w*|allot\w*|listed|listing|approv\w*|reject\w*|complet\w*|signs?|signed|'
+                   r'opens?|opened|closes?|closed|default\w*|downgrad\w*|upgrad\w*|assign\w*|withdraw\w*|cancel\w*|suspend\w*|'
+                   r'fines?|fined|penal\w*)\b')
+
+
+def new_development(row:dict,previous:dict)->bool:
+ """Headline carries a figure or outcome the sent story did not report."""
+ h=str(row.get('headline') or '')
+ reported=str(previous.get('summary') or previous.get('body') or '')
+ old=str(previous.get('headline') or '')+' '+reported
+ known=figures(old)
+ if any(not any(_close(f,k) for k in known) for f in figures(h)):return True
+ # A headline-only sent record cannot show which outcomes were reported.
+ if not reported.strip():return False
+ return any(m.group().casefold()[:6] not in old.casefold() for m in OUTCOME.finditer(h))
+
+
+def prior_matches(row:dict,prior:list[dict])->tuple[list[dict],list[dict]]:
+ """(already reported, same event with a possible material development)."""
+ url=canonical(row.get('source_url',''));pid=publisher_article_id(row.get('source_url',''))
+ sent=[];updates=[]
  for p in prior:
-  if url and url==canonical(p.get('source_url','')):return True
-  pid=publisher_article_id(row.get('source_url',''))
-  if pid and pid==publisher_article_id(p.get('source_url','')):return True
-  psig=p.get('event_signature') or event_signature(p)
-  if (sig and psig and sig==psig) or same_event(row,p):
-   if is_material_follow_up(row,p):continue
-   return True
-  # Conservatively flag likely same article; no substring or generic institutional merges.
-  a=tokens(row.get('headline','')); b=tokens(p.get('headline',''))
-  if (a and a==b and len(a)>=5 and
-      row.get('publication_date','')[:10]==p.get('publication_date','')[:10]):return True
- return False
+  if (url and url==canonical(p.get('source_url',''))) or (pid and pid==publisher_article_id(p.get('source_url',''))):
+   sent.append(p);continue
+  if not same_event(row,p):continue
+  if is_material_follow_up(row,p):continue
+  (updates if new_development(row,p) else sent).append(p)
+ return sent,updates
+
+
+def was_sent(row:dict,prior:list[dict])->bool:
+ return bool(prior_matches(row,prior)[0])
 
 
 def group(assessments:list[dict])->list[dict]:
@@ -90,22 +106,20 @@ def group(assessments:list[dict])->list[dict]:
    e=events[keys[key]]
    e['members'].append(entry)
    continue
-  # Un-keyed items merge only exact full headline+same date.
-  if not sig:
-   other=next((i for i,e in enumerate(events) if not e['event_signature'] and same_event(row,e['members'][0]['article'])),None)
-   if other is not None:
-    events[other]['members'].append(entry);continue
+  # Same development from another publisher joins the existing event.
+  other=next((i for i,e in enumerate(events) if any(same_event(row,m['article'],max_gap_days=1) for m in e['members'])),None)
+  if other is not None:
+   events[other]['members'].append(entry)
+   if sig:keys[key]=other
+   continue
   keys[key]=len(events)
   events.append({'event_signature':sig,'members':[entry]})
- # Select a numerical tourism revenue lead when consolidating reports of the
- # same SLTDA release. Keep every publisher URL as evidence.
+ # Lead each merged event with the report carrying the most reported figures,
+ # then the fullest text. Every publisher URL stays as evidence.
  for e in events:
-  if e['event_signature'].startswith('SRI_LANKA_TOURISM_ARRIVALS@'):
-   e['members'].sort(key=lambda x: (
-    -int(bool(re.search(r'(?i)(?:2,245|2\.24\s*billion|revenue hits)',
-               x['article'].get('body','')[:1400] + ' '+x['article'].get('headline','')))),
-    -len(x['article'].get('body',''))))
- # Confirm no intra-group topic mixing; merge only source records under exact signature.
+  if len(e['members'])>1:
+   e['members'].sort(key=lambda x:(-len(figures(x['article'].get('headline','')+' '+str(x['article'].get('body',''))[:1400])),
+                                   -len(str(x['article'].get('body','')))))
  return events
 
 
@@ -162,7 +176,7 @@ def load_confirmed_history(report_root:Path,target_date:str,lookback_days:int|No
      recorded.add(c)
      prior.append({'source_url':url,'headline':str(e.get('headline') or ''),
                    'publication_date':str(e.get('publication_date') or ''), 'summary':str(e.get('summary') or ''), 'body':str(e.get('summary') or ''),
-                   'event_signature':e.get('event_signature',''), 'distributed_report':x.get('report_path',''), 'sent_at':x.get('sent_at','')})
+                   'event_signature':e.get('event_signature',''), 'distributed_report':x.get('report_path',''), 'sent_at':x.get('sent_at') or x.get('sent_at_utc','')})
    if recorded!=canon_urls:
     issues.append('SENT_URL_EVENT_INCONSISTENCY:'+day)
  return prior,issues

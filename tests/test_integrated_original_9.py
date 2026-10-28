@@ -2,7 +2,7 @@
 import sys,unittest
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"src"))
-from bank_intel.publication.identity import approved,first_window_day,event_signature
+from bank_intel.publication.identity import approved,first_window_day,event_signature,same_event
 from bank_intel.publication.decisions import decide
 from bank_intel.publication.evidence import evidence_issues
 from bank_intel.publication.reconcile import group,was_sent
@@ -21,17 +21,17 @@ class TestNews(unittest.TestCase):
  def test_adb_same_event(self):
   a=self.r('ADB approves $100m for social protection','Asian Development Bank has approved 100 million to support social protection')
   b=self.r('Developmental aid ADB approves $100 million','ADB 100 million in financing social protection')
-  self.assertEqual(event_signature(a),event_signature(b))
+  self.assertTrue(same_event(a,{**b,'source_url':'https://www.ft.lk/b'}))
  def test_cse_consolidate_only_same_close(self):
   a=self.r('CSE ends down', 'The ASPI ended at 19,717.92 on 22 October')
   b=self.r('Indices close in red','ASPI 19,717.92 and other indices')
   c=self.r('CSE falls 2.48% during week','ASPI at 19,684.91')
-  self.assertEqual(event_signature(a),event_signature(b));self.assertNotEqual(event_signature(a),event_signature(c))
+  self.assertTrue(same_event(a,{**b,'source_url':'https://www.ft.lk/b'}));self.assertFalse(same_event(a,{**c,'source_url':'https://www.ft.lk/c'}))
  def test_imf_oration_only(self):
   a=self.r('CBSL 76th Anniversary Oration by IMF CIO Shirin Hamid', 'The IMF CIO Shirin Hamid delivered the Intelligent Central Bank oration')
   b=self.r('Trust a National Asset IMF Chief Information Officer','Shirin Hamid gave the oration at CBSL')
   c=self.r('IPS report outlines reforms','IMF programme context and Sri Lanka growth')
-  self.assertEqual(event_signature(a),event_signature(b));self.assertNotEqual(event_signature(a),event_signature(c))
+  self.assertTrue(same_event(a,{**b,'source_url':'https://www.ft.lk/b'}));self.assertFalse(same_event(a,{**c,'source_url':'https://www.ft.lk/c'}))
  def test_mismatch(self):
   a=self.r('Namal R and Janaki Siriwardena further remanded','Lead-acid battery recycling is harming the environment and toxic chemicals')
   self.assertIn('HEADLINE_BODY_TOPIC_MISMATCH',evidence_issues(a))

@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 import json
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
-from bank_intel.publication.identity import event_signature
+from bank_intel.publication.identity import event_signature,same_event
 from bank_intel.publication.reconcile import load_unconfirmed_prior_candidates,was_sent
 from bank_intel.publication.decisions import decide
 from bank_intel.publication.workflow import prepare
@@ -15,8 +15,7 @@ class HistoricalRegression(unittest.TestCase):
  def test_fitch_same_event_across_publishers(self):
   old={'headline':'Fitch Ratings recalibrates national rating scale','publication_date':'2026-10-22'}
   new={'publication_date':'2026-10-22','headline':"Fitch recalibrates Sri Lanka’s national ratings following sovereign upgrade"}
-  self.assertEqual(event_signature(old),event_signature(new))
-  self.assertTrue(event_signature(old))
+  self.assertTrue(same_event(old,new))
 
  def test_weekend_article_recounting_old_cse_close_needs_review(self):
   article={'source_name':'The Morning','publication_date':'2026-10-25','headline':'ASPI slips as three-day slide deepens',

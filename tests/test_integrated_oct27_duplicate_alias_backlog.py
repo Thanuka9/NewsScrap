@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 sys.path.insert(0,str(ROOT/'scripts'))
-from bank_intel.publication.identity import event_signature,publisher_article_id
+from bank_intel.publication.identity import event_signature,publisher_article_id,same_event
 from bank_intel.publication.reconcile import group
 from bank_intel.publication.workflow import prepare
 from bank_intel.publication.backlog import merge_held_edition_evidence
@@ -54,7 +54,7 @@ class Oct27CompleteRegression(unittest.TestCase):
             self.assertEqual(counts['publisher_aliases'],2)
             self.assertEqual(sum(x['assessment']['decision']=='INCLUDE' for x in decisions),2)
             self.assertEqual(len(events),2)
-            self.assertEqual({x['event_signature'] for x in events},{'CBSL_EARLY_SETTLEMENT_PARATE_THEMATIC@2026-10','NBFI_HOUSEHOLD_STAGE2_RISK@2026-10'})
+            self.assertEqual({x['members'][0]['assessment']['reason'] for x in events},{'REGULATOR_CONDUCT_REVIEW','NBFI_PORTFOLIO_RISK'})
 
     def test_factual_duplicate_cross_publisher_merges(self):
         pairs=[
@@ -69,9 +69,7 @@ class Oct27CompleteRegression(unittest.TestCase):
             with self.subTest(a=a_title):
                 a=article('https://dailynews.lk/article-abc',a_title,a_text,source='Daily News',day='2026-10-27')
                 b=article('https://www.ft.lk/article-abc',b_title,b_text,source='Daily FT',day='2026-10-27')
-                sig_a=event_signature(a);sig_b=event_signature(b)
-                self.assertEqual(sig_a,sig_b)
-                self.assertTrue(sig_a)
+                self.assertTrue(same_event(a,b))
                 entries=[{'article':z,'assessment':{'event_signature':event_signature(z)}} for z in (a,b)]
                 result=group(entries)
                 self.assertEqual(len(result),1)
@@ -82,7 +80,7 @@ class Oct27CompleteRegression(unittest.TestCase):
                      'HNB FINANCE and Toyota Lanka lease Toyota vehicles.')
         other=article('https://dailynews.lk/two','HNB partners with IDEAL Motors',
                        'HNB PLC and IDEAL Motors offer vehicle financing.')
-        self.assertNotEqual(event_signature(one),event_signature(other))
+        self.assertFalse(same_event(one,other))
 
     def test_legacy_uses_factual_aliases_and_preserves_url_lineage(self):
         a=article(MIRROR_A,'CBSL reviews lenders early settlement fees and parate auctions after complaints pile up',

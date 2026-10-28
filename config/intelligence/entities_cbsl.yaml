@@ -267,3 +267,75 @@ additional_entities:
       - "MBSL"
     notes:
       - "High-confidence licensed finance-company entity used for supervisory news matching."
+
+  # Non-bank financial institutions observed in the October 2026 news flow.
+  - canonical_name: "LOLC Holdings PLC"
+    institution_type: "FINANCIAL_GROUP"
+    aliases:
+      - "LOLC Holdings"
+      - "LOLC Group"
+      - "LOLC"
+
+  - canonical_name: "HNB Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "HNB Finance"
+      - "HNB FINANCE PLC"
+
+  - canonical_name: "Assetline Finance Limited"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Assetline Finance"
+      - "Assetline"
+
+  - canonical_name: "Asia Asset Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Asia Asset Finance"
+      - "AAF"
+
+  - canonical_name: "CBC Finance Limited"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "CBC Finance"
+
+  - canonical_name: "SMB Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "SMB Finance"
+
+  - canonical_name: "People's Leasing & Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "People's Leasing & Finance"
+      - "People's Leasing"
+      - "People’s Leasing"
+
+  - canonical_name: "Sri Lanka Insurance Corporation Life Limited"
+    institution_type: "INSURER"
+    aliases:
+      - "SLIC Life"
+      - "Sri Lanka Insurance Corporation Life"
+
+  - canonical_name: "SANASA Life Insurance Company PLC"
+    institution_type: "INSURER"
+    aliases:
+      - "SANASA Life Insurance"
+      - "SANASA Life"
+
+  - canonical_name: "Union Assurance PLC"
+    institution_type: "INSURER"
+    aliases:
+      - "Union Assurance"
+
+  - canonical_name: "Public Debt Management Office"
+    institution_type: "REGULATOR_UNIT"
+    aliases:
+      - "Public Debt Management Office"
+      - "PDMO"
+
+  - canonical_name: "Fitch Ratings Lanka"
+    institution_type: "RATING_AGENCY"
+    aliases:
+      - "Fitch Ratings"
+      - "Fitch"

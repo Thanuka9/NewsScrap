@@ -3,7 +3,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
 from bank_intel.publication.decisions import decide
-from bank_intel.publication.identity import event_signature
+from bank_intel.publication.identity import event_signature,same_event
 from bank_intel.publication.reconcile import group
 
 class NewHistoricalFindings(unittest.TestCase):
@@ -14,7 +14,7 @@ class NewHistoricalFindings(unittest.TestCase):
  def test_tourism_cross_publisher_sources_group_and_keep_revenue(self):
   a={'source_name':'NewsFirst','headline':'Sri Lanka Welcomes Over 1.8M Tourists as Revenue Hits $2.24 Billion Through September','publication_date':'2026-10-25','source_url':'https://english.newsfirst.lk/2026/10/25/a','body':'Tourists in October: 119,805. As of September cumulative tourism revenue reached USD 2,245 million. '+('Travel receipts supported external liquidity. '*5)}
   b={'source_name':'The Morning','headline':'Tourism: Arrivals surpass 1.8 m in 2026','publication_date':'2026-10-26','source_url':'https://www.themorning.lk/articles/b','body':'Tourists arrivals through October 22 are 1,813,484. '+('Visitors arrived in Sri Lanka. '*8)}
-  self.assertEqual(event_signature(a),event_signature(b))
+  self.assertTrue(same_event(a,b))
   grouped=group([{'article':b,'assessment':decide(b)},{'article':a,'assessment':decide(a)}])
   self.assertEqual(len(grouped),1)
   self.assertEqual(grouped[0]['members'][0]['article']['source_name'],'NewsFirst')
@@ -35,7 +35,9 @@ class SentFollowUpRegression(unittest.TestCase):
   from bank_intel.publication.reconcile import was_sent
   old={'headline':'Rs. 10 b Sampath Bank debenture issue oversubscribed', 'publication_date':'2026-10-21', 'source_url':'https://www.ft.lk/old','summary':'The initial issue had drawn over Rs.10 billion and closed.'}
   new={'headline':'Sampath Bank’s Rs. 10 b debenture issue oversubscribed by 22.7%', 'publication_date':'2026-10-26', 'source_url':'https://www.ft.lk/new', 'body':'Applications totalled Rs.12.27 billion for 122.66 million debentures, up 22.7%. '+('Regulatory Tier 2 subscription terms were stated. '*7)}
-  self.assertTrue(was_sent(new,[old]))
+  from bank_intel.publication.reconcile import prior_matches
+  self.assertFalse(was_sent(new,[old]))
+  self.assertEqual(prior_matches(new,[old])[1],[old])
   old['distributed_report']='sent-oct21.html'
   new['material_update']={'reviewer':'test editor','reason':'Verified final subscription figures','prior_report':'sent-oct21.html','new_fact':'12.27 billion'}
   self.assertFalse(was_sent(new,[old]))

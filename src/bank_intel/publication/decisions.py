@@ -6,13 +6,38 @@ from .evidence import evidence_issues
 from .materiality import material_context
 
 BLOCK_POLITICS = re.compile(r'(?i)\b(?:constitution|remanded|monks|religious|gnanasara|ethnic|bodu bala|wildlife|surveyors|sustainable solutions to emotive)\b')
-FINANCIAL_REGULATOR = re.compile(r'(?i)\b(?:central bank|cbsl|financial intelligence unit|bank supervision|resolution framework|banking act|prudential|capital adequacy|deposit insurance|anti.money laundering|aml|fatf|bank fraud|banking fraud|banking scam|fake bank|banking credentials|customer bank accounts)\b')
+FINANCIAL_REGULATOR = re.compile(r'(?i)\b(?:central bank|cbsl|financial intelligence unit|bank supervision|resolution framework|banking act|prudential|capital adequacy|deposit insurance|anti.money laundering|money laundering|aml|fatf|bank fraud|banking fraud|banking scam|fake bank|banking credentials|customer bank accounts)\b')
 DIRECT_BANK = re.compile(r'(?i)\b(?:national development bank|ndb|sampath bank|people.s bank|commercial bank|dfcc bank|hatton national bank|hnb plc|hnb bank|seylan bank|amana bank|pan asia bank|nations trust bank|cargills bank|union bank|bank of ceylon|regional development bank|standard chartered|hsbc|state bank of india|sbi|bank lending|bank deposits|bank earnings)\b')
 OTHER_FIN = re.compile(r'(?i)\b(?:finance plc|finance company|asset finance|hnb finance|lanka finance|microfinance|insurance plc|insurance company|insurer|slic life|life insurance|debenture issue|ratings? downgrade|fitch ratings?|payment service|cross.border payment|qr payment|lankaqr|webxpay|fintech)\b')
 MARKET = re.compile(r'(?i)\b(?:bond yields|treasury bills?|t.bills?|treasury bond|bond market|cse watch list|colombo stock exchange|aspi|share price index|cse falls|stock market|net foreign inflow|foreign exchange reserves|tourism revenue|tourism earnings|remittances|inflation|ncpi|ccpi|policy rate|t.bill auction|secondary market|bond auction)\b')
 SYSTEMIC = re.compile(r'(?i)\b(?:imf|international monetary fund|sovereign debt|sovereign rating|fiscal revenue|treasury surplus|public debt|budget 2027|tax proposals|economic growth|fiscal policy|adb approves|asian development bank|foreign direct investment|foreign reserves)\b')
 RISK_ACTION = re.compile(r'(?i)\b(?:fraud|breach|ransomware|attack|phishing|warning|warns|cyber|license|liquidation|insolvency|capital|solvency|earnings|profits?|results|debenture|compliance|fine|penalty|resolv|directiv|auditor|non.performing)\b')
 LOW_PR = re.compile(r'(?i)\b(?:award|honours|sponsor|festival|expo|discount|prize draw|birthday|anniversary|ceremony)\b')
+MILESTONE = re.compile(r'(?i)(?:\bcelebrat\w*\s+\d+\s+years\b|\b\d+.year legacy\b|\b\d+(?:th|st|nd|rd)? anniversary\b|\bmarks? \d+.(?:branch|year)|\b\d+.branch milestone\b)')
+CONDUCT = re.compile(r'(?i)\b(?:reviews?|complaints?|charges|fees|parate|consumer protection|conduct|borrowers?|lenders?|mis.?selling|grievances?)\b')
+NBFI = re.compile(r'(?i)\b(?:nbfis?|finance compan\w*|non.bank\w*|leasing compan\w*|microfinance)\b')
+ASSET_QUALITY = re.compile(r'(?i)\b(?:stage.?[23]|npls?|non.performing|impair\w*|arrears|high.risk|defaults?|delinquen\w*)\b')
+BANK_TYPES = ('LICENSED_COMMERCIAL_BANK','LICENSED_SPECIALISED_BANK')
+NONBANK_TYPES = ('LICENSED_FINANCE_COMPANY','FINANCIAL_GROUP','INSURER')
+LEGAL = re.compile(r'(?i)\b(?:court|lawsuit|false statements|legal action|indict\w*|fraud|governance)\b')
+
+
+def licensed_bank_in(text: str) -> bool:
+ # A CBSL-licensed bank (from the entity registry) is named in the text.
+ from .identity import _registry
+ registry=_registry()
+ if not registry:return bool(DIRECT_BANK.search(text))
+ for m in registry.match(text):
+  if m.institution_type in BANK_TYPES and not any(re.search(re.escape(a)+r'\s+finance\b',text,re.I) for a in m.matched_aliases):
+   return True
+ return False
+
+
+def nonbank_institution_in(text: str) -> bool:
+ # A registered finance company, financial group or insurer is named.
+ from .identity import _registry
+ registry=_registry()
+ return bool(registry) and any(m.institution_type in NONBANK_TYPES for m in registry.match(text))
 
 
 def decide(r: dict) -> dict:
@@ -39,26 +64,20 @@ def decide(r: dict) -> dict:
  # credit deterioration into a low-priority legacy review simply because the
  # headline says "reviews" instead of "regulates", or NBFI instead of "bank".
  context=material_context(r)
- sig=result['event_signature']
- if re.search(r'(?i)\b(?:Bangladesh|Pakistan|India|Nepal)\b',h) and not re.search(r'(?i)Sri Lanka|Lankan|cross.border|spillover',body[:1800]):
+ local_bank=licensed_bank_in(h);nonbank=nonbank_institution_in(h)
+ if re.search(r'(?i)\b(?:Bangladesh|Pakistan|India|Nepal)\b',h) and not local_bank and not re.search(r'(?i)Sri Lanka|Lankan|cross.border|spillover',body[:1800]):
   result.update(reason='FOREIGN_DOMESTIC_NO_LOCAL_TRANSMISSION')
+ elif MILESTONE.search(h) and not RISK_ACTION.search(h):
+  result.update(reason='LOW_MATERIALITY_PROMOTIONAL')
  elif context:
   section,category,reason=context
   result.update(decision='REVIEW' if reason.endswith('_REVIEW') else 'INCLUDE',section=section,category=category,importance='MEDIUM',reason=reason)
- elif sig.startswith('CBSL_EARLY_SETTLEMENT_PARATE_THEMATIC@'):
-  result.update(decision='INCLUDE',section='KEY_BANKING_SUPERVISORY',category='GOVERNANCE_CONDUCT',importance='HIGH',reason='EVIDENCED_CBSL_CONDUCT_REVIEW')
- elif sig.startswith('NBFI_HOUSEHOLD_STAGE2_RISK@'):
-  result.update(decision='INCLUDE',section='OTHER_FINANCIAL_SECTOR',category='ASSET_QUALITY_NPL_STAGE2',importance='HIGH',reason='EVIDENCED_NBFI_PORTFOLIO_RISK')
- elif sig.startswith('BOC_TIER2_DEBENTURE_30BN@'):
-  result.update(decision='INCLUDE',section='KEY_BANKING_SUPERVISORY',category='BANK_CAPITAL_RISK',importance='HIGH',reason='EVIDENCED_TIER2_CAPITAL_ISSUE')
- elif sig.startswith('HNB_FINANCE_TOYOTA_LEASING@'):
-  result.update(decision='INCLUDE',section='OTHER_FINANCIAL_SECTOR',category='REGULATED_FINANCE',importance='MEDIUM',reason='FINANCE_COMPANY_CREDIT_PARTNERSHIP')
- elif sig.startswith('SEYLAN_FAIRWAY_LATITUDE_HOUSING@'):
-  result.update(decision='INCLUDE',section='BANKING_SECTOR_DEVELOPMENTS',category='BANK_CREDIT_PRODUCT',importance='MEDIUM',reason='BANK_HOUSING_LOAN_PARTNERSHIP')
- elif sig.startswith('PDMO_DOMESTIC_DOLLAR_BOND_BIDS_REJECTED@'):
-  result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='SOVEREIGN_BOND_AUCTION',importance='HIGH',reason='REJECTED_DOMESTIC_DOLLAR_BOND_BIDS')
- elif sig.startswith('NTB_UNION_ASSURANCE_BANCASSURANCE_RENEWAL@'):
-  result.update(decision='INCLUDE',section='BANKING_SECTOR_DEVELOPMENTS',category='BANCASSURANCE_PARTNERSHIP',importance='MEDIUM',reason='BANK_DISTRIBUTION_INSURANCE_PARTNERSHIP')
+ elif FINANCIAL_REGULATOR.search(h) and CONDUCT.search(h):
+  result.update(decision='INCLUDE',section='KEY_BANKING_SUPERVISORY',category='GOVERNANCE_CONDUCT',importance='HIGH',reason='REGULATOR_CONDUCT_REVIEW')
+ elif NBFI.search(h) and ASSET_QUALITY.search(h):
+  result.update(decision='INCLUDE',section='OTHER_FINANCIAL_SECTOR',category='ASSET_QUALITY_NPL_STAGE2',importance='HIGH',reason='NBFI_PORTFOLIO_RISK')
+ elif re.search(r'(?i)\b(?:pdmo|public debt management|dollar bonds?|treasury bonds?|t.bills?)\b',h) and re.search(r'(?i)\b(?:auction|bids?|reject\w*|accept\w*|raise[sd]?)\b',h):
+  result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='SOVEREIGN_BOND_AUCTION',importance='HIGH',reason='GOVERNMENT_SECURITIES_AUCTION')
  elif re.search(r'(?i)\b(?:cse|stock market|bourse|aspi)\b',h) and re.search(r'(?i)\b(?:aspi|all share price index|s&p sl20)\b',body[:900]) and re.search(r'(?i)\b(?:closed|starts week|ends week|fell|red|down|slips|rattled|plunged)\b',h):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='MARKET_EXTERNAL',importance='MEDIUM',reason='OBSERVED_CSE_TRADING_SESSION')
  elif FINANCIAL_REGULATOR.search(h) and (RISK_ACTION.search(h) or re.search(r'financial stability|resolution|policy rate|regulation|licensed|supervisory|fake bank|fraud|scam|customer credentials',h,re.I)):
@@ -66,27 +85,27 @@ def decide(r: dict) -> dict:
  elif explicitly_attributed_bank_risk:
   result.update(decision='INCLUDE',section='KEY_BANKING_SUPERVISORY',
     category='BANK_RISK_GOVERNANCE',importance='HIGH',reason='BANK_RISK_IDENTIFIED_IN_LEAD')
- elif DIRECT_BANK.search(h):
+ elif local_bank or DIRECT_BANK.search(h):
   is_material=bool(re.search(r'\b(?:earnings|profit|pat|results|quarter|3q|q3|debenture|capital|fraud|cyber|nonperforming|rating|governance)\b',h,re.I))
   result.update(decision='INCLUDE',section=('KEY_BANKING_SUPERVISORY' if is_material else 'BANKING_SECTOR_DEVELOPMENTS'),category=('BANK_CAPITAL_RISK' if is_material else 'BANKING_DEVELOPMENTS'),importance=('HIGH' if is_material else 'MEDIUM'),reason='DIRECT_BANK_HEADLINE')
  elif re.search(r'\b(?:cse watch list|watch list move|auditor.s disclaimer|related.party deal|listed share acquisition)\b',h,re.I):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='CAPITAL_MARKETS_GOVERNANCE',importance='MEDIUM',reason='MATERIAL_LISTED_MARKET_DEVELOPMENT')
- elif re.search(r'(?i)\b(?:tourists?|tourism|tourist arrivals?)\b',h) and re.search(r'(?i)(?:1\.8\s*m\b|1\.8\s*million|tourist arrivals? rise|arrivals? surpass|revenue hits)',h) and re.search(r'(?i)(?:1,813,484|119,805|2,245 million|tourism revenue|tourism earnings|year.to.date arrivals|first 22 days of october)',body[:1400]):
+ elif re.search(r'(?i)\b(?:tourists?|tourism|tourist arrivals?)\b',h) and re.search(r'(?i)\b(?:arrivals?|revenue|earnings|receipts)\b',h) and re.search(r'\d',h+' '+body[:600]) and re.search(r'(?i)(?:tourism revenue|tourism earnings|arrivals|sltda|foreign exchange)',body[:1400]):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='TOURISM_FX_EARNINGS',importance='MEDIUM',reason='MATERIAL_TOURISM_EXTERNAL_STATISTICS')
  elif re.search(r'(?i)\btourism industry\b',h) and re.search(r'(?i)\b(?:revenue|earnings|foreign exchange)\b',body[:850]):
   result.update(decision='REVIEW',section='MONETARY_MARKETS_EXTERNAL',category='TOURISM_FX_EARNINGS',importance='MEDIUM',reason='TOURISM_REVENUE_CUTOFF_CHECK')
- elif OTHER_FIN.search(h):
+ elif (nonbank or OTHER_FIN.search(h)) and LEGAL.search(h):
+  result.update(decision='REVIEW',section='OTHER_FINANCIAL_SECTOR',category='FINANCIAL_GROUP_LEGAL_GOVERNANCE',importance='MEDIUM',reason='LEGAL_REPUTATIONAL_FINANCIAL_GROUP_REVIEW')
+ elif nonbank and re.search(r'(?i)\b(?:branch\w*|footprint|outlets?|expan\w*)\b',h):
+  result.update(decision='REVIEW',section='OTHER_FINANCIAL_SECTOR',category='REGULATED_FINANCE',importance='LOW',reason='REGULATED_FINANCE_COMPANY_EXPANSION_REVIEW')
+ elif nonbank or OTHER_FIN.search(h):
   result.update(decision='INCLUDE',section='OTHER_FINANCIAL_SECTOR',category='REGULATED_FINANCE',importance='MEDIUM',reason='FINANCIAL_SECTOR_HEADLINE')
  elif re.search(r'(?i)\bfitch\b',h) and re.search(r'(?i)\b(?:national ratings?|sovereign upgrade|rating scale|rating recalibration)\b',h):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',
     category='CREDIT_RATINGS',importance='MEDIUM',reason='MATERIAL_RATING_DEVELOPMENT')
- elif re.search(r'(?i)\b(?:Sri Lanka CERT|SLCERT|critical security vulnerabilities|critical global PHP vulnerabilities|php security|php vulnerabilities|php flaws)\b',h):
+ elif re.search(r'(?i)\b(?:Sri Lanka CERT|SLCERT|CERT|vulnerabilit\w*|cyber.?security alert|ransomware|data breach)\b',h):
   result.update(decision='REVIEW',section='BANKING_SECTOR_DEVELOPMENTS',
     category='CROSS_SECTOR_CYBER',importance='MEDIUM',reason='ASSESS_FINANCIAL_SECTOR_IMPACT')
- elif re.search(r'(?i)\bLOLC\b',h) and re.search(r'(?i)\b(?:court|order|false statements|legal|fraud|governance)\b',h):
-  result.update(decision='REVIEW',section='OTHER_FINANCIAL_SECTOR',category='FINANCIAL_GROUP_LEGAL_GOVERNANCE',importance='MEDIUM',reason='LEGAL_REPUTATIONAL_FINANCIAL_GROUP_REVIEW')
- elif re.search(r'(?i)\bassetline finance\b',h):
-  result.update(decision='REVIEW',section='OTHER_FINANCIAL_SECTOR',category='REGULATED_FINANCE',importance='LOW',reason='REGULATED_FINANCE_COMPANY_EXPANSION_REVIEW')
  elif MARKET.search(h):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='MARKET_EXTERNAL',importance='MEDIUM',reason='FINANCIAL_MARKET_HEADLINE')
  elif (re.search(r'\b(?:president|treasury)\b',h,re.I) and re.search(r'\b(?:surplus|public debt|soes|government revenue|fiscal)\b',h,re.I)) or \
@@ -95,7 +114,7 @@ def decide(r: dict) -> dict:
   advocacy=re.search(r'(?i)\b(?:proposals?|recommendations?|urges?|calls? for|wish.?list|demands?)\b',h)
   result.update(decision='REVIEW' if advocacy else 'INCLUDE',section='MACRO_SYSTEMIC_CONTEXT',category='FISCAL_SYSTEMIC',importance='MEDIUM',
                 reason='MACRO_CONTEXT_REVIEW' if advocacy else 'MATERIAL_FISCAL_INDICATOR')
- elif re.search(r'\b(?:imf chief information officer|intelligent central bank|imf cio|shirin hamid|central bank of the future)\b',h,re.I):
+ elif re.search(r'\b(?:central bank|cbsl)\b',h,re.I) and re.search(r'\b(?:digital|technology|ai|artificial intelligence|cbdc|fintech|innovation)\b',h,re.I):
   result.update(decision='INCLUDE',section='MACRO_SYSTEMIC_CONTEXT',category='CENTRAL_BANK_TECHNOLOGY',importance='MEDIUM',reason='CENTRAL_BANK_POLICY_TECHNOLOGY')
  elif SYSTEMIC.search(h):
   result.update(decision='REVIEW',section='MACRO_SYSTEMIC_CONTEXT',category='SYSTEMIC_MACRO',importance='MEDIUM',reason='MACRO_CONTEXT_REVIEW')

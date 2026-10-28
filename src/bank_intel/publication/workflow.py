@@ -10,7 +10,7 @@ from .identity import SOURCES, approved,canonical,first_window_day,publisher_art
 from .backlog import earliest_unpublished_day
 from .evidence import summary, evidence_issues
 from .decisions import decide,why_it_matters
-from .reconcile import was_sent, group, read_sent_html, load_confirmed_history, load_unconfirmed_prior_candidates
+from .reconcile import was_sent, prior_matches, group, read_sent_html, load_confirmed_history, load_unconfirmed_prior_candidates
 from .ml_trace import read_model_traces
 from .model_policy import reconcile
 from .ledger import make_ledger, validate_outputs, digest, template_issues
@@ -114,11 +114,14 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
   signed=overrides.get(canonical(row['source_url']))
   if signed and signed.get('new_fact') and signed.get('prior_report'):
    row['material_update']={k:signed.get(k,'') for k in ('reviewer','reason','new_fact','prior_report')}
-  matches=[p for p in prior if was_sent(row,[p])]
-  ass['previous_send_status']='ALREADY_SENT' if matches else ('NOT_IN_CONFIRMED_HISTORY' if prior else 'UNKNOWN')
-  ass['prior_reports']=sorted({p.get('distributed_report','') for p in matches})
+  matches,updates=prior_matches(row,prior)
+  ass['previous_send_status']='ALREADY_SENT' if matches else ('POSSIBLE_UPDATE_OF_SENT_EVENT' if updates else ('NOT_IN_CONFIRMED_HISTORY' if prior else 'UNKNOWN'))
+  ass['prior_reports']=sorted({p.get('distributed_report','') for p in matches+updates})
   if not publisher_alias and pub and earliest<=pub<=target and approved(row.get('source_name',''),row.get('source_url','')) and matches:
    ass.update(decision='ALREADY_SENT',reason='SENT_EDITION_SAME_EVENT');counts['sent']+=1
+  elif updates and ass['decision']=='INCLUDE' and not row.get('material_update'):
+   # A sent event with a new figure or outcome needs an editor's comparison.
+   ass.update(decision='REVIEW',reason='POSSIBLE_MATERIAL_UPDATE_OF_SENT_EVENT')
   # Detect overlap with a prior file that looks like an edition but lacks
   # delivery confirmation. Never treat such a file as SENT, or erase it.
   if ass['decision']=='INCLUDE' and unconfirmed and was_sent(row,unconfirmed):

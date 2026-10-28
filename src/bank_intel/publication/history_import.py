@@ -16,8 +16,11 @@ def import_distributed(report: Path, report_root: Path, edition_date: str,
     header = re.search(r'class="date-value">([^<]+)', contents)
     if not header:raise ValueError('Missing report date')
     value = header.group(1).strip()
-    try:printed = datetime.strptime(value, '%A, %d %B %Y').date().isoformat()
-    except ValueError:printed = datetime.strptime(value, '%Y-%m-%d').date().isoformat()
+    printed = ''
+    # Earlier editions print '19 October 2026'; current ones add the weekday.
+    for layout in ('%A, %d %B %Y', '%d %B %Y', '%Y-%m-%d'):
+        try:printed = datetime.strptime(value, layout).date().isoformat();break
+        except ValueError:continue
     if printed != edition_date:raise ValueError('Printed edition date mismatch')
     parser = SentHTML();parser.feed(contents)
     if not parser.stories or any(not s['summary'] or not s['source_urls'] for s in parser.stories):

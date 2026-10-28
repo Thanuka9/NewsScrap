@@ -152,7 +152,8 @@ def test_inventory_factual_conflict_fails_before_selection(tmp_path):
 
 def test_recurring_transactions_do_not_share_identity_across_months():
     row={'headline':'Sampath Bank debenture issue oversubscribed','body':'Sampath Bank announced subscriptions for its debenture issue.', 'publication_date':'2026-11-04'}
-    assert event_signature(row)!=event_signature({**row,'publication_date':'2027-11-04'})
+    from bank_intel.publication.identity import same_event
+    assert not same_event(row,{**row,'source_url':'https://ft.lk/other','publication_date':'2027-11-04'})
 
 
 def test_coverage_signoff_invalidated_by_changed_evidence(tmp_path):
