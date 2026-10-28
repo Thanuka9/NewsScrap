@@ -73,7 +73,8 @@ def test_newsfirst_material_staged_exclusion_is_explainable(tmp_path):
             'discovery_surfaces': (['business','homepage','breaking news','top stories','latest news'] if source=='daily_mirror' else [str(i) for i in range(m.EXPECTED_SURFACES[source])]),
         }))
     result = m.source_audit(tmp_path, date(2026, 10, 20), 1)
-    assert result['status'] == 'FAIL'
+    # The integrated decision ledger holds the release; here it is evidence.
+    assert result['editorial_status'] == 'REVIEW'
     assert len(result['material_unreviewed']) == 1
     # Once review marks it excluded, omission becomes transparent, not a gate error.
     (root / 'stakeholder_brief_v2_audit.json').write_text(json.dumps({
