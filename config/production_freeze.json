@@ -1,8 +1,8 @@
 {
   "freeze_version": "news-production-freeze-v2",
-  "created_at": "2026-10-29T08:25:54.876050+05:30",
+  "created_at": "2026-10-29T08:47:04.250654+05:30",
   "created_by": "Claude (for thanuka)",
-  "tests": "213 passed, 3 subtests passed in 41.05s",
+  "tests": "214 passed, 3 subtests passed in 26.79s",
   "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
   "files": [
     {
@@ -47,7 +47,7 @@
     },
     {
       "path": "scripts\\news_release_gate.py",
-      "sha256": "82A1556C52B2612B98581EFF395DEBFC34CE49D7D2521367C575DB0AE220CC62"
+      "sha256": "ED71460B2C28829FFC65CFEB55AC36F1074073E4C788C116378D4A23E3D8D0EA"
     },
     {
       "path": "scripts\\news_publication_history.py",
@@ -375,7 +375,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\decisions.py",
-      "sha256": "AC46643ACFF4D8FA605A2231950ACB2DAAFF99EF8F18F7037EC871E43BB3222A"
+      "sha256": "28358E07768D4F04EE39930ADE2FF8AC731C3A1404C4435A826C80DBF0D4A94C"
     },
     {
       "path": "src\\bank_intel\\publication\\delivery.py",
@@ -399,7 +399,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\materiality.py",
-      "sha256": "1300FA088FAC9882DFF5B42EFD546B638BE377948C217FDED55186548DD74751"
+      "sha256": "52B603600D8B57F867C2835962CF7FCC79956F7C98E92E89D33B820E3DA98ABA"
     },
     {
       "path": "src\\bank_intel\\publication\\ml_diagnostics.py",
@@ -411,7 +411,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\model_policy.py",
-      "sha256": "9C99B289D53C2AED00232E286BEF189F8369E2EA43C8E99B8FCD34394EDEE613"
+      "sha256": "31F8FAADFC9B68F3EB23097F4584C3F55AED4E5B01242F961E2FAC3EA871BBA3"
     },
     {
       "path": "src\\bank_intel\\publication\\news_style.css",
@@ -439,11 +439,11 @@
     },
     {
       "path": "src\\bank_intel\\publication\\temporal.py",
-      "sha256": "126085983213213068F537A6D1D241338880D161D7C03F6252AE8C312144ADFD"
+      "sha256": "957A297A9D9BE7EF00CABF0A306FCA7069FD5C02A2605C9CD10E68989DCF9A77"
     },
     {
       "path": "src\\bank_intel\\publication\\workflow.py",
-      "sha256": "382A74B3A4B24EC4C1EBDC9121AB110A4DCC304E269F01FFCC4F195ED6DC854E"
+      "sha256": "0D926B092E5EEE93B5715AB3950E57BBAF04A16B695E194998AF38CA44A9CB7F"
     }
   ]
 }
