@@ -1,0 +1,185 @@
+{
+  "date": "2026-10-27",
+  "state": "DELIVERED_CONFIRMED_BY_OPERATOR",
+  "attachment": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-27\\window_1d\\distributed_archive\\Daily Financial Sector News Brief 2026-10-27.html",
+  "attachment_sha256": "c9d0c9026504c62a1b9581728f79e0733047d63f8f2e40117bddd3a45d1ad3aa",
+  "source_report": "C:\\Users\\thanuka\\Downloads\\Daily Financial Sector News Brief 2026-10-27.html",
+  "confirmed_by": "user confirmation in this conversation",
+  "confirmation_evidence": "Operator identified this file as already distributed",
+  "confirmed_at": "2026-10-27T07:30:28.898481+00:00",
+  "sent_at": "2026-10-27T12:19:00+05:30",
+  "sent_time_status": "OPERATOR_RECORDED",
+  "events": [
+    {
+      "headline": "CBSL reviews early-settlement charges and parate execution following borrower complaints",
+      "publication_date": "2026-10-26",
+      "summary": "CBSL conducted thematic reviews in the first half of 2026 after receiving complaints about charges for early settlement of term loans and banks’ parate execution practices. The early-settlement review covered licensed banks and finance companies; the parate review concerned licensed banks. The report does not announce findings, sanctions or new rules.",
+      "reported_facts": "CBSL conducted thematic reviews in the first half of 2026 after receiving complaints about charges for early settlement of term loans and banks’ parate execution practices. The early-settlement review covered licensed banks and finance companies; the parate review concerned licensed banks. The report does not announce findings, sanctions or new rules.",
+      "event_signature": "CBSL_EARLY_SETTLEMENT_PARATE_THEMATIC_2026",
+      "event_id": "CBSL_EARLY_SETTLEMENT_PARATE_THEMATIC_2026",
+      "sources": [
+        {
+          "source_url": "https://www.dailymirror.lk/business-news/CBSL-reviews-lenders-early-settlement-fees-and-parate-auctions-after-complaints-pile-up/273-353382"
+        }
+      ]
+    },
+    {
+      "headline": "Bank of Ceylon plans Basel III Tier 2 debenture issue of up to Rs. 30 billion",
+      "publication_date": "2026-10-27",
+      "summary": "Bank of Ceylon announced a listed subordinated debt issue opening on 3 November 2026. It proposes an initial Rs. 10 billion tranche, with oversubscription options taking the maximum to Rs. 30 billion. The planned Tier 2 debentures include non-viability write-down terms; the amount is a proposed offering, not proceeds already raised.",
+      "reported_facts": "Bank of Ceylon announced a listed subordinated debt issue opening on 3 November 2026. It proposes an initial Rs. 10 billion tranche, with oversubscription options taking the maximum to Rs. 30 billion. The planned Tier 2 debentures include non-viability write-down terms; the amount is a proposed offering, not proceeds already raised.",
+      "event_signature": "BOC_TIER2_DEBENTURE_30BN_NOV2026",
+      "event_id": "BOC_TIER2_DEBENTURE_30BN_NOV2026",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/BOC-to-raise-up-to-Rs-30-b-in-Sri-Lanka-s-largest-ever-listed-debt-issue/44-799226"
+        },
+        {
+          "source_url": "https://dailynews.lk/2026/10/27/business/1046916/boc-opens-largest-ever-debenture-issue-on-november-3-2026"
+        }
+      ]
+    },
+    {
+      "headline": "Nations Trust Bank and Union Assurance renew bancassurance partnership",
+      "publication_date": "2026-10-26",
+      "summary": "Nations Trust Bank and Union Assurance announced the renewal of their exclusive bancassurance partnership. The arrangement continues the distribution of life-insurance protection products through the bank’s customer channels. The report did not disclose new financial commitments or sales volumes.",
+      "reported_facts": "Nations Trust Bank and Union Assurance announced the renewal of their exclusive bancassurance partnership. The arrangement continues the distribution of life-insurance protection products through the bank’s customer channels. The report did not disclose new financial commitments or sales volumes.",
+      "event_signature": "NTB_UNION_ASSURANCE_BANCASSURANCE_RENEWAL_OCT2026",
+      "event_id": "NTB_UNION_ASSURANCE_BANCASSURANCE_RENEWAL_OCT2026",
+      "sources": [
+        {
+          "source_url": "https://www.dailymirror.lk/business/Union-Assurance-NTB-strengthen-bancassurance-partnership/215-353374"
+        }
+      ]
+    },
+    {
+      "headline": "NBFI borrower-risk indicators worsen, with Stage 2 loans up 92.1%",
+      "publication_date": "2026-10-26",
+      "summary": "CBSL figures reported for June 2026 show that 52.4% of household borrowers at non-bank financial institutions were in high or very-high CRIB risk categories, versus 24.1% at banks. Finance-company Stage 2 loans increased 92.1% year on year, with gold-backed Stage 2 balances up 279.2%. These are risk indicators, not confirmed credit losses.",
+      "reported_facts": "CBSL figures reported for June 2026 show that 52.4% of household borrowers at non-bank financial institutions were in high or very-high CRIB risk categories, versus 24.1% at banks. Finance-company Stage 2 loans increased 92.1% year on year, with gold-backed Stage 2 balances up 279.2%. These are risk indicators, not confirmed credit losses.",
+      "event_signature": "NBFI_HOUSEHOLD_STAGE2_RISK_JUN2026",
+      "event_id": "NBFI_HOUSEHOLD_STAGE2_RISK_JUN2026",
+      "sources": [
+        {
+          "source_url": "https://www.dailymirror.lk/business-news/Over-half-of-NBFI-household-borrowers-in-high-risk-bands-as-Stage-2-loans-nearly-double/273-353383"
+        }
+      ]
+    },
+    {
+      "headline": "Fitch assigns expected A-(EXP)(lka) rating to Asia Asset Finance subordinated debt",
+      "publication_date": "2026-10-27",
+      "summary": "Fitch assigned an expected national-scale rating of A-(EXP)(lka) to proposed subordinated listed debentures of up to Rs. 3 billion from Asia Asset Finance. The company intends to use the proceeds to reinforce Tier 2 capital and support loan-book growth. The final rating remains contingent on satisfactory documentation.",
+      "reported_facts": "Fitch assigned an expected national-scale rating of A-(EXP)(lka) to proposed subordinated listed debentures of up to Rs. 3 billion from Asia Asset Finance. The company intends to use the proceeds to reinforce Tier 2 capital and support loan-book growth. The final rating remains contingent on satisfactory documentation.",
+      "event_signature": "",
+      "event_id": "EVENT_b8678aaee624471a2c0eacbe",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/Fitch-assigns-A-EXP-lka-rating-to-Asia-Asset-Finance-s-proposed-debentures/42-799196"
+        }
+      ]
+    },
+    {
+      "headline": "PDMO rejects all bids in US$ 100 million domestic dollar-bond auction",
+      "publication_date": "2026-10-27",
+      "summary": "The Public Debt Management Office rejected all bids at its 23 October domestic dollar-bond auction. The proposed issue was US$ 100 million with an option to raise up to US$ 300 million. Market participants suggested bid rates were too high, but the official notice did not provide that explanation.",
+      "reported_facts": "The Public Debt Management Office rejected all bids at its 23 October domestic dollar-bond auction. The proposed issue was US$ 100 million with an option to raise up to US$ 300 million. Market participants suggested bid rates were too high, but the official notice did not provide that explanation.",
+      "event_signature": "",
+      "event_id": "EVENT_6fa091e967ac8670da53a1c6",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/PDMO-rejects-all-Domestic-Dollar-Bond-bids-market-says-bid-rates-too-high/44-799223"
+        }
+      ]
+    },
+    {
+      "headline": "Government-bond yields broadly steady; selected 2033–2034 tenors rise",
+      "publication_date": "2026-10-27",
+      "summary": "Monday’s secondary-market trading was broadly steady across most government-bond tenors, though selected 2033 and 2034 maturities faced selling pressure and higher yields. The market was preparing for Treasury-bill and Treasury-bond auctions scheduled for 28 and 29 October respectively.",
+      "reported_facts": "Monday’s secondary-market trading was broadly steady across most government-bond tenors, though selected 2033 and 2034 maturities faced selling pressure and higher yields. The market was preparing for Treasury-bill and Treasury-bond auctions scheduled for 28 and 29 October respectively.",
+      "event_signature": "",
+      "event_id": "EVENT_32659622a88abf2db08cbd39",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/Bond-market-yields-open-steady-to-higher-on-selected-tenors/42-799215"
+        }
+      ]
+    },
+    {
+      "headline": "Sri Lanka’s exports reach US$ 13.61 billion in January–September 2026",
+      "publication_date": "2026-10-27",
+      "summary": "Export earnings for the first nine months of 2026 reached US$ 13.61 billion, an increase of 5.04% from a year earlier, according to figures released by Sri Lanka Customs and estimates from the Export Development Board. September exports reached about US$ 1.69 billion, up 17.23% year on year. The nine-month total includes goods and services.",
+      "reported_facts": "Export earnings for the first nine months of 2026 reached US$ 13.61 billion, an increase of 5.04% from a year earlier, according to figures released by Sri Lanka Customs and estimates from the Export Development Board. September exports reached about US$ 1.69 billion, up 17.23% year on year. The nine-month total includes goods and services.",
+      "event_signature": "LK_EXPORTS_9M_2026_13.61",
+      "event_id": "LK_EXPORTS_9M_2026_13.61",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/pQul1LjYqKFJK6DnctiK"
+        },
+        {
+          "source_url": "https://dailynews.lk/2026/10/27/business/1046915/sri-lankas-exports-top-us13-6-bn-in-first-nine-months"
+        }
+      ]
+    },
+    {
+      "headline": "Resus Energy’s Rs. 1 billion green bond gains Luxembourg listing",
+      "publication_date": "2026-10-27",
+      "summary": "Resus Energy announced the dual listing of its Rs. 1 billion green bond on the Luxembourg Stock Exchange and its display on the Luxembourg Green Exchange, effective 19 October. The bond was originally listed in Colombo in 2025; the overseas listing expands visibility of an existing security rather than constituting a fresh Rs. 1 billion issue.",
+      "reported_facts": "Resus Energy announced the dual listing of its Rs. 1 billion green bond on the Luxembourg Stock Exchange and its display on the Luxembourg Green Exchange, effective 19 October. The bond was originally listed in Colombo in 2025; the overseas listing expands visibility of an existing security rather than constituting a fresh Rs. 1 billion issue.",
+      "event_signature": "",
+      "event_id": "EVENT_f982e7cf70e0ee8ff5400854",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/Resus-Energy-becomes-first-Sri-Lankan-corporate-to-list-Green-Bonds-on-Luxembourg-Stock-Exchange/42-799199"
+        },
+        {
+          "source_url": "https://www.themorning.lk/articles/icVcToWo12bcuzS3kCwn"
+        }
+      ]
+    },
+    {
+      "headline": "Government adopts three-month economic forecasting amid energy-price uncertainty",
+      "publication_date": "2026-10-27",
+      "summary": "A Deputy Minister said the Government is using rolling three-month forecasts to respond to energy and geopolitical price shocks while preserving fiscal buffers and export competitiveness. The report also cites slower real GDP growth of 4.2% in Q2 2026 versus 5.1% in Q1, and outlines plans for 18 industrial zones over the coming one to two years.",
+      "reported_facts": "A Deputy Minister said the Government is using rolling three-month forecasts to respond to energy and geopolitical price shocks while preserving fiscal buffers and export competitiveness. The report also cites slower real GDP growth of 4.2% in Q2 2026 versus 5.1% in Q1, and outlines plans for 18 industrial zones over the coming one to two years.",
+      "event_signature": "",
+      "event_id": "EVENT_403711fab8ee40de74bb00ba",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/mxhPD98UnE7WrGBDWK0N"
+        }
+      ]
+    },
+    {
+      "headline": "SLPA report flags delayed Colombo East Terminal commissioning and revenue potential",
+      "publication_date": "2026-10-27",
+      "summary": "An SLPA operational review identifies equipment, staffing and systems work outstanding at the Colombo East Container Terminal. It estimates annual revenue potential of roughly US$ 180–200 million once fully operational, not revenue currently earned, and describes a commissioning programme running into June 2027.",
+      "reported_facts": "An SLPA operational review identifies equipment, staffing and systems work outstanding at the Colombo East Container Terminal. It estimates annual revenue potential of roughly US$ 180–200 million once fully operational, not revenue currently earned, and describes a commissioning programme running into June 2027.",
+      "event_signature": "",
+      "event_id": "EVENT_82e251232fc02a145e685fc6",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/KyqCXVvzghRadIK39CqR"
+        }
+      ]
+    }
+  ],
+  "event_count": 11,
+  "source_urls": [
+    "https://dailynews.lk/2026/10/27/business/1046915/sri-lankas-exports-top-us13-6-bn-in-first-nine-months",
+    "https://dailynews.lk/2026/10/27/business/1046916/boc-opens-largest-ever-debenture-issue-on-november-3-2026",
+    "https://www.dailymirror.lk/business-news/CBSL-reviews-lenders-early-settlement-fees-and-parate-auctions-after-complaints-pile-up/273-353382",
+    "https://www.dailymirror.lk/business-news/Over-half-of-NBFI-household-borrowers-in-high-risk-bands-as-Stage-2-loans-nearly-double/273-353383",
+    "https://www.dailymirror.lk/business/Union-Assurance-NTB-strengthen-bancassurance-partnership/215-353374",
+    "https://www.ft.lk/financial-services/Bond-market-yields-open-steady-to-higher-on-selected-tenors/42-799215",
+    "https://www.ft.lk/financial-services/Fitch-assigns-A-EXP-lka-rating-to-Asia-Asset-Finance-s-proposed-debentures/42-799196",
+    "https://www.ft.lk/financial-services/Resus-Energy-becomes-first-Sri-Lankan-corporate-to-list-Green-Bonds-on-Luxembourg-Stock-Exchange/42-799199",
+    "https://www.ft.lk/front-page/BOC-to-raise-up-to-Rs-30-b-in-Sri-Lanka-s-largest-ever-listed-debt-issue/44-799226",
+    "https://www.ft.lk/front-page/PDMO-rejects-all-Domestic-Dollar-Bond-bids-market-says-bid-rates-too-high/44-799223",
+    "https://www.themorning.lk/articles/KyqCXVvzghRadIK39CqR",
+    "https://www.themorning.lk/articles/icVcToWo12bcuzS3kCwn",
+    "https://www.themorning.lk/articles/mxhPD98UnE7WrGBDWK0N",
+    "https://www.themorning.lk/articles/pQul1LjYqKFJK6DnctiK"
+  ],
+  "sent_time_recorded_by": "thanuka",
+  "sent_time_recorded_at": "2026-10-27T14:52:06.948656+05:30"
+}

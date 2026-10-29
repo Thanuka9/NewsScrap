@@ -59,8 +59,20 @@ def late_status(article, target, prior):
     if not first:return 'MISSING_FIRST_DISCOVERY_EVIDENCE'
     # A late discovery is valid even when a publisher exposes only a date.
     if first.astimezone(ZoneInfo('Asia/Colombo')).date() == target:return 'LATE_DISCOVERY'
-    cutoffs = [aware(p.get('sent_at')) for p in prior]
-    cutoffs = [d for d in cutoffs if d and d.astimezone(ZoneInfo('Asia/Colombo')).date() < target]
+    # The cutoff is the most recent sent edition's own send time; an older
+    # edition's time would admit stories the latest edition may already carry.
+    dated = [p for p in prior if p.get('edition_date') and p['edition_date'] < target.isoformat()]
+    if dated:
+        latest = max(p['edition_date'] for p in dated)
+        times = [aware(p.get('sent_at')) for p in dated if p['edition_date'] == latest]
+        times = [d for d in times if d]
+        if not times:
+            # Name the missing evidence; never assume a send time.
+            return 'PREVIOUS_SEND_TIME_MISSING:' + latest
+        cutoffs = times
+    else:
+        cutoffs = [aware(p.get('sent_at')) for p in prior]
+        cutoffs = [d for d in cutoffs if d and d.astimezone(ZoneInfo('Asia/Colombo')).date() < target]
     if cutoffs and published and published > max(cutoffs) and first >= published:
         return 'PUBLISHED_AFTER_PREVIOUS_SEND'
     return 'LATE_NEWS_NOT_ESTABLISHED'

@@ -1,0 +1,17 @@
+{
+  "description": "Frozen 28 October 2026 inputs and the edition actually distributed (11 stories), for the no-editorial-input replay.",
+  "rows": 299,
+  "files": {
+    "audit.json": "e560d11c8ea48b306a0f488dcdbcce7655c43fca62b7ac8787a9f832ab739f61",
+    "collection_metadata.json": "536d8ca45c3dab372ec387b34ebf91f2df00fc32a3e1557f5f5f42e5c8e789a6",
+    "inventory.csv": "e28e4a1809b1f382cf06f1f17687d53994bf4526f7008a68b4f5dcbacee7e0f4",
+    "model_traces.json": "2a238bd9ddc2495c432274f3bfe12d1e0d2eef26eb6eca7e7d425f0dcf511175",
+    "sent_history/2026-10-22/window_1d/PUBLISHED_URLS.json": "1eacad8654c7eaebdced707a0b432a20ca02b1334077880ef59035c7d2e140ff",
+    "sent_history/2026-10-23/window_1d/PUBLISHED_URLS.json": "083a401441dd1293883794cb75f0ad841094c7aab318fd395de9ac41b966bf5f",
+    "sent_history/2026-10-26/window_1d/SENT_EDITION.json": "04a4f74d636e83395b146275179dcb86c585867ab80f9ac69246f1a13ee53d5f",
+    "sent_history/2026-10-26/window_1d/sent_events.json": "04a4f74d636e83395b146275179dcb86c585867ab80f9ac69246f1a13ee53d5f",
+    "sent_history/2026-10-27/window_1d/SENT_EDITION.json": "edd8510c720c4e07554f16a5b80561afd0281483239c5feaff926336ef16b417",
+    "sent_history/2026-10-27/window_1d/sent_events.json": "edd8510c720c4e07554f16a5b80561afd0281483239c5feaff926336ef16b417",
+    "sent_reference_28.html": "3d64416793d14e2a2d1a8d7a9fbac9d52ccdfe2004ebf7cee70e641fe7431d75"
+  }
+}

@@ -250,6 +250,11 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
  if not sent and not any(x['assessment']['previous_send_status']!='UNKNOWN' for x in work):
   issues.append({'kind':'PRIOR_SENT_EDITION_NOT_RECORDED'})
  if counts['review']:issues.append({'kind':'UNREVIEWED_CANDIDATES','count':counts['review']})
+ missing_send={x['assessment']['late_news_status'].split(':',1)[1] for x in work
+               if str(x['assessment'].get('late_news_status','')).startswith('PREVIOUS_SEND_TIME_MISSING:')}
+ for edition in sorted(missing_send):
+  issues.append({'kind':'PREVIOUS_SEND_TIME_MISSING','edition':edition,
+                 'action':f'python scripts/news_release_gate.py record-send-time --date {edition} --sent-at <Outlook time> --operator <name>'})
  if model_project_root and not any((x.get('date')==date_iso) for x in model_data.values()):
   issues.append({'kind':'CURRENT_DATE_MODEL_EVIDENCE_UNAVAILABLE','date':date_iso})
  if source_status:

@@ -55,4 +55,60 @@ def import_distributed(report: Path, report_root: Path, edition_date: str,
                'source_urls': sorted({s['source_url'] for e in events for s in e['sources']})}
     for path in (record, folder / 'sent_events.json'):
         with path.open('x', encoding='utf-8') as stream:json.dump(payload,stream,indent=2,ensure_ascii=False)
+    reconcile_delivered(folder)
     return record
+
+
+def reconcile_delivered(folder: Path) -> dict:
+    """Tie the delivered edition back to the governed candidate it replaced.
+
+    An operator may correct an approved edition before sending it. Record
+    what changed, so the release manifest names the bytes actually sent and
+    the earlier editorial decisions the delivery overrode are kept as dated
+    corrections (labels must follow the delivered edition, not the draft).
+    """
+    import csv
+    from .identity import canonical
+    sent = json.loads((folder / 'SENT_EDITION.json').read_text(encoding='utf-8'))
+    delivered = {canonical(u) for u in sent.get('source_urls', [])}
+    manifest_path = folder / 'report_manifest.json'
+    manifest = json.loads(manifest_path.read_text(encoding='utf-8-sig')) if manifest_path.is_file() else {}
+    candidate_path = Path(manifest['integrated_manifest']) if manifest.get('integrated_manifest') else None
+    if not candidate_path or not candidate_path.is_file():
+        # Older layout: the candidate sat directly in integrated_edition.
+        candidate_path = folder / 'integrated_edition' / 'candidate_edition.json'
+    result = {'date': sent['date'], 'delivered_sha256': sent['attachment_sha256'], 'delivered_events': sent['event_count'],
+              'candidate': str(candidate_path) if candidate_path.is_file() else None}
+    corrections = []
+    if candidate_path.is_file():
+        candidate = json.loads(candidate_path.read_text(encoding='utf-8'))
+        shown = {canonical(s['source_url']) for e in candidate.get('events', []) for s in e.get('sources', [])}
+        ledger = json.loads((candidate_path.parent / candidate['decision_ledger']).read_text(encoding='utf-8'))
+        decisions = {a['source_url']: a for a in ledger['articles']}
+        result.update(candidate_sha256=candidate.get('sha256'), candidate_events=len(candidate.get('events', [])),
+                      added_sources=sorted(delivered - shown), removed_sources=sorted(shown - delivered),
+                      matches_candidate=candidate.get('sha256') == sent['attachment_sha256'])
+        for url in sorted(delivered - shown):
+            earlier = decisions.get(url)
+            if earlier and earlier['decision'] != 'INCLUDE':
+                corrections.append({'source_url': url, 'headline': earlier.get('headline', ''),
+                                    'earlier_decision': earlier['decision'], 'earlier_reason': earlier['decision_reason'],
+                                    'delivered_decision': 'INCLUDE', 'superseded_at': sent.get('confirmed_at', ''),
+                                    'evidence': sent['attachment']})
+        for url in sorted(shown - delivered):
+            earlier = decisions.get(url, {})
+            corrections.append({'source_url': url, 'headline': earlier.get('headline', ''),
+                                'earlier_decision': earlier.get('decision', 'INCLUDE'), 'earlier_reason': earlier.get('decision_reason', ''),
+                                'delivered_decision': 'EXCLUDE', 'superseded_at': sent.get('confirmed_at', ''),
+                                'evidence': sent['attachment']})
+    result['editorial_corrections'] = len(corrections)
+    if corrections:
+        with (folder / 'editorial_corrections_from_delivery.csv').open('w', newline='', encoding='utf-8-sig') as stream:
+            writer = csv.DictWriter(stream, fieldnames=list(corrections[0]))
+            writer.writeheader(); writer.writerows(corrections)
+    (folder / 'delivered_reconciliation.json').write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding='utf-8')
+    if manifest:
+        manifest.update(status='DELIVERED', delivered_attachment=sent['attachment'],
+                        delivered_sha256=sent['attachment_sha256'], delivered_reconciliation=str(folder / 'delivered_reconciliation.json'))
+        manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding='utf-8')
+    return result

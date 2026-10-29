@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>Financial Brief | 28 October 2026</title><style>* {
+    box-sizing: border-box;
+}
+html {
+    background: #edf1f5;
+}
+body {
+    margin: 0;
+    background: #edf1f5;
+    color: #1b2733;
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.58;
+}
+a {
+    color: #0d547a;
+}
+.report-shell {
+    width: 100%;
+    max-width: 1080px;
+    margin: 28px auto;
+    background: #ffffff;
+    border: 1px solid #dce3e9;
+    box-shadow: 0 12px 34px rgba(22, 41, 58, 0.08);
+}
+.top-rule {
+    height: 6px;
+    background: #0b3154;
+}
+a:focus-visible { outline:3px solid #b28a44; outline-offset:3px; }
+.report-header {
+    padding: 30px 38px 24px;
+    border-bottom: 1px solid #dce3e9;
+}
+.header-kicker {
+    margin-bottom: 8px;
+    color: #577080;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+}
+.header-row {
+    display: table;
+    width: 100%;
+}
+.header-title,
+.header-date {
+    display: table-cell;
+    vertical-align: bottom;
+}
+.header-title h1 {
+    margin: 0;
+    color: #0b3154;
+    font-size: 38px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+.header-title p {
+    margin: 7px 0 0;
+    color: #617381;
+    font-size: 16px;
+}
+.header-date {
+    width: 230px;
+    text-align: right;
+}
+.date-label {
+    color: #70828f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.date-value {
+    margin-top: 4px;
+    color: #0b3154;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.report-content {
+    padding: 8px 38px 32px;
+}
+.report-section {
+    margin-top: 32px;
+}
+.section-title-row {
+    display: table;
+    width: 100%;
+    margin-bottom: 14px;
+}
+.section-title-row > div {
+    display: table-cell;
+    vertical-align: bottom;
+}
+.section-title-row h2 {
+    margin: 1px 0 0;
+    color: #173a56;
+    font-size: 21px;
+    line-height: 1.25;
+}
+.section-title-row p {
+    margin: 5px 0 0;
+    color: #526477;
+    font-size: 15px;
+}
+.section-kicker {
+    color: #8b6a2f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.25px;
+}
+
+.priority-card {
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid #d9e1e7;
+    border-left: 4px solid #b28a44;
+    background: #ffffff;
+    page-break-inside: avoid;
+}
+.priority-number,
+.priority-body {
+    display: table-cell;
+    vertical-align: top;
+}
+.priority-number {
+    width: 58px;
+    padding: 20px 10px;
+    color: #b28a44;
+    background: #fbf8f1;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+.priority-body {
+    padding: 18px 20px 16px;
+}
+.story-topline {
+    color: #70818c;
+    font-size: 14px;
+    font-weight: 600;
+}
+.dot {
+    margin: 0 5px;
+    color: #a9b5bd;
+}
+.priority-card h3,
+.context-card h3 {
+    margin: 4px 0 11px;
+    color: #182c3b;
+    font-size: 19px;
+    line-height: 1.3;
+}
+.meta-row {
+    display: table;
+    width: 100%;
+    margin: 0 0 13px;
+    padding: 10px 12px;
+    background: #f6f8fa;
+    border: 1px solid #e3e8ec;
+}
+.meta-main,
+.meta-topics {
+    display: table-cell;
+    vertical-align: middle;
+}
+.meta-main {
+    width: 63%;
+}
+.meta-topics {
+    text-align: right;
+}
+.meta-label,
+.block-label {
+    margin-bottom: 2px;
+    color: #526477;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.entity-name {
+    color: #1d3343;
+    font-size: 15px;
+    font-weight: 700;
+}
+.entity-type {
+    color: #72818c;
+    font-size: 14px;
+}
+.topic-chip {
+    display: inline-block;
+    margin: 2px 0 2px 5px;
+    padding: 3px 8px;
+    border: 1px solid #c9dbe6;
+    background: #edf5f9;
+    color: #28556f;
+    font-size: 12px;
+    font-weight: 700;
+}
+.summary-block p {
+    margin: 4px 0 0;
+    color: #263642;
+}
+.relevance-block {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-left: 3px solid #6c92a8;
+    background: #f3f7f9;
+}
+.relevance-block p {
+    margin: 3px 0 0;
+    color: #344955;
+    font-size: 15px;
+}
+.story-footer {
+    display: table;
+    width: 100%;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e9ed;
+}
+.context-wrap,
+.story-footer > .source-link {
+    display: table-cell;
+    vertical-align: middle;
+}
+.context-item {
+    margin-right: 12px;
+    color: #74838e;
+    font-size: 12px;
+}
+.source-link {
+    color: #0c557c;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    text-align: right;
+}
+.context-card {
+    margin-bottom: 12px;
+    padding: 15px 17px;
+    border: 1px solid #dfe5ea;
+    background: #fbfcfd;
+    page-break-inside: avoid;
+}
+.context-card-head {
+    display: table;
+    width: 100%;
+}
+.context-card-head > div,
+.context-card-head > .source-link {
+    display: table-cell;
+    vertical-align: top;
+}
+.context-card-head > .source-link {
+    width: 75px;
+    text-align: right;
+}
+.context-card h3 {
+    margin-bottom: 8px;
+    font-size: 21px;
+}
+.compact-meta {
+    margin-bottom: 9px;
+    color: #697a86;
+    font-size: 14px;
+}
+.scope-text {
+    margin-right: 10px;
+}
+.context-summary {
+    margin: 0;
+    color: #2b3c48;
+}
+.context-bottom {
+    margin-top: 10px;
+    padding-top: 9px;
+    border-top: 1px solid #e4e9ed;
+    color: #647782;
+    font-size: 14px;
+}
+.context-relevance {
+    margin-bottom: 3px;
+}
+.related-note {
+    color: #7a8891;
+}
+.secondary-section {
+    margin-top: 34px;
+}
+.other-table-wrap {
+    border: 1px solid #dfe5ea;
+}
+.other-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.other-table th {
+    padding: 9px 11px;
+    background: #f1f4f6;
+    color: #60727e;
+    border-bottom: 1px solid #dfe5ea;
+    font-size: 12px;
+    letter-spacing: .5px;
+    text-align: left;
+    text-transform: uppercase;
+}
+.other-table th:nth-child(1) { width: 26%; }
+.other-table th:nth-child(2) { width: 22%; }
+.other-table th:nth-child(3) { width: 52%; }
+.other-table td {
+    padding: 11px;
+    border-bottom: 1px solid #e7ecef;
+    vertical-align: top;
+    color: #31424d;
+    font-size: 14px;
+}
+.other-table tr:last-child td {
+    border-bottom: 0;
+}
+.other-title a {
+    display: block;
+    margin-top: 2px;
+    color: #173e59;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+}
+.small-muted {
+    margin-top: 2px;
+    color: #7a8993;
+    font-size: 12px;
+}
+.event-group {
+    margin-bottom: 10px;
+    padding: 13px 15px;
+    border: 1px solid #dfe5ea;
+    background: #f8fafb;
+}
+.event-label {
+    color: #8b6a2f;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.event-group h3 {
+    margin: 2px 0 7px;
+    color: #173a56;
+}
+.event-group ul {
+    margin: 0;
+    padding-left: 18px;
+}
+.event-group li {
+    margin: 3px 0;
+}
+.event-group li span {
+    margin-left: 5px;
+    color: #74828b;
+    font-size: 12px;
+}
+.empty-state {
+    padding: 16px;
+    border: 1px solid #dfe5ea;
+    background: #f8fafb;
+    color: #72828d;
+}
+.report-footer {
+    padding: 17px 38px 23px;
+    border-top: 1px solid #dce3e9;
+    background: #f8fafb;
+    color: #697b87;
+    font-size: 12px;
+}
+.report-footer strong {
+    color: #405663;
+}
+
+@media (max-width: 760px) {
+    .report-shell {
+        margin: 0;
+        border-left: 0;
+        border-right: 0;
+    }
+    .report-header,
+    .report-content,
+    .report-footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .header-row,
+    .header-title,
+    .header-date,
+    .priority-card,
+    .priority-number,
+    .priority-body,
+    .meta-row,
+    .meta-main,
+    .meta-topics,
+    .context-card-head,
+    .context-card-head > div,
+    .context-card-head > .source-link,
+    .story-footer,
+    .context-wrap,
+    .story-footer > .source-link {
+        display: block;
+        width: 100%;
+    }
+    .header-date,
+    .meta-topics,
+    .context-card-head > .source-link,
+    .story-footer > .source-link {
+        margin-top: 8px;
+        text-align: left;
+    }
+    .priority-number {
+        padding: 7px 12px;
+        text-align: left;
+    }
+
+
+    .other-table,
+    .other-table thead,
+    .other-table tbody,
+    .other-table tr,
+    .other-table th,
+    .other-table td {
+        display: block;
+        width: 100% !important;
+    }
+    .other-table thead {
+        display: none;
+    }
+    .other-table td {
+        border-bottom: 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+    .other-table tr {
+        padding: 9px 4px;
+        border-bottom: 1px solid #e7ecef;
+    }
+}
+@media print {
+    @page {
+        size: A4;
+        margin: 12mm;
+    }
+    html,
+    body {
+        background: #ffffff;
+    }
+    .report-shell {
+        max-width: none;
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+    }
+    .source-link {
+        color: #0c557c;
+    }
+    .priority-card,
+    .context-card,
+    .event-group,
+    .other-table tr {
+        page-break-inside: avoid;
+    }
+}
+
+/* Final bank-supervision additions while preserving the 14-Oct visual language. */
+/* BANK_SUPERVISION_UI_CLEANUP_V1
+   Stronger section separation + cleaner supervisory-focus presentation. */
+.report-section {
+    margin-top: 42px;
+}
+.report-section + .report-section {
+    margin-top: 46px;
+    padding-top: 25px;
+    border-top: 1px solid #d6e0e7;
+}
+.section-title-row {
+    display: block;
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 15px 18px 14px;
+    border: 1px solid #dbe4ea;
+    border-left: 5px solid #0b3154;
+    background: linear-gradient(90deg, #f3f7fa 0%, #ffffff 82%);
+    box-shadow: 0 3px 10px rgba(22, 41, 58, 0.04);
+    page-break-after: avoid;
+    break-after: avoid;
+}
+.section-title-row > div {
+    display: block;
+}
+.section-title-row h2 {
+    margin: 2px 0 0;
+    color: #0b3154;
+    font-size: 23px;
+    line-height: 1.22;
+    letter-spacing: -0.15px;
+}
+.section-title-row p {
+    max-width: 880px;
+    margin: 6px 0 0;
+    color: #5d7180;
+    font-size: 14px;
+}
+.section-kicker {
+    margin-bottom: 2px;
+    color: #8b6a2f;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.45px;
+}
+.supervisory-focus-row {
+    padding: 11px 13px;
+    border-left: 3px solid #b28a44;
+    background: #f7f9fb;
+}
+.supervisory-focus-row .meta-main {
+    width: 100%;
+}
+.supervisory-focus-row .entity-name {
+    margin-top: 2px;
+    color: #173a56;
+    font-size: 15px;
+}
+.priority-card {
+    box-shadow: 0 3px 12px rgba(22, 41, 58, 0.045);
+}
+.context-card {
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(22, 41, 58, 0.025);
+}
+
+/* Keep a section heading with the first story when printing. */
+.section-title-row + .priority-card,
+.section-title-row + .context-card {
+    break-before: avoid;
+}
+
+.priority-card .source-list,
+.context-card .source-list {
+    margin-top: 10px;
+    color: #647782;
+    font-size: 13px;
+}
+.source-list a {
+    color: #0c557c;
+    font-weight: 700;
+    text-decoration: none;
+}
+.importance-chip {
+    display: inline-block;
+    margin: 2px 0 2px 5px;
+    padding: 3px 8px;
+    border: 1px solid #e1d4b7;
+    background: #f8f3e9;
+    color: #765b2a;
+    font-size: 12px;
+    font-weight: 700;
+}
+.report-note {
+    margin-top: 7px;
+    color: #7a8993;
+    font-size: 12px;
+}
+
+.importance-chip { display: none; }
+
+.review-window {margin-top:12px;color:#526477;font-size:13px;line-height:1.5}
+.context-card {margin-bottom:14px;}
+.summary-block p {line-height:1.57}
+.review-edition-label {color:#647782;font-size:12px;margin-top:8px}
+</style></head><body><div class="report-shell"><div class="top-rule"></div><header class="report-header"><div class="header-kicker">FINANCIAL SECTOR</div><div class="header-row"><div class="header-title"><h1>Financial Brief</h1><p>The latest banking, financial sector and market news.</p></div><div class="header-date"><div class="date-label">Reporting date</div><div class="date-value">Wednesday, 28 October 2026</div></div></div><div class="review-window">Reporting coverage: Wednesday 28 October 2026, including relevant late developments from Tuesday 27 October not carried in the preceding brief. Related reporting is consolidated by underlying event.</div></header><main class="report-content"><section class="report-section"><div class="section-title-row"><div><div class="section-kicker">KEY BANKING SUPERVISORY</div><h2>CBSL &amp; Bank Supervisory Developments</h2><p>Direct supervisory, governance, fraud, prudential and cyber developments</p></div></div>
+<article class="priority-card" data-source-date="2026-10-28">
+<div class="priority-number">01</div><div class="priority-body">
+<div class="story-topline">Daily News <span class="dot">•</span> 2026-10-28</div>
+<h3>Sri Lanka’s AML/CFT framework under international scrutiny as APG evaluation begins</h3>
+<div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">Regulatory Risk</div></div></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lanka has begun its third mutual evaluation by the Asia/Pacific Group on Money Laundering (APG), with the inaugural meeting held in Colombo on 26 October. The exercise examines the country's compliance with and practical implementation of international standards on anti-money laundering, countering terrorist financing and countering proliferation financing (AML/CFT/CPF). Speaking at the opening, Prime Minister Harini Amarasuriya emphasised that a credible framework requires institutions, laws, supervision, investigation and enforcement to work effectively together—not merely to exist on paper. She also highlighted the damage that corruption and weak public trust can cause to financial stability, and recalled Sri Lanka's previous periods of increased monitoring by the Financial Action Task Force. The Government committed to engage with the assessment team and continue addressing weaknesses. The evaluation has started; this is not an announcement of a final rating or outcome.</p></div>
+<div class="relevance-block"><div class="block-label">Why it matters</div><p>A core supervisory development for banks and other reporting institutions. The assessment places attention on customer due diligence, suspicious-transaction reporting, beneficial ownership, supervision and effectiveness across agencies. Its findings may influence financial-system credibility, foreign correspondent-banking confidence and the future focus of compliance remediation; no outcome should be presumed in advance.</p></div>
+
+<div class="story-footer"><div class="context-wrap"></div><div class="source-link"><a href="https://dailynews.lk/2026/10/28/business/1047137/sri-lankas-aml-cft-framework-under-international-scrutiny-as-apg-evaluation-begins" rel="noopener noreferrer" target="_blank">Daily News ↗</a></div></div><div class="source-list"><strong>Supporting source: </strong><a href="https://www.ft.lk/front-page/APG-opens-Sri-Lanka-s-third-AML-CFT-evaluation/44-799238" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div><div class="source-list"><strong>Supporting source: </strong><a href="https://english.newsfirst.lk/2026/10/27/sri-lanka-determined-to-stay-off-global-financial-watchlists-says-pm" rel="noopener noreferrer" target="_blank">NewsFirst · 27 Oct remarks ↗</a></div></div>
+</article>
+</section>
+<section class="report-section"><div class="section-title-row"><div><div class="section-kicker">OTHER FINANCIAL SECTOR</div><h2>Other Financial-Sector Developments</h2><p>Licensed finance companies and material insurance-sector news</p></div></div>
+<article class="context-card" data-source-date="2026-10-28">
+<div class="context-card-head"><div>
+<div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div>
+<h3>CRIB expands credit information ecosystem</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Financial Inclusion Consumer</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The Credit Information Bureau of Sri Lanka (CRIB) has brought four licensed microfinance companies into its national credit-information network following a Gazette notification under the CRIB Act. The institutions are Berendina Micro Investments Company, Lak Jaya Micro Finance, Dumbara Micro Credit and Sejaya Micro Credit. As designated lending institutions, they can contribute borrowers' credit information to CRIB and obtain credit profiles through the established information-sharing framework. CRIB said the change extends formal credit reporting beyond the mainstream banking sector and improves visibility of borrowers who have historically had a limited credit footprint. The onboarding was marked at an event attended by CRIB leadership and Central Bank officials. It is an expansion of the reporting ecosystem, not an announcement of new lending volumes or an automatic improvement in borrowers' creditworthiness.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>Broader coverage can help lenders identify existing obligations, assess repayment capacity, control multiple borrowing and make more consistent credit decisions. It may also improve access for underserved borrowers with a positive repayment record, provided data quality, accuracy, dispute handling and responsible use of borrower information are maintained.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/business/CRIB-expands-credit-information-ecosystem/34-799259" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article>
+<article class="context-card" data-source-date="2026-10-28">
+<div class="context-card-head"><div>
+<div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div>
+<h3>Sri Lanka aims to be South Asia’s Fintech Hub</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Regulated Finance</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Deputy Minister of Digital Economy Eranga Weeraratne outlined the Government's ambition to shift Sri Lanka from a cash-heavy to a cash-light economy and establish a stronger regional fintech industry. In an interview ahead of the Sri Lanka FinTech Festival on 2–3 November, he said banks, regulated financial institutions and fintech providers must work together on interoperable digital-payment channels and services such as tap-and-go and card-based transactions. He described proposals to revisit policies that limit independent fintech services, develop a matching-investment 'fund of funds' for startups, and establish a regulatory framework for venture-capital funds. The Ministry is also exploring cloud and artificial-intelligence infrastructure investment. These are policy intentions and projects at different stages of development; the proposed regulatory changes are not yet confirmed as implemented.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>For supervised institutions, this points to potential changes in payments, customer onboarding, SME transaction records, financial inclusion and the competitive relationship between banks and fintech firms. Operational resilience, cybersecurity, third-party dependencies, fraud controls and consumer protection will be critical as adoption expands.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/business/Sri-Lanka-aims-to-be-South-Asia-s-Fintech-Hub/34-799255" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article>
+</section>
+<section class="report-section"><div class="section-title-row"><div><div class="section-kicker">MONETARY MARKETS EXTERNAL</div><h2>Monetary, Markets &amp; External Sector</h2><p>Debt, capital markets and external-sector conditions</p></div></div>
+<article class="context-card" data-source-date="2026-10-28">
+<div class="context-card-head"><div>
+<div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div>
+<h3>Govt. signals stronger capital market push in 2027 Budget</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Capital Markets</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Deputy Finance Minister Anil Jayantha Fernando said capital-market initiatives should become more visible in the 2027 Budget, scheduled for presentation on 12 November. Speaking at an institutional investor forum, he stated that most of the 12 proposals submitted by the Securities and Exchange Commission (SEC) had been discussed and accepted by the Finance Ministry, with some measures expected in the Budget and others to be developed with the SEC and Colombo Stock Exchange. He framed the proposals as part of a transition from economic stabilisation towards investment and longer-term growth. The Government also signalled substantial planned capital expenditure and further work on state-owned enterprise restructuring, including prospective legal changes. These announcements describe policy direction; the detailed Budget measures and legislative provisions remain to be formally presented.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>Capital-market reforms could affect domestic savings mobilisation, issuance of debt and equity securities, funding opportunities for banks and non-bank institutions, and the depth and liquidity of local investment markets. Supervisors should distinguish announced intentions from enacted policies and monitor how implementation affects funding and market risk.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/top-story/Govt-signals-stronger-capital-market-push-in-2027-Budget/26-799231" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article>
+<article class="context-card" data-source-date="2026-10-28">
+<div class="context-card-head"><div>
+<div class="story-topline">The Island <span class="dot">•</span> 2026-10-28</div>
+<h3>Optimism over upcoming quarterly corporate results energizes CSE</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Capital Markets</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lankan equities recovered during the 27 October trading session as investors positioned ahead of forthcoming corporate results and considered recent export-sector developments. The Colombo Stock Exchange's All Share Price Index (ASPI) advanced 52.11 points, equivalent to approximately 0.27%, to close at 19,692.67. The Island attributed the stronger session partly to expectations of favourable quarterly earnings. The gain followed a weaker opening to the week, when domestic equity-market sentiment had been subdued. Separate contemporaneous reports gave inconsistent figures for the more liquid S&amp;P SL20 and certain trading statistics, so those details have deliberately not been reproduced here without a common, verified exchange record. The market movement is a daily observation, not evidence that expected earnings growth has already been realised.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>The daily improvement provides a timely, but limited, indicator of investor sentiment and possible changes in risk appetite. For banking surveillance it can be considered alongside interest rates, securities portfolios and market-sensitive collateral; a single positive session should not be read as a durable market trend.</div><div class="source-list"><strong>Source: </strong><a href="https://island.lk/optimism-over-upcoming-quarterly-corporate-results-energizes-cse" rel="noopener noreferrer" target="_blank">The Island ↗</a></div></div></article>
+<article class="context-card" data-source-date="2026-10-28">
+<div class="context-card-head"><div>
+<div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div>
+<h3>Secondary Bond market yields increase</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Market External</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Trading in Sri Lanka's secondary government-bond market on 27 October saw yields rise on selected maturities amid selling interest. The market commentary published by Daily FT described activity as moderate overall, with several block transactions contributing to recorded turnover. Investors were also reported to have bought securities at the higher yield levels, partly absorbing the selling pressure. The movement was therefore not uniform across every bond or maturity: it reflected trading conditions in particular parts of the yield curve and demand returning at revised prices. The source extract available for this review supports the direction of yields and the character of trading, but does not independently substantiate a complete set of maturity-by-maturity closing rates; unsupported numerical quotes have not been inserted.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>Higher market yields can reduce the fair value of fixed-rate government securities, while potentially improving reinvestment returns. Changes matter for banks' trading and investment books, interest-rate sensitivity, collateral valuations and the cost of market funding. The impact differs by portfolio classification and maturity profile.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/financial-services/Secondary-Bond-market-yields-increase/42-799257" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article>
+<article class="context-card" data-source-date="2026-10-28">
+<div class="context-card-head"><div>
+<div class="story-topline">The Morning <span class="dot">•</span> 2026-10-28</div>
+<h3>Tourist arrivals in October top 135,000</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Tourism Fx Earnings</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lanka received 136,096 international tourists during the first 25 days of October 2026, according to Sri Lanka Tourism Development Authority figures reported by The Morning. India accounted for 51,424 visitors, or roughly 38% of the month's arrivals to that point. The United Kingdom contributed 10,117 visitors and China 9,411, followed by Australia at 6,844 and Germany at 6,269. The new October observations brought cumulative tourist arrivals for 2026 to 1,829,772. India's position as the largest source market remained evident in the year-to-date totals, with 488,838 arrivals, followed by the UK and China. These are visitor counts for a partial month, rather than a full-month forecast, foreign-exchange receipt figure or hotel occupancy measure.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>Tourism activity is relevant to expected foreign-currency receipts and the operating conditions of hotels, travel-related firms and tourism-linked small businesses. It can inform sectoral credit monitoring, but arrival figures alone do not establish realised spending, profitability, debt-service capacity or actual foreign-currency inflows.</div><div class="source-list"><strong>Source: </strong><a href="https://www.themorning.lk/articles/uKUqMHtWxwmVXROlU6jy" rel="noopener noreferrer" target="_blank">The Morning ↗</a></div></div></article>
+</section>
+<section class="report-section"><div class="section-title-row"><div><div class="section-kicker">MACRO SYSTEMIC CONTEXT</div><h2>Macro &amp; Systemic Context</h2><p>Policy developments with a financial-system relevance</p></div></div><article class="context-card" data-source-date="2026-10-28"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div><h3>Cabinet approves US$100 million ADB macro-recovery financing</h3></div></div><div class="compact-meta"><span class="topic-chip">Sovereign Financing</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The Cabinet approved entering into a US$100 million financing agreement with the Asian Development Bank (ADB) for the Macro-Recovery Sector Development Programme, after the Department of External Resources completed formal negotiations. The package is split evenly between a US$50 million policy-based loan and a US$50 million investment loan, both from ADB's ordinary capital resources. It forms part of a broader US$620 million framework covering five sub-programmes intended to advance economic reforms alongside Sri Lanka's IMF Extended Fund Facility programme. The Cabinet had previously endorsed this macro-recovery programme on 7 September; the latest development is approval to proceed with the negotiated agreement, not evidence of a new US$620 million commitment or funds already disbursed. It is separate from earlier ADB social-protection financing and from the Mahaweli water project financing reported elsewhere in this brief.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>The decision is relevant to sovereign funding plans, reform implementation and the potential availability of external development financing. Banks and macro-risk analysts should track execution and disbursement separately from Cabinet approval, since the reporting does not establish the loan's drawdown schedule or realised cash receipts.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/front-page/Cabinet-approves-100-m-ADB-loan-to-support-Sri-Lanka-s-economic-recovery/44-799234" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-28"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div><h3>Cabinet clears US$60 million OPEC Fund loan for Mahaweli water security</h3></div></div><div class="compact-meta"><span class="topic-chip">External Financing</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">The Cabinet approved proceeding with a US$60 million loan arrangement from the OPEC Fund for International Development to help finance Phase 2 of the Mahaweli Water Security Investment Programme. According to contemporaneous reports of the Cabinet decision, the proposed facility is made up of US$48 million and US$12 million components. Phase 2 has an estimated overall cost of US$536.5 million and is expected to involve multiple development partners; the Asian Development Bank has separately agreed to provide US$200 million towards this water-security programme. Proposed work includes completion of a section of the main water-transfer tunnel, additional canals and irrigation infrastructure, and improvements intended to support dry-zone agriculture and climate resilience. This OPEC facility is for an infrastructure programme and must not be conflated with the separate ADB macro-recovery package.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>The approval adds to the pipeline of externally financed public projects and is relevant to sovereign borrowing and climate-resilient infrastructure. For bank-sector monitoring, potential longer-run effects on agriculture and rural borrowers are plausible but not yet realised; financing terms and actual disbursements still require separate confirmation.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/news/Cabinet-clears-60-m-OPEC-Fund-Loan/56-799245" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div><div class="source-list"><strong>Supporting source: </strong><a href="https://www.themorning.lk/articles/Q6J4DJThsa8uNKW42tOo" rel="noopener noreferrer" target="_blank">The Morning · project details ↗</a></div></div></article><article class="context-card" data-source-date="2026-10-28"><div class="context-card-head"><div><div class="story-topline">Daily FT <span class="dot">•</span> 2026-10-28</div><h3>Apparel exports rise in September but remain lower over nine months</h3></div></div><div class="compact-meta"><span class="topic-chip">Export Credit Exposure</span></div><div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">Sri Lanka's apparel exports returned to growth in September 2026 but remained below the previous year's level over the first nine months, according to data highlighted by the Joint Apparel Association Forum (JAAF). Exports for September reached US$416.99 million, up 3.47% from US$403.01 million in September 2025. The United States market grew 7.17% to US$172.03 million, while shipments to the European Union excluding the UK rose 6.5% to US$132.46 million. By contrast, exports to the UK fell 5.92% and sales to other markets also declined. For January–September, total apparel exports stood at US$3,588.46 million against US$3,798.25 million a year earlier, a contraction of 5.52%. These are apparel-industry figures; they should not be confused with aggregate merchandise-export growth reported separately.</p></div><div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>The monthly improvement is encouraging for export-oriented manufacturers, but the nine-month decline indicates continuing pressure on the sector's cumulative revenues. Banks with apparel-related borrowers may wish to monitor order books, working-capital demand, foreign-exchange earnings and repayment sensitivity, rather than extrapolating one month's rebound.</div><div class="source-list"><strong>Source: </strong><a href="https://www.ft.lk/front-page/Apparel-exports-grow-in-Sept-YTD-picture-remains-cautious-JAAF/44-799232" rel="noopener noreferrer" target="_blank">Daily FT ↗</a></div></div></article>
+<article class="context-card" data-source-date="2026-10-27">
+<div class="context-card-head"><div>
+<div class="story-topline">NewsFirst <span class="dot">•</span> 2026-10-27</div>
+<h3>Government signals conditional tax relief after stronger revenue mobilisation</h3>
+</div></div><div class="compact-meta"><span class="topic-chip">Systemic Macro</span></div>
+<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">In remarks reported late on 27 October, Deputy Finance Minister Anil Jayantha Fernando said Sri Lanka could reconsider its heavy indirect-tax burden only when government revenue is sufficiently secure to support fiscal consolidation and public investment. He acknowledged concerns about the current 18% Value Added Tax (VAT) rate and other taxes, but did not announce an immediate VAT reduction or new tax rate. Fernando said revenue had reached approximately 16.7% of GDP by the end of 2025, exceeding an earlier benchmark, and described a longer-term ambition to move it towards around 18% of GDP by 2030. He indicated that further revenue space would be needed before the authorities could reset the tax structure, while continuing to prioritise infrastructure and other investment spending. The remarks complement, rather than implement, the 2027 Budget proposals described in the capital-markets section.</p></div>
+
+
+<div class="context-bottom"><div class="context-relevance"><strong>Why it matters: </strong>The signal is relevant to sovereign revenue sustainability, disposable income and demand conditions facing bank borrowers. For financial planning, a possible future tax cut should be treated as a conditional policy direction—not as an enacted measure or an immediate change to cash flows.</div><div class="source-list"><strong>Source: </strong><a href="https://english.newsfirst.lk/2026/10/27/sri-lanka%e2%80%99s-tax-burden-may-ease-but-only-after-revenue-reaches-a-safer-level" rel="noopener noreferrer" target="_blank">NewsFirst ↗</a></div></div></article>
+</section></main><footer class="report-footer"><strong>Bank Supervision News Intelligence.</strong> Stories are grouped by distinct development, with reporting dates shown alongside the source. Policy proposals, financing approvals and market movements are distinguished from implemented outcomes; material late coverage is included without repeating earlier editions.</footer></div></body></html>

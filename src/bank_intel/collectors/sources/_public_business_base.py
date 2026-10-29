@@ -973,9 +973,27 @@ def extract_article_text(
     ) > len(
         best.split()
     ):
-        return fallback
+        best = fallback
+
+    # A short publisher-structured body (a genuine brief notice, or a page
+    # recovered from the official feed) beats an empty or shorter page body.
+    structured = max((normalize_space(obj.get("articleBody")) for obj in jsonld), key=len, default="")
+    if len(structured.split()) > len(best.split()):
+        return structured
 
     return best
+
+
+def short_article_is_valid(headline: str, text: str, published) -> bool:
+    """A 25-79 word article is a short notice, not an extraction failure,
+    when it is dated and its body is about its headline."""
+    words = text.split()
+    if not headline or published is None or not 25 <= len(words) < 80:
+        return False
+    stop = {"the", "and", "for", "with", "from", "into", "over", "sri", "lanka", "its", "new"}
+    head = {w for w in re.findall(r"[a-z0-9]+", headline.casefold()) if len(w) > 2 and w not in stop}
+    body = set(re.findall(r"[a-z0-9]+", text.casefold()))
+    return bool(head) and len(head & body) >= max(2, round(0.3 * len(head)))
 
 
 def extract_generic_article(
@@ -1366,7 +1384,7 @@ def run_collection(
                     and article.published_at is not None
                     and bool(article.headline)
                     and 25 <= word_count < 80
-                )
+                ) or short_article_is_valid(article.headline, article.article_text, article.published_at)
                 if not article.headline or (word_count < 80 and not short_official_notice):
                     counts["invalid_extraction"] += 1
                     extraction_failures.append({"url": url, "reason": ";".join(article.warnings) or f"WORDS:{word_count}"})
@@ -1444,7 +1462,7 @@ def run_collection(
                 getattr(fetched, "method", None) == "rss-full-content"
                 and bool(article.headline)
                 and 25 <= word_count < 80
-            )
+            ) or short_article_is_valid(article.headline, article.article_text, article.published_at)
             if not article.headline or (word_count < 80 and not short_official_notice):
                 counts["invalid_extraction"] += 1
                 extraction_failures.append({"url": url, "reason": ";".join(article.warnings) or f"WORDS:{word_count}"})

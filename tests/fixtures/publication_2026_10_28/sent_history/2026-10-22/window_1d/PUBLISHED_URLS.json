@@ -1,0 +1,109 @@
+{
+  "report_date": "2026-10-22",
+  "sent_at_utc": "2026-10-22T08:28:59.077519+00:00",
+  "sent_html": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-22\\window_1d\\Daily Financial Sector News Brief 2026-10-22.html",
+  "sent_html_sha256": "a6d0e5e8edeedff61efbf84645e85c3658e44ff2876b2f31e6f131662b700307",
+  "story_count": 14,
+  "source_urls": [
+    "https://dailynews.lk/2026/10/22/local/1046257/sri-lankans-have-pawned-over-rs-1200-bn-worth-jewellery-to-commercial-banks-sujeeva",
+    "https://english.newsfirst.lk/2026/10/21/state-bank-of-india-reports-cyberattack",
+    "https://www.dailymirror.lk/breaking-news/Sri-Lanka-Police-warn-public-of-AI-Deepfake-scams/108-353071",
+    "https://www.dailymirror.lk/business-news/Rs-28bn-in-Ditwah-insurance-claims-still-outstanding-at-mid-year/273-353019",
+    "https://www.ft.lk/financial-services/CSE-continues-slide-ends-down-0-28/42-799001",
+    "https://www.ft.lk/financial-services/SDF-seeks-six-more-months-to-deploy-green-Bond-funds/42-799003",
+    "https://www.ft.lk/financial-services/Secondary-Bond-market-extends-recovery-yields-decline-on-selected-tenors/42-799002",
+    "https://www.ft.lk/front-page/ADB-approves-100-m-to-strengthen-social-protection-and-expand-economic-opportunities/44-798982",
+    "https://www.ft.lk/front-page/Industry-and-construction-lag-personal-credit/44-798984",
+    "https://www.ft.lk/front-page/NCPI-unchanged-at-8-1-in-Sept/44-798977",
+    "https://www.ft.lk/front-page/NDB-posts-3Q-PAT-of-Rs-2-9-b/44-798983",
+    "https://www.ft.lk/front-page/Net-closing-in-on-tax-evaders-as-IRD-Excise-join-forces/44-798980",
+    "https://www.themorning.lk/articles/HdLMdTjo1bdhrplewRyQ",
+    "https://www.themorning.lk/articles/OYxoTRidlew4ea7xnNiS"
+  ],
+  "events": [
+    {
+      "headline": "NDB posts 3Q PAT of Rs. 2.9 b",
+      "source_urls": [
+        "https://www.ft.lk/front-page/NDB-posts-3Q-PAT-of-Rs-2-9-b/44-798983"
+      ]
+    },
+    {
+      "headline": "Sri Lanka Police warn public of AI deepfake scams",
+      "source_urls": [
+        "https://www.dailymirror.lk/breaking-news/Sri-Lanka-Police-warn-public-of-AI-Deepfake-scams/108-353071"
+      ]
+    },
+    {
+      "headline": "Industry and construction lag personal credit",
+      "source_urls": [
+        "https://www.ft.lk/front-page/Industry-and-construction-lag-personal-credit/44-798984"
+      ]
+    },
+    {
+      "headline": "Sri Lankans have pawned over Rs.1200 Bn worth jewellery to commercial banks – Sujeeva",
+      "source_urls": [
+        "https://dailynews.lk/2026/10/22/local/1046257/sri-lankans-have-pawned-over-rs-1200-bn-worth-jewellery-to-commercial-banks-sujeeva"
+      ]
+    },
+    {
+      "headline": "Corporate exit: HSBC winds down HDPL operations in SL",
+      "source_urls": [
+        "https://www.themorning.lk/articles/OYxoTRidlew4ea7xnNiS"
+      ]
+    },
+    {
+      "headline": "State Bank of India Reports Cyberattack",
+      "source_urls": [
+        "https://english.newsfirst.lk/2026/10/21/state-bank-of-india-reports-cyberattack"
+      ]
+    },
+    {
+      "headline": "Fitch Ratings recalibrates national rating scale",
+      "source_urls": [
+        "https://www.themorning.lk/articles/HdLMdTjo1bdhrplewRyQ"
+      ]
+    },
+    {
+      "headline": "Secondary Bond market extends recovery; yields decline on selected tenors",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/Secondary-Bond-market-extends-recovery-yields-decline-on-selected-tenors/42-799002"
+      ]
+    },
+    {
+      "headline": "CSE continues slide, ends down 0.28%",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/CSE-continues-slide-ends-down-0-28/42-799001"
+      ]
+    },
+    {
+      "headline": "IRD and Excise strengthen joint action against tax evasion and money laundering",
+      "source_urls": [
+        "https://www.ft.lk/front-page/Net-closing-in-on-tax-evaders-as-IRD-Excise-join-forces/44-798980"
+      ]
+    },
+    {
+      "headline": "ADB approves $ 100 m to strengthen social protection and expand economic opportunities",
+      "source_urls": [
+        "https://www.ft.lk/front-page/ADB-approves-100-m-to-strengthen-social-protection-and-expand-economic-opportunities/44-798982"
+      ]
+    },
+    {
+      "headline": "NCPI unchanged at 8.1% in Sept.",
+      "source_urls": [
+        "https://www.ft.lk/front-page/NCPI-unchanged-at-8-1-in-Sept/44-798977"
+      ]
+    },
+    {
+      "headline": "Rs. 28bn in Ditwah insurance claims still outstanding at mid-year",
+      "source_urls": [
+        "https://www.dailymirror.lk/business-news/Rs-28bn-in-Ditwah-insurance-claims-still-outstanding-at-mid-year/273-353019"
+      ]
+    },
+    {
+      "headline": "SDF seeks six more months to deploy green Bond funds",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/SDF-seeks-six-more-months-to-deploy-green-Bond-funds/42-799003"
+      ]
+    }
+  ]
+}

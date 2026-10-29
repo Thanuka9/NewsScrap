@@ -363,6 +363,32 @@ def run_source(
 # A transient website/browser failure must not kill a production run immediately.
 # Each failed ACTIVE source gets two fresh-process retries. Persistent failure still
 # blocks the pipeline, so this improves resilience without weakening fail-closed QA.
+def _open_failures(result: dict) -> int:
+    return len(result.get("unresolved_fetch_urls") or []) + len(result.get("failed_discovery_surfaces") or [])
+
+
+def recover_partial_source(*, source_key: str, source_config: dict, run_id: str, result: dict,
+                           wait_seconds: int = 60) -> dict:
+    """A successful run can still leave failed pages (a publisher's brief
+    outage). Collectors skip staged articles, so one delayed re-run retries
+    only what failed; keep whichever run left fewer open failures."""
+    before = _open_failures(result)
+    if not before:
+        return result
+    print(f"\n[PARTIAL RECOVERY] {source_key}: {before} failed page(s); retrying in {wait_seconds}s")
+    time.sleep(wait_seconds)
+    second = run_source(source_key=source_key, source_config=source_config, run_id=run_id)
+    after = _open_failures(second) if second.get("execution_status") == "SUCCESS" else before + 1
+    chosen = second if after < before else result
+    chosen["partial_recovery"] = {"failures_before": before, "failures_after": min(before, after),
+                                  "recovery_run_used": chosen is second}
+    # Coverage review reads the status file, which the re-run overwrote.
+    from bank_intel.common.source_status import write_source_status
+    write_source_status(source_key=source_key, payload=chosen)
+    print(f"[PARTIAL RECOVERY] {source_key}: open failures {before} -> {min(before, after)}")
+    return chosen
+
+
 def run_source_with_retry(
     *,
     source_key: str,
@@ -399,7 +425,8 @@ def run_source_with_retry(
                     f"[SOURCE RECOVERED] {source_key}: "
                     f"SUCCESS on attempt {attempt}/{max_attempts}"
                 )
-            return result
+            return recover_partial_source(source_key=source_key, source_config=source_config,
+                                          run_id=run_id, result=result)
 
         print(
             f"[SOURCE ATTEMPT FAILED] {source_key}: "

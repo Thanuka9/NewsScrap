@@ -167,7 +167,7 @@ def load_confirmed_history(report_root:Path,target_date:str,lookback_days:int|No
      prior.append({'source_url':s.get('source_url',''),'headline':e.get('headline',''),
                    'publication_date':e.get('publication_date',''), 'summary':e.get('summary',''), 'body':e.get('reported_facts') or e.get('summary',''),
                    'event_signature':e.get('event_signature',''), 'distributed_report':x.get('attachment',''),
-                   'sent_at':x.get('sent_at','')})
+                   'sent_at':x.get('sent_at',''),'edition_date':day})
   elif lock.is_file():
    # The October production ledger stores *actual sent events* with
    # `source_urls` (plural), not the candidate compiler's `sources` array.
@@ -191,7 +191,7 @@ def load_confirmed_history(report_root:Path,target_date:str,lookback_days:int|No
      recorded.add(c)
      prior.append({'source_url':url,'headline':str(e.get('headline') or ''),
                    'publication_date':str(e.get('publication_date') or ''), 'summary':str(e.get('summary') or ''), 'body':str(e.get('summary') or ''),
-                   'event_signature':e.get('event_signature',''), 'distributed_report':x.get('report_path',''), 'sent_at':x.get('sent_at') or x.get('sent_at_utc','')})
+                   'event_signature':e.get('event_signature',''), 'distributed_report':x.get('report_path',''), 'sent_at':x.get('sent_at') or x.get('sent_at_utc',''),'edition_date':day})
    if recorded!=canon_urls:
     issues.append('SENT_URL_EVENT_INCONSISTENCY:'+day)
  return prior,issues

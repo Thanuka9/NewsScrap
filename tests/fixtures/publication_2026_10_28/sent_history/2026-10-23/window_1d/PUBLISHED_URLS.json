@@ -1,0 +1,207 @@
+{
+  "report_date": "2026-10-23",
+  "sent_at_utc": "2026-10-23T05:11:27.298418+00:00",
+  "sent_html": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-23\\window_1d\\Daily Financial Sector News Brief 2026-10-23.html",
+  "sent_html_sha256": "375038fcdc2076263ffe2efee1b367cfb85f8a5d25fd1f6e64cddba806e39f5a",
+  "story_count": 24,
+  "source_urls": [
+    "https://dailynews.lk/2026/10/22/business/1046204/fresh-start-credit-rehabilitation-programme-proposed-for-2027-budget",
+    "https://dailynews.lk/2026/10/23/business/1046376/cargills-bank-introduces-sri-lankas-first-ocean-plastic-debit-card-to-support-marine-conservation",
+    "https://english.newsfirst.lk/2026/10/22/reserves-surge-from-crisis-era-us-1-8-bn-to-us-6-9-bn",
+    "https://island.lk/cse-witnesses-another-downbeat-session-turnover-rs-1-5-billion",
+    "https://island.lk/oil-price-surge-and-middle-east-tensions-weigh-on-cse-investor-sentiment",
+    "https://www.dailymirror.lk/business-main/Food-inflation-quickens-as-headline-rate-steadies/245-353118",
+    "https://www.dailymirror.lk/business-news/DFCC-Bank-Toyota-introduce-SLs-1st-10-year-lease-for-brand-new-Toyota-PVs/273-353102",
+    "https://www.dailymirror.lk/business-news/Indices-close-in-red/273-353112",
+    "https://www.dailymirror.lk/business-news/Pan-Asia-Bank-spearheads-financial-literacy-sessions-at-FinLit-Expo-2026/273-353109",
+    "https://www.dailymirror.lk/business-news/Seylan-Bank-partners-Colombo-Motor-Show-2026-as-Official-Banking-Leasing-Partner/273-353105",
+    "https://www.dailymirror.lk/business-news/Susantha-De-Silva-new-SANASA-Life-Insurance-CEO/273-353099",
+    "https://www.dailymirror.lk/business/CSE-tests-19-700-as-ASPI-reaches-new-YTD-low/215-353184",
+    "https://www.ft.lk/business/Graduate-growth-falls-short-of-economy-s-skill-needs-IPS/34-799008",
+    "https://www.ft.lk/business/Unemployment-decline-masks-deeper-labour-market-damage-IPS/34-799007",
+    "https://www.ft.lk/financial-services/Asia-Asset-Finance-to-raise-Rs-2-b-through-debentures/42-799064",
+    "https://www.ft.lk/financial-services/Bond-yields-close-steady-to-higher/42-799059",
+    "https://www.ft.lk/financial-services/Fitch-assigns-CBC-Finance-s-proposed-subordinated-debt-BBB-EXP-lka-rating/42-799061",
+    "https://www.ft.lk/financial-services/New-CEO-to-drive-strategic-growth-and-transformation-at-SMB-Finance-PLC/42-799057",
+    "https://www.ft.lk/financial-services/Pine-Labs-and-WEBXPAY-bring-Indian-payment-experience-to-Sri-Lanka/42-799058",
+    "https://www.ft.lk/financial-services/Priyanthini-McNair-joins-Asia-Asset-Finance-Board/42-799063",
+    "https://www.ft.lk/front-page/IMF-sees-SL-tapping-global-Bond-market-for-3-b-by-2028/44-799080",
+    "https://www.ft.lk/front-page/Ravi-K-calls-for-post-EFF-IMF-program/44-799079",
+    "https://www.themorning.lk/articles/CrIon9a1rNINY3Fdxail",
+    "https://www.themorning.lk/articles/DeAE7jyOTBeP63v8ufrm",
+    "https://www.themorning.lk/articles/J7XN1QEW9OUXSpVF8nI0",
+    "https://www.themorning.lk/articles/N9Fvl3f7kdR4Erf2YIVX"
+  ],
+  "events": [
+    {
+      "headline": "Fitch assigns CBC Finance’s proposed subordinated debt ‘BBB+(EXP)(lka)’ rating",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/Fitch-assigns-CBC-Finance-s-proposed-subordinated-debt-BBB-EXP-lka-rating/42-799061"
+      ]
+    },
+    {
+      "headline": "Sri Lanka CERT alerts organisations to critical PHP vulnerabilities",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.themorning.lk/articles/N9Fvl3f7kdR4Erf2YIVX"
+      ]
+    },
+    {
+      "headline": "Pan Asia Bank spearheads financial literacy sessions at FinLit Expo 2026",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.dailymirror.lk/business-news/Pan-Asia-Bank-spearheads-financial-literacy-sessions-at-FinLit-Expo-2026/273-353109"
+      ]
+    },
+    {
+      "headline": "Cargills Bank introduces Sri Lanka’s first ‘Ocean Plastic Debit Card’ to support marine conservation",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://dailynews.lk/2026/10/23/business/1046376/cargills-bank-introduces-sri-lankas-first-ocean-plastic-debit-card-to-support-marine-conservation"
+      ]
+    },
+    {
+      "headline": "DFCC Bank-Toyota introduce SL’s 1st 10-year lease for brand-new Toyota PVs",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.dailymirror.lk/business-news/DFCC-Bank-Toyota-introduce-SLs-1st-10-year-lease-for-brand-new-Toyota-PVs/273-353102"
+      ]
+    },
+    {
+      "headline": "Fresh Start credit rehabilitation programme proposed for 2027 Budget",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://dailynews.lk/2026/10/22/business/1046204/fresh-start-credit-rehabilitation-programme-proposed-for-2027-budget"
+      ]
+    },
+    {
+      "headline": "Seylan Bank partners Colombo Motor Show 2026 as Official Banking & Leasing Partner",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.dailymirror.lk/business-news/Seylan-Bank-partners-Colombo-Motor-Show-2026-as-Official-Banking-Leasing-Partner/273-353105"
+      ]
+    },
+    {
+      "headline": "SME loan scheme: CoPF approves supplementary estimate",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.themorning.lk/articles/J7XN1QEW9OUXSpVF8nI0"
+      ]
+    },
+    {
+      "headline": "Pine Labs and WEBXPAY expand acceptance of Indian payments in Sri Lanka",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/Pine-Labs-and-WEBXPAY-bring-Indian-payment-experience-to-Sri-Lanka/42-799058"
+      ]
+    },
+    {
+      "headline": "CSE witnesses another downbeat session, turnover Rs 1.5 billion",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://island.lk/cse-witnesses-another-downbeat-session-turnover-rs-1-5-billion",
+        "https://www.dailymirror.lk/business-news/Indices-close-in-red/273-353112"
+      ]
+    },
+    {
+      "headline": "Bond yields close steady to higher",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/Bond-yields-close-steady-to-higher/42-799059"
+      ]
+    },
+    {
+      "headline": "CSE tests 19,700 as ASPI reaches new YTD low",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.dailymirror.lk/business/CSE-tests-19-700-as-ASPI-reaches-new-YTD-low/215-353184",
+        "https://island.lk/oil-price-surge-and-middle-east-tensions-weigh-on-cse-investor-sentiment"
+      ]
+    },
+    {
+      "headline": "Sovereign ratings: B+ rating hinges on ceasefire, growth",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.themorning.lk/articles/CrIon9a1rNINY3Fdxail"
+      ]
+    },
+    {
+      "headline": "Stocks plummets: Colombo Bourse loses Rs 324 b in October",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.themorning.lk/articles/DeAE7jyOTBeP63v8ufrm"
+      ]
+    },
+    {
+      "headline": "Reserves Surge from Crisis-Era US$1.8 Bn to US$6.9 Bn",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://english.newsfirst.lk/2026/10/22/reserves-surge-from-crisis-era-us-1-8-bn-to-us-6-9-bn"
+      ]
+    },
+    {
+      "headline": "Food inflation quickens as headline rate steadies",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.dailymirror.lk/business-main/Food-inflation-quickens-as-headline-rate-steadies/245-353118"
+      ]
+    },
+    {
+      "headline": "Graduate growth falls short of economy’s skill needs: IPS",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.ft.lk/business/Graduate-growth-falls-short-of-economy-s-skill-needs-IPS/34-799008"
+      ]
+    },
+    {
+      "headline": "Unemployment decline masks deeper labour market damage: IPS",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.ft.lk/business/Unemployment-decline-masks-deeper-labour-market-damage-IPS/34-799007"
+      ]
+    },
+    {
+      "headline": "IMF sees SL tapping global Bond market for $ 3 b by 2028",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/front-page/IMF-sees-SL-tapping-global-Bond-market-for-3-b-by-2028/44-799080"
+      ]
+    },
+    {
+      "headline": "Ravi K calls for post-EFF IMF program",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/front-page/Ravi-K-calls-for-post-EFF-IMF-program/44-799079"
+      ]
+    },
+    {
+      "headline": "Susantha De Silva new SANASA Life Insurance CEO",
+      "publication_date": "2026-10-22",
+      "source_urls": [
+        "https://www.dailymirror.lk/business-news/Susantha-De-Silva-new-SANASA-Life-Insurance-CEO/273-353099"
+      ]
+    },
+    {
+      "headline": "New CEO to drive strategic growth and transformation at SMB Finance PLC",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/New-CEO-to-drive-strategic-growth-and-transformation-at-SMB-Finance-PLC/42-799057"
+      ]
+    },
+    {
+      "headline": "Asia Asset Finance plans Rs. 2 billion listed debenture issue",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/Asia-Asset-Finance-to-raise-Rs-2-b-through-debentures/42-799064"
+      ]
+    },
+    {
+      "headline": "Asia Asset Finance appoints Priyanthini McNair to board",
+      "publication_date": "2026-10-23",
+      "source_urls": [
+        "https://www.ft.lk/financial-services/Priyanthini-McNair-joins-Asia-Asset-Finance-Board/42-799063"
+      ]
+    }
+  ]
+}

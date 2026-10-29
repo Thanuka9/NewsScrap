@@ -1,0 +1,463 @@
+{
+  "date": "2026-10-26",
+  "state": "DELIVERED_CONFIRMED_BY_OPERATOR",
+  "attachment": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap\\data\\processed\\reports\\2026-10-26\\window_1d\\distributed_archive\\Daily Financial Sector News Brief 2026-10-26.html",
+  "attachment_sha256": "c19dd20483ed3ebc1f909b1188bb1e51f406bf1203d4c92749ab4fc688aec1cb",
+  "source_report": "C:\\Users\\thanuka\\Downloads\\Daily Financial Sector News Brief 2026-10-26.html",
+  "confirmed_by": "user confirmation in this conversation",
+  "confirmation_evidence": "Operator identified this file as already distributed",
+  "confirmed_at": "2026-10-27T07:30:28.877413+00:00",
+  "sent_at": "2026-10-26T09:33:00+05:30",
+  "sent_time_status": "OPERATOR_RECORDED",
+  "events": [
+    {
+      "headline": "NDB reports ongoing recoveries and control improvements after Rs. 13.64bn fraud",
+      "publication_date": "2026-10-23",
+      "summary": "NDB said it is pursuing recoveries and legal or internal action after the fraud identified earlier in 2026. Its latest disclosure refers to a final forensic assessment of approximately Rs. 13.64 billion and describes continuing controls, technology and governance improvements. The disclosure does not quantify actual recoveries or provide a completion timetable.",
+      "reported_facts": "NDB said it is pursuing recoveries and legal or internal action after the fraud identified earlier in 2026. Its latest disclosure refers to a final forensic assessment of approximately Rs. 13.64 billion and describes continuing controls, technology and governance improvements. The disclosure does not quantify actual recoveries or provide a completion timetable.",
+      "event_signature": "",
+      "event_id": "EVENT_128a4550eb6290beca421890",
+      "sources": [
+        {
+          "source_url": "https://www.dailymirror.lk/business/Pursues-fraud-recoveries-amount-and-timetable-undisclosed/215-353207"
+        }
+      ]
+    },
+    {
+      "headline": "NDB Group Q3 profit declines 20.9%; bank-level profit Rs. 2.89bn",
+      "publication_date": "2026-10-23",
+      "summary": "NDB reported third-quarter Group profit attributable to shareholders of about Rs. 2.77 billion, 20.9% below its restated year-earlier result. The bank-level quarterly net profit was approximately Rs. 2.89 billion, down 8.9% year on year. Group and bank figures are different measures; the bank-level Rs. 2.9 billion result was reported in the earlier brief, while this article adds the Group comparison.",
+      "reported_facts": "NDB reported third-quarter Group profit attributable to shareholders of about Rs. 2.77 billion, 20.9% below its restated year-earlier result. The bank-level quarterly net profit was approximately Rs. 2.89 billion, down 8.9% year on year. Group and bank figures are different measures; the bank-level Rs. 2.9 billion result was reported in the earlier brief, while this article adds the Group comparison.",
+      "event_signature": "NDB_2026_Q3_EARNINGS",
+      "event_id": "NDB_2026_Q3_EARNINGS",
+      "sources": [
+        {
+          "source_url": "https://www.dailymirror.lk/business/NDB-3Q-earnings-fall-21-to-Rs-2-77bn/215-353206"
+        }
+      ]
+    },
+    {
+      "headline": "Sampath Bank discloses 22.7% oversubscription of Rs. 10bn Tier 2 debenture issue",
+      "publication_date": "2026-10-26",
+      "summary": "A subsequent subscription breakdown shows applications worth approximately Rs. 12.27 billion against the Rs. 10 billion maximum of Sampath Bank’s Tier 2 debenture issue. The 22.7% oversubscription and RTGS/guarantee payment breakdown provide new detail beyond the initial oversubscription announcement already reported on 21 October.",
+      "reported_facts": "A subsequent subscription breakdown shows applications worth approximately Rs. 12.27 billion against the Rs. 10 billion maximum of Sampath Bank’s Tier 2 debenture issue. The 22.7% oversubscription and RTGS/guarantee payment breakdown provide new detail beyond the initial oversubscription announcement already reported on 21 October.",
+      "event_signature": "",
+      "event_id": "EVENT_60d12c5073d7042cfea6c123",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/Sampath-Bank-s-Rs-10-b-debenture-issue-oversubscribed-by-22-7/44-799169"
+        }
+      ]
+    },
+    {
+      "headline": "Sri Lanka CERT warns of fake bank gift message targeting customer credentials",
+      "publication_date": "2026-10-24",
+      "summary": "Sri Lanka CERT warned that a purported Vap Poya reward offer attributed to an unnamed major bank is fraudulent. The warning says the circulating message may be designed to steal personal or banking credentials and compromise accounts. Customers were advised to avoid its links and verify promotions through official channels.",
+      "reported_facts": "Sri Lanka CERT warned that a purported Vap Poya reward offer attributed to an unnamed major bank is fraudulent. The warning says the circulating message may be designed to steal personal or banking credentials and compromise accounts. Customers were advised to avoid its links and verify promotions through official channels.",
+      "event_signature": "BANK_IMPERSONATION_VAP_POYA_2026",
+      "event_id": "BANK_IMPERSONATION_VAP_POYA_2026",
+      "sources": [
+        {
+          "source_url": "https://island.lk/slcert-warns-of-fake-bank-reward-scam-ahead-of-vap-poya"
+        },
+        {
+          "source_url": "https://www.dailymirror.lk/business/Fake-bank-giveaway-uses-Vap-Poya-as-bait/215-353308"
+        }
+      ]
+    },
+    {
+      "headline": "Government agencies directed to remedy PHP vulnerabilities identified by CERT",
+      "publication_date": "2026-10-26",
+      "summary": "The Ministry of Digital Economy directed government institutions to take corrective action over two PHP vulnerabilities identified by Sri Lanka CERT. The instruction includes checking affected installations, applying security updates, inspecting logs and restricting internet exposure where systems cannot be patched. This is a follow-up government directive to an earlier CERT advisory, not a reported breach at a bank.",
+      "reported_facts": "The Ministry of Digital Economy directed government institutions to take corrective action over two PHP vulnerabilities identified by Sri Lanka CERT. The instruction includes checking affected installations, applying security updates, inspecting logs and restricting internet exposure where systems cannot be patched. This is a follow-up government directive to an earlier CERT advisory, not a reported breach at a bank.",
+      "event_signature": "",
+      "event_id": "EVENT_cb676b228ba0b1349edcc078",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/1AwUUQot53gyPpMzTq2b"
+        }
+      ]
+    },
+    {
+      "headline": "National LankaQR promotion sets first payment-adoption draw for 27 October",
+      "publication_date": "2026-10-26",
+      "summary": "A nationwide LankaQR incentive programme has scheduled its first draws for 27 October 2026, using eligible transactions from September onward. The stated total prize pool is Rs. 51 million, with prizes distributed to customers and merchants through participating banks. The initiative is administered using payment data supplied by banks and overseen by a multi-agency draw committee.",
+      "reported_facts": "A nationwide LankaQR incentive programme has scheduled its first draws for 27 October 2026, using eligible transactions from September onward. The stated total prize pool is Rs. 51 million, with prizes distributed to customers and merchants through participating banks. The initiative is administered using payment data supplied by banks and overseen by a multi-agency draw committee.",
+      "event_signature": "",
+      "event_id": "EVENT_40573c7d1c666dcf10f6a96e",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/National-QR-payment-adoption-program-Lucky-Draw-debuts-tomorrow/42-799166"
+        }
+      ]
+    },
+    {
+      "headline": "Amana Bank opens 50th self-banking centre",
+      "publication_date": "2026-10-26",
+      "summary": "Amana Bank announced its 50th self-banking centre in Grandpass, bringing its customer-access network to 83 locations, including 33 full branches. The expansion concerns service distribution and accessibility, not a change to the bank’s regulatory capital.",
+      "reported_facts": "Amana Bank announced its 50th self-banking centre in Grandpass, bringing its customer-access network to 83 locations, including 33 full branches. The expansion concerns service distribution and accessibility, not a change to the bank’s regulatory capital.",
+      "event_signature": "",
+      "event_id": "EVENT_cfb07318a079ff46f6a1f446",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/Amana-Bank-opens-50th-Self-Banking-Centre-in-Grandpass/42-799164"
+        }
+      ]
+    },
+    {
+      "headline": "HNB partners IDEAL Motors on vehicle and generator leasing",
+      "publication_date": "2026-10-23",
+      "summary": "HNB and IDEAL Motors announced financing arrangements for selected new vehicles and generators, including structured leasing facilities and customer benefits. The partnership was reported on Friday and had not appeared in the prior supplied editions.",
+      "reported_facts": "HNB and IDEAL Motors announced financing arrangements for selected new vehicles and generators, including structured leasing facilities and customer benefits. The partnership was reported on Friday and had not appeared in the prior supplied editions.",
+      "event_signature": "",
+      "event_id": "EVENT_c4b7c8d2c7e2859277a98d0d",
+      "sources": [
+        {
+          "source_url": "https://www.dailymirror.lk/business/HNB-IDEAL-Motors-offer-vehicle-leasing-solutions/215-353198"
+        }
+      ]
+    },
+    {
+      "headline": "DFCC Bank combines overseas tuition payments, FX and education lending",
+      "publication_date": "2026-10-24",
+      "summary": "DFCC Bank launched a student-services offering combining university tuition transfers, education finance, foreign exchange and travel-related banking support. The product includes education-loan and exchange-rate features for eligible customers.",
+      "reported_facts": "DFCC Bank launched a student-services offering combining university tuition transfers, education finance, foreign exchange and travel-related banking support. The product includes education-loan and exchange-rate features for eligible customers.",
+      "event_signature": "",
+      "event_id": "EVENT_78429c41f589259b186b7e87",
+      "sources": [
+        {
+          "source_url": "https://island.lk/dfcc-bank-launches-student-file-combining-overseas-tuition-payments-education-finance-and-travel-benefits"
+        }
+      ]
+    },
+    {
+      "headline": "Seylan Bank signs housing-loan partnership with Fairway Latitude",
+      "publication_date": "2026-10-24",
+      "summary": "Seylan Bank agreed to offer eligible purchasers of Fairway Latitude residential properties tailored housing loans, with reported terms including repayments up to 25 years and expedited application processing. The report describes an MoU and product offering rather than confirmed loan disbursements.",
+      "reported_facts": "Seylan Bank agreed to offer eligible purchasers of Fairway Latitude residential properties tailored housing loans, with reported terms including repayments up to 25 years and expedited application processing. The report describes an MoU and product offering rather than confirmed loan disbursements.",
+      "event_signature": "SEYLAN_FAIRWAY_LATITUDE_HOUSING_OCT2026",
+      "event_id": "SEYLAN_FAIRWAY_LATITUDE_HOUSING_OCT2026",
+      "sources": [
+        {
+          "source_url": "https://island.lk/seylan-bank-partners-with-fairway-latitude-to-make-home-ownership-more-accessible"
+        }
+      ]
+    },
+    {
+      "headline": "Sampath Bank and David Pieris introduce vehicle-finance offers",
+      "publication_date": "2026-10-25",
+      "summary": "Sampath Bank and David Pieris Automobiles announced a customer offer with a 0.5-percentage-point reduction against published vehicle lease interest rates, subject to terms. It also includes selected insurance-payment financing and card-related benefits.",
+      "reported_facts": "Sampath Bank and David Pieris Automobiles announced a customer offer with a 0.5-percentage-point reduction against published vehicle lease interest rates, subject to terms. It also includes selected insurance-payment financing and card-related benefits.",
+      "event_signature": "",
+      "event_id": "EVENT_8cac0afcaffdabf02d301579",
+      "sources": [
+        {
+          "source_url": "https://island.lk/sampath-bank-and-david-pieris-automobiles-introduce-new-customer-centric-mobility-solutions"
+        }
+      ]
+    },
+    {
+      "headline": "HNB Finance partners Toyota Lanka on new and certified-used vehicle leasing",
+      "publication_date": "2026-10-26",
+      "summary": "HNB Finance and Toyota Lanka signed an arrangement covering eligible new Toyota vehicles and Toyota Sure certified-used vehicles. The product combines finance-company leasing services with associated ownership support and benefits.",
+      "reported_facts": "HNB Finance and Toyota Lanka signed an arrangement covering eligible new Toyota vehicles and Toyota Sure certified-used vehicles. The product combines finance-company leasing services with associated ownership support and benefits.",
+      "event_signature": "HNB_FINANCE_TOYOTA_LEASING_OCT2026",
+      "event_id": "HNB_FINANCE_TOYOTA_LEASING_OCT2026",
+      "sources": [
+        {
+          "source_url": "https://dailynews.lk/2026/10/26/business/1046693/hnb-finance-toyota-lanka-forge-partnership-to-expand-vehicle-leasing-solutions"
+        }
+      ]
+    },
+    {
+      "headline": "Assetline Finance opens its 64th branch in Wattala",
+      "publication_date": "2026-10-26",
+      "summary": "Assetline Finance opened an additional branch at Wattala, expanding its physical distribution network to 64 branches. The company describes the branch as extending customer access to its credit and advisory products.",
+      "reported_facts": "Assetline Finance opened an additional branch at Wattala, expanding its physical distribution network to 64 branches. The company describes the branch as extending customer access to its credit and advisory products.",
+      "event_signature": "",
+      "event_id": "EVENT_bd1d133232ef44543ba0e91c",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/Assetline-Finance-deepens-footprint-with-64th-Branch-in-Wattala/42-799165"
+        }
+      ]
+    },
+    {
+      "headline": "SLIC Life reports Rs. 247bn Life Fund and Rs. 14.68bn bonuses",
+      "publication_date": "2026-10-23",
+      "summary": "Sri Lanka Insurance Life reported a Life Fund of around Rs. 247 billion and total assets of around Rs. 275 billion. It announced Rs. 14.68 billion in policyholder bonuses for 2025 and cumulative declared bonuses since 2006 of about Rs. 131.28 billion. Multiple Friday and weekend accounts cover the same announcement.",
+      "reported_facts": "Sri Lanka Insurance Life reported a Life Fund of around Rs. 247 billion and total assets of around Rs. 275 billion. It announced Rs. 14.68 billion in policyholder bonuses for 2025 and cumulative declared bonuses since 2006 of about Rs. 131.28 billion. Multiple Friday and weekend accounts cover the same announcement.",
+      "event_signature": "SLIC_LIFE_247BN_FUND_OCT2026",
+      "event_id": "SLIC_LIFE_247BN_FUND_OCT2026",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/SLIC-Life-declares-Rs-14-68-b-bonus-backed-by-industry-s-largest-Life-Fund-of-Rs-247-b/42-799060"
+        },
+        {
+          "source_url": "https://island.lk/slic-life-reports-rs-247bn-life-fund-rs-131bn-cumulative-bonuses"
+        }
+      ]
+    },
+    {
+      "headline": "Treasury-bill auction accepts Rs. 80.6bn against Rs. 100bn offer",
+      "publication_date": "2026-10-25",
+      "summary": "An article published on Sunday reports that the 21 October Treasury-bill auction accepted roughly Rs. 80.6 billion against Rs. 100 billion offered despite strong overall bidding. Reported acceptances favoured the 91-day tenor, while bids for longer tenors were less fully accepted. The event date is 21 October, distinct from its Sunday publication date.",
+      "reported_facts": "An article published on Sunday reports that the 21 October Treasury-bill auction accepted roughly Rs. 80.6 billion against Rs. 100 billion offered despite strong overall bidding. Reported acceptances favoured the 91-day tenor, while bids for longer tenors were less fully accepted. The event date is 21 October, distinct from its Sunday publication date.",
+      "event_signature": "",
+      "event_id": "EVENT_be94c36c57f500164fb691b5",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/2xmT4bupllzV6AYI36xS"
+        }
+      ]
+    },
+    {
+      "headline": "CSE ends Friday session lower; ASPI down 2.48% over the week",
+      "publication_date": "2026-10-24",
+      "summary": "Friday’s trading session, reported on Saturday, ended with the ASPI at 19,684.91 after a 33.01-point decline and the S&P SL20 at 5,613.63. The ASPI declined 2.48% over the full week. A second newspaper account of the same Friday close has been merged rather than treated as another market event.",
+      "reported_facts": "Friday’s trading session, reported on Saturday, ended with the ASPI at 19,684.91 after a 33.01-point decline and the S&P SL20 at 5,613.63. The ASPI declined 2.48% over the full week. A second newspaper account of the same Friday close has been merged rather than treated as another market event.",
+      "event_signature": "CSE_ASPI_19684.91",
+      "event_id": "CSE_ASPI_19684.91",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/CSE-falls-2-48-during-week/44-799113"
+        },
+        {
+          "source_url": "https://www.dailymirror.lk/business/Week-ends-in-red/215-353303"
+        }
+      ]
+    },
+    {
+      "headline": "Government bond market sees volatile trading during week ending 23 October",
+      "publication_date": "2026-10-26",
+      "summary": "The market report dated 26 October describes sharp movements in government-bond yields during the trading week ending 23 October, with higher yields initially attracting renewed demand. It also notes changes in foreign holdings of rupee Treasuries and exchange-rate conditions. This is a weekly market update rather than a fresh Monday trading-session close.",
+      "reported_facts": "The market report dated 26 October describes sharp movements in government-bond yields during the trading week ending 23 October, with higher yields initially attracting renewed demand. It also notes changes in foreign holdings of rupee Treasuries and exchange-rate conditions. This is a weekly market update rather than a fresh Monday trading-session close.",
+      "event_signature": "",
+      "event_id": "EVENT_5ece15867bc77838bfb48861",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/financial-services/Secondary-Bond-market-yields-see-saw-recover-to-close-steady-to-higher/42-799167"
+        }
+      ]
+    },
+    {
+      "headline": "Global energy-price volatility raises import and external-buffer risks",
+      "publication_date": "2026-10-26",
+      "summary": "A 26 October report drawing on CBSL data discusses elevated energy-price volatility and associated pressure on Sri Lanka’s import bill and external balances. It describes macroeconomic risks and should not be interpreted as a new CBSL monetary-policy decision.",
+      "reported_facts": "A 26 October report drawing on CBSL data discusses elevated energy-price volatility and associated pressure on Sri Lanka’s import bill and external balances. It describes macroeconomic risks and should not be interpreted as a new CBSL monetary-policy decision.",
+      "event_signature": "",
+      "event_id": "EVENT_5f26a03b14418f779b91ff7d",
+      "sources": [
+        {
+          "source_url": "https://island.lk/sri-lanka-managing-the-tide-amid-global-commodity-volatility-cbsl-data-shows"
+        }
+      ]
+    },
+    {
+      "headline": "Industrial Asphalts placed on CSE Watch List following auditor disclaimer",
+      "publication_date": "2026-10-23",
+      "summary": "Industrial Asphalts (Ceylon) PLC disputed its external auditor’s disclaimer of opinion on financial statements for the year ended 31 March 2026. The company said the disclaimer prompted the Colombo Stock Exchange to move its securities to the Watch List from 20 October. Its acquisition process was also reportedly on hold. The development concerns listed-company reporting and investor-protection risks.",
+      "reported_facts": "Industrial Asphalts (Ceylon) PLC disputed its external auditor’s disclaimer of opinion on financial statements for the year ended 31 March 2026. The company said the disclaimer prompted the Colombo Stock Exchange to move its securities to the Watch List from 20 October. Its acquisition process was also reportedly on hold. The development concerns listed-company reporting and investor-protection risks.",
+      "event_signature": "",
+      "event_id": "EVENT_69c3e128897efde4d7a9b08c",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/business/Industrial-Asphalts-disputes-auditor-s-disclaimer-that-led-to-Watch-List-move/34-799066"
+        }
+      ]
+    },
+    {
+      "headline": "Vallibel One raises Fortress Resorts holding in Rs. 730m related-party share purchase",
+      "publication_date": "2026-10-23",
+      "summary": "Vallibel One PLC acquired a 31.34% stake in The Fortress Resorts PLC from related parties for approximately Rs. 730 million through transactions on 21 October. Its direct holding rose to 49.93%; the report says related group holdings, including those of LB Finance and Royal Ceramics, brought the combined interest to approximately 53.89%.",
+      "reported_facts": "Vallibel One PLC acquired a 31.34% stake in The Fortress Resorts PLC from related parties for approximately Rs. 730 million through transactions on 21 October. Its direct holding rose to 49.93%; the report says related group holdings, including those of LB Finance and Royal Ceramics, brought the combined interest to approximately 53.89%.",
+      "event_signature": "",
+      "event_id": "EVENT_996876d4d8a41f558df21511",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/Vallibel-One-snaps-up-Fortress-Resorts-stake-for-Rs-730-m-in-related-party-deal/44-799077"
+        }
+      ]
+    },
+    {
+      "headline": "IMF technology chief calls for governed, human-supervised AI at central banks",
+      "publication_date": "2026-10-26",
+      "summary": "At CBSL’s 76th anniversary oration on 23 October, IMF Chief Information Officer Shirin Hamid discussed the opportunities and risks of AI in central banking. Her address stressed trusted institutions, governance and human judgement rather than allowing technology to make final policy decisions. Reports published Friday and Monday describe the same address.",
+      "reported_facts": "At CBSL’s 76th anniversary oration on 23 October, IMF Chief Information Officer Shirin Hamid discussed the opportunities and risks of AI in central banking. Her address stressed trusted institutions, governance and human judgement rather than allowing technology to make final policy decisions. Reports published Friday and Monday describe the same address.",
+      "event_signature": "CBSL_76TH_ORATION_SHIRIN_HAMID",
+      "event_id": "CBSL_76TH_ORATION_SHIRIN_HAMID",
+      "sources": [
+        {
+          "source_url": "https://island.lk/central-bank-of-the-future-needs-to-be-intelligence-driven-public-institution-says-imf-cio"
+        },
+        {
+          "source_url": "https://english.newsfirst.lk/2026/10/23/you%e2%80%99re-closer-to-an-ai-future-than-you-think-imf-tells-sri-lanka"
+        },
+        {
+          "source_url": "https://dailynews.lk/2026/10/26/business/1046704/trust-a-national-asset-imf-chief-information-officer"
+        }
+      ]
+    },
+    {
+      "headline": "IPS warns that vulnerable households remain outside social protection",
+      "publication_date": "2026-10-24",
+      "summary": "IPS research presented findings that some poor households facing severe shocks are not adequately covered by social protection. The report highlights coverage gaps and calls for systems that can expand support during emergencies.",
+      "reported_facts": "IPS research presented findings that some poor households facing severe shocks are not adequately covered by social protection. The report highlights coverage gaps and calls for systems that can expand support during emergencies.",
+      "event_signature": "",
+      "event_id": "EVENT_1e222a10febc532e203043e1",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/Welfare-net-fails-to-track-household-shocks-IPS/44-799115"
+        }
+      ]
+    },
+    {
+      "headline": "IPS highlights productivity and structural reforms needed for durable growth",
+      "publication_date": "2026-10-25",
+      "summary": "At a roundtable discussing the State of the Economy 2026 report, IPS researchers and participants highlighted the need to move from crisis stabilisation towards productivity-enhancing reforms. Related weekend coverage of the same discussion has been combined.",
+      "reported_facts": "At a roundtable discussing the State of the Economy 2026 report, IPS researchers and participants highlighted the need to move from crisis stabilisation towards productivity-enhancing reforms. Related weekend coverage of the same discussion has been combined.",
+      "event_signature": "",
+      "event_id": "EVENT_3ac9269406eddadae9306cd1",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/WTox9d1utxxutj53OtEE"
+        },
+        {
+          "source_url": "https://island.lk/ips-report-outlines-reforms-for-durable-growth"
+        }
+      ]
+    },
+    {
+      "headline": "Colombo Port logistics-hub cancellation: new account describes proposed settlement",
+      "publication_date": "2026-10-25",
+      "summary": "Follow-up coverage of the discontinued US$ 392 million Colombo port logistics-hub joint venture describes a proposed US$ 21.9 million payout associated with Sri Lanka Ports Authority obligations. The cancellation and Access Engineering exposure were covered in the 21 October edition; this item is retained only for the separately reported settlement detail.",
+      "reported_facts": "Follow-up coverage of the discontinued US$ 392 million Colombo port logistics-hub joint venture describes a proposed US$ 21.9 million payout associated with Sri Lanka Ports Authority obligations. The cancellation and Access Engineering exposure were covered in the 21 October edition; this item is retained only for the separately reported settlement detail.",
+      "event_signature": "",
+      "event_id": "EVENT_2ecbdd29803af282b95e4c34",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/O3etgTMFiJbbVFCV7Jkz"
+        }
+      ]
+    },
+    {
+      "headline": "IMF official flags reserves and revenue as post-programme warning indicators",
+      "publication_date": "2026-10-25",
+      "summary": "An IMF Asia and Pacific Department official identified adequate external reserves and government revenue as important indicators for assessing macroeconomic stability after Sri Lanka’s current IMF arrangement. The comments were reported in a Sunday interview.",
+      "reported_facts": "An IMF Asia and Pacific Department official identified adequate external reserves and government revenue as important indicators for assessing macroeconomic stability after Sri Lanka’s current IMF arrangement. The comments were reported in a Sunday interview.",
+      "event_signature": "",
+      "event_id": "EVENT_853d35ec91252541e1f51cb4",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/NdUvgiO5vr0f7345Upoe"
+        }
+      ]
+    },
+    {
+      "headline": "IMF representative highlights tax-base and compliance reforms",
+      "publication_date": "2026-10-26",
+      "summary": "An IMF representative discussed work with Sri Lankan authorities on a Medium-Term Revenue Strategy, focusing on broadening the tax base and improving compliance. The article reports consultations and policy direction, not an enacted tax measure.",
+      "reported_facts": "An IMF representative discussed work with Sri Lankan authorities on a Medium-Term Revenue Strategy, focusing on broadening the tax base and improving compliance. The article reports consultations and policy direction, not an enacted tax measure.",
+      "event_signature": "",
+      "event_id": "EVENT_e718e569ba5d991543393943",
+      "sources": [
+        {
+          "source_url": "https://www.themorning.lk/articles/I53ba4OBUB9zU4mHHfvq"
+        }
+      ]
+    },
+    {
+      "headline": "Prime Minister says IMF programme priorities align with Government policy",
+      "publication_date": "2026-10-26",
+      "summary": "The Prime Minister told CNN that governance, corruption, fiscal discipline and economic stability remain priorities in the Government’s engagement with the IMF. The comments are a policy-position update rather than a new IMF funding agreement.",
+      "reported_facts": "The Prime Minister told CNN that governance, corruption, fiscal discipline and economic stability remain priorities in the Government’s engagement with the IMF. The comments are a policy-position update rather than a new IMF funding agreement.",
+      "event_signature": "",
+      "event_id": "EVENT_cd857ec39a977a5036a8f448",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/front-page/PM-tells-CNN-IMF-priorities-align-with-Govt-s-own/44-799173"
+        }
+      ]
+    },
+    {
+      "headline": "President outlines Treasury position, possible SOE closures and higher capital spending",
+      "publication_date": "2026-10-24",
+      "summary": "At the Government Surveyors’ Association event, the President said the Treasury account was approaching a Rs. 1 trillion surplus, compared with a roughly Rs. 700 billion deficit in 2022. A Finance Ministry committee was considering closing or amalgamating 34 state institutions, while planned capital expenditure would rise from approximately Rs. 1.33 trillion in 2026 to Rs. 2 trillion in 2027. These are government statements and plans, not independently audited outturns.",
+      "reported_facts": "At the Government Surveyors’ Association event, the President said the Treasury account was approaching a Rs. 1 trillion surplus, compared with a roughly Rs. 700 billion deficit in 2022. A Finance Ministry committee was considering closing or amalgamating 34 state institutions, while planned capital expenditure would rise from approximately Rs. 1.33 trillion in 2026 to Rs. 2 trillion in 2027. These are government statements and plans, not independently audited outturns.",
+      "event_signature": "",
+      "event_id": "EVENT_97cd9bea91b12fb0b1003593",
+      "sources": [
+        {
+          "source_url": "https://www.ft.lk/top-story/President-pledges-to-shed-34-SOEs-as-Treasury-surplus-nears-Rs-1-t/26-799120"
+        }
+      ]
+    },
+    {
+      "headline": "Tourism receipts reach approximately US$ 2.25bn through September",
+      "publication_date": "2026-10-25",
+      "summary": "Sri Lanka recorded 1,813,484 tourist arrivals between 1 January and 22 October 2026, according to figures cited by NewsFirst from the Sri Lanka Tourism Development Authority. Tourism earnings through September were reported at approximately US$ 2.245 billion. The arrival figure and earnings figure cover different end dates and should not be presented as the same reporting period.",
+      "reported_facts": "Sri Lanka recorded 1,813,484 tourist arrivals between 1 January and 22 October 2026, according to figures cited by NewsFirst from the Sri Lanka Tourism Development Authority. Tourism earnings through September were reported at approximately US$ 2.245 billion. The arrival figure and earnings figure cover different end dates and should not be presented as the same reporting period.",
+      "event_signature": "SRI_LANKA_TOURISM_ARRIVALS_OCT22_2026",
+      "event_id": "SRI_LANKA_TOURISM_ARRIVALS_OCT22_2026",
+      "sources": [
+        {
+          "source_url": "https://english.newsfirst.lk/2026/10/25/sri-lanka-welcomes-over-1-8m-tourists-as-revenue-hits-2-24-billion-through-september"
+        }
+      ]
+    },
+    {
+      "headline": "CA Sri Lanka proposes tax-administration improvements for the 2027 Budget",
+      "publication_date": "2026-10-23",
+      "summary": "The Institute of Chartered Accountants of Sri Lanka submitted proposals for Budget 2027 that emphasise stronger tax compliance, digital administration and economic formalisation to improve revenue collection. These are recommendations made to the Government, not enacted tax measures.",
+      "reported_facts": "The Institute of Chartered Accountants of Sri Lanka submitted proposals for Budget 2027 that emphasise stronger tax compliance, digital administration and economic formalisation to improve revenue collection. These are recommendations made to the Government, not enacted tax measures.",
+      "event_signature": "",
+      "event_id": "EVENT_8420751ec8b496f940f36611",
+      "sources": [
+        {
+          "source_url": "https://dailynews.lk/2026/10/23/business/1046405/ca-sri-lanka-calls-for-smarter-tax-administration-and-compliance-led-revenue-growth-in-budget-2027"
+        }
+      ]
+    }
+  ],
+  "event_count": 30,
+  "source_urls": [
+    "https://dailynews.lk/2026/10/23/business/1046405/ca-sri-lanka-calls-for-smarter-tax-administration-and-compliance-led-revenue-growth-in-budget-2027",
+    "https://dailynews.lk/2026/10/26/business/1046693/hnb-finance-toyota-lanka-forge-partnership-to-expand-vehicle-leasing-solutions",
+    "https://dailynews.lk/2026/10/26/business/1046704/trust-a-national-asset-imf-chief-information-officer",
+    "https://english.newsfirst.lk/2026/10/23/you%e2%80%99re-closer-to-an-ai-future-than-you-think-imf-tells-sri-lanka",
+    "https://english.newsfirst.lk/2026/10/25/sri-lanka-welcomes-over-1-8m-tourists-as-revenue-hits-2-24-billion-through-september",
+    "https://island.lk/central-bank-of-the-future-needs-to-be-intelligence-driven-public-institution-says-imf-cio",
+    "https://island.lk/dfcc-bank-launches-student-file-combining-overseas-tuition-payments-education-finance-and-travel-benefits",
+    "https://island.lk/ips-report-outlines-reforms-for-durable-growth",
+    "https://island.lk/sampath-bank-and-david-pieris-automobiles-introduce-new-customer-centric-mobility-solutions",
+    "https://island.lk/seylan-bank-partners-with-fairway-latitude-to-make-home-ownership-more-accessible",
+    "https://island.lk/slcert-warns-of-fake-bank-reward-scam-ahead-of-vap-poya",
+    "https://island.lk/slic-life-reports-rs-247bn-life-fund-rs-131bn-cumulative-bonuses",
+    "https://island.lk/sri-lanka-managing-the-tide-amid-global-commodity-volatility-cbsl-data-shows",
+    "https://www.dailymirror.lk/business/Fake-bank-giveaway-uses-Vap-Poya-as-bait/215-353308",
+    "https://www.dailymirror.lk/business/HNB-IDEAL-Motors-offer-vehicle-leasing-solutions/215-353198",
+    "https://www.dailymirror.lk/business/NDB-3Q-earnings-fall-21-to-Rs-2-77bn/215-353206",
+    "https://www.dailymirror.lk/business/Pursues-fraud-recoveries-amount-and-timetable-undisclosed/215-353207",
+    "https://www.dailymirror.lk/business/Week-ends-in-red/215-353303",
+    "https://www.ft.lk/business/Industrial-Asphalts-disputes-auditor-s-disclaimer-that-led-to-Watch-List-move/34-799066",
+    "https://www.ft.lk/financial-services/Amana-Bank-opens-50th-Self-Banking-Centre-in-Grandpass/42-799164",
+    "https://www.ft.lk/financial-services/Assetline-Finance-deepens-footprint-with-64th-Branch-in-Wattala/42-799165",
+    "https://www.ft.lk/financial-services/National-QR-payment-adoption-program-Lucky-Draw-debuts-tomorrow/42-799166",
+    "https://www.ft.lk/financial-services/SLIC-Life-declares-Rs-14-68-b-bonus-backed-by-industry-s-largest-Life-Fund-of-Rs-247-b/42-799060",
+    "https://www.ft.lk/financial-services/Secondary-Bond-market-yields-see-saw-recover-to-close-steady-to-higher/42-799167",
+    "https://www.ft.lk/front-page/CSE-falls-2-48-during-week/44-799113",
+    "https://www.ft.lk/front-page/PM-tells-CNN-IMF-priorities-align-with-Govt-s-own/44-799173",
+    "https://www.ft.lk/front-page/Sampath-Bank-s-Rs-10-b-debenture-issue-oversubscribed-by-22-7/44-799169",
+    "https://www.ft.lk/front-page/Vallibel-One-snaps-up-Fortress-Resorts-stake-for-Rs-730-m-in-related-party-deal/44-799077",
+    "https://www.ft.lk/front-page/Welfare-net-fails-to-track-household-shocks-IPS/44-799115",
+    "https://www.ft.lk/top-story/President-pledges-to-shed-34-SOEs-as-Treasury-surplus-nears-Rs-1-t/26-799120",
+    "https://www.themorning.lk/articles/1AwUUQot53gyPpMzTq2b",
+    "https://www.themorning.lk/articles/2xmT4bupllzV6AYI36xS",
+    "https://www.themorning.lk/articles/I53ba4OBUB9zU4mHHfvq",
+    "https://www.themorning.lk/articles/NdUvgiO5vr0f7345Upoe",
+    "https://www.themorning.lk/articles/O3etgTMFiJbbVFCV7Jkz",
+    "https://www.themorning.lk/articles/WTox9d1utxxutj53OtEE"
+  ],
+  "sent_time_recorded_by": "thanuka",
+  "sent_time_recorded_at": "2026-10-27T14:52:06.691172+05:30"
+}

@@ -1288,6 +1288,17 @@ def recover_for_window(
 
         "mode": "AUDIT_ONLY_NO_REPORT_INJECTION",
 
+        # This independent re-check lists only the publishers below; its PASS
+        # says nothing about the others. Seven-publisher coverage is decided by
+        # the signed coverage worksheet (news_coverage_verified.json).
+        "scope": "INDEPENDENT_LISTING_RECHECK",
+        "checked_publishers": [source["source_name"] for source in DISCOVERY_SOURCES],
+        "not_checked_publishers": sorted(
+            {"Daily FT", "Daily Mirror", "Daily News", "The Morning", "The Island", "NewsFirst", "Ceylon Today"}
+            - {source["source_name"] for source in DISCOVERY_SOURCES}
+        ),
+        "seven_publisher_completeness": "NOT_ESTABLISHED_BY_THIS_CHECK",
+
         "generated_at":
             datetime.now()
             .astimezone()

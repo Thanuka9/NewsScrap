@@ -116,3 +116,107 @@ def test_island_advertisement_slots_are_not_articles():
     adapter = IslandBusinessAdapter()
     assert not adapter.is_article_url('https://island.lk/homepage-advertiesment-left-1')
     assert adapter.is_article_url('https://island.lk/airbus-deal-namal-among-four-indicted')
+
+
+def test_missing_previous_send_time_is_named_not_assumed():
+    from datetime import date
+    from bank_intel.publication.temporal import late_status
+    article = {'publication_date': '2026-10-28', 'first_seen_at': '2026-10-28T10:00:00+05:30',
+               'published_at': '2026-10-28T09:00:00+05:30'}
+    prior = [{'edition_date': '2026-10-28', 'sent_at': ''}, {'edition_date': '2026-10-27', 'sent_at': '2026-10-27T12:19:00+05:30'}]
+    assert late_status(article, date(2026, 10, 29), prior) == 'PREVIOUS_SEND_TIME_MISSING:2026-10-28'
+    prior[0]['sent_at'] = '2026-10-28T08:30:00+05:30'
+    assert late_status(article, date(2026, 10, 29), prior) == 'PUBLISHED_AFTER_PREVIOUS_SEND'
+
+
+def test_short_structured_body_is_kept_and_judged_on_relevance():
+    from bank_intel.collectors.sources._public_business_base import short_article_is_valid
+    body = ('An eight-member team from Ceylinco Life recently participated in a four-day leadership training programme '
+            'in Kuala Lumpur, Malaysia, designed to strengthen agency management capabilities and sales leadership.')
+    assert short_article_is_valid('Ceylinco Life sales team sharpens leadership skills in Malaysia', body, '2026-10-28')
+    assert not short_article_is_valid('CBSL cuts policy rate', body, '2026-10-28')
+    assert not short_article_is_valid('Ceylinco Life sales team', 'Too short.', '2026-10-28')
+    assert not short_article_is_valid('Ceylinco Life sales team sharpens leadership skills', body, None)
+
+
+def test_partial_source_gets_one_recovery_run_and_keeps_the_better_result(monkeypatch):
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    import run_collection as rc
+    monkeypatch.setattr(rc.time, 'sleep', lambda s: None)
+    written = {}
+    import bank_intel.common.source_status as ss
+    monkeypatch.setattr(ss, 'write_source_status', lambda **kw: written.update(kw))
+    first = {'execution_status': 'SUCCESS', 'unresolved_fetch_urls': ['a', 'b']}
+    monkeypatch.setattr(rc, 'run_source', lambda **kw: {'execution_status': 'SUCCESS', 'unresolved_fetch_urls': []})
+    chosen = rc.recover_partial_source(source_key='island', source_config={}, run_id='r', result=dict(first))
+    assert chosen['unresolved_fetch_urls'] == [] and chosen['partial_recovery']['recovery_run_used']
+    monkeypatch.setattr(rc, 'run_source', lambda **kw: {'execution_status': 'FAILED'})
+    chosen = rc.recover_partial_source(source_key='island', source_config={}, run_id='r', result=dict(first))
+    assert chosen['unresolved_fetch_urls'] == ['a', 'b'] and written['payload'] is chosen
+    clean = {'execution_status': 'SUCCESS', 'unresolved_fetch_urls': []}
+    assert rc.recover_partial_source(source_key='x', source_config={}, run_id='r', result=clean) is clean
+
+
+def test_28_october_replay_reproduces_delivered_edition_without_editorial_input(tmp_path):
+    """The pipeline alone must select every story of the distributed edition."""
+    import collections, hashlib
+    from bank_intel.publication.workflow import build
+    from bank_intel.publication.reconcile import read_sent_html
+    from bank_intel.publication.identity import canonical
+    fixture = ROOT / 'tests/fixtures/publication_2026_10_28'
+    frozen = json.loads((fixture / 'fixture_manifest.json').read_text(encoding='utf-8'))
+    for name, digest in frozen['files'].items():
+        assert hashlib.sha256((fixture / name).read_bytes()).hexdigest() == digest, name
+    manifest, _ = build(date_iso='2026-10-28', audit=fixture / 'audit.json', inventory=fixture / 'inventory.csv',
+                        output=tmp_path, sent=[], sent_report_root=fixture / 'sent_history',
+                        css_file=ROOT / 'src/bank_intel/publication/news_style.css', source_status=None,
+                        model_traces=json.loads((fixture / 'model_traces.json').read_text(encoding='utf-8')),
+                        collection_metadata=json.loads((fixture / 'collection_metadata.json').read_text(encoding='utf-8')))
+    ledger = json.loads((tmp_path / 'publication_decisions.json').read_text(encoding='utf-8'))
+    decision = {a['source_url']: a['decision'] for a in ledger['articles']}
+    sent = collections.defaultdict(set)
+    for row in read_sent_html([fixture / 'sent_reference_28.html']):
+        sent[row['headline']].add(canonical(row['source_url']))
+    missed = [h for h, urls in sent.items() if not any(decision.get(u) == 'INCLUDE' for u in urls)]
+    assert missed == []
+    delivered = set().union(*sent.values())
+    extra = [e['headline'] for e in manifest['events']
+             if not any(canonical(s['source_url']) in delivered for s in e['sources'])]
+    assert extra == []
+    assert len(manifest['events']) == len(sent)
+
+
+def test_second_run_is_refused_while_a_child_stage_shares_the_lock(tmp_path, monkeypatch):
+    from bank_intel.common.reliability import project_lock
+    monkeypatch.delenv('NEWS_PIPELINE_LOCK_TOKEN', raising=False)
+    with project_lock(tmp_path):
+        with project_lock(tmp_path):  # a child stage inherits the owner's token
+            pass
+        import os
+        token = os.environ.pop('NEWS_PIPELINE_LOCK_TOKEN')  # a separate, manual run has no token
+        try:
+            with pytest.raises(RuntimeError, match='PIPELINE_BUSY'):
+                with project_lock(tmp_path):
+                    pass
+        finally:
+            os.environ['NEWS_PIPELINE_LOCK_TOKEN'] = token
+    with project_lock(tmp_path):  # released after the owner finishes
+        pass
+
+
+def test_delivered_edition_reconciliation_records_overridden_decisions(tmp_path):
+    from bank_intel.publication.history_import import reconcile_delivered
+    folder = tmp_path / '2026-11-04/window_1d'; edition = folder / 'integrated_edition'; edition.mkdir(parents=True)
+    (edition / 'publication_decisions.json').write_text(json.dumps({'articles': [
+        {'source_url': 'https://ft.lk/a', 'headline': 'A', 'decision': 'INCLUDE', 'decision_reason': 'X'},
+        {'source_url': 'https://ft.lk/b', 'headline': 'B', 'decision': 'EXCLUDE', 'decision_reason': 'SIGNED_EDITORIAL_no'}]}))
+    (edition / 'candidate_edition.json').write_text(json.dumps({'sha256': 'draft', 'decision_ledger': 'publication_decisions.json',
+        'events': [{'sources': [{'source_url': 'https://ft.lk/a'}]}]}))
+    (folder / 'report_manifest.json').write_text(json.dumps({'status': 'QA_PASS_NOT_DELIVERED', 'integrated_manifest': str(edition / 'candidate_edition.json')}))
+    (folder / 'SENT_EDITION.json').write_text(json.dumps({'date': '2026-11-04', 'attachment': 'sent.html', 'attachment_sha256': 'sent',
+        'event_count': 2, 'confirmed_at': 't', 'source_urls': ['https://ft.lk/a', 'https://ft.lk/b']}))
+    result = reconcile_delivered(folder)
+    assert result['added_sources'] == ['https://ft.lk/b'] and not result['matches_candidate']
+    assert 'SIGNED_EDITORIAL_no' in (folder / 'editorial_corrections_from_delivery.csv').read_text(encoding='utf-8-sig')
+    manifest = json.loads((folder / 'report_manifest.json').read_text(encoding='utf-8'))
+    assert manifest['status'] == 'DELIVERED' and manifest['delivered_sha256'] == 'sent'
