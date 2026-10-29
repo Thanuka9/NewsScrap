@@ -1,8 +1,8 @@
 {
   "freeze_version": "news-production-freeze-v2",
-  "created_at": "2026-10-28T14:21:53.949414+05:30",
+  "created_at": "2026-10-29T08:25:54.876050+05:30",
   "created_by": "Claude (for thanuka)",
-  "tests": "207 passed, 3 subtests passed in 44.66s",
+  "tests": "213 passed, 3 subtests passed in 41.05s",
   "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
   "files": [
     {
@@ -11,7 +11,7 @@
     },
     {
       "path": "scripts\\run_collection.py",
-      "sha256": "23CDE1BF19F774A81A16EDF96FAA2E3F8251A428CE88ED4D82123EED396B15BF"
+      "sha256": "6D488669C2AC5AFF709BBC3210585EFD27629CB27A130F845221322CBC47998E"
     },
     {
       "path": "scripts\\run_intelligence_stage1.py",
@@ -35,7 +35,7 @@
     },
     {
       "path": "scripts\\recover_collection_gaps.py",
-      "sha256": "5AC8A0F93ED5B2C44514E561DD61A89A8EDD8F28E826925889426B7C0B8228F0"
+      "sha256": "73F7513F1E75C478A167F68C7F265AE1C3770DB418A58307D5257104E505EF35"
     },
     {
       "path": "scripts\\audit_news_flow.py",
@@ -187,7 +187,7 @@
     },
     {
       "path": "src\\bank_intel\\collectors\\sources\\_public_business_base.py",
-      "sha256": "99D8A1934F66B2757A3AC015B79B89D7358C0EE3A557F1E1AA47DA776C8782AE"
+      "sha256": "ACFBF5C2628497B845FA219A865C381C21A7CBB6BDCFFD0EDB854484831A9E3F"
     },
     {
       "path": "src\\bank_intel\\collectors\\sources\\ceylon_today.py",
@@ -387,7 +387,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\history_import.py",
-      "sha256": "B6ACC516855FA753AE0A6F4588935A529D1BEEE124061D489221547F8759F572"
+      "sha256": "464F466DCFCDCD526C2415CF8AD3B337BBF88BCE3418D0124ED3393394DF74E0"
     },
     {
       "path": "src\\bank_intel\\publication\\identity.py",
@@ -419,7 +419,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\reconcile.py",
-      "sha256": "2D6BF50739AE74FBA97CF57861688033DD8C4A218B2FB4C80F8636E36C241461"
+      "sha256": "4108CBF8C3A063FD17232BA4B5802C2019C7A3A8D22B5354951BF90D2F0CE898"
     },
     {
       "path": "src\\bank_intel\\publication\\release.py",
@@ -439,11 +439,11 @@
     },
     {
       "path": "src\\bank_intel\\publication\\temporal.py",
-      "sha256": "3206BF7BACC76ED5B2699CB954840D18CF01D6FD6D9762737F527238DE9F533F"
+      "sha256": "126085983213213068F537A6D1D241338880D161D7C03F6252AE8C312144ADFD"
     },
     {
       "path": "src\\bank_intel\\publication\\workflow.py",
-      "sha256": "6CD1200C641E2FA6BB14C679095E6C8970A8297431F7065E3AACE2F57B598072"
+      "sha256": "382A74B3A4B24EC4C1EBDC9121AB110A4DCC304E269F01FFCC4F195ED6DC854E"
     }
   ]
 }
