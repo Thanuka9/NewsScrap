@@ -13,6 +13,7 @@ import httpx
 
 from bank_intel.collectors.sources._public_business_base import (
     BusinessSourceAdapter,
+    DEFAULT_HEADERS,
     FetchResult,
     SRI_LANKA_TZ,
     canonicalize_url,
@@ -233,6 +234,7 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
             self._rss_mode = False
             self._rss_recovered_urls = set()
             self._rss_fallback_errors = []
+            self._rss_failed_pages = {}
 
     def rss_diagnostics(self) -> dict:
         self._rss_state()
@@ -313,13 +315,15 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
         key = f"{section}:{page}"
         if key in self._rss_pages:
             return self._rss_pages[key]["items"]
+        if key in self._rss_failed_pages:
+            raise RuntimeError(self._rss_failed_pages[key])
         feed_url = self.RSS_ENDPOINTS[section]
         if page > 1:
             feed_url += f"?paged={page}"
         try:
             with httpx.Client(
                 follow_redirects=True, timeout=25.0,
-                headers={"User-Agent": "Mozilla/5.0 (compatible; BankSupervisionNews/1.0)",
+                headers={**DEFAULT_HEADERS,
                          "Accept": "application/rss+xml, application/xml;q=0.9, */*;q=0.8"},
             ) as client:
                 response = client.get(feed_url)
@@ -378,6 +382,8 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
             return items
         except (httpx.HTTPError, ET.ParseError, RuntimeError, ValueError) as exc:
             self._rss_fallback_errors.append(f"{feed_url}: {exc}")
+            # Retry in the next collection/recovery run, not for every article.
+            self._rss_failed_pages[key] = str(exc)
             raise RuntimeError(f"Island official RSS unavailable: {exc}") from exc
 
     def _rss_for_url(self, url: str) -> FetchResult:
@@ -453,6 +459,9 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
                     self._read_rss_page(section, 1)
                 except RuntimeError:
                     continue
+                record = self._rss_item_cache.get(canonicalize_url(url))
+                if record and record["published_at"] and len(record["article_text"].split()) >= 25:
+                    return self._rss_for_url(url)
             record = self._rss_item_cache.get(canonicalize_url(url))
             if record and record["published_at"] and len(record["article_text"].split()) >= 25:
                 return self._rss_for_url(url)
@@ -757,12 +766,12 @@ _ISLAND_TRANSIENT_ERRORS = (
 )
 
 def _island_fetch_retry(self, url):
-    delays = (2, 5, 9)
-    # Each attempt can spend a direct fetch plus a browser fallback; bound the
-    # whole article so one slow page cannot consume the collection budget.
+    delays = (2,)
+    # Each attempt includes HTTP and browser fallback. Allow only one retry;
+    # this elapsed check prevents another attempt, not a hard wall-clock cap.
     started = _island_retry_time.monotonic()
 
-    for attempt in range(4):
+    for attempt in range(2):
         try:
             return _ISLAND_ORIGINAL_FETCH(self, url)
 
@@ -774,13 +783,13 @@ def _island_fetch_retry(self, url):
                 for signal in _ISLAND_TRANSIENT_ERRORS
             )
 
-            if not transient or attempt == 3 or _island_retry_time.monotonic() - started > 120:
+            if not transient or attempt == 1 or _island_retry_time.monotonic() - started > 90:
                 raise
 
             delay = delays[attempt]
 
             print(
-                f"[ISLAND RETRY {attempt + 2}/4] "
+                f"[ISLAND RETRY {attempt + 2}/2] "
                 f"Waiting {delay}s: {url}",
                 flush=True,
             )

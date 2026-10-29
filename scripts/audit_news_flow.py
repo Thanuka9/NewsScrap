@@ -19,14 +19,22 @@ import sys
 # Sibling scripts (news_publication_history) are imported lazily below.
 if str(Path(__file__).resolve().parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
+if str(ROOT/'src') not in sys.path:
+    sys.path.insert(0, str(ROOT/'src'))
+from bank_intel.publication.identity import SOURCE_KEYS, sources_for_date
 EXPECTED_SURFACES = {
     'daily_ft': 4, 'ceylon_today': 3, 'daily_mirror': 5,
     'island': 3, 'daily_news': 3, 'newsfirst': 5, 'the_morning': 2,
+    'economynext': 1, 'economynews': 1,
 }
 SOURCES = (
     'daily_ft', 'ceylon_today', 'daily_news', 'daily_mirror',
-    'island', 'newsfirst', 'the_morning',
+    'island', 'newsfirst', 'the_morning', 'economynext', 'economynews',
 )
+
+
+def source_keys_for_date(target):
+    return tuple(SOURCE_KEYS[name] for name in sources_for_date(target))
 IMPORTANT = re.compile(
     r'\b(?:cbsl|central bank|licensed banks?|commercial banks?|bank of china|'
     r'nations trust bank|hsbc|microfinance|money laundering|aml|financial intelligence|'
@@ -131,7 +139,7 @@ def source_audit(root: Path, target: date, days: int) -> dict:
     covered_by_other_source = []
     breakdown = defaultdict(Counter)
     seen = set()
-    for source in SOURCES:
+    for source in source_keys_for_date(target):
         src = root / 'data' / 'staged' / source
         if not src.exists():
             continue
@@ -187,7 +195,7 @@ def source_audit(root: Path, target: date, days: int) -> dict:
     # Check collection status, including generic truncation and partial failures.
     status_issues = []
     recorded_issues = []
-    for source in SOURCES:
+    for source in source_keys_for_date(target):
         path = root / 'data' / 'source_status' / f'{source}.json'
         if not path.exists():
             status_issues.append(f'MISSING_SOURCE_STATUS:{source}')

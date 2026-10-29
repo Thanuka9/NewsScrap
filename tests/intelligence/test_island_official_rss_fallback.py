@@ -82,6 +82,42 @@ def test_normal_website_remains_primary(monkeypatch):
     assert adapter.rss_diagnostics()['used'] is False
 
 
+def test_direct_article_uses_first_full_feed_without_reading_other_feeds(monkeypatch):
+    client = setup_blocked(monkeypatch, make_rss())
+    adapter = IslandBusinessAdapter()
+    assert adapter.fetch(URL).method == 'rss-full-content'
+    assert len(client.urls) == 1
+
+
+def test_failed_feed_is_not_refetched_for_every_article(monkeypatch):
+    import httpx
+    client = Client(b'')
+    def failed(url):
+        client.urls.append(url)
+        raise httpx.ReadTimeout('feed timed out')
+    client.get = failed
+    monkeypatch.setattr('bank_intel.collectors.sources.island.httpx.Client', lambda **kw: client)
+    adapter = IslandBusinessAdapter()
+    for _ in range(3):
+        with pytest.raises(RuntimeError):
+            adapter._read_rss_page('business', 1)
+    assert len(client.urls) == 1
+    assert len(adapter.rss_diagnostics()['errors']) == 1
+
+
+def test_transient_fetch_retries_only_once(monkeypatch):
+    from bank_intel.collectors.sources import island
+    attempts = []
+    def failed(self, url):
+        attempts.append(url)
+        raise RuntimeError('ReadTimeout: timed out')
+    monkeypatch.setattr(island, '_ISLAND_ORIGINAL_FETCH', failed)
+    monkeypatch.setattr(island._island_retry_time, 'sleep', lambda seconds: None)
+    with pytest.raises(RuntimeError, match='ReadTimeout'):
+        IslandBusinessAdapter().fetch(URL)
+    assert len(attempts) == 2
+
+
 def test_feed_summary_does_not_replace_incomplete_full_article(monkeypatch):
     setup_blocked(monkeypatch, make_rss(without_content=True))
     adapter = IslandBusinessAdapter()

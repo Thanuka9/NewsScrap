@@ -6,7 +6,7 @@ import hashlib
 import html
 import json
 from pathlib import Path
-from .identity import SOURCES, approved,canonical,first_window_day,publisher_article_id
+from .identity import SOURCES, SOURCE_KEYS, sources_for_date, approved,canonical,first_window_day,publisher_article_id
 from .backlog import earliest_unpublished_day
 from .evidence import summary, evidence_issues
 from .decisions import decide,why_it_matters
@@ -48,6 +48,65 @@ def load_data(audit_path:Path,inventory_path:Path) -> list[dict]:
    if value is not None and value!=row.get(key):raise ValueError('Inventory/audit factual disagreement: '+key+' '+row['source_url'])
  return audit
 
+
+
+def _verified_prior_edition_omission(*, signed: dict | None, assessment: dict,
+                                     row: dict, matches: list,
+                                     publisher_alias: bool,
+                                     sent_report_root: Path | None,
+                                     target: date) -> bool:
+ """Recover a *confirmed missed* material prior-day story, never a repeat.
+
+ Timing evidence remains in late_news_status. Only a separately reviewed
+ omission with the exact confirmed-sent register and no evidence deficiencies
+ may supersede the standard temporal exclusion. The ordinary news QA and
+ cross-day duplicate checks still run. Other temporal overrides remain closed.
+ """
+ if not signed or signed.get('editorial_action') != 'INCLUDE':
+  return False
+ if str(signed.get('carry_forward_reason') or '').strip() != 'CONFIRMED_UNREPORTED_PRIOR_EDITION':
+  return False
+ reviewer=str(signed.get('reviewer') or '').strip()
+ if not reviewer or reviewer.casefold() in {
+     'your actual name', '<actual editor>', '<name>', 'reviewer', 'placeholder'}:
+  return False
+ if publisher_alias or matches or assessment.get('previous_send_status')!='NOT_IN_CONFIRMED_HISTORY':
+  return False
+ if assessment.get('evidence_issues'):
+  return False
+ if not str(signed.get('reason') or '').strip():
+  return False
+ try:
+  pub=date.fromisoformat(str(row.get('publication_date') or '')[:10])
+ except ValueError:
+  return False
+ prior_date=target-timedelta(days=1)
+ if pub!=prior_date or sent_report_root is None:
+  return False
+ expected='data/processed/reports/'+prior_date.isoformat()+'/window_1d/SENT_EDITION.json'
+ if str(signed.get('prior_report') or '').replace('\\','/').strip() != expected:
+  return False
+ register=Path(sent_report_root)/prior_date.isoformat()/'window_1d'/'SENT_EDITION.json'
+ if not register.is_file():
+  return False
+ try:
+  history=json.loads(register.read_text(encoding='utf-8-sig'))
+ except (OSError,ValueError):
+  return False
+ if history.get('date')!=prior_date.isoformat() or history.get('state')!='DELIVERED_CONFIRMED_BY_OPERATOR':
+  return False
+ # Avoid accidentally treating a directly repeated source as a missed item.
+ source=canonical(str(row.get('source_url') or ''))
+ for event in history.get('events',[]) or []:
+  urls=list(event.get('source_urls',[]) or [])
+  for item in event.get('sources',[]) or []:
+   if isinstance(item,str):
+    urls.append(item)
+   elif isinstance(item,dict):
+    urls.append(item.get('source_url') or item.get('url') or '')
+  if source and any(canonical(u)==source for u in urls):
+   return False
+ return bool(source)
 
 def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],review_decisions:Path|None=None,sent_report_root:Path|None=None,model_traces:dict|None=None,window_days:int=1,collection_metadata:dict|None=None):
  target=date.fromisoformat(date_iso)
@@ -155,8 +214,17 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
      ass['reviewer']=override.get('reviewer')
   ass['late_news_status']=late_status(row,target,prior) if pub and earliest<=pub<=target else 'OUTSIDE_WINDOW'
   if ass['decision'] in ('INCLUDE','REVIEW') and ass['late_news_status']=='AVAILABLE_BEFORE_PREVIOUS_SEND':
-   # The previous edition already had this article; nothing left to decide.
-   ass.update(decision='EXCLUDE',reason='AVAILABLE_BEFORE_PREVIOUS_SEND')
+   # "Available before send" is NOT proof this event was reported. A confirmed
+   # material omission is eligible only with separately signed, evidence-backed
+   # editorial recovery; otherwise retain the original fail-closed exclusion.
+   if ass['decision']=='INCLUDE' and _verified_prior_edition_omission(
+           signed=signed, assessment=ass, row=row, matches=matches,
+           publisher_alias=publisher_alias, sent_report_root=sent_report_root,
+           target=target):
+    ass['reason']='SIGNED_MATERIAL_PREVIOUS_OMISSION:'+str(signed.get('reason',''))
+    ass['material_omission_recovery']=True
+   else:
+    ass.update(decision='EXCLUDE',reason='AVAILABLE_BEFORE_PREVIOUS_SEND')
   elif ass['decision']=='INCLUDE' and ass['late_news_status'] not in ('TODAY','LATE_DISCOVERY','PUBLISHED_AFTER_PREVIOUS_SEND'):
    ass.update(decision='REVIEW',reason=ass['late_news_status'])
   if ass['decision']=='INCLUDE':counts['included']+=1
@@ -261,8 +329,8 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
  if model_project_root and not any((x.get('date')==date_iso) for x in model_data.values()):
   issues.append({'kind':'CURRENT_DATE_MODEL_EVIDENCE_UNAVAILABLE','date':date_iso})
  if source_status:
-  for source in SOURCES:
-   ident={'Daily FT':'daily_ft','Daily Mirror':'daily_mirror','Daily News':'daily_news','The Morning':'the_morning','The Island':'island','NewsFirst':'newsfirst','Ceylon Today':'ceylon_today'}[source]
+  for source in sources_for_date(date_iso):
+   ident=SOURCE_KEYS[source]
    p=source_status/(ident+'.json')
    if not p.is_file():issues.append({'kind':'MISSING_PUBLISHER_STATUS','publisher':source});continue
    info=read_json(p)
@@ -296,7 +364,7 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
  write_csv(output/'review_queue.csv',review_rows,
            list(lines[0])+['editorial_action','review_decision','review_notes','reviewer'])
  manifest={'schema':'NEWS_INTEGRATED_V3','date':date_iso,'earliest_inclusive_date':earliest.isoformat(),
-    'source_row_count':counts['raw'],'source_count':len(SOURCES),'counts':counts,'event_count':len(events),
+    'source_row_count':counts['raw'],'source_count':len(sources_for_date(date_iso)),'counts':counts,'event_count':len(events),
     'decision_ledger':'publication_decisions.json','decision_ledger_sha256':hashlib.sha256(ledger_path.read_bytes()).hexdigest(),
     'renderer':'bank_intel.publication.workflow.render_html','template_css_sha256':hashlib.sha256(css_file.read_bytes()).hexdigest(),
     'sha256':sha,'source_audit_path':str(audit),'source_inventory_path':str(inventory),

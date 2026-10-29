@@ -20,7 +20,7 @@ from urllib.parse import urlsplit, urlunsplit
 
 PUBLISHERS = (
     "Daily FT", "Daily Mirror", "Daily News", "The Morning", "The Island",
-    "NewsFirst", "Ceylon Today",
+    "NewsFirst", "Ceylon Today", "EconomyNext", "EconomyNews",
 )
 SKIP_WORDS = frozenset({
     "a", "an", "as", "and", "at", "by", "for", "from", "in", "into", "of", "on", "or", "to", "the",
@@ -294,21 +294,10 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
     publisher headline was discovered. Editorial sign-off remains necessary.
     """
     from news_publication_history import earliest_eligible_day
-    keys={
-        'Daily FT':'daily_ft','Daily Mirror':'daily_mirror',
-        'Daily News':'daily_news','The Morning':'the_morning',
-        'The Island':'island','NewsFirst':'newsfirst',
-        'Ceylon Today':'ceylon_today',
-    }
-    required={
-        'daily_mirror':{'business','homepage','breaking news','top stories','latest news'},
-        'daily_ft':{'financial_services','front_page','top_story','homepage'},
-        'the_morning':{'business','homepage'},
-        'daily_news':{'business','local','homepage'},
-        'island':{'business','news','homepage'},
-        'newsfirst':{'latestpaginated','local','world','business','homepage'},
-        'ceylon_today':{'daily_finance','sunday_finance','homepage'},
-    }
+    from bank_intel.publication.identity import SOURCE_KEYS, sources_for_date
+    from bank_intel.publication.coverage import REQUIRED_SURFACES
+    keys={name: SOURCE_KEYS[name] for name in sources_for_date(date_arg)}
+    required={key: REQUIRED_SURFACES[name] for name,key in keys.items()}
     root=Path(project_root).resolve()
     out={'report_date':date_arg.isoformat(),'window_start':earliest_eligible_day(date_arg).isoformat(),
          'workflow':'COLLECTOR_EVIDENCE_REQUIRES_EDITORIAL_VERIFICATION',
@@ -433,7 +422,9 @@ FREEZE_SCRIPTS=('run_pipeline.py','run_collection.py','run_intelligence_stage1.p
     'run_ml_corpus_analysis.py','run_supervisory_taxonomy.py','build_financial_brief_v2.py','recover_collection_gaps.py',
     'audit_news_flow.py','run_integrated_release.py','news_release_gate.py','news_publication_history.py',
     'check_release.py','_runtime.py','run_daily_ft.py','run_ceylon_today.py','run_daily_mirror.py','run_island.py',
-    'run_generic_sources.py','run_daily_news_task.ps1','run_scheduler.py')
+    'run_generic_sources.py','run_daily_news_task.ps1','run_scheduler.py',
+    'resume_final_edition.py','pipeline_status.py','replay_sent_edition.py','news_editorial_final.py',
+    'news_quality_policy.py','brief_semantic_guard.py')
 FREEZE_CONFIG=('config/sources/registry.yaml','config/sources/generic_registry.yaml','config/sources/daily_ft.yaml',
     'config/sources/ceylon_today.yaml','config/sources/daily_mirror.yaml','config/sources/daily_news.yaml',
     'config/sources/island.yaml','config/intelligence/entities_cbsl.yaml','config/intelligence/ml.yaml',

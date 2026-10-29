@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, asdict
 from bank_intel.common.discovery_policy import OldPageStopper, publication_date_in_url
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from hashlib import sha1, sha256
 from pathlib import Path
 from typing import Any
@@ -88,6 +88,7 @@ class ArticleResult:
     fetch_status: int | None = None
     blocked: bool = False
     errors: list[str] | None = None
+    warnings: list[str] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         value = asdict(self)
@@ -375,6 +376,21 @@ def _discover_article_links_single(
     return accepted, diagnostics
 
 
+def _pagination_date_links(html_text: str, base_url: str, profile: dict) -> list[str]:
+    """Date-boundary evidence excludes explicitly configured featured panels."""
+    soup = BeautifulSoup(html_text, "html.parser")
+    for selector in profile.get("pagination_date_exclude_selectors") or []:
+        for node in soup.select(selector):
+            node.decompose()
+    patterns = [re.compile(value) for value in profile.get("article_url_patterns") or []]
+    links = []
+    for anchor in soup.select('a[href]'):
+        url = canonicalize_url(urljoin(base_url, anchor.get('href') or ''))
+        if same_site(url, base_url) and (not patterns or any(p.search(url) for p in patterns)):
+            links.append(url)
+    return list(dict.fromkeys(links))
+
+
 def _discover_browser_click_pages(
     profile: dict[str, Any],
     listing_url: str,
@@ -442,7 +458,9 @@ def _discover_browser_click_pages(
                 })
 
                 if old_pages is not None:
-                    known_dates = [publication_date_in_url(url) for url in current_links]
+                    boundary_links = _pagination_date_links(current_html, page.url, profile)
+                    page_diagnostics[-1]["date_boundary_links"] = boundary_links
+                    known_dates = [publication_date_in_url(url) for url in boundary_links]
                     unknown_count = sum(value is None for value in known_dates)
                     if old_pages.observe(known_dates, unknown_dates=unknown_count):
                         page_diagnostics[-1]["stop_reason"] = "TWO_OLDER_URL_DATED_PAGES"
@@ -589,6 +607,120 @@ def _discover_browser_click_pages(
 
 
 # GENERIC_MULTI_SECTION_DISCOVERY_V1
+def _discover_wordpress_api(profile: dict[str, Any], api_url: str, max_pages: int = 20) -> tuple[list[str], dict[str, Any]]:
+    """Every post in the collection window from a public WordPress REST API.
+
+    Completeness is proven, not inferred: the API reports X-WP-Total and
+    X-WP-TotalPages for the date-filtered query, and every page is read.
+    Each post's own date is returned so out-of-window posts are never fetched.
+    """
+    import httpx
+    start = date.fromisoformat(str(profile.get("discovery_start_date") or datetime.now(SRI_LANKA_TZ).date().isoformat()))
+    # WordPress compares in site-local time; a day's margin covers offsets,
+    # and the article's own date still decides membership of the window.
+    after = (start - timedelta(days=1)).isoformat() + "T00:00:00"
+    end = date.fromisoformat(str(profile.get("discovery_end_date") or datetime.now(SRI_LANKA_TZ).date().isoformat()))
+    before = (end + timedelta(days=2)).isoformat() + "T00:00:00"
+    links: list[str] = []
+    link_dates: dict[str, str] = {}
+    records: dict[str, dict] = {}
+    observed_links: set[str] = set()
+    expected_totals = None
+    diag: dict[str, Any] = {"listing_url": api_url, "listing_fetch_method": "wordpress_api", "listing_status": None,
+                            "listing_final_url": api_url, "listing_blocked": False, "listing_error": "",
+                            "wp_total": None, "wp_total_pages": None, "wp_pages_read": 0, "pagination_complete": False}
+    excludes = [re.compile(p) for p in profile.get("exclude_url_patterns") or []]
+    try:
+        with httpx.Client(headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                                   "(KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36", "Accept": "application/json"},
+                          timeout=30.0, follow_redirects=True) as client:
+            page = 1
+            while page <= max_pages:
+                response = client.get(api_url, params={"per_page": 100, "page": page, "after": after, "before": before,
+                                                       "orderby": "date", "order": "desc",
+                                                       "_fields": "date,date_gmt,link,title,content"})
+                diag["listing_status"] = response.status_code
+                if response.status_code != 200:
+                    diag["listing_blocked"] = _blocked(response.status_code, response.text)
+                    raise RuntimeError(f"WORDPRESS_API_HTTP_{response.status_code}: page {page}")
+                if "X-WP-TotalPages" not in response.headers or "X-WP-Total" not in response.headers:
+                    raise RuntimeError("WORDPRESS_API_MISSING_TOTALS")
+                total_pages = int(response.headers["X-WP-TotalPages"])
+                diag["wp_total"] = int(response.headers["X-WP-Total"])
+                diag["wp_total_pages"] = total_pages
+                totals = (diag["wp_total"], total_pages)
+                if min(totals) < 0 or total_pages != (diag["wp_total"] + 99) // 100:
+                    raise RuntimeError("WORDPRESS_API_INVALID_TOTALS")
+                if expected_totals is not None and expected_totals != totals:
+                    raise RuntimeError("WORDPRESS_API_TOTALS_CHANGED_DURING_PAGINATION")
+                expected_totals = totals
+                rows = response.json()
+                if not isinstance(rows, list):
+                    raise RuntimeError("WORDPRESS_API_INVALID_JSON")
+                diag["wp_pages_read"] = page
+                for row in rows:
+                    if not isinstance(row, dict):
+                        raise RuntimeError("WORDPRESS_API_INVALID_RECORD")
+                    link = canonicalize_url(str(row.get("link") or ""))
+                    if not link or not same_site(link, api_url):
+                        raise RuntimeError("WORDPRESS_API_INVALID_LINK")
+                    if link in observed_links:
+                        raise RuntimeError("WORDPRESS_API_REPEATED_RECORD")
+                    observed_links.add(link)
+                    if any(p.search(link) for p in excludes):
+                        continue
+                    if link not in link_dates:
+                        links.append(link)
+                    # Membership uses Colombo time, matching the staged record.
+                    # The site's local date may differ near midnight.
+                    link_dates[link] = _wordpress_published_at(row)[:10]
+                    records[link] = row
+                if page >= total_pages:
+                    break
+                page += 1
+        diag["pagination_complete"] = (diag["wp_pages_read"] >= diag["wp_total_pages"]
+                                       and len(observed_links) == diag["wp_total"])
+        if not diag["pagination_complete"]:
+            raise RuntimeError("WORDPRESS_API_INCOMPLETE_RESULTS")
+    except Exception as exc:
+        diag["listing_error"] = f"{type(exc).__name__}: {exc}"
+    diag.update(raw_links=len(link_dates), article_links=len(links), link_dates=link_dates, api_records=records)
+    return links, diag
+
+
+def _wordpress_published_at(row: dict) -> str:
+    raw = str(row.get("date_gmt") or "")
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            from datetime import timezone
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(SRI_LANKA_TZ).isoformat()
+    except (TypeError, ValueError):
+        return ""
+
+
+def article_from_wordpress(url: str, row: dict, profile: dict[str, Any]) -> ArticleResult:
+    """The publisher's own record: title, exact GMT time and full content.
+
+    Page scraping can pick up a site-wide widget instead of the article (as on
+    EconomyNext); the API record is the article itself.
+    """
+    title = BeautifulSoup(str((row.get("title") or {}).get("rendered") or ""), "html.parser").get_text(" ", strip=True)
+    html = str((row.get("content") or {}).get("rendered") or "")
+    text = _clean_paragraphs(BeautifulSoup(html, "html.parser"))
+    published = _wordpress_published_at(row)
+    words = len(text.split())
+    minimum = int(profile.get("minimum_article_words") or 80)
+    errors = []
+    if not title:errors.append("MISSING_HEADLINE")
+    if not published:errors.append("PUBLISHED_DATE_MISSING")
+    if words < minimum:errors.append(f"ARTICLE_TOO_SHORT:{words}")
+    return ArticleResult(url=url, valid=not errors, headline=title, published_at=published, article_text=text,
+                         canonical_url=url, word_count=words, fetch_method="wordpress_api", fetch_status=200,
+                         errors=errors or None)
+
+
 def discover_article_links(
     profile: dict[str, Any],
 ) -> tuple[list[str], dict[str, Any]]:
@@ -619,13 +751,17 @@ def discover_article_links(
         page_profile["listing_url"] = url
         if "listing_prefer_browser" in overrides:
             page_profile["listing_prefer_browser"] = bool(overrides.get("listing_prefer_browser"))
+        if "pagination_date_exclude_selectors" in overrides:
+            page_profile["pagination_date_exclude_selectors"] = overrides["pagination_date_exclude_selectors"]
         if "skip_first_n_article_links" in overrides:
             page_profile["skip_first_n_article_links"] = int(overrides.get("skip_first_n_article_links") or 0)
         elif len(configured) > 1:
             page_profile.pop("skip_first_n_article_links", None)
 
         pagination_pages = int(overrides.get("pagination_click_pages") or 0)
-        if pagination_pages > 1:
+        if str(overrides.get("type") or "") == "wordpress_api":
+            links, diag = _discover_wordpress_api(page_profile, url)
+        elif pagination_pages > 1:
             links, diag = _discover_browser_click_pages(
                 page_profile,
                 url,
@@ -670,7 +806,10 @@ def discover_article_links(
         "listing_pages_failed": len(failed_pages),
         "raw_links": sum(int(page.get("raw_links", 0) or 0) for page in pages),
         "article_links": len(combined),
-        "listing_pages": pages,
+        "listing_pages": [{k: v for k, v in page.items() if k not in ("link_dates", "api_records")} for page in pages],
+        # Publisher-supplied post dates (WordPress API) for pre-fetch window checks.
+        "link_dates": {url: day for page in pages for url, day in (page.get("link_dates") or {}).items()},
+        "api_records": {url: row for page in pages for url, row in (page.get("api_records") or {}).items()},
     }
     return combined, diagnostics
 
@@ -999,10 +1138,15 @@ def extract_article(
             ld.get("articleBody")
             or ""
         ).strip()
-
-        if len(article_text.split()) < 80:
+        explicit_body = bool(article_text)
+        body_selector = profile.get('article_body_selector')
+        if body_selector and soup.select_one(body_selector):
+            article_text = _clean_paragraphs(soup.select_one(body_selector))
+            explicit_body = True
+        elif len(article_text.split()) < 25:
             container = _best_text_container(soup)
             article_text = _clean_paragraphs(container)
+            explicit_body = False
 
         article_text = html.unescape(article_text)
         article_text = re.sub(r"[ \t]+", " ", article_text)
@@ -1022,8 +1166,13 @@ def extract_article(
         if not published_at:
             errors.append("PUBLISHED_DATE_MISSING")
 
+        warnings = []
         if word_count < min_words:
-            errors.append(f"ARTICLE_TOO_SHORT:{word_count}")
+            from bank_intel.collectors.sources._public_business_base import short_article_is_valid
+            if explicit_body and published_at and short_article_is_valid(headline, article_text, published_at):
+                warnings.append(f"SHORT_PUBLISHER_NOTICE:{word_count}")
+            else:
+                errors.append(f"ARTICLE_TOO_SHORT:{word_count}")
 
         return ArticleResult(
             url=url,
@@ -1038,6 +1187,7 @@ def extract_article(
             fetch_status=result.status,
             blocked=result.blocked,
             errors=errors,
+            warnings=warnings,
         )
 
     first = fetch_page(
@@ -1236,6 +1386,7 @@ def stage_article(
         "source_url": article.url,
         "canonical_url": article.canonical_url or article.url,
         "article_text": article.article_text,
+        "extraction_warnings": article.warnings or [],
         "content_hash": content_hash,
         "article_version": version,
         "collection_status": "SUCCESS",
@@ -1275,6 +1426,7 @@ def collect_and_stage(
 ) -> dict[str, Any]:
     profile = dict(profile)
     profile["discovery_start_date"] = from_date.isoformat()
+    profile["discovery_end_date"] = to_date.isoformat()
     links, listing = discover_article_links(profile)
     total_discovered_links = len(links)
     # Production must assess every discovered article.
@@ -1297,7 +1449,20 @@ def collect_and_stage(
 
     run_date = datetime.now(SRI_LANKA_TZ).date().isoformat()
 
-    for url in links:
+    link_dates = listing.pop("link_dates", {}) or {}
+    api_records = listing.pop("api_records", {}) or {}
+    for article_number, url in enumerate(links, 1):
+        print(f'[{source_key} {article_number}/{len(links)}] {url}', flush=True)
+        # A publisher API date outside the window: skip without fetching.
+        api_day = link_dates.get(url)
+        if api_day:
+            try:
+                api_date = date.fromisoformat(api_day)
+            except ValueError:
+                api_date = None
+            if api_date is not None and (api_date < from_date or api_date > to_date):
+                outside += 1
+                continue
         # URL_DATE_PREFILTER_V1
         url_date_match = re.search(
             r"/(20\d{2})/(\d{1,2})/(\d{1,2})/",
@@ -1316,12 +1481,17 @@ def collect_and_stage(
                 outside += 1
                 continue
 
-        article = safe_extract_article(url, profile)
-        if not article.valid:
+        if url in api_records:
+            article = article_from_wordpress(url, api_records[url], profile)
+        else:
+            article = safe_extract_article(url, profile)
+        if not article.valid and url not in api_records:
             first_errors=list(article.errors or [])
             article=safe_extract_article(url, profile)
             if article.valid:recovered_urls.append(url)
             else:extraction_failures.append({"url":url,"errors":list(article.errors or []),"first_attempt_errors":first_errors,"attempts":2})
+        elif not article.valid:
+            extraction_failures.append({"url": url, "errors": list(article.errors or []), "attempts": 1})
 
         if article.blocked:
             blocked += 1

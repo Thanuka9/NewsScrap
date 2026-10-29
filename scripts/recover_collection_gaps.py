@@ -1294,7 +1294,7 @@ def recover_for_window(
         "scope": "INDEPENDENT_LISTING_RECHECK",
         "checked_publishers": [source["source_name"] for source in DISCOVERY_SOURCES],
         "not_checked_publishers": sorted(
-            {"Daily FT", "Daily Mirror", "Daily News", "The Morning", "The Island", "NewsFirst", "Ceylon Today"}
+            {"Daily FT", "Daily Mirror", "Daily News", "The Morning", "The Island", "NewsFirst", "Ceylon Today", "EconomyNext", "EconomyNews"}
             - {source["source_name"] for source in DISCOVERY_SOURCES}
         ),
         "seven_publisher_completeness": "NOT_ESTABLISHED_BY_THIS_CHECK",

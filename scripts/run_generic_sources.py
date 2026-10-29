@@ -65,8 +65,13 @@ def write_production_status(
         or listing.get("listing_error")
         or listing.get("listing_status") is None
     )
-    discovery_failed = candidates <= 0
-    extraction_failed = candidates > 0 and valid <= 0
+    # A fully enumerated API can legitimately contain no in-window posts.
+    pages = listing.get("listing_pages") or []
+    complete_api = bool(pages) and all(
+        p.get("listing_fetch_method") == "wordpress_api" and p.get("pagination_complete") is True
+        for p in pages)
+    discovery_failed = candidates <= 0 and not complete_api
+    extraction_failed = candidates > int(item.get("wrong_date_skipped", 0) or 0) and valid <= 0
 
     if listing_failed or discovery_failed or extraction_failed:
         execution_status = "FAILED"
@@ -133,12 +138,12 @@ def write_production_status(
         "listing_status": listing.get("listing_status"),
     }
 
+    from bank_intel.common.reliability import atomic_json
     path = current_status_path(source_key)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(status, indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
+    atomic_json(path, status)
+    # A master retry removes the current status. Keep immutable attempt evidence.
+    history = path.parent / 'history' / completed_at.date().isoformat()
+    atomic_json(history / f'{source_key}_{run_id}_{completed_at.strftime("%H%M%S%f")}.json', status)
 
     print()
     print("-" * 100)

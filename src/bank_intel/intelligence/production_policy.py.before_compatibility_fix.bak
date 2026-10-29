@@ -1,0 +1,2169 @@
+
+from __future__ import annotations
+
+import csv
+import json
+import re
+
+from collections import Counter
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any
+
+
+PROJECT_ROOT = (
+    Path(__file__)
+    .resolve()
+    .parents[3]
+)
+
+
+# =============================================================================
+# PRODUCTION POLICY
+# =============================================================================
+
+POLICY_VERSION = "production-guard-v1"
+
+NON_PRUDENTIAL_ENTITIES = {
+    "Colombo Stock Exchange",
+}
+
+
+# Narrow taxonomy topics must have direct source-text evidence.
+
+AML_PATTERN = re.compile(
+    r"\b("
+    r"anti[- ]money laundering|"
+    r"money laundering|"
+    r"\baml\b|"
+    r"terrorist financing|"
+    r"counter[- ]terrorist financing|"
+    r"\bcft\b|"
+    r"sanction(?:s|ed)?|"
+    r"financial intelligence unit|"
+    r"\bfiu\b|"
+    r"\bfatf\b|"
+    r"\bkyc\b|"
+    r"know your customer|"
+    r"suspicious transaction|"
+    r"proliferation financing"
+    r")\b",
+    flags=re.IGNORECASE,
+)
+
+
+NPL_PATTERN = re.compile(
+    r"\b("
+    r"non[- ]performing(?: loan| loans)?|"
+    r"\bnpl(?:s)?\b|"
+    r"stage\s*3|"
+    r"impaired|"
+    r"impairment|"
+    r"provision(?:s|ing)?|"
+    r"expected credit loss|"
+    r"\becl\b|"
+    r"arrears|"
+    r"delinquen\w*|"
+    r"asset quality|"
+    r"bad loan(?:s)?"
+    r")\b",
+    flags=re.IGNORECASE,
+)
+
+
+TOPIC_EVIDENCE_PATTERNS = {
+    "AML_CFT_SANCTIONS": AML_PATTERN,
+    "ASSET_QUALITY_NPL_STAGE3": NPL_PATTERN,
+}
+
+
+# =============================================================================
+# BASIC HELPERS
+# =============================================================================
+
+
+def _safe_float(
+    value: Any,
+) -> float | None:
+
+    try:
+
+        if (
+            value is None
+            or value == ""
+        ):
+            return None
+
+        return float(
+            value
+        )
+
+    except (
+        TypeError,
+        ValueError,
+    ):
+        return None
+
+
+def _upper(
+    value: Any,
+) -> str:
+
+    return str(
+        value
+        or ""
+    ).strip().upper()
+
+
+def _load_json(
+    path: Path,
+) -> dict:
+
+    return json.loads(
+        path.read_text(
+            encoding="utf-8-sig"
+        )
+    )
+
+
+def _write_json(
+    path: Path,
+    payload: dict,
+) -> None:
+
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    path.write_text(
+        json.dumps(
+            payload,
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+
+def _resolve_project_path(
+    value: Any,
+) -> Path:
+
+    path = Path(
+        str(
+            value
+            or ""
+        )
+    )
+
+    if not path.is_absolute():
+
+        path = (
+            PROJECT_ROOT
+            / path
+        )
+
+    return path
+
+
+# =============================================================================
+# HUMAN GOLD
+#
+# IMPORTANT:
+# Only rows explicitly reviewed and approved by a human can affect this layer.
+#
+# Candidate seed rows created by the pipeline have:
+#
+#     approved_for_training = FALSE
+#
+# and therefore CANNOT act as gold.
+# =============================================================================
+
+
+def _load_approved_human_gold() -> dict:
+
+    path = (
+        PROJECT_ROOT
+        / "data"
+        / "training"
+        / "human_gold"
+        / "supervisory_review_gold.csv"
+    )
+
+    result = {
+        "by_url": {},
+        "by_headline": {},
+        "approved_count": 0,
+    }
+
+    if not path.exists():
+        return result
+
+    with path.open(
+        "r",
+        newline="",
+        encoding="utf-8-sig",
+    ) as file:
+
+        rows = list(
+            csv.DictReader(
+                file
+            )
+        )
+
+    for row in rows:
+
+        approved = (
+            str(
+                row.get(
+                    "approved_for_training",
+                    "",
+                )
+                or ""
+            )
+            .strip()
+            .upper()
+        )
+
+        review_status = (
+            str(
+                row.get(
+                    "review_status",
+                    "",
+                )
+                or ""
+            )
+            .strip()
+            .upper()
+        )
+
+        reviewer = str(
+            row.get(
+                "reviewer",
+                "",
+            )
+            or ""
+        ).strip()
+
+        label = _upper(
+            row.get(
+                "human_relevance_label"
+            )
+        )
+
+        if approved not in {
+            "TRUE",
+            "YES",
+            "1",
+        }:
+            continue
+
+        if review_status not in {
+            "REVIEWED",
+            "APPROVED",
+            "DONE",
+            "PASS",
+        }:
+            continue
+
+        if not reviewer:
+            continue
+
+        if label not in {
+            "NOISE",
+            "WATCH",
+            "RELEVANT",
+            "KEEP",
+        }:
+            continue
+
+        url = str(
+            row.get(
+                "source_url",
+                "",
+            )
+            or ""
+        ).strip()
+
+        headline = str(
+            row.get(
+                "headline",
+                "",
+            )
+            or ""
+        ).strip().lower()
+
+        if url:
+            result[
+                "by_url"
+            ][
+                url
+            ] = row
+
+        if headline:
+            result[
+                "by_headline"
+            ][
+                headline
+            ] = row
+
+        result[
+            "approved_count"
+        ] += 1
+
+    return result
+
+
+def _human_gold_match(
+    *,
+    source_url: str,
+    headline: str,
+    gold: dict,
+) -> dict | None:
+
+    source_url = str(
+        source_url
+        or ""
+    ).strip()
+
+    headline_key = str(
+        headline
+        or ""
+    ).strip().lower()
+
+    if (
+        source_url
+        and source_url
+        in gold[
+            "by_url"
+        ]
+    ):
+        return gold[
+            "by_url"
+        ][
+            source_url
+        ]
+
+    if (
+        headline_key
+        and headline_key
+        in gold[
+            "by_headline"
+        ]
+    ):
+        return gold[
+            "by_headline"
+        ][
+            headline_key
+        ]
+
+    return None
+
+
+# =============================================================================
+# ENTITY HELPERS
+# =============================================================================
+
+
+def _entity_names(
+    analysis: dict,
+) -> set[str]:
+
+    names = set()
+
+    ml_payload = (
+        analysis.get(
+            "ml",
+            {},
+        )
+        or {}
+    )
+
+    for item in (
+        ml_payload.get(
+            "cbsl_entity_matches",
+            [],
+        )
+        or []
+    ):
+
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        name = str(
+            item.get(
+                "canonical_name",
+                "",
+            )
+            or ""
+        ).strip()
+
+        if name:
+            names.add(
+                name
+            )
+
+    return names
+
+
+# =============================================================================
+# PHASE-2 PRODUCTION SAFETY POLICY
+# =============================================================================
+
+
+def apply_phase2_production_policy(
+    target_date: str,
+) -> dict:
+
+    manifest_path = (
+        PROJECT_ROOT
+        / "data"
+        / "processed"
+        / "ml"
+        / target_date
+        / "ml_manifest.json"
+    )
+
+    if not manifest_path.exists():
+
+        raise RuntimeError(
+            "ML manifest missing: "
+            f"{manifest_path}"
+        )
+
+    manifest = _load_json(
+        manifest_path
+    )
+
+    if (
+        manifest.get(
+            "status"
+        )
+        != "SUCCESS"
+    ):
+
+        raise RuntimeError(
+            "ML manifest is not SUCCESS."
+        )
+
+    gold = (
+        _load_approved_human_gold()
+    )
+
+    raw_counts = Counter()
+
+    operational_counts = Counter()
+
+    override_counts = Counter()
+
+    for manifest_item in (
+        manifest.get(
+            "articles",
+            [],
+        )
+        or []
+    ):
+
+        analysis_path = (
+            _resolve_project_path(
+                manifest_item.get(
+                    "analysis_file"
+                )
+            )
+        )
+
+        if not analysis_path.exists():
+
+            raise FileNotFoundError(
+                analysis_path
+            )
+
+        analysis = _load_json(
+            analysis_path
+        )
+
+        ml_payload = (
+            analysis.get(
+                "ml",
+                {},
+            )
+            or {}
+        )
+
+        relevance = (
+            ml_payload.get(
+                "supervisory_relevance",
+                {},
+            )
+            or {}
+        )
+
+        stage_a = (
+            relevance.get(
+                "stage_a",
+                {},
+            )
+            or {}
+        )
+
+        stage_b = (
+            relevance.get(
+                "stage_b",
+                {},
+            )
+            or {}
+        )
+
+        if not stage_a:
+
+            raise RuntimeError(
+                "Expected two-stage "
+                "Stage-A output missing: "
+                f"{analysis_path}"
+            )
+
+        raw_label = _upper(
+            stage_a.get(
+                "raw_predicted_label"
+            )
+            or stage_a.get(
+                "predicted_label"
+            )
+        )
+
+        raw_confidence = (
+            _safe_float(
+                stage_a.get(
+                    "raw_confidence"
+                )
+                if (
+                    stage_a.get(
+                        "raw_confidence"
+                    )
+                    is not None
+                )
+                else stage_a.get(
+                    "confidence"
+                )
+            )
+        )
+
+        stage1 = (
+            analysis.get(
+                "stage1",
+                {},
+            )
+            or {}
+        )
+
+        stage1_decision = (
+            _upper(
+                stage1.get(
+                    "gate_decision"
+                )
+            )
+        )
+
+        financial_score = (
+            _safe_float(
+                stage1.get(
+                    "financial_relevance_score"
+                )
+            )
+        )
+
+        pr_score = (
+            _safe_float(
+                stage1.get(
+                    "pr_noise_score"
+                )
+            )
+        )
+
+        names = (
+            _entity_names(
+                analysis
+            )
+        )
+
+        has_cbsl = (
+            "Central Bank of Sri Lanka"
+            in names
+        )
+
+        strong_entities = {
+            name
+
+            for name
+            in names
+
+            if name
+            not in (
+                NON_PRUDENTIAL_ENTITIES
+            )
+        }
+
+        stage_b_executed = bool(
+            relevance.get(
+                "stage_b_executed"
+            )
+        )
+
+        stage_b_label = _upper(
+            stage_b.get(
+                "predicted_label"
+            )
+        )
+
+        stage_b_confidence = (
+            _safe_float(
+                stage_b.get(
+                    "confidence"
+                )
+            )
+        )
+
+        operational_label = (
+            raw_label
+        )
+
+        override_reason = None
+
+        source_url = str(
+            analysis.get(
+                "source_url",
+                "",
+            )
+            or ""
+        ).strip()
+
+        headline = str(
+            analysis.get(
+                "headline",
+                "",
+            )
+            or ""
+        ).strip()
+
+        # =========================================================
+        # HUMAN GOLD HAS HIGHEST PRIORITY
+        # =========================================================
+
+        gold_row = (
+            _human_gold_match(
+                source_url=(
+                    source_url
+                ),
+                headline=(
+                    headline
+                ),
+                gold=(
+                    gold
+                ),
+            )
+        )
+
+        if gold_row is not None:
+
+            human_label = _upper(
+                gold_row.get(
+                    "human_relevance_label"
+                )
+            )
+
+            if human_label == "NOISE":
+
+                operational_label = (
+                    "NOISE"
+                )
+
+            else:
+
+                operational_label = (
+                    "KEEP"
+                )
+
+            override_reason = (
+                "HUMAN_GOLD_EXACT_MATCH_OVERRIDE"
+            )
+
+        # =========================================================
+        # FALSE-NEGATIVE SAFETY GUARD
+        #
+        # Example found in production QA:
+        #
+        # Financial literacy central to country’s development
+        # – CBSL Governor
+        #
+        # Stage 1:
+        #     INCLUDE_CANDIDATE
+        #     financial score 76
+        #     low PR
+        #     CBSL
+        #
+        # Raw Stage A:
+        #     NOISE
+        #
+        # This must not disappear silently.
+        # =========================================================
+
+        elif (
+            raw_label
+            == "NOISE"
+
+            and stage1_decision
+            == "INCLUDE_CANDIDATE"
+
+            and financial_score
+            is not None
+
+            and financial_score
+            >= 70
+
+            and pr_score
+            is not None
+
+            and pr_score
+            < 40
+
+            and (
+                has_cbsl
+                or bool(
+                    strong_entities
+                )
+            )
+        ):
+
+            operational_label = (
+                "KEEP"
+            )
+
+            override_reason = (
+                "STAGE1_HIGH_SUPERVISORY_SAFETY_OVERRIDE"
+            )
+
+        # =========================================================
+        # FALSE-POSITIVE SAFETY GUARD
+        #
+        # Examples found in live QA:
+        #
+        #   CSE opens week in red...
+        #   Port City residential tax exemptions...
+        #
+        # Stage 1 correctly excluded them.
+        # Stage A promoted them.
+        #
+        # Require a strong Stage-B signal before overriding a clear
+        # low-signal Stage-1 exclusion.
+        # =========================================================
+
+        elif (
+            raw_label
+            == "KEEP"
+
+            and stage1_decision
+            == "EXCLUDE_NOISE"
+
+            and financial_score
+            is not None
+
+            and financial_score
+            < 30
+
+            and not strong_entities
+        ):
+
+            strong_stage_b = (
+                stage_b_executed
+
+                and stage_b_label
+                == "RELEVANT"
+
+                and stage_b_confidence
+                is not None
+
+                and stage_b_confidence
+                >= 0.70
+            )
+
+            if not strong_stage_b:
+
+                operational_label = (
+                    "NOISE"
+                )
+
+                override_reason = (
+                    "STAGE1_LOW_SIGNAL_FALSE_POSITIVE_GUARD"
+                )
+
+        # =========================================================
+        # PRESERVE RAW MODEL RESULT
+        # =========================================================
+
+        stage_a[
+            "raw_predicted_label"
+        ] = raw_label
+
+        stage_a[
+            "raw_confidence"
+        ] = raw_confidence
+
+        # Existing downstream scripts already use Stage-A
+        # predicted_label as their KEEP / NOISE filter.
+        #
+        # Therefore we make predicted_label the operational
+        # production decision while preserving raw values above.
+
+        stage_a[
+            "predicted_label"
+        ] = operational_label
+
+        stage_a[
+            "operational_label"
+        ] = operational_label
+
+        stage_a[
+            "operational_decision"
+        ] = (
+            "KEEP"
+            if operational_label
+            == "KEEP"
+            else "FILTER_NOISE"
+        )
+
+        stage_a[
+            "operational_override_applied"
+        ] = bool(
+            override_reason
+        )
+
+        stage_a[
+            "operational_override_reason"
+        ] = override_reason
+
+        relevance[
+            "stage_a"
+        ] = stage_a
+
+        ml_payload[
+            "supervisory_relevance"
+        ] = relevance
+
+        analysis[
+            "ml"
+        ] = ml_payload
+
+        comparison = (
+            analysis.setdefault(
+                "supervisory_comparison",
+                {},
+            )
+        )
+
+        comparison[
+            "production_policy"
+        ] = {
+            "policy_version": (
+                POLICY_VERSION
+            ),
+            "raw_stage_a_label": (
+                raw_label
+            ),
+            "raw_stage_a_confidence": (
+                raw_confidence
+            ),
+            "operational_label": (
+                operational_label
+            ),
+            "operational_decision": (
+                "KEEP"
+                if operational_label
+                == "KEEP"
+                else "FILTER_NOISE"
+            ),
+            "override_applied": bool(
+                override_reason
+            ),
+            "override_reason": (
+                override_reason
+            ),
+            "stage1_decision": (
+                stage1_decision
+            ),
+            "financial_score": (
+                financial_score
+            ),
+            "pr_score": (
+                pr_score
+            ),
+            "entities": sorted(
+                names
+            ),
+        }
+
+        if override_reason:
+
+            comparison[
+                "overall_review_priority"
+            ] = "HIGH"
+
+        _write_json(
+            analysis_path,
+            analysis,
+        )
+
+        manifest_item[
+            "raw_stage_a_prediction"
+        ] = raw_label
+
+        manifest_item[
+            "stage_a_prediction"
+        ] = operational_label
+
+        manifest_item[
+            "operational_stage_a_prediction"
+        ] = operational_label
+
+        manifest_item[
+            "production_override_reason"
+        ] = override_reason
+
+        raw_counts[
+            raw_label
+        ] += 1
+
+        operational_counts[
+            operational_label
+        ] += 1
+
+        if override_reason:
+
+            override_counts[
+                override_reason
+            ] += 1
+
+    summary = {
+        "policy_version": (
+            POLICY_VERSION
+        ),
+        "human_gold_approved_rows": (
+            gold[
+                "approved_count"
+            ]
+        ),
+        "raw_stage_a_distribution": dict(
+            sorted(
+                raw_counts.items()
+            )
+        ),
+        "operational_stage_a_distribution": dict(
+            sorted(
+                operational_counts.items()
+            )
+        ),
+        "override_distribution": dict(
+            sorted(
+                override_counts.items()
+            )
+        ),
+    }
+
+    manifest[
+        "production_policy"
+    ] = summary
+
+    _write_json(
+        manifest_path,
+        manifest,
+    )
+
+    return summary
+
+
+# =============================================================================
+# STAGED ARTICLE INDEX
+# =============================================================================
+
+
+def _window_dates(
+    end_date: str,
+    days: int,
+) -> set[str]:
+
+    end = (
+        datetime.strptime(
+            end_date,
+            "%Y-%m-%d",
+        )
+        .date()
+    )
+
+    return {
+        (
+            end
+            - timedelta(
+                days=i
+            )
+        ).isoformat()
+
+        for i
+        in range(
+            max(
+                1,
+                int(
+                    days
+                ),
+            )
+        )
+    }
+
+
+def _staged_index(
+    end_date: str,
+    days: int,
+) -> dict:
+
+    root = (
+        PROJECT_ROOT
+        / "data"
+        / "staged"
+    )
+
+    wanted = (
+        _window_dates(
+            end_date,
+            days,
+        )
+    )
+
+    index = {}
+
+    if not root.exists():
+        return index
+
+    for source_dir in (
+        root.iterdir()
+    ):
+
+        if not source_dir.is_dir():
+            continue
+
+        for day in wanted:
+
+            date_root = (
+                source_dir
+                / day
+            )
+
+            if not date_root.exists():
+                continue
+
+            for path in (
+                date_root.rglob(
+                    "*.json"
+                )
+            ):
+
+                try:
+
+                    payload = (
+                        _load_json(
+                            path
+                        )
+                    )
+
+                except Exception:
+
+                    continue
+
+                source_url = str(
+                    payload.get(
+                        "source_url",
+                        "",
+                    )
+                    or ""
+                ).strip()
+
+                canonical_url = str(
+                    payload.get(
+                        "canonical_url",
+                        "",
+                    )
+                    or ""
+                ).strip()
+
+                try:
+
+                    version = int(
+                        payload.get(
+                            "article_version",
+                            0,
+                        )
+                        or 0
+                    )
+
+                except (
+                    TypeError,
+                    ValueError,
+                ):
+
+                    version = 0
+
+                record = {
+                    "payload": (
+                        payload
+                    ),
+                    "version": (
+                        version
+                    ),
+                    "path": (
+                        path
+                    ),
+                }
+
+                for key in {
+                    source_url,
+                    canonical_url,
+                }:
+
+                    if not key:
+                        continue
+
+                    previous = (
+                        index.get(
+                            key
+                        )
+                    )
+
+                    if (
+                        previous
+                        is None
+
+                        or version
+                        >= previous[
+                            "version"
+                        ]
+                    ):
+
+                        index[
+                            key
+                        ] = record
+
+    return index
+
+
+# =============================================================================
+# TAXONOMY EVIDENCE GATE
+# =============================================================================
+
+
+def _topics(
+    value: Any,
+) -> list[str]:
+
+    if isinstance(
+        value,
+        str,
+    ):
+
+        return [
+            part.strip().upper()
+
+            for part
+            in value.split(
+                ";"
+            )
+
+            if part.strip()
+        ]
+
+    return [
+        str(
+            part
+            or ""
+        ).strip().upper()
+
+        for part
+        in (
+            value
+            or []
+        )
+
+        if str(
+            part
+            or ""
+        ).strip()
+    ]
+
+
+def apply_taxonomy_evidence_policy(
+    target_date: str,
+    days: int,
+) -> dict:
+
+    root = (
+        PROJECT_ROOT
+        / "data"
+        / "processed"
+        / "taxonomy"
+        / target_date
+        / f"window_{int(days)}d"
+    )
+
+    json_path = (
+        root
+        / "article_taxonomy.json"
+    )
+
+    csv_path = (
+        root
+        / "article_taxonomy.csv"
+    )
+
+    manifest_path = (
+        root
+        / "taxonomy_manifest.json"
+    )
+
+    if not json_path.exists():
+
+        raise RuntimeError(
+            "Taxonomy JSON missing: "
+            f"{json_path}"
+        )
+
+    payload = _load_json(
+        json_path
+    )
+
+    staged = _staged_index(
+        target_date,
+        days,
+    )
+
+    suppression_counts = (
+        Counter()
+    )
+
+    suppressed_articles = 0
+
+    by_url = {}
+
+    for item in (
+        payload.get(
+            "articles",
+            [],
+        )
+        or []
+    ):
+
+        url = str(
+            item.get(
+                "source_url",
+                "",
+            )
+            or ""
+        ).strip()
+
+        staged_row = (
+            staged.get(
+                url
+            )
+        )
+
+        article_text = ""
+
+        if staged_row:
+
+            article_text = str(
+                staged_row[
+                    "payload"
+                ].get(
+                    "article_text",
+                    "",
+                )
+                or ""
+            )
+
+        labels = _topics(
+            item.get(
+                "topic_labels"
+            )
+        )
+
+        primary = _upper(
+            item.get(
+                "primary_topic"
+            )
+        )
+
+        kept = []
+
+        suppressions = []
+
+        for topic in labels:
+
+            pattern = (
+                TOPIC_EVIDENCE_PATTERNS.get(
+                    topic
+                )
+            )
+
+            if pattern is None:
+
+                kept.append(
+                    topic
+                )
+
+                continue
+
+            # If source text is missing, retain conservatively.
+
+            if not article_text.strip():
+
+                kept.append(
+                    topic
+                )
+
+                suppressions.append(
+                    {
+                        "topic": (
+                            topic
+                        ),
+                        "action": (
+                            "RETAINED"
+                        ),
+                        "reason": (
+                            "SOURCE_TEXT_UNAVAILABLE_FOR_EVIDENCE_GATE"
+                        ),
+                    }
+                )
+
+                continue
+
+            if pattern.search(
+                article_text
+            ):
+
+                kept.append(
+                    topic
+                )
+
+            else:
+
+                suppressions.append(
+                    {
+                        "topic": (
+                            topic
+                        ),
+                        "action": (
+                            "SUPPRESSED"
+                        ),
+                        "reason": (
+                            "NO_DIRECT_SOURCE_TEXT_EVIDENCE"
+                        ),
+                    }
+                )
+
+                suppression_counts[
+                    topic
+                ] += 1
+
+        # Stable de-duplication.
+
+        kept = list(
+            dict.fromkeys(
+                kept
+            )
+        )
+
+        if not kept:
+
+            kept = [
+                "OTHER_SUPERVISORY"
+            ]
+
+        if primary not in kept:
+
+            primary = (
+                kept[
+                    0
+                ]
+            )
+
+        item[
+            "primary_topic"
+        ] = primary
+
+        item[
+            "topic_labels"
+        ] = kept
+
+        item[
+            "topic_evidence_policy"
+        ] = (
+            "DIRECT_SOURCE_TEXT_REQUIRED_FOR_NARROW_TOPICS"
+        )
+
+        item[
+            "topic_suppressions"
+        ] = suppressions
+
+        if any(
+            row.get(
+                "action"
+            )
+            == "SUPPRESSED"
+
+            for row
+            in suppressions
+        ):
+
+            suppressed_articles += 1
+
+        if url:
+
+            by_url[
+                url
+            ] = item
+
+    summary = {
+        "policy_version": (
+            "taxonomy-evidence-v1"
+        ),
+        "article_suppression_count": (
+            suppressed_articles
+        ),
+        "suppressed_label_distribution": dict(
+            sorted(
+                suppression_counts.items()
+            )
+        ),
+    }
+
+    payload[
+        "evidence_policy"
+    ] = summary
+
+    _write_json(
+        json_path,
+        payload,
+    )
+
+    # Keep CSV synchronized.
+
+    if csv_path.exists():
+
+        with csv_path.open(
+            "r",
+            newline="",
+            encoding="utf-8-sig",
+        ) as file:
+
+            reader = (
+                csv.DictReader(
+                    file
+                )
+            )
+
+            rows = list(
+                reader
+            )
+
+            fieldnames = list(
+                reader.fieldnames
+                or []
+            )
+
+        for field in (
+            "topic_suppressions",
+            "topic_evidence_policy",
+        ):
+
+            if field not in fieldnames:
+
+                fieldnames.append(
+                    field
+                )
+
+        for row in rows:
+
+            item = by_url.get(
+                str(
+                    row.get(
+                        "source_url",
+                        "",
+                    )
+                    or ""
+                ).strip()
+            )
+
+            if not item:
+                continue
+
+            row[
+                "primary_topic"
+            ] = item.get(
+                "primary_topic",
+                "",
+            )
+
+            row[
+                "topic_labels"
+            ] = "; ".join(
+                item.get(
+                    "topic_labels",
+                    [],
+                )
+                or []
+            )
+
+            row[
+                "topic_suppressions"
+            ] = json.dumps(
+                item.get(
+                    "topic_suppressions",
+                    [],
+                )
+                or [],
+                ensure_ascii=False,
+            )
+
+            row[
+                "topic_evidence_policy"
+            ] = item.get(
+                "topic_evidence_policy",
+                "",
+            )
+
+        with csv_path.open(
+            "w",
+            newline="",
+            encoding="utf-8-sig",
+        ) as file:
+
+            writer = (
+                csv.DictWriter(
+                    file,
+                    fieldnames=(
+                        fieldnames
+                    ),
+                    extrasaction=(
+                        "ignore"
+                    ),
+                )
+            )
+
+            writer.writeheader()
+
+            writer.writerows(
+                rows
+            )
+
+    if manifest_path.exists():
+
+        manifest = _load_json(
+            manifest_path
+        )
+
+        manifest[
+            "taxonomy_evidence_policy"
+        ] = summary
+
+        _write_json(
+            manifest_path,
+            manifest,
+        )
+
+    return summary
+
+
+# =============================================================================
+# HUMAN REVIEW / SEED FILE
+# =============================================================================
+
+
+def _recommendation(
+    headline: str,
+) -> tuple[
+    str,
+    str,
+    str,
+]:
+
+    headline = str(
+        headline
+        or ""
+    ).lower()
+
+    if (
+        "financial literacy central to country"
+        in headline
+
+        and "cbsl governor"
+        in headline
+    ):
+
+        return (
+            "RELEVANT",
+            "OTHER_SUPERVISORY",
+            (
+                "Advisory only: direct CBSL Governor "
+                "/ financial-policy context."
+            ),
+        )
+
+    if (
+        "financial stability review"
+        in headline
+    ):
+
+        return (
+            "RELEVANT",
+            "MACRO_FINANCIAL_SYSTEMIC",
+            (
+                "Advisory only: direct "
+                "financial-stability publication."
+            ),
+        )
+
+    if (
+        "bond market activity"
+        in headline
+    ):
+
+        return (
+            "WATCH",
+            "MARKET_RATE_FX_RISK",
+            (
+                "Advisory only: market-rate "
+                "monitoring context."
+            ),
+        )
+
+    if (
+        "cse opens week in red"
+        in headline
+    ):
+
+        return (
+            "NOISE",
+            "NOT_APPLICABLE",
+            (
+                "Advisory only: routine "
+                "daily market movement."
+            ),
+        )
+
+    if (
+        "tax exemptions for residential real estate"
+        in headline
+
+        and "port city"
+        in headline
+    ):
+
+        return (
+            "NOISE",
+            "NOT_APPLICABLE",
+            (
+                "Advisory only: no direct "
+                "banking/supervisory link identified."
+            ),
+        )
+
+    if (
+        "geopolitics"
+        in headline
+
+        and "stock trading"
+        in headline
+    ):
+
+        return (
+            "WATCH",
+            "MARKET_RATE_FX_RISK",
+            (
+                "Advisory only: market context, "
+                "not core prudential supervision."
+            ),
+        )
+
+    return (
+        "",
+        "",
+        "",
+    )
+
+
+def export_seed_candidates(
+    target_date: str,
+    days: int,
+) -> dict:
+
+    ml_manifest_path = (
+        PROJECT_ROOT
+        / "data"
+        / "processed"
+        / "ml"
+        / target_date
+        / "ml_manifest.json"
+    )
+
+    taxonomy_path = (
+        PROJECT_ROOT
+        / "data"
+        / "processed"
+        / "taxonomy"
+        / target_date
+        / f"window_{int(days)}d"
+        / "article_taxonomy.json"
+    )
+
+    ml_manifest = _load_json(
+        ml_manifest_path
+    )
+
+    taxonomy_by_url = {}
+
+    if taxonomy_path.exists():
+
+        taxonomy = _load_json(
+            taxonomy_path
+        )
+
+        for item in (
+            taxonomy.get(
+                "articles",
+                [],
+            )
+            or []
+        ):
+
+            url = str(
+                item.get(
+                    "source_url",
+                    "",
+                )
+                or ""
+            ).strip()
+
+            if url:
+
+                taxonomy_by_url[
+                    url
+                ] = item
+
+    staged = _staged_index(
+        target_date,
+        days,
+    )
+
+    out_root = (
+        PROJECT_ROOT
+        / "data"
+        / "training"
+        / "human_gold"
+    )
+
+    out_root.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    gold_path = (
+        out_root
+        / "supervisory_review_gold.csv"
+    )
+
+    gold_fields = [
+        "publication_date",
+        "source_name",
+        "headline",
+        "source_url",
+        "article_text",
+        "human_relevance_label",
+        "human_topic_labels",
+        "reviewer",
+        "review_status",
+        "approved_for_training",
+        "human_notes",
+        "reviewed_at",
+    ]
+
+    # Create empty permanent human-gold file if not present.
+    # NEVER populate it automatically.
+
+    if not gold_path.exists():
+
+        with gold_path.open(
+            "w",
+            newline="",
+            encoding="utf-8-sig",
+        ) as file:
+
+            writer = (
+                csv.DictWriter(
+                    file,
+                    fieldnames=(
+                        gold_fields
+                    ),
+                )
+            )
+
+            writer.writeheader()
+
+    candidate_fields = [
+        "publication_date",
+        "source_name",
+        "headline",
+        "source_url",
+        "article_text",
+
+        "stage1_decision",
+        "stage1_financial_score",
+        "stage1_pr_score",
+
+        "raw_stage_a_label",
+        "operational_stage_a_label",
+        "stage_a_confidence",
+
+        "stage_b_label",
+        "stage_b_confidence",
+
+        "production_override_reason",
+
+        "taxonomy_primary_topic",
+        "taxonomy_topic_labels",
+
+        "recommended_human_relevance",
+        "recommended_topic_labels",
+        "recommendation_notes",
+
+        "human_relevance_label",
+        "human_topic_labels",
+        "reviewer",
+        "review_status",
+        "approved_for_training",
+        "human_notes",
+    ]
+
+    rows = []
+
+    for manifest_item in (
+        ml_manifest.get(
+            "articles",
+            [],
+        )
+        or []
+    ):
+
+        analysis_path = (
+            _resolve_project_path(
+                manifest_item.get(
+                    "analysis_file"
+                )
+            )
+        )
+
+        analysis = _load_json(
+            analysis_path
+        )
+
+        url = str(
+            analysis.get(
+                "source_url",
+                "",
+            )
+            or ""
+        ).strip()
+
+        headline = str(
+            analysis.get(
+                "headline",
+                "",
+            )
+            or ""
+        ).strip()
+
+        stage1 = (
+            analysis.get(
+                "stage1",
+                {},
+            )
+            or {}
+        )
+
+        relevance = (
+            (
+                analysis.get(
+                    "ml",
+                    {},
+                )
+                or {}
+            ).get(
+                "supervisory_relevance",
+                {},
+            )
+            or {}
+        )
+
+        stage_a = (
+            relevance.get(
+                "stage_a",
+                {},
+            )
+            or {}
+        )
+
+        stage_b = (
+            relevance.get(
+                "stage_b",
+                {},
+            )
+            or {}
+        )
+
+        comparison = (
+            analysis.get(
+                "supervisory_comparison",
+                {},
+            )
+            or {}
+        )
+
+        production_policy = (
+            comparison.get(
+                "production_policy",
+                {},
+            )
+            or {}
+        )
+
+        taxonomy = (
+            taxonomy_by_url.get(
+                url,
+                {},
+            )
+        )
+
+        staged_row = (
+            staged.get(
+                url
+            )
+        )
+
+        article_text = ""
+
+        if staged_row:
+
+            article_text = str(
+                staged_row[
+                    "payload"
+                ].get(
+                    "article_text",
+                    "",
+                )
+                or ""
+            )
+
+        (
+            recommended_relevance,
+            recommended_topics,
+            recommendation_notes,
+        ) = (
+            _recommendation(
+                headline
+            )
+        )
+
+        rows.append(
+            {
+                "publication_date": (
+                    analysis.get(
+                        "publication_date",
+                        target_date,
+                    )
+                ),
+
+                "source_name": (
+                    analysis.get(
+                        "source_name",
+                        "",
+                    )
+                ),
+
+                "headline": (
+                    headline
+                ),
+
+                "source_url": (
+                    url
+                ),
+
+                "article_text": (
+                    article_text
+                ),
+
+                "stage1_decision": (
+                    stage1.get(
+                        "gate_decision",
+                        "",
+                    )
+                ),
+
+                "stage1_financial_score": (
+                    stage1.get(
+                        "financial_relevance_score",
+                        "",
+                    )
+                ),
+
+                "stage1_pr_score": (
+                    stage1.get(
+                        "pr_noise_score",
+                        "",
+                    )
+                ),
+
+                "raw_stage_a_label": (
+                    stage_a.get(
+                        "raw_predicted_label",
+                        "",
+                    )
+                ),
+
+                "operational_stage_a_label": (
+                    stage_a.get(
+                        "predicted_label",
+                        "",
+                    )
+                ),
+
+                "stage_a_confidence": (
+                    stage_a.get(
+                        "raw_confidence",
+                        stage_a.get(
+                            "confidence",
+                            "",
+                        ),
+                    )
+                ),
+
+                "stage_b_label": (
+                    stage_b.get(
+                        "predicted_label",
+                        "",
+                    )
+                ),
+
+                "stage_b_confidence": (
+                    stage_b.get(
+                        "confidence",
+                        "",
+                    )
+                ),
+
+                "production_override_reason": (
+                    production_policy.get(
+                        "override_reason",
+                        "",
+                    )
+                ),
+
+                "taxonomy_primary_topic": (
+                    taxonomy.get(
+                        "primary_topic",
+                        "",
+                    )
+                ),
+
+                "taxonomy_topic_labels": (
+                    "; ".join(
+                        taxonomy.get(
+                            "topic_labels",
+                            [],
+                        )
+                        or []
+                    )
+                ),
+
+                "recommended_human_relevance": (
+                    recommended_relevance
+                ),
+
+                "recommended_topic_labels": (
+                    recommended_topics
+                ),
+
+                "recommendation_notes": (
+                    recommendation_notes
+                ),
+
+                # Human fields are deliberately empty.
+                "human_relevance_label": "",
+                "human_topic_labels": "",
+                "reviewer": "",
+
+                "review_status": (
+                    "PENDING_HUMAN_REVIEW"
+                ),
+
+                "approved_for_training": (
+                    "FALSE"
+                ),
+
+                "human_notes": "",
+            }
+        )
+
+    candidate_path = (
+        out_root
+        / f"seed_candidates_{target_date}.csv"
+    )
+
+    with candidate_path.open(
+        "w",
+        newline="",
+        encoding="utf-8-sig",
+    ) as file:
+
+        writer = (
+            csv.DictWriter(
+                file,
+                fieldnames=(
+                    candidate_fields
+                ),
+                extrasaction=(
+                    "ignore"
+                ),
+            )
+        )
+
+        writer.writeheader()
+
+        writer.writerows(
+            rows
+        )
+
+    return {
+        "candidate_file": (
+            str(
+                candidate_path
+            )
+        ),
+        "gold_file": (
+            str(
+                gold_path
+            )
+        ),
+        "candidate_rows": (
+            len(
+                rows
+            )
+        ),
+    }

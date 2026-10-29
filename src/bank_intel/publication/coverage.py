@@ -7,6 +7,8 @@ REQUIRED_SURFACES={
     'The Island': {'business','news','homepage'},
     'NewsFirst': {'latestpaginated','local','world','business','homepage'},
     'Ceylon Today': {'daily_finance','sunday_finance','homepage'},
+    'EconomyNext': {'wordpressapi'},
+    'EconomyNews': {'wordpressapi'},
 }
 
 

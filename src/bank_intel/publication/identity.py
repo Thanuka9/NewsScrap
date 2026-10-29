@@ -12,7 +12,22 @@ SOURCES = {
  'The Island': ('island.lk',),
  'NewsFirst': ('newsfirst.lk',),
  'Ceylon Today': ('ceylontoday.lk',),
+ 'EconomyNext': ('economynext.com',),
+ 'EconomyNews': ('economynews.lk',),
 }
+
+SOURCE_KEYS = {
+ 'Daily FT': 'daily_ft', 'Daily Mirror': 'daily_mirror', 'Daily News': 'daily_news',
+ 'The Morning': 'the_morning', 'The Island': 'island', 'NewsFirst': 'newsfirst',
+ 'Ceylon Today': 'ceylon_today', 'EconomyNext': 'economynext', 'EconomyNews': 'economynews',
+}
+SOURCE_START_DATES = {'EconomyNext': '2026-10-29', 'EconomyNews': '2026-10-29'}
+
+
+def sources_for_date(report_date) -> dict:
+ """Coverage obligations at the edition date; preserve historical replays."""
+ return {name: domains for name, domains in SOURCES.items()
+         if str(report_date)[:10] >= SOURCE_START_DATES.get(name, '0001-01-01')}
 
 
 def canonical(url: str) -> str:

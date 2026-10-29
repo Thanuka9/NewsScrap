@@ -28,6 +28,17 @@ def write_json(path: Path, obj: dict) -> None:
     atomic_json(path, obj)
 
 
+def snapshot_source_statuses(statuses: Path, destination: Path, target: str) -> None:
+    """Freeze the active publisher evidence, without copying retry archives."""
+    from bank_intel.publication.identity import SOURCE_KEYS, sources_for_date
+    destination.mkdir(parents=True, exist_ok=True)
+    for name in sources_for_date(target):
+        source = statuses/(SOURCE_KEYS[name]+'.json')
+        if source.is_file():
+            shutil.copyfile(source, destination/source.name)
+        # A missing source remains missing so coverage fails closed.
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser()
     p.add_argument('--date', required=True)
@@ -85,7 +96,8 @@ def main(argv=None) -> int:
     for original_input,filename in ((merged_audit,'audit.json'),(merged_inventory,'inventory.csv')):
         shutil.copyfile(original_input,inputs/filename)
     merged_audit=inputs/'audit.json';merged_inventory=inputs/'inventory.csv'
-    frozen_statuses=inputs/'source_status';shutil.copytree(statuses,frozen_statuses)
+    frozen_statuses=inputs/'source_status'
+    snapshot_source_statuses(statuses, frozen_statuses, date)
     if review.is_file():
         shutil.copyfile(review,inputs/'editorial_decisions.csv');review=inputs/'editorial_decisions.csv'
     manifest,preview=build(

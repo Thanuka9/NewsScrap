@@ -2,6 +2,7 @@ version: generic-source-v1
 sources:
   newsfirst:
     name: NewsFirst
+    article_body_selector: .new_details
     section_name: Multi-section
     listing_url: https://english.newsfirst.lk/business
     enabled: true
@@ -24,6 +25,9 @@ sources:
       listing_prefer_browser: true
       # Upper bound only: paging normally stops at two pages of older dated URLs.
       pagination_click_pages: 30
+      # These featured panels repeat unchanged on every archive page.
+      # Keep their articles, but date-boundary checks use the scrolling list.
+      pagination_date_exclude_selectors: ['.local_news', '.border-right-local']
     - name: Local
       url: https://english.newsfirst.lk/local
       listing_prefer_browser: false
@@ -90,3 +94,38 @@ sources:
     - name: Homepage
       url: https://dailynews.lk/
       listing_prefer_browser: true
+  economynext:
+    name: EconomyNext
+    section_name: All posts
+    listing_url: https://economynext.com/wp-json/wp/v2/posts
+    enabled: true
+    status: ACTIVE
+    production_approved: true
+    # Articles come from the publisher's WordPress API record (title, exact
+    # GMT time, full content); the site's HTML carries a widget that page
+    # scraping mistakes for the article body.
+    minimum_article_words: 60
+    exclude_url_patterns:
+    - /category/
+    - /tag/
+    - /author/
+    listing_urls:
+    - name: WordPressAPI
+      url: https://economynext.com/wp-json/wp/v2/posts
+      type: wordpress_api
+  economynews:
+    name: EconomyNews
+    section_name: All posts
+    listing_url: https://economynews.lk/wp-json/wp/v2/posts
+    enabled: true
+    status: ACTIVE
+    production_approved: true
+    minimum_article_words: 60
+    exclude_url_patterns:
+    - /category/
+    - /tag/
+    - /author/
+    listing_urls:
+    - name: WordPressAPI
+      url: https://economynews.lk/wp-json/wp/v2/posts
+      type: wordpress_api

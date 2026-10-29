@@ -3,7 +3,7 @@ import csv
 import hashlib
 import json
 from pathlib import Path
-from .identity import SOURCES, canonical
+from .identity import sources_for_date, canonical
 from .ledger import validate_outputs
 from .coverage import missing_surfaces, open_issues
 
@@ -28,7 +28,7 @@ def audit_release(*, report, manifest_path, inventory, coverage, out, report_dat
     try:
         verified = json.loads(coverage.read_text(encoding='utf-8-sig'))
         if verified.get('report_date') != report_date:raise ValueError('Coverage date mismatch')
-        for source in SOURCES:
+        for source in sources_for_date(report_date):
             evidence = verified.get('publishers', {}).get(source, {})
             if (evidence.get('status') != 'VERIFIED' or not evidence.get('reviewer')
                     or not evidence.get('reviewed_at') or not evidence.get('evidence')

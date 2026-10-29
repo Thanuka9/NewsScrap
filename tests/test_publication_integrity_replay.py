@@ -207,7 +207,8 @@ def test_clean_future_release_approval_and_post_send_register(tmp_path):
     with inventory.open('w',newline='') as stream:
         writer=csv.DictWriter(stream,fieldnames=list(row));writer.writeheader();writer.writerow(row)
     statuses=tmp_path/'source_status';statuses.mkdir()
-    names={'Daily FT':'daily_ft','Daily Mirror':'daily_mirror','Daily News':'daily_news','The Morning':'the_morning','The Island':'island','NewsFirst':'newsfirst','Ceylon Today':'ceylon_today'}
+    from bank_intel.publication.identity import SOURCE_KEYS
+    names=SOURCE_KEYS
     evidence={}
     for publisher,key in names.items():
         surfaces=sorted(REQUIRED_SURFACES[publisher])

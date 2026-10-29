@@ -4,6 +4,7 @@ import re
 from .identity import event_signature
 from .evidence import evidence_issues
 from .materiality import material_context
+from .editorial_rules import nontransactional_bank_visit
 
 BLOCK_POLITICS = re.compile(r'(?i)\b(?:constitution|remanded|monks|religious|gnanasara|ethnic|bodu bala|wildlife|surveyors|sustainable solutions to emotive)\b')
 FINANCIAL_REGULATOR = re.compile(r'(?i)\b(?:central bank|cbsl|financial intelligence unit|bank supervision|resolution framework|banking act|prudential|capital adequacy|deposit insurance|anti.money laundering|money laundering|aml|fatf|bank fraud|banking fraud|banking scam|fake bank|banking credentials|customer bank accounts)\b')
@@ -19,6 +20,8 @@ NBFI = re.compile(r'(?i)\b(?:nbfis?|finance compan\w*|non.bank\w*|leasing compan
 ASSET_QUALITY = re.compile(r'(?i)\b(?:stage.?[23]|npls?|non.performing|impair\w*|arrears|high.risk|defaults?|delinquen\w*)\b')
 BANK_TYPES = ('LICENSED_COMMERCIAL_BANK','LICENSED_SPECIALISED_BANK')
 NONBANK_TYPES = ('LICENSED_FINANCE_COMPANY','FINANCIAL_GROUP','INSURER')
+# Payment systems, not any sum being paid ('Rs. 275 m payment' in a court case).
+PAYMENTS = re.compile(r'(?i)\b(?:payment (?:systems?|services?|platforms?|apps?|gateways?|experience|acceptance|adoption|cards?)|digital payments?|indian payments?|cross.border payments?|qr|lankaqr|lankapay|webxpay|fintech|digital wallets?|card schemes?)\b')
 LEGAL = re.compile(r'(?i)\b(?:court|lawsuit|false statements|legal action|indict\w*|fraud|governance)\b')
 
 
@@ -54,9 +57,11 @@ def decide(r: dict) -> dict:
          'source_section':r.get('section',''), 'event_signature': event_signature(r)}
  issues=evidence_issues(r)
  result['evidence_issues']=issues
+ if nontransactional_bank_visit(r):
+  result['reason']='NONTRANSACTIONAL_BANK_COURTESY_MEETING';return result
  if BLOCK_POLITICS.search(h) and not re.search(r'banking act|financial system|treasury surplus|fiscal revenue',h,re.I):
   result['reason']='POLITICAL_NONFINANCIAL';return result
- if re.search(r'award|best bank by|children.s day|anniversary celebration|honour|sponsor|quiz|contest|competition|shines at|triumphs at',h,re.I) and not re.search(r'fine|penalty|regulatory breach|fraud|cyber',h,re.I):
+ if re.search(r'award|best bank by|children.s day|anniversary celebration|honour|sponsor|quiz|contest|competition|shines at|triumphs at|\bstaff athletics\b',h,re.I) and not re.search(r'fine|penalty|regulatory breach|fraud|cyber',h,re.I):
   result['reason']='LOW_MATERIALITY_PROMOTIONAL';return result
  # Supervisory headline requires a material action, not just mentioning CBSL in macro commentary.
  # The verified event signature is narrower than generic source keywords.
@@ -85,8 +90,10 @@ def decide(r: dict) -> dict:
  elif explicitly_attributed_bank_risk:
   result.update(decision='INCLUDE',section='KEY_BANKING_SUPERVISORY',
     category='BANK_RISK_GOVERNANCE',importance='HIGH',reason='BANK_RISK_IDENTIFIED_IN_LEAD')
+ elif local_bank and re.search(r'(?i)\b(?:appoint\w*|joins?|resigns?|steps down)\b',h) and re.search(r'(?i)\b(?:board|directors?|chairman|chairperson|chief executive|ceo)\b',h):
+  result.update(decision='INCLUDE',section='KEY_BANKING_SUPERVISORY',category='BANK_GOVERNANCE',importance='HIGH',reason='BANK_BOARD_OR_EXECUTIVE_CHANGE')
  elif local_bank or DIRECT_BANK.search(h):
-  is_material=bool(re.search(r'\b(?:earnings|profit|pat|results|quarter|3q|q3|debenture|capital|fraud|cyber|nonperforming|rating|governance)\b',h,re.I))
+  is_material=bool(re.search(r'\b(?:earnings|profit|pat|results|quarter|3q|q3|debentures?|capital|fraud|cyber|nonperforming|ratings?|governance|debt issue|bond issue|tier 2|tier ii|basel|subordinated|oversubscri\w*)\b',h,re.I) or re.search(r'(?i)\b(?:fitch|moody.s|s&p)\s+rates\b',h))
   result.update(decision='INCLUDE',section=('KEY_BANKING_SUPERVISORY' if is_material else 'BANKING_SECTOR_DEVELOPMENTS'),category=('BANK_CAPITAL_RISK' if is_material else 'BANKING_DEVELOPMENTS'),importance=('HIGH' if is_material else 'MEDIUM'),reason='DIRECT_BANK_HEADLINE')
  elif re.search(r'\b(?:cse watch list|watch list move|auditor.s disclaimer|related.party deal|listed share acquisition)\b',h,re.I):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='CAPITAL_MARKETS_GOVERNANCE',importance='MEDIUM',reason='MATERIAL_LISTED_MARKET_DEVELOPMENT')
@@ -98,13 +105,15 @@ def decide(r: dict) -> dict:
   result.update(decision='REVIEW',section='OTHER_FINANCIAL_SECTOR',category='FINANCIAL_GROUP_LEGAL_GOVERNANCE',importance='MEDIUM',reason='LEGAL_REPUTATIONAL_FINANCIAL_GROUP_REVIEW')
  elif nonbank and re.search(r'(?i)\b(?:branch\w*|footprint|outlets?|expan\w*)\b',h):
   result.update(decision='REVIEW',section='OTHER_FINANCIAL_SECTOR',category='REGULATED_FINANCE',importance='LOW',reason='REGULATED_FINANCE_COMPANY_EXPANSION_REVIEW')
+ elif not nonbank and PAYMENTS.search(h):
+  result.update(decision='INCLUDE',section='BANKING_SECTOR_DEVELOPMENTS',category='PAYMENTS_FINTECH',importance='MEDIUM',reason='PAYMENT_SYSTEM_HEADLINE')
  elif nonbank or OTHER_FIN.search(h):
   result.update(decision='INCLUDE',section='OTHER_FINANCIAL_SECTOR',category='REGULATED_FINANCE',importance='MEDIUM',reason='FINANCIAL_SECTOR_HEADLINE')
  elif re.search(r'(?i)\bfitch\b',h) and re.search(r'(?i)\b(?:national ratings?|sovereign upgrade|rating scale|rating recalibration)\b',h):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',
     category='CREDIT_RATINGS',importance='MEDIUM',reason='MATERIAL_RATING_DEVELOPMENT')
  elif re.search(r'(?i)\b(?:Sri Lanka CERT|SLCERT|CERT|vulnerabilit\w*|cyber.?security alert|ransomware|data breach)\b',h):
-  result.update(decision='REVIEW',section='BANKING_SECTOR_DEVELOPMENTS',
+  result.update(decision='REVIEW',section='KEY_BANKING_SUPERVISORY',
     category='CROSS_SECTOR_CYBER',importance='MEDIUM',reason='ASSESS_FINANCIAL_SECTOR_IMPACT')
  elif MARKET.search(h):
   result.update(decision='INCLUDE',section='MONETARY_MARKETS_EXTERNAL',category='MARKET_EXTERNAL',importance='MEDIUM',reason='FINANCIAL_MARKET_HEADLINE')

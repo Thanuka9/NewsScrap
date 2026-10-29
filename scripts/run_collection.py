@@ -57,6 +57,8 @@ REQUIRED_PRODUCTION_SOURCES = {
     "island",
     "newsfirst",
     "the_morning",
+    "economynext",
+    "economynews",
 }
 
 
@@ -246,6 +248,7 @@ def run_source(
     print()
 
     env = os.environ.copy()
+    env['PYTHONUNBUFFERED'] = '1'
 
     env[
         "BANK_INTEL_RUN_ID"
@@ -258,6 +261,7 @@ def run_source(
             cwd=PROJECT_ROOT,
             env=env,
             check=False,
+            timeout=int(source_config.get('timeout_seconds', 1200)),
         )
 
         return_code = (
@@ -375,6 +379,9 @@ def recover_partial_source(*, source_key: str, source_config: dict, run_id: str,
     before = _open_failures(result)
     if not before:
         return result
+    # Preserve the completed attempt even if a parent timeout kills recovery.
+    from bank_intel.common.source_status import write_source_status
+    write_source_status(source_key=source_key, payload=result)
     print(f"\n[PARTIAL RECOVERY] {source_key}: {before} failed page(s); retrying in {wait_seconds}s")
     time.sleep(wait_seconds)
     second = run_source(source_key=source_key, source_config=source_config, run_id=run_id)
@@ -913,4 +920,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    locked_main(main)

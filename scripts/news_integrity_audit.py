@@ -19,7 +19,8 @@ from urllib.parse import urlsplit,unquote
 PUBLISHERS={'ft.lk':'Daily FT','dailymirror.lk':'Daily Mirror','dailynews.lk':'Daily News',
             'themorning.lk':'The Morning','island.lk':'The Island',
             'english.newsfirst.lk':'NewsFirst','newsfirst.lk':'NewsFirst',
-            'ceylontoday.lk':'Ceylon Today','ceylontoday.lk':'Ceylon Today'}
+            'ceylontoday.lk':'Ceylon Today', 'economynext.com':'EconomyNext',
+            'economynews.lk':'EconomyNews'}
 STOP=set('a an as at and the in on by from for is to with of or it into its after more than new sri lanka bank banks said govt government their says'.split())
 KEY_TERMS=re.compile(r'(?i)\b(?:cbsl|central bank|prudential|supervisory|capital adequacy|liquidity|fraud|banking|\w+ bank|finance|financial|microfinance|micro-finance|debenture|fitch|moody|credit|bond|t.bill|treasury|policy rate|payment|qr|forex|remittance|aml|fiu|cyber|malware|scam|certificate|budget|tax|imf|world bank|adb|loan|deposit|audit|auditor|corporate governance|cse|securities|inflation|interest rate|external reserves|economy|tourism revenue)\b')
 HIGH_TERMS=re.compile(r'(?i)\b(?:cbsl|central bank|\w+ bank|finance company|finance plc|liquidity|fraud|cyber|scam|banking|debenture|fiu|aml|capital|depositor|resolution|impaired|loan|payment|foreign exchange|auditor|watch list|credit|reserves)\b')

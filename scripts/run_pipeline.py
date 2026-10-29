@@ -3,10 +3,12 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timedelta
 import json
+import os
 import re
 from pathlib import Path
 import subprocess
 from _runtime import run_process, locked_main
+from bank_intel.common.execution import run_logged_process
 import sys
 import time
 from zoneinfo import ZoneInfo
@@ -77,6 +79,10 @@ def parse_args() -> argparse.Namespace:
             "separately."
         ),
     )
+    parser.add_argument('--collection-timeout-seconds', type=int, default=7200,
+                        help='Total collector-stage time limit (default: 7200 seconds).')
+    parser.add_argument('--resume-final', action='store_true',
+                        help='Reuse verified Stage 1, ML, corpus and taxonomy; run final reporting only.')
 
     parser.add_argument(
         "--allow-empty",
@@ -104,21 +110,38 @@ def run_step(
     name: str,
     command: list[str],
     steps: list[dict],
-) -> None:
+    timeout: int = 3600,
+    review_exit: bool = False,
+) -> int:
     print()
     print("=" * 92)
     print(name)
     print("=" * 92)
-    print("Command:", " ".join(command))
+    print("Command:", " ".join(command), flush=True)
 
     started = time.perf_counter()
     started_at = datetime.now(SRI_LANKA_TZ)
+    log_path = PROJECT_ROOT/'data/logs/stages'/(
+        started_at.strftime('%Y%m%d_%H%M%S_%f')+'_'+re.sub(r'[^a-z0-9]+','_',name.lower()).strip('_')+'.log')
+    print('Stage log:', log_path, flush=True)
+    from bank_intel.common.reliability import atomic_json
+    state_path = PROJECT_ROOT/'data/runtime/current_step.json'
+    state = {'name': name, 'pid': os.getpid(), 'started_at': started_at.isoformat(),
+             'log_path': str(log_path), 'status': 'RUNNING', 'command': command}
+    atomic_json(state_path, state)
 
-    result = run_process(
-        command,
-        cwd=PROJECT_ROOT,
-        check=False,
-    )
+    try:
+        result = run_logged_process(command, cwd=PROJECT_ROOT, timeout=timeout,
+                                    log_path=log_path, runner=run_process)
+    except (Exception, KeyboardInterrupt) as exc:
+        failed = {'name': name, 'command': command, 'started_at': started_at.isoformat(),
+            'completed_at': datetime.now(SRI_LANKA_TZ).isoformat(),
+            'elapsed_seconds': round(time.perf_counter()-started, 3),
+            'return_code': None, 'status': 'TIMED_OUT' if isinstance(exc, subprocess.TimeoutExpired) else 'FAILED',
+            'timeout_seconds': timeout, 'error': str(exc), 'log_path': str(log_path)}
+        steps.append(failed)
+        atomic_json(state_path, {**state, **failed})
+        raise
 
     completed_at = datetime.now(SRI_LANKA_TZ)
     elapsed = time.perf_counter() - started
@@ -130,14 +153,20 @@ def run_step(
         "completed_at": completed_at.isoformat(),
         "elapsed_seconds": round(elapsed, 3),
         "return_code": result.returncode,
-        "status": "SUCCESS" if result.returncode == 0 else "FAILED",
+        "status": "SUCCESS" if result.returncode == 0 else "REVIEW_REQUIRED" if review_exit and result.returncode == 2 else "FAILED",
+        "log_path": str(log_path),
     }
     steps.append(step)
+    if result.returncode:
+        step['error_tail'] = result.output_tail
+    atomic_json(state_path, {**state, **step})
 
-    if result.returncode != 0:
+    if result.returncode != 0 and not (review_exit and result.returncode == 2):
         raise RuntimeError(
-            f"{name} failed with return code {result.returncode}."
+            f"{name} failed with return code {result.returncode}. Log: {log_path}\n"
+            + '\n'.join(result.output_tail[-12:])
         )
+    return result.returncode
 
 
 def validate_date(value: str) -> str:
@@ -682,6 +711,10 @@ def main() -> None:
         today=today,
     )
 
+    if args.resume_final:
+        from resume_final_edition import main as resume_final
+        raise SystemExit(resume_final(['--date', target_date, '--days', str(args.days)]))
+
     from bank_intel.publication.contract import sent_record
     if sent_record(PROJECT_ROOT, target_date):
         print('[ALREADY_SENT] Immutable edition retained. Use run_collection.py to collect later arrivals.')
@@ -745,6 +778,7 @@ def main() -> None:
                     str(COLLECTION_SCRIPT),
                 ],
                 steps=steps,
+                timeout=args.collection_timeout_seconds,
             )
         else:
             print()
@@ -981,9 +1015,9 @@ def main() -> None:
         )
 
         # NEWS_SOURCE_FRESHNESS_GATE_V1: block before final HTML is created.
-        from audit_news_flow import SOURCES, EXPECTED_SURFACES, iso_date
+        from audit_news_flow import source_keys_for_date, EXPECTED_SURFACES, iso_date
         gaps=[];recorded=[]
-        for source in SOURCES:
+        for source in source_keys_for_date(target_date):
             file=PROJECT_ROOT/'data'/'source_status'/f'{source}.json'
             if not file.is_file():
                 gaps.append('MISSING_SOURCE:'+source); continue
@@ -1106,26 +1140,17 @@ def main() -> None:
                           '--date', target_date, '--days', str(args.days),
                           '--project-root', str(PROJECT_ROOT)]
         print("\n=== INTEGRATED ARTICLE / MODEL / SENT / RELEASE GATE ===")
-        started_at=datetime.now(SRI_LANKA_TZ)
-        started=time.perf_counter()
-        integrated_result=run_process(integrated_cmd,cwd=PROJECT_ROOT,check=False)
-        steps.append({
-           'name':'INTEGRATED EDITION AND INDEPENDENT RELEASE GATE',
-           'command':integrated_cmd,'started_at':started_at.isoformat(),
-           'completed_at':datetime.now(SRI_LANKA_TZ).isoformat(),
-           'elapsed_seconds':round(time.perf_counter()-started,3),
-           'return_code':integrated_result.returncode,
-           'status':'SUCCESS' if integrated_result.returncode==0 else
-                     'REVIEW_REQUIRED' if integrated_result.returncode==2 else 'FAILED'})
-        if integrated_result.returncode == 2:
+        integrated_code=run_step(name='INTEGRATED EDITION AND INDEPENDENT RELEASE GATE',
+                                 command=integrated_cmd,steps=steps,review_exit=True)
+        if integrated_code == 2:
             final_status = 'REVIEW_REQUIRED'
             status_file=report_root/'integrated_release_result.json'
             error_message=('Independent editorial/coverage QA HOLD. See '+str(status_file))
             print('\nNEWS PIPELINE REVIEW REQUIRED — no sendable HTML generated')
             print(error_message)
             raise SystemExit(2)
-        if integrated_result.returncode != 0:
-            raise RuntimeError('Integrated release failed: '+str(integrated_result.returncode))
+        if integrated_code != 0:
+            raise RuntimeError('Integrated release failed: '+str(integrated_code))
         # The named and alias files are now generated only by integrated
         # release after independent QA; existing published locks remain.
         final_html = report_root / f"{brief_name}.html"

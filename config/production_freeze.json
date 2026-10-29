@@ -1,17 +1,17 @@
 {
   "freeze_version": "news-production-freeze-v2",
-  "created_at": "2026-10-29T09:42:48.283845+05:30",
-  "created_by": "Claude (for thanuka)",
-  "tests": "214 passed, 3 subtests passed in 27.87s",
+  "created_at": "2026-10-29T15:20:11.287203+05:30",
+  "created_by": "Codex",
+  "tests": "269 passed, 3 subtests passed in 78.51s (0:01:18)",
   "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
   "files": [
     {
       "path": "scripts\\run_pipeline.py",
-      "sha256": "848EFAC7888259EAD49CEF98F436011700FD495D1FB0FC27BA5D916CE00FF60B"
+      "sha256": "AD344EF6444C19F8FF417E600E8B67368C5FFC52FB8BCCB37C8DDEBBF9DC89F4"
     },
     {
       "path": "scripts\\run_collection.py",
-      "sha256": "6D488669C2AC5AFF709BBC3210585EFD27629CB27A130F845221322CBC47998E"
+      "sha256": "E42AC535B5DFEAC8C42A2C938406BE615637B9D0A12BD55BBCD502129FC60DBD"
     },
     {
       "path": "scripts\\run_intelligence_stage1.py",
@@ -35,19 +35,19 @@
     },
     {
       "path": "scripts\\recover_collection_gaps.py",
-      "sha256": "73F7513F1E75C478A167F68C7F265AE1C3770DB418A58307D5257104E505EF35"
+      "sha256": "DF5873E074CF377E202DC3D8E6C045AAB3E6E721DB8A4A2C3D858DBC4E35CD0D"
     },
     {
       "path": "scripts\\audit_news_flow.py",
-      "sha256": "A86989530ECCCC158BD1A86C0BB547C7518393A23B02E975896BA45157D33E45"
+      "sha256": "51961CC67F8419695060606DE0E8279BBBD0D71A96ECE55A16552FAC5F833EC6"
     },
     {
       "path": "scripts\\run_integrated_release.py",
-      "sha256": "27C1DEA2B023B319A85A66F708A4F184760AEC525E756BF6D9C59A7407DEE9EF"
+      "sha256": "71C4084066A3FE3FCE2A39D2FE8B92115BF250D68275C3BC1BEC6229EBF63EE6"
     },
     {
       "path": "scripts\\news_release_gate.py",
-      "sha256": "ED71460B2C28829FFC65CFEB55AC36F1074073E4C788C116378D4A23E3D8D0EA"
+      "sha256": "C2947C41D408DA3C2A6A44900D5A220BA0D65F3F0F7569AB0B3ED9FAF1A98442"
     },
     {
       "path": "scripts\\news_publication_history.py",
@@ -79,7 +79,7 @@
     },
     {
       "path": "scripts\\run_generic_sources.py",
-      "sha256": "5653093DE4C2BC2C1090E0F6635710903D9D0FC5A299BCA84DBCEBBD40BF265C"
+      "sha256": "EDF373C5236D7733D449001CFCEDCB449143025A2DC4BE4ACBC754C64119BB27"
     },
     {
       "path": "scripts\\run_daily_news_task.ps1",
@@ -90,12 +90,36 @@
       "sha256": "E3939A05E2EAEB9A1823F218D793CA4E216704B670FA264086B4FE2419DB5120"
     },
     {
+      "path": "scripts\\resume_final_edition.py",
+      "sha256": "1F5C70893A322D7822C054C4C855910E250A46D5C1949C8A8279141CE4AA5CD8"
+    },
+    {
+      "path": "scripts\\pipeline_status.py",
+      "sha256": "34E959A63F47F054C59C1CE8FD6B4DA09CCC7DB9ED893097B59C97660C6E7E23"
+    },
+    {
+      "path": "scripts\\replay_sent_edition.py",
+      "sha256": "E10390176AE60B47622820A62303AF1A097A6559FF940426CFC7B3523F036DC8"
+    },
+    {
+      "path": "scripts\\news_editorial_final.py",
+      "sha256": "2D7BD6394FB0A445BF2A781CFB55B996EC00EDE5E91161BBEA85FB25F642EB3C"
+    },
+    {
+      "path": "scripts\\news_quality_policy.py",
+      "sha256": "07CF4977F9B6EC61D69259773DFBE8BBF45F9D690B40285F572EA6552CB74198"
+    },
+    {
+      "path": "scripts\\brief_semantic_guard.py",
+      "sha256": "7359E40CB67927938DD0D9AA9C69ABCBB39E012C591DD5BE30AF99758191BC88"
+    },
+    {
       "path": "config\\sources\\registry.yaml",
-      "sha256": "7C424A16D7D8C50D2966E8A38807185453AF74929C5E6F7AA15EAFDEDF5D5EFA"
+      "sha256": "4A664D6A0EF6EB3990305ECF82F2E68057AFDD7D57ADF0D47D0EC4B97CC39199"
     },
     {
       "path": "config\\sources\\generic_registry.yaml",
-      "sha256": "F1F509086639E5CF6CE045EE030A83B4AAF651B988F105F208B1D1B502C0D492"
+      "sha256": "AB7E6825110330E0BD86DD3C43C60BD2CF85DF87EE21E355C333B4889D1D07EB"
     },
     {
       "path": "config\\sources\\daily_ft.yaml",
@@ -151,7 +175,7 @@
     },
     {
       "path": "src\\bank_intel\\collection\\generic_source_engine.py",
-      "sha256": "837AE565E1C541DB418C682EE05171C2DCEAE06684D88EB5B047317803AB9DA0"
+      "sha256": "B7D23265C9CF389224CA8A1D40E5E1C81C6DEFBC3CB8831E837EC39F0FDE2A45"
     },
     {
       "path": "src\\bank_intel\\collectors\\__init__.py",
@@ -211,7 +235,7 @@
     },
     {
       "path": "src\\bank_intel\\collectors\\sources\\island.py",
-      "sha256": "1CD30D5F77A69938F76D5B81703DFFBD7C1AE616F7ADD48B6E1210F135C88E08"
+      "sha256": "431B5A745BBA87EB1A6AA0470C6DB0BB74079E8E0F7D8C2E3590252676CB1C93"
     },
     {
       "path": "src\\bank_intel\\common\\__init__.py",
@@ -226,12 +250,20 @@
       "sha256": "CC06FA8A59CE76AE0D8DC0BDC91B5C1F4FCAEEE1759548E8B261322D908FFABF"
     },
     {
+      "path": "src\\bank_intel\\common\\execution.py",
+      "sha256": "056ECE1D1745F0F10AF4EAC5D952049503F384451B61C32087FAC7ECDC4151A0"
+    },
+    {
       "path": "src\\bank_intel\\common\\hashing.py",
       "sha256": "807A1143B4ADCAF582672B7AD4C060EBAE313E3E6E21C7DBECB2E57C5C2B2A34"
     },
     {
       "path": "src\\bank_intel\\common\\logging.py",
       "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
+    },
+    {
+      "path": "src\\bank_intel\\common\\readiness.py",
+      "sha256": "51E77138B01FCEA512F8B3537A50B0DDDA9B966545A78384C4FE96E11EFE55C4"
     },
     {
       "path": "src\\bank_intel\\common\\reliability.py",
@@ -371,15 +403,19 @@
     },
     {
       "path": "src\\bank_intel\\publication\\coverage.py",
-      "sha256": "581DF8576A4C84E7DE9241C20F020E7CBBE3A06AA99182F9D8217747283A50FD"
+      "sha256": "96BDC65123ED1C341C77DF691B2556656C8FD4C158294EA6334AF7C835976677"
     },
     {
       "path": "src\\bank_intel\\publication\\decisions.py",
-      "sha256": "28358E07768D4F04EE39930ADE2FF8AC731C3A1404C4435A826C80DBF0D4A94C"
+      "sha256": "8FDFE0067C1F0E102E5D2193D39ACF8A49B0A5CFAF9E58DD3B49DA8885CBF702"
     },
     {
       "path": "src\\bank_intel\\publication\\delivery.py",
       "sha256": "204866ABE56B13724CC4D1C485FAA4C8A1C7D8B6FE20BD95729BA622F9175047"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\editorial_rules.py",
+      "sha256": "4CC96922ECC2839859F9DE3FFA0EF130243A20DDB4388575C1954256D2774B57"
     },
     {
       "path": "src\\bank_intel\\publication\\evidence.py",
@@ -391,7 +427,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\identity.py",
-      "sha256": "E6A5ED8DC1BFC09A05E4E39966A24E27F2D0172BA6A19D0129B5AE6B4F698D21"
+      "sha256": "C25C3034FAEDB0642B4B4D5CE028686A7F253D9C8659F5D8A0FD6858BC12B8B2"
     },
     {
       "path": "src\\bank_intel\\publication\\ledger.py",
@@ -399,7 +435,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\materiality.py",
-      "sha256": "52B603600D8B57F867C2835962CF7FCC79956F7C98E92E89D33B820E3DA98ABA"
+      "sha256": "18B2DCB1C54BC7CCDA05E659600B653E5920D01C31FEF9B79CFCCE6967893F59"
     },
     {
       "path": "src\\bank_intel\\publication\\ml_diagnostics.py",
@@ -411,7 +447,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\model_policy.py",
-      "sha256": "31F8FAADFC9B68F3EB23097F4584C3F55AED4E5B01242F961E2FAC3EA871BBA3"
+      "sha256": "BA5FBA8FDA7F83F5E6AA0B502B1225DB2A0580C0CBD647B3F486F89DFAE31B85"
     },
     {
       "path": "src\\bank_intel\\publication\\news_style.css",
@@ -423,7 +459,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\release.py",
-      "sha256": "4172BBD46E4145858E43B752D7ED6C89C608799EE96A97B109FA88898D60295D"
+      "sha256": "B6C3F05488B689B585E67387DF50B9CB3B5091A26107DB2A66B9E6C385463335"
     },
     {
       "path": "src\\bank_intel\\publication\\report_template.html",
@@ -443,7 +479,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\workflow.py",
-      "sha256": "0D926B092E5EEE93B5715AB3950E57BBAF04A16B695E194998AF38CA44A9CB7F"
+      "sha256": "B6AF52A285AA1E151038A025AED2EF295246C00E8699C71BEF6B28A244E51CBB"
     }
   ]
 }

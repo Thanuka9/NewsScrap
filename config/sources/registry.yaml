@@ -63,3 +63,23 @@ sources:
     generic_limit: 100
     url: https://www.themorning.lk/categories/business
     section_url: https://www.themorning.lk/categories/business
+  economynext:
+    source_code: SRC008
+    name: EconomyNext
+    section_name: All posts (WordPress API)
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: GENERIC
+    generic_limit: 300
+    url: https://economynext.com/
+    section_url: https://economynext.com/wp-json/wp/v2/posts
+  economynews:
+    source_code: SRC009
+    name: EconomyNews
+    section_name: All posts (WordPress API)
+    enabled: true
+    production_status: ACTIVE
+    acquisition_method: GENERIC
+    generic_limit: 200
+    url: https://economynews.lk/
+    section_url: https://economynews.lk/wp-json/wp/v2/posts

@@ -91,7 +91,17 @@ def _event_kind(row):
     return ""
 
 
+# NEWS_COURTESY_BANK_MEETING_V2
+
+def _news_courtesy_bank_meeting_v2(row):
+    """Use the same materiality rule as the final publication authority."""
+    from bank_intel.publication.editorial_rules import nontransactional_bank_visit
+    return nontransactional_bank_visit(row)
+
+
 def _is_noise(row):
+    if _news_courtesy_bank_meeting_v2(row):
+        return 'NONTRANSACTIONAL_BANK_COURTESY_MEETING'
     h = _clean(row.get("headline")).casefold()
     url = _url(row.get("source_url"))
     if re.search(r"\b(awards?|accolades?|crowned|named as best|best .* bank 2026)\b", h):

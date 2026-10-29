@@ -58,7 +58,8 @@ def reconcile(assessment: dict, trace: dict | None, article: dict | None = None)
         result['ml_action'] = 'AGREEMENT_OR_UNSPECIFIED'
     # Do not send generic political/PR articles to review merely because
     # the model matched a finance term in their body.
-    blocked = {'POLITICAL_NONFINANCIAL', 'LOW_MATERIALITY_PROMOTIONAL', 'FOREIGN_DOMESTIC_NO_LOCAL_TRANSMISSION'}
+    blocked = {'POLITICAL_NONFINANCIAL', 'LOW_MATERIALITY_PROMOTIONAL', 'FOREIGN_DOMESTIC_NO_LOCAL_TRANSMISSION',
+               'NONTRANSACTIONAL_BANK_COURTESY_MEETING'}
     if raw == 'KEEP' and result['decision'] == 'EXCLUDE' and result['reason'] not in blocked:
         # The model's KEEP earns a review only when the headline shows a
         # financial-sector subject; the exclusion reason stays on record.

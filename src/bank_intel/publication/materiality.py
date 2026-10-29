@@ -7,6 +7,16 @@ def material_context(article: dict) -> tuple[str, str, str] | None:
     body = str(article.get('body') or article.get('content') or article.get('summary') or '')
     text = h + ' ' + body[:1800]
     local = re.search(r'(?i)\b(?:sri lanka|sri lankan|lankan|SL|SLPA|Colombo|Hambantota)\b', text)
+    # Require corroborating source context for abbreviations and market flows.
+    # These are development types, not a list of approved historical headlines.
+    if re.search(r'(?i)\b(?:SEC|securities and exchange commission)\b', h) and re.search(r'(?i)\b(?:market manipulation|enforcement|regulatory action|sanctions?|insider trading)\b', h) and re.search(r'(?i)securities and exchange commission', body[:1800]) and local:
+        return 'MONETARY_MARKETS_EXTERNAL', 'CAPITAL_MARKETS_CONDUCT', 'SEC_MARKET_CONDUCT_ACTION'
+    if local and re.search(r'(?i)\bforeign\b', h) and re.search(r'(?i)\b(?:buying|selling|inflows?|outflows?|holdings?)\b', h) and re.search(r'(?i)\b(?:rupee bonds?|treasury bonds?|government securities)\b', text) and re.search(r'\d', body[:1800]):
+        return 'MONETARY_MARKETS_EXTERNAL', 'SOVEREIGN_PORTFOLIO_FLOWS', 'OBSERVED_FOREIGN_SECURITIES_FLOW'
+    if local and re.search(r'(?i)\b(?:central bank|cenbank|cbsl)\b', h) and re.search(r'(?i)\breserve(?:s| building| accumulation)\b', h) and re.search(r'(?i)\b(?:foreign exchange|forex|rupee|dollars?|USD)\b', body[:1800]):
+        return 'MONETARY_MARKETS_EXTERNAL', 'RESERVES_FX_POLICY', 'CENTRAL_BANK_RESERVE_POLICY'
+    if re.search(r'(?i)\b(?:cse|colombo stock exchange|bourse)\b', h) and re.search(r'(?i)\b(?:capital raising|new investors|branch rollout)\b', h) and re.search(r'(?i)colombo stock exchange', body[:1800]) and re.search(r'\d', body[:1800]):
+        return 'MONETARY_MARKETS_EXTERNAL', 'CAPITAL_MARKETS_DEVELOPMENT', 'CSE_MARKET_ACCESS_OR_FUNDING'
     if local and re.search(r'(?i)\b(?:apg|aml|cft|financial watchlists?|money laundering)\b', text) and re.search(r'(?i)mutual evaluation|assessment|evaluation begins|evaluation opens', text):
         return 'KEY_BANKING_SUPERVISORY', 'REGULATORY_RISK', 'AML_MUTUAL_EVALUATION'
     if re.search(r'(?i)\b(?:crib|credit information bureau)\b', h) and re.search(r'(?i)onboard|expan|credit information|reporting', text):
