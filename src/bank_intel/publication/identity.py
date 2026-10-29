@@ -255,7 +255,9 @@ def figures(text: str) -> set[tuple[str, float]]:
 
 def _close(a: tuple, b: tuple) -> bool:
  kinds={a[0],b[0]}
- if kinds=={'PCT'}:return abs(a[1]-b[1])<0.051
+ # Market moves differ by hundredths (0.62% vs 0.65%); only rounding to one
+ # decimal place (8.1 vs 8.10) is the same figure.
+ if kinds=={'PCT'}:return abs(a[1]-b[1])<0.006
  if kinds<={'NUM','APPROX'} and 'APPROX' in kinds or kinds<={'LKR'} or kinds<={'USD'}:
   # Publishers round (US$ 13.61 bn vs $ 13.6 b, 1.8 m vs 1,813,484).
   return abs(a[1]-b[1])<=max(abs(a[1]),abs(b[1]))*0.01
@@ -346,7 +348,12 @@ def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
   # A new release or session repeats the wording but not the figures.
   needed=1 if gap==0 else 2
   related=bool(shared) or bool(series_topics(a)&series_topics(b)) or overlap>=0.2
-  return (common>=needed or headline_common>=1) and related
+  # A shared headline figure across days can be a standing target (the 5%
+  # inflation target), not the same release; require similar wording too.
+  goal=re.compile(r'(?i)\b(?:targets?|goals?|aims?|forecasts?|projections?|projected|expects?|achievable|ready for)\b')
+  standing=bool(goal.search(str(a.get('headline') or '')) or goal.search(str(b.get('headline') or '')))
+  headline_match=headline_common>=1 and (gap==0 or not standing or overlap>=0.3)
+  return (common>=needed or headline_match) and related
  if shared:
   if headline_common or common>=2:return True
   # Commentary on a shared topic recurs across days; require closer wording.

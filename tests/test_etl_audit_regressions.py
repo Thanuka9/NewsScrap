@@ -237,3 +237,23 @@ def test_coverage_verifies_itself_only_when_every_failure_is_non_financial():
     assert automatic_coverage_acceptance({}, []) == {}
     unrecorded = {'invalid_extraction': 1}
     assert automatic_coverage_acceptance(unrecorded, ['INVALID_ARTICLE_EXTRACTION']) is None
+
+
+def test_holdout_20_october_matching_and_wording_fixes():
+    """Bugs found on the 20 Oct 2026 holdout edition."""
+    from bank_intel.publication.model_policy import financial_signal
+    # A 0.62% fall is not the 0.65% move of a different session.
+    a = {'headline': 'CSE begins weak down 0.62% on muted activity', 'publication_date': '2026-10-20', 'source_url': 'https://ft.lk/a',
+         'body': 'The ASPI fell 0.62% while the S&P SL20 declined 0.66% on turnover of Rs. 680 million.'}
+    b = {'headline': 'CSE closes higher on Friday despite weekly index declines', 'publication_date': '2026-10-19', 'source_url': 'https://ft.lk/b',
+         'body': 'The ASPI rose 0.65% on Friday though it lost 0.86% and 1.07% over the week.'}
+    assert not same_event(a, b)
+    # Commentaries on the same 5% target on different days are different stories.
+    c = {'headline': 'Inflation target: 5% achievable if oil moderates, food supply stabilises', 'publication_date': '2026-10-20', 'source_url': 'https://ft.lk/c'}
+    d = {'headline': 'We are not inflation nutters; SL not ready for sub-5% inflation target', 'publication_date': '2026-10-19', 'source_url': 'https://ft.lk/d'}
+    assert not same_event(c, d)
+    # 'award' inside a surname is not a promotional award.
+    board = {'headline': 'Sumathi Dharmawardena joins Vallibel Finance Board', 'publication_date': '2026-10-20',
+             'body': 'Vallibel Finance PLC announced the appointment of Sumathi Dharmawardena to its Board of Directors with effect from this month, the company told the Colombo Stock Exchange in a filing.'}
+    assert decide(board)['reason'] != 'LOW_MATERIALITY_PROMOTIONAL'
+    assert financial_signal({'headline': 'Sri Lanka faces jobs test as educated youth bulge enters workforce', 'source_url': 'x'}) == ''

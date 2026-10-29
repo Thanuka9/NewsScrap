@@ -13,7 +13,7 @@ FINANCIAL_SIGNAL = re.compile(r'(?i)\b(?:banks?|banking|finance|financial|financ
                               r'indices|securities|sec|imf|fiscal|tax\w*|budget|inflation|interest rates?|forex|fx|exchange rate|rupee|'
                               r'remittances?|deposits?|fintech|payments?|exports?|imports?|reserves|rating|aml|money laundering|fraud|scam|'
                               # Macro-economy context the edition carries alongside financial news.
-                              r'econom\w*|growth|gdp|pmi|manufacturing|unemployment|labour|productivity|investments?|investors?|'
+                              r'econom\w*|growth|gdp|pmi|manufacturing|unemployment|employment|jobs|workforce|labour|productivity|investments?|investors?|'
                               r'funds?|ppps?|public.private|markets?|bourse|blackout|power crisis|logistics hub|port city|'
                               r'social.protection|poverty|households?|welfare|housing|wages?|prices?|tariffs?|revenue|soes?|state.owned)\b')
 OPINION_URL = re.compile(r'(?i)/(?:columns?|opinion|general-opinion|features?|ft_view__editorial|editorial|letters?)/')

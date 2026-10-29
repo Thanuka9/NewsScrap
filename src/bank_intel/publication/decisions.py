@@ -61,7 +61,8 @@ def decide(r: dict) -> dict:
   result['reason']='NONTRANSACTIONAL_BANK_COURTESY_MEETING';return result
  if BLOCK_POLITICS.search(h) and not re.search(r'banking act|financial system|treasury surplus|fiscal revenue',h,re.I):
   result['reason']='POLITICAL_NONFINANCIAL';return result
- if re.search(r'award|best bank by|children.s day|anniversary celebration|honour|sponsor|quiz|contest|competition|shines at|triumphs at|\bstaff athletics\b',h,re.I) and not re.search(r'fine|penalty|regulatory breach|fraud|cyber',h,re.I):
+ # Whole words: 'award' must not match inside a name such as 'Dharmawardena'.
+ if re.search(r'\b(?:awards?|awarded|best bank by|children.s day|anniversary celebration|honou?r(?:s|ed)?|sponsor\w*|quiz|contest|competition|shines at|triumphs at|staff athletics)\b',h,re.I) and not re.search(r'fine|penalty|regulatory breach|fraud|cyber',h,re.I):
   result['reason']='LOW_MATERIALITY_PROMOTIONAL';return result
  # Supervisory headline requires a material action, not just mentioning CBSL in macro commentary.
  # The verified event signature is narrower than generic source keywords.
