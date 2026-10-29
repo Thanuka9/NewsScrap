@@ -75,4 +75,8 @@ def late_status(article, target, prior):
         cutoffs = [d for d in cutoffs if d and d.astimezone(ZoneInfo('Asia/Colombo')).date() < target]
     if cutoffs and published and published > max(cutoffs) and first >= published:
         return 'PUBLISHED_AFTER_PREVIOUS_SEND'
+    # Collected and published before the previous edition went out: that
+    # edition already had it and left it out. Not late news.
+    if cutoffs and published and published <= max(cutoffs) and first <= max(cutoffs):
+        return 'AVAILABLE_BEFORE_PREVIOUS_SEND'
     return 'LATE_NEWS_NOT_ESTABLISHED'

@@ -250,6 +250,43 @@ def audit(report: Path, date_arg: date, sent_paths: list[Path], inventory: Path 
 
 
 
+AUTOMATIC_COVERAGE_POLICY='AUTOMATIC_COVERAGE_POLICY_V1'
+AUTO_ACCEPTABLE=('UNRESOLVED_FETCH_OR_DISCOVERY','INVALID_ARTICLE_EXTRACTION','COLLECTOR_HEALTH:PARTIAL_ERROR')
+
+
+def _url_headline(url: str) -> str:
+    """Readable words from an article URL slug ('' when the slug has none)."""
+    slug=[part for part in urlsplit(str(url)).path.split('/') if part]
+    words=re.findall(r'[a-z]{3,}',(slug[-2] if slug and re.fullmatch(r'[\d-]+',slug[-1]) and len(slug)>1 else (slug[-1] if slug else '')).casefold())
+    return ' '.join(words) if len(words)>=3 else ''
+
+
+def automatic_coverage_acceptance(payload: dict, issues: list[str], failed_surfaces=None):
+    """Accepted issues when coverage needs no person, else None.
+
+    Clean evidence verifies itself. Otherwise only failed article pages may be
+    accepted, and only when every one is identifiably non-financial from its
+    URL words. A failed section, unreadable URL or possible financial story
+    leaves the publisher for a reviewer.
+    """
+    if not issues:return {}
+    # Sections covered by verified alternative discovery are not failures.
+    failed=payload.get('failed_discovery_surfaces') if failed_surfaces is None else failed_surfaces
+    if any(i not in AUTO_ACCEPTABLE for i in issues) or failed:return None
+    import sys
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+    from bank_intel.publication.model_policy import financial_signal
+    urls=list(payload.get('unresolved_fetch_urls') or [])+[x.get('url','') for x in payload.get('extraction_failures') or [] if isinstance(x,dict)]
+    if int(payload.get('invalid_extraction') or 0) and not payload.get('extraction_failures'):return None
+    reasons=[]
+    for url in dict.fromkeys(urls):
+        words=_url_headline(url)
+        if not words or not financial_signal({'headline':words,'source_url':url}):return None
+        reasons.append(f'{url} ({words})')
+    note='Non-financial failed pages: '+'; '.join(reasons) if reasons else 'Fetch failures recovered within the run.'
+    return {issue:note for issue in issues}
+
+
 def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
     """Create an evidence *worksheet*, never fake editorial verification.
 
@@ -325,6 +362,13 @@ def prepare_coverage(date_arg: date, project_root: Path, output: Path) -> Path:
                                   'failure_details':payload.get('extraction_failures',[]) if 'payload' in locals() else [],
                                   'pagination_evidence':payload.get('listing_pages',[]) if 'payload' in locals() else [],
                                   'reviewer':'','reviewed_at':''}
+        accepted=automatic_coverage_acceptance(payload,issues,locals().get('failed_surfaces'))
+        if accepted is not None:
+            out['publishers'][name].update(
+                status='VERIFIED',reviewer=AUTOMATIC_COVERAGE_POLICY,reviewed_at=datetime.now().astimezone().isoformat(),
+                accepted_issues=accepted,
+                review_notes=('Collector evidence clean.' if not accepted else
+                              'Every failed page is identifiably non-financial (URL checked against the financial-signal policy).'))
     output.parent.mkdir(parents=True, exist_ok=True)
     if output.exists():
         # On a rerun, update evidence from fresh collector statuses. Preserve

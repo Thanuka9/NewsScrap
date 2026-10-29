@@ -11,7 +11,7 @@ DIRECT_BANK = re.compile(r'(?i)\b(?:national development bank|ndb|sampath bank|p
 OTHER_FIN = re.compile(r'(?i)\b(?:finance plc|finance company|asset finance|hnb finance|lanka finance|microfinance|insurance plc|insurance company|insurer|slic life|life insurance|debenture issue|ratings? downgrade|fitch ratings?|payment service|cross.border payment|qr payment|lankaqr|webxpay|fintech)\b')
 MARKET = re.compile(r'(?i)\b(?:bond yields|treasury bills?|t.bills?|treasury bond|bond market|cse watch list|colombo stock exchange|aspi|share price index|cse falls|stock market|net foreign inflow|foreign exchange reserves|tourism revenue|tourism earnings|remittances|inflation|ncpi|ccpi|policy rate|t.bill auction|secondary market|bond auction)\b')
 SYSTEMIC = re.compile(r'(?i)\b(?:imf|international monetary fund|sovereign debt|sovereign rating|fiscal revenue|treasury surplus|public debt|budget 2027|tax proposals|economic growth|fiscal policy|adb approves|asian development bank|foreign direct investment|foreign reserves)\b')
-RISK_ACTION = re.compile(r'(?i)\b(?:fraud|breach|ransomware|attack|phishing|warning|warns|cyber|license|liquidation|insolvency|capital|solvency|earnings|profits?|results|debenture|compliance|fine|penalty|resolv|directiv|auditor|non.performing)\b')
+RISK_ACTION = re.compile(r'(?i)\b(?:fraud|laundering|tax evasion|enforcement|breach|ransomware|attack|phishing|warning|warns|cyber|license|liquidation|insolvency|capital|solvency|earnings|profits?|results|debenture|compliance|fine|penalty|resolv|directiv|auditor|non.performing)\b')
 LOW_PR = re.compile(r'(?i)\b(?:award|honours|sponsor|festival|expo|discount|prize draw|birthday|anniversary|ceremony)\b')
 MILESTONE = re.compile(r'(?i)(?:\bcelebrat\w*\s+\d+\s+years\b|\b\d+.year legacy\b|\b\d+(?:th|st|nd|rd)? anniversary\b|\bmarks? \d+.(?:branch|year)|\b\d+.branch milestone\b)')
 CONDUCT = re.compile(r'(?i)\b(?:reviews?|complaints?|charges|fees|parate|consumer protection|conduct|borrowers?|lenders?|mis.?selling|grievances?)\b')
@@ -116,10 +116,20 @@ def decide(r: dict) -> dict:
                 reason='MACRO_CONTEXT_REVIEW' if advocacy else 'MATERIAL_FISCAL_INDICATOR')
  elif re.search(r'\b(?:central bank|cbsl)\b',h,re.I) and re.search(r'\b(?:digital|technology|ai|artificial intelligence|cbdc|fintech|innovation)\b',h,re.I):
   result.update(decision='INCLUDE',section='MACRO_SYSTEMIC_CONTEXT',category='CENTRAL_BANK_TECHNOLOGY',importance='MEDIUM',reason='CENTRAL_BANK_POLICY_TECHNOLOGY')
+ elif re.search(r'(?i)\b(?:tax evaders?|tax evasion|inland revenue|ird)\b',h):
+  # Tax enforcement is supervisory when it targets money laundering, else context.
+  aml=re.search(r'(?i)money laundering|financial intelligence|suspicious transactions?',body_lead)
+  result.update(decision='INCLUDE' if aml else 'REVIEW',section='KEY_BANKING_SUPERVISORY' if aml else 'MACRO_SYSTEMIC_CONTEXT',
+                category='REGULATORY_RISK' if aml else 'FISCAL_SYSTEMIC',importance='MEDIUM',
+                reason='TAX_ENFORCEMENT_AML' if aml else 'MACRO_CONTEXT_REVIEW')
  elif SYSTEMIC.search(h):
   result.update(decision='REVIEW',section='MACRO_SYSTEMIC_CONTEXT',category='SYSTEMIC_MACRO',importance='MEDIUM',reason='MACRO_CONTEXT_REVIEW')
  elif r.get('section') not in (None,'','EXCLUDE'):
-  result.update(decision='REVIEW',section=r.get('section'),category=r.get('category'),importance='LOW',reason='LEGACY_INCLUDE_NEEDS_EVIDENCE')
+  # The legacy builder's inclusion earns a review only with a financial subject.
+  from .model_policy import financial_signal
+  why_not=financial_signal(r)
+  if why_not:result.update(reason='LEGACY_INCLUDE_OVERRULED_'+why_not)
+  else:result.update(decision='REVIEW',section=r.get('section'),category=r.get('category'),importance='LOW',reason='LEGACY_INCLUDE_NEEDS_EVIDENCE')
  # Only candidates with material relevance should be sent to a factual mismatch queue.
  # A weekend market article may recap a session already published in the
  # previous day's edition. Its publication date is not its market-session date.

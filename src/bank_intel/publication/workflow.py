@@ -98,7 +98,7 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
   row.update((collection_metadata or {}).get(canonical(row.get('source_url','')),{}))
   try:pub=date.fromisoformat(row['publication_date'][:10])
   except ValueError:pub=None
-  ass=reconcile(decide(row),(model_traces or {}).get(canonical(row.get('source_url',''))))
+  ass=reconcile(decide(row),(model_traces or {}).get(canonical(row.get('source_url',''))),row)
   pid=publisher_article_id(row.get('source_url',''))
   alias_of=(preferred.get(pid) or (None,None))[1] if pid else None
   publisher_alias=bool(alias_of and alias_of!=canonical(row.get('source_url','')))
@@ -154,7 +154,10 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
        }[ass['section']]
      ass['reviewer']=override.get('reviewer')
   ass['late_news_status']=late_status(row,target,prior) if pub and earliest<=pub<=target else 'OUTSIDE_WINDOW'
-  if ass['decision']=='INCLUDE' and ass['late_news_status'] not in ('TODAY','LATE_DISCOVERY','PUBLISHED_AFTER_PREVIOUS_SEND'):
+  if ass['decision'] in ('INCLUDE','REVIEW') and ass['late_news_status']=='AVAILABLE_BEFORE_PREVIOUS_SEND':
+   # The previous edition already had this article; nothing left to decide.
+   ass.update(decision='EXCLUDE',reason='AVAILABLE_BEFORE_PREVIOUS_SEND')
+  elif ass['decision']=='INCLUDE' and ass['late_news_status'] not in ('TODAY','LATE_DISCOVERY','PUBLISHED_AFTER_PREVIOUS_SEND'):
    ass.update(decision='REVIEW',reason=ass['late_news_status'])
   if ass['decision']=='INCLUDE':counts['included']+=1
   elif ass['decision']=='REVIEW':counts['review']+=1

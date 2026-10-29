@@ -220,3 +220,20 @@ def test_delivered_edition_reconciliation_records_overridden_decisions(tmp_path)
     assert 'SIGNED_EDITORIAL_no' in (folder / 'editorial_corrections_from_delivery.csv').read_text(encoding='utf-8-sig')
     manifest = json.loads((folder / 'report_manifest.json').read_text(encoding='utf-8'))
     assert manifest['status'] == 'DELIVERED' and manifest['delivered_sha256'] == 'sent'
+
+
+def test_coverage_verifies_itself_only_when_every_failure_is_non_financial():
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    from news_release_gate import automatic_coverage_acceptance
+    issues = ['UNRESOLVED_FETCH_OR_DISCOVERY', 'COLLECTOR_HEALTH:PARTIAL_ERROR']
+    sport = {'unresolved_fetch_urls': ['https://island.lk/madushanka-skittles-pakistan-for-110-secures-final']}
+    assert automatic_coverage_acceptance(sport, issues)
+    bank = {'unresolved_fetch_urls': ['https://www.ft.lk/financial-services/Peoples-Bank-explores-banking-in-UAE/42-1']}
+    assert automatic_coverage_acceptance(bank, issues) is None
+    unreadable = {'unresolved_fetch_urls': ['https://island.lk/294648-2']}
+    assert automatic_coverage_acceptance(unreadable, issues) is None
+    assert automatic_coverage_acceptance({**sport, 'failed_discovery_surfaces': ['News']}, issues) is None
+    assert automatic_coverage_acceptance({}, ['COLLECTOR_NOT_SUCCESS']) is None
+    assert automatic_coverage_acceptance({}, []) == {}
+    unrecorded = {'invalid_extraction': 1}
+    assert automatic_coverage_acceptance(unrecorded, ['INVALID_ARTICLE_EXTRACTION']) is None

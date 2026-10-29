@@ -29,6 +29,9 @@ def material_context(article: dict) -> tuple[str, str, str] | None:
         return 'MONETARY_MARKETS_EXTERNAL', 'CAPITAL_MARKETS_FUNDING', 'MATERIAL_BOND_MARKET_DEVELOPMENT'
     if local and re.search(r'(?i)rolling forecasts?|three.month.*forecast', h) and re.search(r'(?i)government|economic|fiscal|monetary', body):
         return 'MACRO_SYSTEMIC_CONTEXT', 'ECONOMIC_FORECAST', 'ECONOMIC_FORECAST_REVIEW'
-    if local and re.search(r'(?i)\b(?:port|terminal)\b', h) and re.search(r'(?i)revenue|commission|investment|financ', text):
+    # Port/terminal news is material when it reports money (revenue, investment,
+    # financing); speeches about digitalisation or capability are not.
+    money = re.search(r'(?i)(?:rs\.?|lkr|us\$|usd|\$)\s*[\d.,]+|\b[\d.,]+\s*(?:million|billion|bn|mn)\b', text)
+    if local and money and re.search(r'(?i)\b(?:port|terminal)\b', h) and re.search(r'(?i)revenue|commission|investment|financ', text):
         return 'MACRO_SYSTEMIC_CONTEXT', 'INFRASTRUCTURE_EXTERNAL', 'MATERIAL_INFRASTRUCTURE_REVIEW'
     return None

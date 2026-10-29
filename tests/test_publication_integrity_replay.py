@@ -165,7 +165,13 @@ def test_coverage_signoff_invalidated_by_changed_evidence(tmp_path):
     output=tmp_path/'coverage.json';prepare_coverage(date(2026,11,4),tmp_path,output)
     signed=read(output);signed['publishers']['Daily FT'].update(status='VERIFIED',reviewer='test',reviewed_at='2026-11-04T10:00:00+05:30')
     output.write_text(json.dumps(signed))
+    # Changed clean evidence verifies under the automatic policy, not the old signature.
     status.write_text(json.dumps({**payload,'candidate_urls':21}))
+    prepare_coverage(date(2026,11,4),tmp_path,output)
+    assert read(output)['publishers']['Daily FT']['reviewer']=='AUTOMATIC_COVERAGE_POLICY_V1'
+    # Changed evidence with a possibly financial failure needs a person again.
+    status.write_text(json.dumps({**payload,'candidate_urls':22,'health_status':'PARTIAL_ERROR',
+        'unresolved_fetch_urls':['https://www.ft.lk/financial-services/Bank-capital-rules-tightened/42-1']}))
     prepare_coverage(date(2026,11,4),tmp_path,output)
     assert read(output)['publishers']['Daily FT']['status']=='PENDING'
 
