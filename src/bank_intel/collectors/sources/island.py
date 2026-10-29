@@ -244,23 +244,47 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
         }
 
     def listing_publication_date(self, url: str) -> date | None:
-        """Trusted RSS pubDate for a URL discovered on this run's feed page.
+        """A known publication date for a discovered URL, before fetching it.
 
-        Used only in RSS mode to avoid fetching older article bodies just to
-        learn their dates. Missing or malformed metadata still gets a normal
-        article fetch instead of being guessed.
+        The Island's URLs carry no date and its origin server is slow, so
+        fetching an old article only to learn it is outside the window costs
+        minutes. Use the official feed's pubDate, else the date of the same
+        article already collected on an earlier day. Unknown URLs are fetched
+        normally; dates are never guessed.
         """
         self._rss_state()
-        if not self._rss_mode:
-            return None
-        record = self._rss_item_cache.get(canonicalize_url(url))
+        key = canonicalize_url(url)
+        record = self._rss_item_cache.get(key)
         raw = record.get("published_at") if record else None
+        if not raw:
+            raw = self._collected_dates().get(key)
         if not raw:
             return None
         try:
             return date.fromisoformat(raw[:10])
         except ValueError:
             return None
+
+    def _collected_dates(self) -> dict:
+        """Publication dates of Island articles staged in the last ten days."""
+        if getattr(self, "_collected_date_index", None) is None:
+            from datetime import timedelta
+            from pathlib import Path
+            index = {}
+            root = Path(__file__).resolve().parents[4] / "data" / "staged" / "island"
+            oldest = (date.today() - timedelta(days=10)).isoformat()
+            for folder in sorted(root.glob("20*")) if root.is_dir() else []:
+                if folder.name < oldest:
+                    continue
+                for path in folder.glob("*/v001.json"):
+                    try:
+                        entry = json.loads(path.read_text(encoding="utf-8-sig"))
+                    except (OSError, ValueError):
+                        continue
+                    if entry.get("source_url") and entry.get("published_at"):
+                        index[canonicalize_url(entry["source_url"])] = str(entry["published_at"])
+            self._collected_date_index = index
+        return self._collected_date_index
 
     def _rss_listing_location(self, url: str):
         parsed = urlparse(url)
@@ -378,9 +402,10 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
             # Direct article calls (without a listing fetch) can consult the
             # latest official feeds. Historical URL recovery is not guaranteed.
             # A collection window spans about two days, deeper than one
-            # ten-item feed page; search a few pages before giving up.
-            for page in (1, 2, 3, 4):
-                for section in ("business", "news", "homepage"):
+            # ten-item feed page. Deeper feed pages are uncached and take
+            # ~15 s each, so search only the second page of the main feeds.
+            for page in (1, 2):
+                for section in (("business", "news", "homepage") if page == 1 else ("business", "news")):
                     try:
                         self._read_rss_page(section, page)
                     except RuntimeError:
@@ -419,6 +444,18 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
         self._rss_state()
         if self._rss_mode:
             return self._rss_for_url(url)
+        # The Island's origin server is slow or erroring for uncached pages,
+        # while its first feed pages are served from cache in under a second
+        # and carry the full article. Use the feed copy when it has one.
+        if self.is_article_url(url):
+            for section in ("business", "news", "homepage"):
+                try:
+                    self._read_rss_page(section, 1)
+                except RuntimeError:
+                    continue
+            record = self._rss_item_cache.get(canonicalize_url(url))
+            if record and record["published_at"] and len(record["article_text"].split()) >= 25:
+                return self._rss_for_url(url)
         try:
             # Primary route: keep the normal publisher page and browser
             # fallback unchanged while they are available.
@@ -721,6 +758,9 @@ _ISLAND_TRANSIENT_ERRORS = (
 
 def _island_fetch_retry(self, url):
     delays = (2, 5, 9)
+    # Each attempt can spend a direct fetch plus a browser fallback; bound the
+    # whole article so one slow page cannot consume the collection budget.
+    started = _island_retry_time.monotonic()
 
     for attempt in range(4):
         try:
@@ -734,7 +774,7 @@ def _island_fetch_retry(self, url):
                 for signal in _ISLAND_TRANSIENT_ERRORS
             )
 
-            if not transient or attempt == 3:
+            if not transient or attempt == 3 or _island_retry_time.monotonic() - started > 120:
                 raise
 
             delay = delays[attempt]
