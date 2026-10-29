@@ -1,8 +1,8 @@
 {
   "freeze_version": "news-production-freeze-v2",
-  "created_at": "2026-10-29T15:20:11.287203+05:30",
-  "created_by": "Codex",
-  "tests": "269 passed, 3 subtests passed in 78.51s (0:01:18)",
+  "created_at": "2026-10-29T15:36:01.084966+05:30",
+  "created_by": "Claude (for thanuka)",
+  "tests": "270 passed, 3 subtests passed in 88.77s (0:01:28)",
   "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
   "files": [
     {
@@ -407,7 +407,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\decisions.py",
-      "sha256": "8FDFE0067C1F0E102E5D2193D39ACF8A49B0A5CFAF9E58DD3B49DA8885CBF702"
+      "sha256": "29B76A838E41471D03A4FA02058133FBE95405B68B0FBA5F835E2B7C4754E2F5"
     },
     {
       "path": "src\\bank_intel\\publication\\delivery.py",
@@ -427,7 +427,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\identity.py",
-      "sha256": "C25C3034FAEDB0642B4B4D5CE028686A7F253D9C8659F5D8A0FD6858BC12B8B2"
+      "sha256": "9972AAC06725D340E3B5D37BDE6F165EFD202A0F6A3DCE70E5CD882D3BBC5B6C"
     },
     {
       "path": "src\\bank_intel\\publication\\ledger.py",
@@ -447,7 +447,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\model_policy.py",
-      "sha256": "BA5FBA8FDA7F83F5E6AA0B502B1225DB2A0580C0CBD647B3F486F89DFAE31B85"
+      "sha256": "BC59FF95FF3220E4A3262D2540983A05C1835C7A9835DDECF825964BB0EF7832"
     },
     {
       "path": "src\\bank_intel\\publication\\news_style.css",
