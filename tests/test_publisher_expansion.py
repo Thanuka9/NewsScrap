@@ -162,3 +162,40 @@ def test_editorial_section_boundaries(headline, section):
     assert result['section'] == section
     if 'CERT' in headline:
         assert result['decision'] == 'REVIEW'
+
+
+def test_challenge_page_instead_of_api_json_is_an_error_not_an_empty_day(monkeypatch):
+    """Cloudflare/WAF can answer 200 with HTML; that must never read as 'no posts'."""
+    original = httpx.Client
+    def handler(request):
+        return httpx.Response(200, text='<html><title>Just a moment...</title></html>', headers={'content-type': 'text/html'})
+    monkeypatch.setattr(engine.httpx, 'Client', lambda **kw: original(transport=httpx.MockTransport(handler), **kw))
+    links, diag = engine._discover_wordpress_api(PROFILE, PROFILE['listing_url'])
+    assert links == [] and diag['pagination_complete'] is False and diag['listing_error']
+
+
+def test_garbage_article_page_fails_that_article_only(monkeypatch):
+    def broken(url, **kwargs):
+        raise ValueError('malformed HTML: unexpected end of document')
+    monkeypatch.setattr(engine, 'extract_article', broken)
+    result = engine.safe_extract_article('https://economynext.com/x', {'name': 'EconomyNext'})
+    assert result.valid is False and result.errors and 'EXTRACTION_EXCEPTION' in result.errors[0]
+
+
+def test_publisher_outage_blocks_publication_with_a_named_reason(tmp_path):
+    import json as _json
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+    import audit_news_flow as flow
+    report = tmp_path / 'data/processed/reports/2026-11-04/window_1d'; report.mkdir(parents=True)
+    (report / 'stakeholder_brief_v2_audit.json').write_text(_json.dumps({'audit': [], 'events': [], 'qa': {'status': 'PASS'}}))
+    statuses = tmp_path / 'data/source_status'; statuses.mkdir(parents=True)
+    for key in flow.SOURCES:
+        healthy = {'execution_status': 'SUCCESS', 'health_status': 'HEALTHY', 'completed_at': '2026-11-04T09:00:00+05:30',
+                   'discovery_surfaces': [f's{i}' for i in range(flow.EXPECTED_SURFACES[key])]}
+        (statuses / f'{key}.json').write_text(_json.dumps(healthy))
+    down = flow.SOURCES[0]
+    (statuses / f'{down}.json').write_text(_json.dumps({'execution_status': 'FAILED', 'health_status': 'FAILED',
+                                                        'completed_at': '2026-11-04T09:00:00+05:30', 'discovery_surfaces': []}))
+    result = flow.source_audit(tmp_path, date(2026, 11, 4), 1)
+    assert result['status'] == 'FAIL'
+    assert any(down in issue for issue in result['collection_issues'])

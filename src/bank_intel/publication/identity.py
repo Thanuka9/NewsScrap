@@ -158,6 +158,8 @@ def series_topics(article: dict) -> set[str]:
  h=str(article.get('headline') or '')
  return {name for name,pattern in SERIES_TOPICS if re.search(pattern,h,re.I)}
 GENERIC_NAME={'sri','lanka','lankan','lankans','colombo','the','a','an','of','and','in','on','for','to','at','by','with','as','is',
+ # Financial-reporting acronyms, not organisations.
+ 'pat','pbt','eps','npl','npls','ytd','yoy','gdp','ceo','cfo','coo','ipo','sme','smes','fdi','ppp',
  'plc','ltd','limited','ratings','group','company','co','holdings','bank','banks','banking','corporation','rs','lkr','us','usd',
  'mr','ms','dr','govt','government','president','minister','ministry','says','new','first','this','it','from',
  'monday','tuesday','wednesday','thursday','friday','saturday','sunday','january','february','march','april','may',
@@ -389,3 +391,22 @@ def financing_identity(article: dict) -> dict:
         'signing' if re.search(r'\bsign',h) else
         'lender_approval' if re.search(r'approv',h) else '')
  return {'purposes':purposes,'stage':stage}
+
+
+def explain_match(a: dict, b: dict) -> str:
+ """Human-readable evidence for why two reports are the same development."""
+ if canonical(a.get('source_url',''))==canonical(b.get('source_url','')):evidence='same article URL'
+ elif publisher_article_id(a.get('source_url','')) and publisher_article_id(a.get('source_url',''))==publisher_article_id(b.get('source_url','')):
+  evidence='same publisher article under another URL'
+ else:
+  shared=sorted(organisations(entities(a)&entities(b)))
+  common=shared_figures(figures(a.get('headline','')+' '+_lead(a)),figures(b.get('headline','')+' '+_lead(b)))
+  parts=[]
+  if shared:parts.append('organisations: '+', '.join(x.replace('name:','') for x in shared[:4]))
+  if common:parts.append(f'{common} shared figure(s)')
+  parts.append(f'headline overlap {headline_overlap(a,b):.2f}')
+  types=event_types(a)&event_types(b)
+  if types:parts.append('development: '+'/'.join(sorted(types)))
+  evidence='; '.join(parts)
+ edition=b.get('edition_date') or str(b.get('publication_date') or '')[:10] or 'earlier edition'
+ return f"{edition}: \"{str(b.get('headline') or '')[:90]}\" ({evidence})"

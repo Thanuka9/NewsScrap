@@ -432,6 +432,83 @@ FREEZE_CONFIG=('config/sources/registry.yaml','config/sources/generic_registry.y
     'config/intelligence/review.yaml')
 
 
+BACKUP_RECORDS=('SENT_EDITION.json','sent_events.json','PUBLISHED_URLS.json','PUBLISHED.ok','news_material_editorial_decisions.csv',
+    'news_coverage_verified.json','editorial_corrections_from_delivery.csv','delivered_reconciliation.json','APPROVED_EDITION.json')
+
+
+def backup_records(root: Path, out_dir: Path) -> Path:
+    """Zip what cannot be regenerated: sent editions and their archived bytes,
+    editorial and coverage sign-offs, collector state (first-discovery times),
+    source status and configuration, with a SHA-256 manifest. Model weights
+    are pinned by hash in the production freeze, not copied here."""
+    import zipfile
+    from datetime import datetime
+    root=Path(root).resolve()
+    files=[p for p in (root/'config').rglob('*') if p.is_file() and not p.name.endswith('.bak')]
+    files+=[p for p in (root/'data/state').glob('*.json')]+[p for p in (root/'data/source_status').glob('*.json')]
+    reports=root/'data/processed/reports'
+    for p in reports.rglob('*'):
+        if p.is_file() and (p.name in BACKUP_RECORDS or 'distributed_archive' in p.parts):
+            files.append(p)
+    files.append(root/'requirements.lock.txt')
+    manifest={'created_at':datetime.now().astimezone().isoformat(),'project_root':str(root),
+              'files':{p.relative_to(root).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(files)) if p.is_file()}}
+    out_dir.mkdir(parents=True,exist_ok=True)
+    target=out_dir/('news_scrap_records_'+datetime.now().strftime('%Y%m%d_%H%M%S')+'.zip')
+    with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as archive:
+        for name in manifest['files']:archive.write(root/name,name)
+        archive.writestr('BACKUP_MANIFEST.json',json.dumps(manifest,indent=2))
+    print('[BACKUP WRITTEN]',target,len(manifest['files']),'files')
+    return target
+
+
+def verify_backup(archive_path: Path) -> dict:
+    """Restore into a scratch folder and prove the records are usable."""
+    import sys,tempfile,zipfile
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+    from bank_intel.publication.reconcile import load_confirmed_history
+    from bank_intel.common.state import JsonArticleState
+    with tempfile.TemporaryDirectory() as scratch, zipfile.ZipFile(archive_path) as archive:
+        archive.extractall(scratch)
+        restored=Path(scratch)
+        manifest=json.loads((restored/'BACKUP_MANIFEST.json').read_text(encoding='utf-8'))
+        bad=[n for n,h in manifest['files'].items() if hashlib.sha256((restored/n).read_bytes()).hexdigest()!=h]
+        if bad:raise RuntimeError('BACKUP_HASH_MISMATCH: '+'; '.join(bad[:5]))
+        for state in (restored/'data/state').glob('*.json'):JsonArticleState(state)
+        far_future='2099-12-31'
+        history,issues=load_confirmed_history(restored/'data/processed/reports',far_future)
+        if issues:raise RuntimeError('RESTORED_SENT_HISTORY_INVALID: '+'; '.join(issues[:5]))
+        editions=sorted({str(h.get('edition_date') or '') for h in history if h.get('edition_date')})
+        result={'files':len(manifest['files']),'sent_editions':editions,'sent_story_sources':len(history)}
+    print('[BACKUP VERIFIED]',json.dumps(result))
+    return result
+
+
+COMPLETED_RUN=('QA_PASS_NOT_DELIVERED','REVIEW_REQUIRED','ALREADY_SENT')
+
+
+def readiness(history_path: Path, budget_minutes: float = 90.0, target: int = 10) -> dict:
+    """Consecutive scheduled days that completed on one frozen build.
+
+    A day counts when its last run completed (passed, held for review, or
+    already sent) within the runtime budget. A failure, an overrun or a
+    change of frozen build (any code or model change) restarts the count.
+    """
+    runs=[json.loads(line) for line in history_path.read_text(encoding='utf-8-sig').splitlines() if line.strip()] if history_path.is_file() else []
+    last_per_day={}
+    for run in runs:last_per_day[run['run_date']]=run
+    streak=[];build=None
+    for day in sorted(last_per_day,reverse=True):
+        run=last_per_day[day]
+        ok=run['status'] in COMPLETED_RUN and float(run.get('duration_minutes') or 0)<=budget_minutes
+        if not ok or (build and run.get('freeze_sha256')!=build):break
+        build=build or run.get('freeze_sha256');streak.append(day)
+    result={'consecutive_days':len(streak),'target':target,'met':len(streak)>=target,'days':sorted(streak),
+            'budget_minutes':budget_minutes,'runs_recorded':len(runs)}
+    print('[READINESS]',json.dumps(result))
+    return result
+
+
 def write_freeze(root: Path, operator: str) -> Path:
     """Freeze the production code the scheduled run verifies, only from a passing build.
 
@@ -448,6 +525,21 @@ def write_freeze(root: Path, operator: str) -> Path:
     paths=[root/'scripts'/name for name in FREEZE_SCRIPTS]+[root/p for p in FREEZE_CONFIG]
     paths+=sorted(p for p in (root/'src'/'bank_intel').rglob('*') if p.is_file()
                   and p.suffix in ('.py','.html','.css','.json') and '__pycache__' not in p.parts)
+    # Model weights and tokenizers are production artifacts too: a retrained
+    # or corrupted model must stop the scheduled run exactly as changed code does.
+    import yaml
+    ml=yaml.safe_load((root/'config/intelligence/ml.yaml').read_text(encoding='utf-8'))
+    def model_dirs(node):
+        if isinstance(node,dict):
+            for k,v in node.items():
+                if k=='model_path' and isinstance(v,str):yield root/v
+                else:yield from model_dirs(v)
+        elif isinstance(node,list):
+            for v in node:yield from model_dirs(v)
+    for folder in sorted(set(model_dirs(ml))):
+        if not folder.is_dir():raise RuntimeError('Refusing to freeze: model folder missing '+str(folder))
+        paths+=sorted(p for p in folder.iterdir() if p.is_file())
+    paths.append(root/'requirements.lock.txt')
     missing=[str(p) for p in paths if not p.is_file()]
     if missing:raise RuntimeError('Refusing to freeze: missing '+'; '.join(missing))
     payload={'freeze_version':'news-production-freeze-v2','created_at':datetime.now().astimezone().isoformat(),
@@ -499,9 +591,26 @@ def main():
     f = sub.add_parser("freeze", help="Run the test suite and, if it passes, write config/production_freeze.json")
     f.add_argument("--operator", required=True)
     f.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
+    b = sub.add_parser("backup", help="Zip sent editions, sign-offs, state and config with a hash manifest")
+    b.add_argument("--out", type=Path, required=True)
+    b.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
+    v = sub.add_parser("verify-backup", help="Restore a backup into a scratch folder and prove it is usable")
+    v.add_argument("--archive", type=Path, required=True)
+    rd = sub.add_parser("readiness", help="Consecutive completed scheduled days on one frozen build")
+    rd.add_argument("--history", type=Path, default=Path(__file__).resolve().parents[1]/'data'/'scheduler'/'run_history.jsonl')
+    rd.add_argument("--budget-minutes", type=float, default=90.0)
     args = p.parse_args()
+    if args.cmd == "readiness":
+        readiness(args.history, args.budget_minutes)
+        return
     if args.cmd == "freeze":
         write_freeze(args.project_root, args.operator)
+        return
+    if args.cmd == "backup":
+        backup_records(args.project_root, args.out)
+        return
+    if args.cmd == "verify-backup":
+        verify_backup(args.archive)
         return
     d = date.fromisoformat(args.date)
     if args.cmd == "prepare-coverage":

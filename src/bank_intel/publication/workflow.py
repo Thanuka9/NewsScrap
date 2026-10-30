@@ -6,7 +6,7 @@ import hashlib
 import html
 import json
 from pathlib import Path
-from .identity import SOURCES, SOURCE_KEYS, sources_for_date, approved,canonical,first_window_day,publisher_article_id
+from .identity import SOURCES, SOURCE_KEYS, sources_for_date, approved,canonical,first_window_day,publisher_article_id,explain_match
 from .backlog import earliest_unpublished_day
 from .evidence import summary, evidence_issues
 from .decisions import decide,why_it_matters
@@ -176,6 +176,8 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
   matches,updates=prior_matches(row,prior)
   ass['previous_send_status']='ALREADY_SENT' if matches else ('POSSIBLE_UPDATE_OF_SENT_EVENT' if updates else ('NOT_IN_CONFIRMED_HISTORY' if prior else 'UNKNOWN'))
   ass['prior_reports']=sorted({p.get('distributed_report','') for p in matches+updates})
+  # Say which sent story this matched, and on what evidence.
+  ass['prior_match']=[explain_match(row,p) for p in (matches+updates)[:3]]
   if not publisher_alias and pub and earliest<=pub<=target and approved(row.get('source_name',''),row.get('source_url','')) and matches:
    ass.update(decision='ALREADY_SENT',reason='SENT_EDITION_SAME_EVENT');counts['sent']+=1
   elif updates and ass['decision']=='INCLUDE' and not row.get('material_update'):

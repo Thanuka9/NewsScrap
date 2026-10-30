@@ -41,6 +41,7 @@ def make_ledger(work, events, date_iso):
             'event_signature': assessment.get('event_signature', ''),
             'previous_send_status': assessment.get('previous_send_status', 'UNKNOWN'),
             'prior_reports': assessment.get('prior_reports', []),
+            'prior_match': assessment.get('prior_match', []),
             'late_news_status': assessment.get('late_news_status', ''),
             'reviewer': assessment.get('reviewer', ''),
             'evidence_issues': assessment.get('evidence_issues', []),

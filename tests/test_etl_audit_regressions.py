@@ -257,3 +257,43 @@ def test_holdout_20_october_matching_and_wording_fixes():
              'body': 'Vallibel Finance PLC announced the appointment of Sumathi Dharmawardena to its Board of Directors with effect from this month, the company told the Colombo Stock Exchange in a filing.'}
     assert decide(board)['reason'] != 'LOW_MATERIALITY_PROMOTIONAL'
     assert financial_signal({'headline': 'Sri Lanka faces jobs test as educated youth bulge enters workforce', 'source_url': 'x'}) == ''
+
+
+def test_backup_restores_usable_sent_history(tmp_path):
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    from news_release_gate import backup_records, verify_backup
+    from bank_intel.publication.history_import import import_distributed
+    root = tmp_path / 'proj'
+    (root / 'config').mkdir(parents=True); (root / 'config/x.yaml').write_text('a: 1')
+    (root / 'data/state').mkdir(parents=True); (root / 'data/state/s.json').write_text('{"articles": {}}')
+    (root / 'requirements.lock.txt').write_text('x==1')
+    import_distributed(ROOT / 'tests/fixtures/publication_2026_10_26_27/prior_reference.html', root / 'data/processed/reports', '2026-10-26', 'test', True)
+    archive = backup_records(root, tmp_path / 'backups')
+    result = verify_backup(archive)
+    assert result['sent_editions'] == ['2026-10-26'] and result['sent_story_sources'] > 0
+    # A damaged backup must be refused, not restored.
+    import zipfile
+    damaged = tmp_path / 'damaged.zip'
+    with zipfile.ZipFile(archive) as src, zipfile.ZipFile(damaged, 'w') as dst:
+        for item in src.infolist():
+            data = src.read(item.filename)
+            dst.writestr(item, b'{"articles": {"x": 1}}' if item.filename.endswith('s.json') else data)
+    with pytest.raises(RuntimeError, match='BACKUP_HASH_MISMATCH'):
+        verify_backup(damaged)
+
+
+def test_readiness_counts_completed_days_on_one_build(tmp_path):
+    sys.path.insert(0, str(ROOT / 'scripts'))
+    from news_release_gate import readiness
+    rows = [('2026-11-02', 'FAILED', 30, 'A'), ('2026-11-03', 'REVIEW_REQUIRED', 50, 'B'), ('2026-11-04', 'QA_PASS_NOT_DELIVERED', 60, 'B'),
+            ('2026-11-05', 'ALREADY_SENT', 2, 'B'), ('2026-11-05', 'FAILED', 5, 'B')]
+    history = tmp_path / 'h.jsonl'
+    # The later failed rerun on 11-05 is that day's outcome: the streak stops there.
+    history.write_text('\n'.join(json.dumps({'run_date': d, 'status': s, 'duration_minutes': m, 'freeze_sha256': f}) for d, s, m, f in rows))
+    assert readiness(history)['consecutive_days'] == 0
+    history.write_text('\n'.join(json.dumps({'run_date': d, 'status': s, 'duration_minutes': m, 'freeze_sha256': f}) for d, s, m, f in rows[:4]))
+    result = readiness(history)
+    assert result['consecutive_days'] == 3 and result['days'] == ['2026-11-03', '2026-11-04', '2026-11-05']
+    rows2 = rows[:3] + [('2026-11-05', 'ALREADY_SENT', 2, 'C')]  # a new build restarts the count
+    history.write_text('\n'.join(json.dumps({'run_date': d, 'status': s, 'duration_minutes': m, 'freeze_sha256': f}) for d, s, m, f in rows2))
+    assert readiness(history)['consecutive_days'] == 1

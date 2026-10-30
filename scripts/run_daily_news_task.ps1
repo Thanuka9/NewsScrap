@@ -67,6 +67,47 @@ function Write-RunStatus {
     $Payload |
         ConvertTo-Json -Depth 12 |
         Set-Content -Path $StatusFile -Encoding UTF8
+
+    # Append every finished run, so operational readiness is measured from
+    # history (outcome, runtime, and which frozen build ran), not asserted.
+    if ($Status -ne "RUNNING") {
+        $FreezeHash = ""
+        if (Test-Path $FreezeFile) { $FreezeHash = (Get-FileHash -Path $FreezeFile -Algorithm SHA256).Hash }
+        $Record = [ordered]@{
+            run_id           = $RunId
+            run_date         = $RunDate
+            status           = $Status
+            exit_code        = $ExitCode
+            started_at       = $Now.ToString("o")
+            finished_at      = (Get-Date).ToString("o")
+            duration_minutes = [Math]::Round(((Get-Date) - $Now).TotalMinutes, 1)
+            freeze_sha256    = $FreezeHash
+            message          = $Message
+        }
+        Add-Content -Path (Join-Path $SchedulerRoot "run_history.jsonl") -Value ($Record | ConvertTo-Json -Compress) -Encoding UTF8
+    }
+}
+
+function Send-DesktopAlert {
+    # A file in data\scheduler\alerts is only seen if someone looks for it;
+    # also raise a Windows notification. Never let alerting stop the run.
+    param([string]$Title, [string]$Text)
+    try {
+        Add-Type -AssemblyName System.Windows.Forms -ErrorAction Stop
+        Add-Type -AssemblyName System.Drawing -ErrorAction Stop
+        $Icon = New-Object System.Windows.Forms.NotifyIcon
+        $Icon.Icon = [System.Drawing.SystemIcons]::Warning
+        $Icon.BalloonTipTitle = $Title
+        $Icon.BalloonTipText = $Text.Substring(0, [Math]::Min(250, $Text.Length))
+        $Icon.Visible = $true
+        $Icon.ShowBalloonTip(30000)
+        Start-Sleep -Seconds 6
+        $Icon.Dispose()
+        return $true
+    }
+    catch {
+        return $false
+    }
 }
 
 function Fail-Run {
@@ -75,6 +116,7 @@ function Fail-Run {
         [int]$Code = 1
     )
 
+    $null = Send-DesktopAlert -Title "News brief run FAILED ($RunDate)" -Text $Message
     $AlertFile = Join-Path $AlertRoot "FAILED_$RunId.txt"
 
     @"
@@ -152,6 +194,17 @@ try {
             -Code 12
     }
 
+    # Daily backup of sent editions, sign-offs, state and config (keep 30).
+    # A failed backup alerts but does not stop the day's edition.
+    $BackupRoot = Join-Path $Root "data\backups"
+    & $Python (Join-Path $Root "scripts\news_release_gate.py") backup --out $BackupRoot --project-root $Root 2>&1 |
+        Tee-Object -FilePath $LogFile -Append | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        $null = Send-DesktopAlert -Title "News brief backup FAILED ($RunDate)" -Text "The daily records backup failed; see $LogFile"
+    }
+    Get-ChildItem -Path $BackupRoot -Filter "news_scrap_records_*.zip" -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending | Select-Object -Skip 30 | Remove-Item -Force -ErrorAction SilentlyContinue
+
     @"
 ================================================================================
 CBSL NEWS INTELLIGENCE - SCHEDULED DAILY RUN
@@ -184,6 +237,7 @@ Freeze       : PASS
 
     if ($PipelineExitCode -eq 2) {
         Write-RunStatus -Status "REVIEW_REQUIRED" -Message "Collection or editorial exceptions require review; no attachment delivered." -ExitCode 2
+        $null = Send-DesktopAlert -Title "News brief needs review ($RunDate)" -Text "The edition is held: articles or publisher coverage need review before release. See data\processed\reports\$RunDate\window_1d\integrated_release_result.json"
         exit 2
     }
 
@@ -301,6 +355,7 @@ Freeze       : PASS
     Write-Host "Ready report     : $(Join-Path $LatestDelivery "$BriefName.html")"
     Write-Host "=============================================================="
 
+    $null = Send-DesktopAlert -Title "News brief ready to approve ($RunDate)" -Text "QA passed: $Keep stories. Approve with news_release_gate.py promote, then send."
     exit 0
 }
 catch {
