@@ -1,8 +1,8 @@
 {
   "freeze_version": "news-production-freeze-v2",
-  "created_at": "2026-10-29T15:36:01.084966+05:30",
+  "created_at": "2026-10-30T08:03:29.292288+05:30",
   "created_by": "Claude (for thanuka)",
-  "tests": "270 passed, 3 subtests passed in 88.77s (0:01:28)",
+  "tests": "275 passed, 3 subtests passed in 71.27s (0:01:11)",
   "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
   "files": [
     {
@@ -47,7 +47,7 @@
     },
     {
       "path": "scripts\\news_release_gate.py",
-      "sha256": "C2947C41D408DA3C2A6A44900D5A220BA0D65F3F0F7569AB0B3ED9FAF1A98442"
+      "sha256": "A16A2AC012402A9EE9D352B75234520D29ACDA0F86AE338355B7EDD63B1AF761"
     },
     {
       "path": "scripts\\news_publication_history.py",
@@ -83,7 +83,7 @@
     },
     {
       "path": "scripts\\run_daily_news_task.ps1",
-      "sha256": "6D577A9B950ACAC80CC13EE9BDC449763C1D28B3819DF7FE9B73F1CABE24D647"
+      "sha256": "D9E9243032E2020AAD61EA3F6364C7831322C5AC8A4F514915B6126F10D15C5D"
     },
     {
       "path": "scripts\\run_scheduler.py",
@@ -427,11 +427,11 @@
     },
     {
       "path": "src\\bank_intel\\publication\\identity.py",
-      "sha256": "9972AAC06725D340E3B5D37BDE6F165EFD202A0F6A3DCE70E5CD882D3BBC5B6C"
+      "sha256": "F55301051399C4B8DC03C74FF65DC08B90EDA2344A4D6416F7CFF97E9EB303F2"
     },
     {
       "path": "src\\bank_intel\\publication\\ledger.py",
-      "sha256": "E77B6CB0E938692E4A41FA961012DF81060FB7C8498F3BC36DFB3D66CB91213D"
+      "sha256": "543D6A2E12FE77F6730E207CA133731623C336F27F344C313C165AF83B5E7DE0"
     },
     {
       "path": "src\\bank_intel\\publication\\materiality.py",
@@ -479,7 +479,59 @@
     },
     {
       "path": "src\\bank_intel\\publication\\workflow.py",
-      "sha256": "B6AF52A285AA1E151038A025AED2EF295246C00E8699C71BEF6B28A244E51CBB"
+      "sha256": "DB2BB2671C9169AC85EEFDBBFBA6910FB6412CDE74DBAD76C00096586CBA4AD5"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\config.json",
+      "sha256": "9D1ACC52B5F91FA378B14E120DC9907B4E289C183A4AFA27DF4A2E29CDDD73D5"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\model.safetensors",
+      "sha256": "08D721ECC035C0406AC66A62A0E28232220E6747F2A7CA9BFA3A997E1A40AF2F"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\special_tokens_map.json",
+      "sha256": "3C3507F36DFF57BCE437223DB3B3081D1E2B52EC3E56EE55438193ECB2C94DD6"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\tokenizer.json",
+      "sha256": "5DED4F6619072E6DE0A1818DC1DA5449CBB48D6F7E95FB58F43B13FA88013B66"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\tokenizer_config.json",
+      "sha256": "A5C2E5A7B1A29A0702CD28C08A399B5ECC110C263009D17F7E3B415F25905FD8"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\vocab.txt",
+      "sha256": "07ECED375CEC144D27C900241F3E339478DEC958F92FDDBC551F295C992038A3"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\config.json",
+      "sha256": "EEE2FB7D06AFF6FF9194371A3AE521A6324EF6315740A7C124FB53FD59DEC34E"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\model.safetensors",
+      "sha256": "390CE9FBA46106048D03E977FF31CCCFFF20E8BF7CB3A84F3C14470A0AB3251C"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\special_tokens_map.json",
+      "sha256": "3C3507F36DFF57BCE437223DB3B3081D1E2B52EC3E56EE55438193ECB2C94DD6"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\tokenizer.json",
+      "sha256": "5DED4F6619072E6DE0A1818DC1DA5449CBB48D6F7E95FB58F43B13FA88013B66"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\tokenizer_config.json",
+      "sha256": "A5C2E5A7B1A29A0702CD28C08A399B5ECC110C263009D17F7E3B415F25905FD8"
+    },
+    {
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\vocab.txt",
+      "sha256": "07ECED375CEC144D27C900241F3E339478DEC958F92FDDBC551F295C992038A3"
+    },
+    {
+      "path": "requirements.lock.txt",
+      "sha256": "93F8D27579BFD4B08D3ADF255C393F70ACCE153F337CF4341261FF4AAF50DD74"
     }
   ]
 }
