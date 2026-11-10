@@ -67,3 +67,10 @@ data/processed/*
 
 .DS_Store
 Thumbs.db
+
+# Local source snapshots and temporary patch artifacts
+*.bak
+*.bak_*
+*.before_*
+*_before_*/
+.tmp/
