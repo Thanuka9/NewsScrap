@@ -85,6 +85,15 @@ def parse_args() -> argparse.Namespace:
                         help='Reuse verified Stage 1, ML, corpus and taxonomy; run final reporting only.')
 
     parser.add_argument(
+        "--with-diagnostics",
+        action="store_true",
+        help=(
+            "Also run corpus clustering, similarity pairs and the supervisory "
+            "taxonomy. These are diagnostics; the edition does not use them."
+        ),
+    )
+
+    parser.add_argument(
         "--allow-empty",
         action="store_true",
         help=(
@@ -752,7 +761,9 @@ def main() -> None:
 
     pending_report = PROJECT_ROOT/'data/processed/reports'/target_date/f'window_{args.days}d'
     pending_report.mkdir(parents=True, exist_ok=True)
-    for filename in (f'Daily Financial Sector News Brief {target_date}.html', 'supervisory_digest.html'):
+    for filename in (f'Daily Financial Sector News Brief {target_date}.html', 'supervisory_digest.html',
+                             f'Daily Financial Sector News Brief {target_date} Interactive.html',
+                             f'Daily Financial Sector News Brief {target_date} Interactive.validation.json'):
         (pending_report/filename).unlink(missing_ok=True)
     from bank_intel.common.reliability import atomic_json
     atomic_json(pending_report/'report_manifest.json', {'status':'RUNNING', 'publication_date':target_date})
@@ -934,85 +945,93 @@ def main() -> None:
                 "Publication is blocked; the report will not inject them manually."
             )
 
-        run_step(
-            name="4/6 PHASE 3 CORPUS INTELLIGENCE",
-            command=[
-                sys.executable,
-                str(CORPUS_SCRIPT),
-                "--end-date",
-                target_date,
-                "--days",
-                str(args.days),
-            ],
-            steps=steps,
-        )
-
-        corpus_root = (
-            PROJECT_ROOT
-            / "data"
-            / "processed"
-            / "ml_corpus"
-            / target_date
-            / f"window_{args.days}d"
-        )
-        corpus_manifest_path = corpus_root / "corpus_manifest.json"
-        require_file(corpus_manifest_path, "Phase-3 corpus manifest")
-
-        run_step(
-            name="5/6 SUPERVISORY TAXONOMY",
-            command=[
-                sys.executable,
-                str(TAXONOMY_SCRIPT),
-                "--end-date",
-                target_date,
-                "--days",
-                str(args.days),
-            ],
-            steps=steps,
-        )
-
-        taxonomy_root = (
-            PROJECT_ROOT
-            / "data"
-            / "processed"
-            / "taxonomy"
-            / target_date
-            / f"window_{args.days}d"
-        )
-        taxonomy_manifest_path = taxonomy_root / "taxonomy_manifest.json"
-        require_file(taxonomy_manifest_path, "Taxonomy manifest")
-
-
-        # NEWS_PRODUCTION_READINESS_V1_TAXONOMY
-        taxonomy_evidence_summary = (
-            apply_taxonomy_evidence_policy(
-                target_date,
-                int(
-                    args.days
-                ),
+        # Corpus clustering (K-means/HDBSCAN), similarity pairs and the
+        # supervisory taxonomy feed no part of the governed edition: story
+        # selection, event matching and sections are decided by the publication
+        # rules. Run them only as an opt-in diagnostic, off the daily path.
+        if args.with_diagnostics:
+            run_step(
+                name="4/6 PHASE 3 CORPUS INTELLIGENCE",
+                command=[
+                    sys.executable,
+                    str(CORPUS_SCRIPT),
+                    "--end-date",
+                    target_date,
+                    "--days",
+                    str(args.days),
+                ],
+                steps=steps,
             )
-        )
 
-        seed_export_summary = (
-            export_seed_candidates(
-                target_date,
-                int(
-                    args.days
-                ),
+            corpus_root = (
+                PROJECT_ROOT
+                / "data"
+                / "processed"
+                / "ml_corpus"
+                / target_date
+                / f"window_{args.days}d"
             )
-        )
+            corpus_manifest_path = corpus_root / "corpus_manifest.json"
+            require_file(corpus_manifest_path, "Phase-3 corpus manifest")
 
-        print()
+            run_step(
+                name="5/6 SUPERVISORY TAXONOMY",
+                command=[
+                    sys.executable,
+                    str(TAXONOMY_SCRIPT),
+                    "--end-date",
+                    target_date,
+                    "--days",
+                    str(args.days),
+                ],
+                steps=steps,
+            )
 
-        print(
-            "Taxonomy evidence policy : "
-            f"{taxonomy_evidence_summary}"
-        )
+            taxonomy_root = (
+                PROJECT_ROOT
+                / "data"
+                / "processed"
+                / "taxonomy"
+                / target_date
+                / f"window_{args.days}d"
+            )
+            taxonomy_manifest_path = taxonomy_root / "taxonomy_manifest.json"
+            require_file(taxonomy_manifest_path, "Taxonomy manifest")
 
-        print(
-            "Human seed candidates     : "
-            f"{seed_export_summary}"
-        )
+
+            # NEWS_PRODUCTION_READINESS_V1_TAXONOMY
+            taxonomy_evidence_summary = (
+                apply_taxonomy_evidence_policy(
+                    target_date,
+                    int(
+                        args.days
+                    ),
+                )
+            )
+
+            seed_export_summary = (
+                export_seed_candidates(
+                    target_date,
+                    int(
+                        args.days
+                    ),
+                )
+            )
+
+            print()
+
+            print(
+                "Taxonomy evidence policy : "
+                f"{taxonomy_evidence_summary}"
+            )
+
+            print(
+                "Human seed candidates     : "
+                f"{seed_export_summary}"
+            )
+
+        else:
+            print("\nCorpus clustering and taxonomy diagnostics skipped (use --with-diagnostics).")
 
         # NEWS_SOURCE_FRESHNESS_GATE_V1: block before final HTML is created.
         from audit_news_flow import source_keys_for_date, EXPECTED_SURFACES, iso_date
@@ -1093,11 +1112,13 @@ def main() -> None:
             )
 
         report_qa = report_manifest.get("qa") or {}
-        if report_qa.get("status") != "PASS":
+        if report_qa.get("status") not in ("PASS", "PASS_WITH_PREVIEW_WARNINGS"):
             raise RuntimeError(
                 "Report QA is not PASS: "
                 + str(report_qa.get("failures"))
             )
+        if report_qa.get("preview_warnings"):
+            print("Source-preview warnings (governed edition has its own QA):", report_qa["preview_warnings"])
 
         production_alias = report_root / "legacy_source_preview.html"
         require_file(production_alias, "Production alias")
@@ -1164,6 +1185,38 @@ def main() -> None:
         if final_html.read_bytes()!=production_alias.read_bytes():
             raise RuntimeError('INTEGRATED_ATTACHMENT_ALIAS_MISMATCH')
 
+        # Browser dashboard derives only from the final, independently checked
+        # edition. It must not replace QA-bound bytes or distributed archives.
+        interactive_html = report_root / f"{brief_name} Interactive.html"
+        run_step(
+            name="INTERACTIVE FINANCIAL BRIEF",
+            command=[sys.executable,
+                     str(PROJECT_ROOT / "scripts" / "build_interactive_brief.py"),
+                     "--report", str(final_html), "--output", str(interactive_html)],
+            steps=steps,
+        )
+        require_file(interactive_html, "Interactive financial brief")
+        interactive_validation = interactive_html.with_suffix(".validation.json")
+        require_file(interactive_validation, "Interactive brief validation")
+        dashboard_receipt = json.loads(interactive_validation.read_text(encoding="utf-8"))
+        governed_manifest = json.loads(report_manifest_path.read_text(encoding="utf-8"))
+        if (not dashboard_receipt.get("source_unchanged")
+                or dashboard_receipt.get("source_sha256") != governed_manifest.get("sha256")
+                or dashboard_receipt.get("stories") != governed_manifest.get("consolidated_event_count")):
+            raise RuntimeError("INTERACTIVE_BRIEF_SOURCE_OR_COUNT_MISMATCH")
+        governed_manifest["interactive_dashboard"] = str(interactive_html)
+        governed_manifest["interactive_dashboard_validation"] = str(interactive_validation)
+        governed_manifest["interactive_dashboard_role"] = "BROWSER_READING_VIEW_OF_QA_PASSED_EDITION"
+        atomic_json(report_manifest_path, governed_manifest)
+        # Stable target for the Financial Brief desktop shortcut.
+        import shutil as _dashboard_shutil
+        latest_dashboard = PROJECT_ROOT / "data" / "delivery" / "latest" / "financial_brief_interactive.html"
+        latest_dashboard.parent.mkdir(parents=True, exist_ok=True)
+        latest_dashboard_tmp = latest_dashboard.with_suffix(".tmp")
+        _dashboard_shutil.copyfile(interactive_html, latest_dashboard_tmp)
+        latest_dashboard_tmp.replace(latest_dashboard)
+
+
         final_status = "SUCCESS"
 
         print()
@@ -1174,6 +1227,7 @@ def main() -> None:
         print(f"Window days          : {args.days}")
         print(f"Articles analysed    : {stage1_count}")
         print(f"Final attachment     : {final_html}")
+        print(f"Interactive dashboard: {interactive_html}")
         print(f"Report manifest      : {report_manifest_path}")
 
         learning_review = report_root / "model_learning_review.csv"
@@ -1183,6 +1237,7 @@ def main() -> None:
         print()
         print(
             f"External/stakeholder file: {brief_name}.html\n"
+            f"Browser dashboard: {brief_name} Interactive.html\n"
             "JSON, article CSV, manifests and model-learning review remain "
             "internal audit/QA outputs."
         )
@@ -1198,7 +1253,9 @@ def main() -> None:
 
     finally:
         if final_status != 'SUCCESS':
-            for filename in (f'Daily Financial Sector News Brief {target_date}.html', 'supervisory_digest.html'):
+            for filename in (f'Daily Financial Sector News Brief {target_date}.html', 'supervisory_digest.html',
+                             f'Daily Financial Sector News Brief {target_date} Interactive.html',
+                             f'Daily Financial Sector News Brief {target_date} Interactive.validation.json'):
                 (pending_report/filename).unlink(missing_ok=True)
             if final_status != 'REVIEW_REQUIRED':
                 atomic_json(pending_report/'report_manifest.json', {'status':'FAILED', 'publication_date':target_date, 'error':error_message})

@@ -1,17 +1,17 @@
 {
   "freeze_version": "news-production-freeze-v2",
-  "created_at": "2026-10-30T08:03:29.292288+05:30",
+  "created_at": "2026-11-13T13:13:09.510365+05:30",
   "created_by": "Claude (for thanuka)",
-  "tests": "275 passed, 3 subtests passed in 71.27s (0:01:11)",
+  "tests": "366 passed, 3 subtests passed in 236.17s (0:03:56)",
   "project_root": "C:\\Users\\thanuka\\Desktop\\Projects\\News Scrap",
   "files": [
     {
       "path": "scripts\\run_pipeline.py",
-      "sha256": "AD344EF6444C19F8FF417E600E8B67368C5FFC52FB8BCCB37C8DDEBBF9DC89F4"
+      "sha256": "F1F7D0628C8FDB8D3CFA4480A69C2857DEEEF5272147873A103013D0C49AB5CE"
     },
     {
       "path": "scripts\\run_collection.py",
-      "sha256": "E42AC535B5DFEAC8C42A2C938406BE615637B9D0A12BD55BBCD502129FC60DBD"
+      "sha256": "A1C39734DDBEFD085627E03361C9180768011B83BE1821A09E3FD90589BCFE2A"
     },
     {
       "path": "scripts\\run_intelligence_stage1.py",
@@ -19,7 +19,7 @@
     },
     {
       "path": "scripts\\run_intelligence_ml.py",
-      "sha256": "0CE21884F93A86F9F2AA378C045BAA3A0EC1F5CA47EE0ED0FED043CDF4009EE6"
+      "sha256": "45340DE110B65FAC679CF93B1FD7BD946F6B88D7331E2F600EA8730923F24D82"
     },
     {
       "path": "scripts\\run_ml_corpus_analysis.py",
@@ -31,7 +31,7 @@
     },
     {
       "path": "scripts\\build_financial_brief_v2.py",
-      "sha256": "9A9C65C44B2075737CE27257FF9E57DF78BD6BFC111BC91DEF516A5B595DEAA0"
+      "sha256": "B0B03C9B432C2C8C91768AD12AF1453458B743F4531BCFCEB858A3BC1C9C9609"
     },
     {
       "path": "scripts\\recover_collection_gaps.py",
@@ -47,7 +47,7 @@
     },
     {
       "path": "scripts\\news_release_gate.py",
-      "sha256": "A16A2AC012402A9EE9D352B75234520D29ACDA0F86AE338355B7EDD63B1AF761"
+      "sha256": "A81077607102844E0C890462510A609E24963C49149CF80FB2DC3195AEEB63E4"
     },
     {
       "path": "scripts\\news_publication_history.py",
@@ -83,7 +83,7 @@
     },
     {
       "path": "scripts\\run_daily_news_task.ps1",
-      "sha256": "D9E9243032E2020AAD61EA3F6364C7831322C5AC8A4F514915B6126F10D15C5D"
+      "sha256": "E0AF0B6FF94718FDD0B45E751E3D50A5DCE7FF3B777B2E0F3DFF9CC9E0BB7515"
     },
     {
       "path": "scripts\\run_scheduler.py",
@@ -91,7 +91,7 @@
     },
     {
       "path": "scripts\\resume_final_edition.py",
-      "sha256": "1F5C70893A322D7822C054C4C855910E250A46D5C1949C8A8279141CE4AA5CD8"
+      "sha256": "42E502DD8CB4BC6ABA27624434C77F3546A8CC10DE75C49314B1FAF6BA309BF2"
     },
     {
       "path": "scripts\\pipeline_status.py",
@@ -112,6 +112,18 @@
     {
       "path": "scripts\\brief_semantic_guard.py",
       "sha256": "7359E40CB67927938DD0D9AA9C69ABCBB39E012C591DD5BE30AF99758191BC88"
+    },
+    {
+      "path": "scripts\\build_interactive_brief.py",
+      "sha256": "298E21A907E06684C67B61198F04D31CA7F141B50A668CFAFF81E126ACF40E8F"
+    },
+    {
+      "path": "scripts\\interactive_brief.html",
+      "sha256": "52D856BB2DBFCCB93F62DBB36EEF4195DFD6CE041072EE3DD59DC736EFF39D3B"
+    },
+    {
+      "path": "scripts\\leak_audit.py",
+      "sha256": "96EFF5E0E8A750B22AEFC996A4E3D61903AD8A28E245709189E1B39686169910"
     },
     {
       "path": "config\\sources\\registry.yaml",
@@ -143,11 +155,11 @@
     },
     {
       "path": "config\\intelligence\\entities_cbsl.yaml",
-      "sha256": "1920373C696ADDE5375EB16FB1200D1878BB47684429B5D569B8139C17DD27F4"
+      "sha256": "823D3E98ED5DB4AEDE45F92D09C8965119317D4348EE33CBEAAB58FC38548104"
     },
     {
       "path": "config\\intelligence\\ml.yaml",
-      "sha256": "80589173BF4E40ECFF3A47E1C80808074A24CB6EBDB84EC9F259E1AE70A3DD13"
+      "sha256": "FBD65ED63A5338EEF3C395F0041207333F2D0200CC95A94762650A596929B499"
     },
     {
       "path": "config\\intelligence\\stage1.yaml",
@@ -206,10 +218,6 @@
       "sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
     },
     {
-      "path": "src\\bank_intel\\collectors\\sources\\_public_business_base.before_backfill.py",
-      "sha256": "C34801F586CE7D3DBE96EB405AB64D1F1A2BECBA198DB80306F7EB7E463053E8"
-    },
-    {
       "path": "src\\bank_intel\\collectors\\sources\\_public_business_base.py",
       "sha256": "ACFBF5C2628497B845FA219A865C381C21A7CBB6BDCFFD0EDB854484831A9E3F"
     },
@@ -235,7 +243,7 @@
     },
     {
       "path": "src\\bank_intel\\collectors\\sources\\island.py",
-      "sha256": "431B5A745BBA87EB1A6AA0470C6DB0BB74079E8E0F7D8C2E3590252676CB1C93"
+      "sha256": "552FC51856A56F7409B3F1F90DB381C989E32E2849B2D95FD24B00EE3E267C0C"
     },
     {
       "path": "src\\bank_intel\\common\\__init__.py",
@@ -263,11 +271,15 @@
     },
     {
       "path": "src\\bank_intel\\common\\readiness.py",
-      "sha256": "51E77138B01FCEA512F8B3537A50B0DDDA9B966545A78384C4FE96E11EFE55C4"
+      "sha256": "5511EFDC980DC681173A776F57230F36C29FD2D5C4D78A2E27C56AEFBFAF9882"
     },
     {
       "path": "src\\bank_intel\\common\\reliability.py",
       "sha256": "2BBF0CF54FB9AE6B96A9DD80BDC39AC12D3A95E517DC98DF936BDE8A384D0648"
+    },
+    {
+      "path": "src\\bank_intel\\common\\run_control.py",
+      "sha256": "21A69CF41ABF8993881C2F34A3CDBBF80E4E044463B25566BC4F7A8C91AAA75B"
     },
     {
       "path": "src\\bank_intel\\common\\source_status.py",
@@ -319,7 +331,7 @@
     },
     {
       "path": "src\\bank_intel\\extraction\\validator.py",
-      "sha256": "A53384F2583944CC29ACB07A0903ADAA2681641B3F2C60336E18CAA21C5674FE"
+      "sha256": "BD89EE944934466988930D5D3A8E5267769793BC49EC39D1FD1AF8EA53EF9B5D"
     },
     {
       "path": "src\\bank_intel\\intelligence\\__init__.py",
@@ -347,7 +359,7 @@
     },
     {
       "path": "src\\bank_intel\\intelligence\\ml_pipeline.py",
-      "sha256": "0E5630CF6D70D7821010DDB2979839EB64FD8BC146B638136DF0F43505B61A79"
+      "sha256": "1E7173513DD9B6A722CA6E041EFCB0916BAF85127FFDE87C3643A14161C8E7F6"
     },
     {
       "path": "src\\bank_intel\\intelligence\\production_policy.py",
@@ -407,7 +419,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\decisions.py",
-      "sha256": "29B76A838E41471D03A4FA02058133FBE95405B68B0FBA5F835E2B7C4754E2F5"
+      "sha256": "F0AA78A7200D96FE176ACC74B058E2465A50FDCAD50F6618C3F542B39F5CA5E8"
     },
     {
       "path": "src\\bank_intel\\publication\\delivery.py",
@@ -419,7 +431,7 @@
     },
     {
       "path": "src\\bank_intel\\publication\\evidence.py",
-      "sha256": "176BDDA55AC05385DB65C5079B31D23548ECFE011C60BFD613FC59F9A8389F3E"
+      "sha256": "32FAFD93FD435455035110C57D99CDB871009C49997BAB07E24BACB5D7D3180E"
     },
     {
       "path": "src\\bank_intel\\publication\\history_import.py",
@@ -427,15 +439,15 @@
     },
     {
       "path": "src\\bank_intel\\publication\\identity.py",
-      "sha256": "F55301051399C4B8DC03C74FF65DC08B90EDA2344A4D6416F7CFF97E9EB303F2"
+      "sha256": "2C73EA99299E27BBEAAEB0E7B74E74DEE2144E98C158CCE37A890FEF6A0B0962"
     },
     {
       "path": "src\\bank_intel\\publication\\ledger.py",
-      "sha256": "543D6A2E12FE77F6730E207CA133731623C336F27F344C313C165AF83B5E7DE0"
+      "sha256": "60CC654BC38FBE1BADBDACDF1F4D606F4A43E5E38909F1845E97DE2EA43CF01E"
     },
     {
       "path": "src\\bank_intel\\publication\\materiality.py",
-      "sha256": "18B2DCB1C54BC7CCDA05E659600B653E5920D01C31FEF9B79CFCCE6967893F59"
+      "sha256": "C5D79452EDA0EE7A5415EAE5E1F34CC4C0E9AFA6A40710C454D688EDF7BDC2F6"
     },
     {
       "path": "src\\bank_intel\\publication\\ml_diagnostics.py",
@@ -447,15 +459,19 @@
     },
     {
       "path": "src\\bank_intel\\publication\\model_policy.py",
-      "sha256": "BC59FF95FF3220E4A3262D2540983A05C1835C7A9835DDECF825964BB0EF7832"
+      "sha256": "882F82574FB5CA8FA9EDF4B46BFB0A206F2BBC69C2A0E404DE04C6E999FA5F7A"
     },
     {
       "path": "src\\bank_intel\\publication\\news_style.css",
       "sha256": "095135657F9F312066E342E77E2DB751DA22A75606A83B2B410E32F7DF85E1D4"
     },
     {
+      "path": "src\\bank_intel\\publication\\ranking.py",
+      "sha256": "E1EB9CA0BB9079BA7A95FB7285759E88847087392F8C6E6DBB7275017548533B"
+    },
+    {
       "path": "src\\bank_intel\\publication\\reconcile.py",
-      "sha256": "4108CBF8C3A063FD17232BA4B5802C2019C7A3A8D22B5354951BF90D2F0CE898"
+      "sha256": "F2DBD3FEDF1C99887003713C75BABD55487A17DBD02E34C02ECD1BAD99C6CF6B"
     },
     {
       "path": "src\\bank_intel\\publication\\release.py",
@@ -470,6 +486,10 @@
       "sha256": "B23C9F9499174087B97C809736AD13AB13F4E19D38C16F01B76D6C08AE046A31"
     },
     {
+      "path": "src\\bank_intel\\publication\\semantic.py",
+      "sha256": "40D9F5377D9CBBDBC4E6D37A473356E0A108961F380B31B6829B9C910E6CA0EC"
+    },
+    {
       "path": "src\\bank_intel\\publication\\template_lock.json",
       "sha256": "A0FFC11ECCEA91070FAFC49B2A6F03445EB635A92E98508D780D493EDA8772D6"
     },
@@ -479,7 +499,11 @@
     },
     {
       "path": "src\\bank_intel\\publication\\workflow.py",
-      "sha256": "DB2BB2671C9169AC85EEFDBBFBA6910FB6412CDE74DBAD76C00096586CBA4AD5"
+      "sha256": "D71F3DAFDBE3A46B8BAF6B77DC9DE99C8AD844CFD5178183BD832F182DF2CFFE"
+    },
+    {
+      "path": "src\\bank_intel\\publication\\writing.py",
+      "sha256": "25556A08C6D2E2941FF35D311A85BE211EFACB44AA05831B48CBE12CC7290711"
     },
     {
       "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v5_stage_b_targeted\\stage_b_watch_vs_relevant\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\config.json",
@@ -506,32 +530,40 @@
       "sha256": "07ECED375CEC144D27C900241F3E339478DEC958F92FDDBC551F295C992038A3"
     },
     {
-      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\config.json",
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v9_editorial_stage_a\\best_model\\config.json",
       "sha256": "EEE2FB7D06AFF6FF9194371A3AE521A6324EF6315740A7C124FB53FD59DEC34E"
     },
     {
-      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\model.safetensors",
-      "sha256": "390CE9FBA46106048D03E977FF31CCCFFF20E8BF7CB3A84F3C14470A0AB3251C"
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v9_editorial_stage_a\\best_model\\model.safetensors",
+      "sha256": "34B21CB3F4E788F28F25E29113BA7FDA634352E3D969C72F2CF492E62F67616F"
     },
     {
-      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\special_tokens_map.json",
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v9_editorial_stage_a\\best_model\\special_tokens_map.json",
       "sha256": "3C3507F36DFF57BCE437223DB3B3081D1E2B52EC3E56EE55438193ECB2C94DD6"
     },
     {
-      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\tokenizer.json",
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v9_editorial_stage_a\\best_model\\tokenizer.json",
       "sha256": "5DED4F6619072E6DE0A1818DC1DA5449CBB48D6F7E95FB58F43B13FA88013B66"
     },
     {
-      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\tokenizer_config.json",
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v9_editorial_stage_a\\best_model\\tokenizer_config.json",
       "sha256": "A5C2E5A7B1A29A0702CD28C08A399B5ECC110C263009D17F7E3B415F25905FD8"
     },
     {
-      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v7_augmented_stage_a\\finbert_lr1e-05_chunks5_sched5_seed42\\best_model\\vocab.txt",
+      "path": "data\\processed\\relevance_two_stage\\supervisory_relevance_v9_editorial_stage_a\\best_model\\vocab.txt",
       "sha256": "07ECED375CEC144D27C900241F3E339478DEC958F92FDDBC551F295C992038A3"
     },
     {
+      "path": "data\\processed\\story_ranker\\metrics.json",
+      "sha256": "FEE379479A1E91833E5E77A1919B3EDE4DA2A02D167DDE1E7271C5712C596DB8"
+    },
+    {
+      "path": "data\\processed\\story_ranker\\ranker.joblib",
+      "sha256": "40E801625DCCF78C9FAD979279BEF5AD9B60C0E913F08BBC26251AEDF1A236E8"
+    },
+    {
       "path": "requirements.lock.txt",
-      "sha256": "93F8D27579BFD4B08D3ADF255C393F70ACCE153F337CF4341261FF4AAF50DD74"
+      "sha256": "5F3AEE36D184232E1DAB4CE131ABA7A4C4A6F8433D743F5877AF52DE437EE377"
     }
   ]
 }

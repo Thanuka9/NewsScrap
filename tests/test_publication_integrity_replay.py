@@ -270,14 +270,18 @@ def test_summary_drops_subheadline_deck_and_inline_byline():
     assert summary(deck).startswith('Cargills Bank has launched')
     byline={'headline':'Bond yields steady','body':'By Wealth Trust Securities The secondary Bond market yesterday saw yields hold steady. Volumes were moderate.'}
     assert summary(byline).startswith('The secondary Bond market')
-    # No recognisable lead: keep the source text rather than guess a cut point.
+    # No recognisable lead: keep the source text rather than guess a cut point;
+    # the deck's points are kept, written as sentences.
     unclear={'headline':'Port talks','body':'- Notes regional policy shifts - Talks continue. Officials met on Monday.'}
-    assert summary(unclear).startswith('- Notes regional')
+    assert summary(unclear).startswith('Notes regional policy shifts.')
 
 
 def test_budget_advocacy_is_not_an_automatic_fiscal_indicator():
     body='The association presented its recommendations for the national budget to the Treasury Secretary at a meeting this month.'
-    assert decide({'headline':'OPA presents collective professional proposals for Budget 2027','body':body,'publication_date':'2026-10-27'})['decision']=='REVIEW'
+    # Editor, 12 Nov 2026: a Budget wish-list with no domain subject stays out altogether.
+    assert decide({'headline':'OPA presents collective professional proposals for Budget 2027','body':body,'publication_date':'2026-10-27'})['decision']=='EXCLUDE'
+    # A wish-list on tax is in the domain and still goes to an editor.
+    assert decide({'headline':'OPA presents tax proposals for Budget 2027','body':body,'publication_date':'2026-10-27'})['decision']=='REVIEW'
     fiscal=('The Budget 2027 deficit target has been set at 5.1% of GDP, the Treasury said, with revenue measures '
             'expected to lift collections and reduce government borrowing from domestic banks over the year.')
     assert decide({'headline':'Budget 2027 deficit target set at 5.1% of GDP','body':fiscal,'publication_date':'2026-10-27'})['decision']=='INCLUDE'

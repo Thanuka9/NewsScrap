@@ -256,6 +256,23 @@ def resolve_input_article(
     return path
 
 
+def unique_article_id(
+    article_id: str,
+    source_slug: str,
+    input_path: Path,
+    used: set,
+) -> str:
+    # A publisher can serve one article at two addresses (Daily Mirror's
+    # /business/ and /business-news/): same text, same hash. Every Stage-1
+    # record still needs its own analysis file for the manifest to hold.
+    if (source_slug, article_id) in used:
+        article_id = f"{article_id}_{safe_slug(input_path.stem)[:8]}"
+
+    used.add((source_slug, article_id))
+
+    return article_id
+
+
 def reset_ml_date_output(
     target_date: str,
 ) -> Path:
@@ -835,6 +852,8 @@ def main() -> None:
         )
         return
 
+    used_article_ids = set()
+
     for (
         index,
         stage1_path,
@@ -948,6 +967,13 @@ def main() -> None:
                     "unknown",
                 )
             )
+        )
+
+        article_id = unique_article_id(
+            article_id,
+            source_slug,
+            input_path,
+            used_article_ids,
         )
 
         output_folder = (

@@ -276,6 +276,146 @@ additional_entities:
       - "LOLC Group"
       - "LOLC"
 
+  - canonical_name: "Alliance Finance Company PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Alliance Finance"
+      - "AFC"
+
+  - canonical_name: "AMW Capital Leasing and Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "AMW Capital Leasing"
+      - "AMW Finance"
+
+  - canonical_name: "Bimputh Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Bimputh Finance"
+
+  - canonical_name: "Central Finance Company PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Central Finance"
+
+  - canonical_name: "Citizens Development Business Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Citizens Development Business Finance"
+
+  - canonical_name: "Commercial Credit and Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Commercial Credit and Finance"
+      - "Commercial Credit & Finance"
+
+  - canonical_name: "Dialog Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Dialog Finance"
+
+  - canonical_name: "Fintrex Finance Limited"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Fintrex Finance"
+
+  - canonical_name: "Janashakthi Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Janashakthi Finance"
+
+  - canonical_name: "Kanrich Finance Limited"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Kanrich Finance"
+
+  - canonical_name: "Lanka Credit and Business Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Lanka Credit and Business Finance"
+
+  - canonical_name: "LB Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "LB Finance"
+
+  - canonical_name: "LOLC Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "LOLC Finance"
+
+  - canonical_name: "Mahindra Ideal Finance Limited"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Mahindra Ideal Finance"
+
+  - canonical_name: "Mercantile Investments and Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Mercantile Investments and Finance"
+      - "Mercantile Investments"
+
+  - canonical_name: "Nation Lanka Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Nation Lanka Finance"
+
+  - canonical_name: "Orient Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Orient Finance"
+
+  - canonical_name: "PMF Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "PMF Finance"
+
+  - canonical_name: "Richard Pieris Finance Limited"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Richard Pieris Finance"
+      - "Arpico Finance"
+
+  - canonical_name: "Sarvodaya Development Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Sarvodaya Development Finance"
+
+  - canonical_name: "Senkadagala Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Senkadagala Finance"
+
+  - canonical_name: "Singer Finance (Lanka) PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Singer Finance"
+
+  - canonical_name: "Sinhaputhra Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Sinhaputhra Finance"
+
+  - canonical_name: "Siyapatha Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Siyapatha Finance"
+
+  - canonical_name: "Softlogic Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Softlogic Finance"
+
+  - canonical_name: "UB Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "UB Finance"
+
+  - canonical_name: "Vallibel Finance PLC"
+    institution_type: "LICENSED_FINANCE_COMPANY"
+    aliases:
+      - "Vallibel Finance"
+
   - canonical_name: "HNB Finance PLC"
     institution_type: "LICENSED_FINANCE_COMPANY"
     aliases:

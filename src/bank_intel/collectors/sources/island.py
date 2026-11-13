@@ -471,9 +471,10 @@ class IslandBusinessAdapter(BusinessSourceAdapter):
             return super().fetch(url)
         except Exception as exc:
             detail = str(exc).lower()
-            # The publisher's own server errors (HTTP 5xx) on a page that the
+            # The publisher's own server errors (HTTP 5xx), or its firewall
+            # refusing a deeper listing page (HTTP 403), on a page that the
             # official feed carries in full: recover that page only.
-            if re.search(r"status[= ]5\d\d|http 5\d\d|\b5\d\d server error", detail):
+            if re.search(r"status[= ](?:403|5\d\d)|http (?:403|5\d\d)|\b5\d\d server error", detail):
                 try:
                     recovered = self._rss_for_url(url)
                 except RuntimeError:

@@ -51,6 +51,10 @@ def publisher_article_id(url: str) -> str:
  if host=='dailymirror.lk':
   m=re.search(r'/(?:[0-9]{2,4})-(\d{5,9})/?$',p.path)
   if m:return 'DAILY_MIRROR_ARTICLE_'+m.group(1)
+ # Daily FT keeps the number and varies the slug (Govt-to-, Govt--to-).
+ if host=='ft.lk':
+  m=re.search(r'/(?:[0-9]{2})-(\d{6,9})/?$',p.path)
+  if m:return 'DAILY_FT_ARTICLE_'+m.group(1)
  return ''
 
 def approved(source: str, url: str) -> bool:
@@ -65,13 +69,59 @@ def first_window_day(target: dt.date) -> dt.date:
  return target-dt.timedelta(days=(3 if target.weekday()==0 else 1))
 
 
-def market_session(article: dict) -> str:
+MONTHS=('january','february','march','april','may','june','july','august','september','october','november','december')
+WEEKDAYS=('monday','tuesday','wednesday','thursday','friday','saturday','sunday')
+FITCH_NATIONAL_RATINGS='FITCH_NATIONAL_RATINGS'
+MARKET_HEADLINE=re.compile(r'\b(?:aspi|cse|stocks|bourse|indices|stock market)\b')
+
+
+def closing_levels(article: dict) -> list[str]:
+ # Index levels in the opening text, the close first; two sessions never close alike.
+ return re.findall(r'\b(?:1[5-9]|2[0-9]),\d{3}\.\d{1,2}\b',str(article.get('body') or article.get('summary') or '')[:600])
+
+
+def reported_aspi_fall(article: dict) -> str:
+ # Points the ASPI fell by; the S&P SL20 sentence that follows is a different index.
+ m=re.search(r'(?i)(?:\bASPI\b|All Share Price Index)(?:(?!S&P|SL20).){0,130}?(?:down|fell|declined)(?:(?!S&P|SL20).){0,35}?([0-9]{1,3}\.[0-9]{1,2})\s+points\b',
+             str(article.get('body') or ''))
+ return m.group(1) if m else ''
+
+
+def opening_market_update(article: dict) -> bool:
  h=str(article.get('headline') or '').casefold()
- t=str(article.get('body') or article.get('summary') or '')
- if not re.search(r'\b(aspi|cse|stocks?|shares?|bourse|indices|stock market)\b',h): return ''
- m=re.search(r'\b(1[5-9]|2[0-9]),\d{3}\.\d{1,2}\b',t)
- if m: return 'CSE_ASPI_'+m.group().replace(',','')
- return ''
+ lead=str(article.get('body') or article.get('summary') or '')[:220].casefold()
+ if not MARKET_HEADLINE.search(h) or re.search(r'\b(?:close[sd]?|ended|ends)\b',h+' '+lead):return False
+ return bool(re.search(r'\b(?:opened (?:up|down|flat|higher|lower)|mid.?day|trend(?:s|ing|ed)? (?:up|down))\b',h+' '+lead))
+
+
+def rupee_quote(article: dict) -> str:
+ # The day's dealer quote, '332.75/80'; the next day's quote is close but not equal.
+ m=re.search(r'(?i)\brupee\b.{0,40}?\b(\d{3}\.\d{2}/\d{2})\b',str(article.get('headline') or ''))
+ return m.group(1) if m else ''
+
+
+def session_date(article: dict) -> dt.date | None:
+ # The trading day a report describes. Publishers report the same close on
+ # the day or the morning after, and a sent story can carry the edition date.
+ try:published=dt.date.fromisoformat(str(article.get('publication_date') or '')[:10])
+ except ValueError:return None
+ body=str(article.get('body') or article.get('summary') or '').casefold()
+ lead=body[:500]
+ stated=re.search(r'\b(\d{1,2})(?:st|nd|rd|th)?\s+('+'|'.join(MONTHS)+r')\b',lead)
+ if stated:
+  try:
+   day=dt.date(published.year,MONTHS.index(stated.group(2))+1,int(stated.group(1)))
+   if 0<=(published-day).days<=6:return day
+  except ValueError:pass
+ # 'Closed sharply higher on Thursday' names the session; a later 'began yesterday' does not.
+ closed_on=re.search(r'\b(?:closed|ended|close[sd]?)\b[^.]{0,80}?\bon ('+'|'.join(WEEKDAYS)+r')\b',lead)
+ if closed_on:return published-dt.timedelta(days=(published.weekday()-WEEKDAYS.index(closed_on.group(1)))%7)
+ if 'yesterday' in body:
+  # Friday is not yesterday on a Monday; a weekend paper's Saturday is.
+  return published-dt.timedelta(days=1) if 1<=published.weekday()<=5 else None
+ for index,name in enumerate(WEEKDAYS):
+  if re.search(r'\b'+name+r'\b',lead):return published-dt.timedelta(days=(published.weekday()-index)%7)
+ return published
 
 
 def _event_key(article: dict) -> str:
@@ -95,26 +145,35 @@ def _event_key(article: dict) -> str:
   pub=str(article.get('publication_date') or '')[:7]
   if issuer and amount and pub:
    return 'GREEN_BOND_LUX_'+issuer.group(1).strip().replace(' ','_')+'_'+amount.group(1)+'_'+amount.group(2)+'_'+pub
- # A Tuesday–Friday publisher's "yesterday" ASPI trading report refers to
- # the preceding trading day. This groups same-session headlines WITHOUT
- # claiming their reported numbers agree; conflicting figures are reviewed
- # independently before publication. Monday/weekend recaps are excluded from
- # this shortcut because Friday is not yesterday on a Monday.
- if re.search(r'\b(?:cse|stock market|aspi|bourse|indices)\b',h) and 'yesterday' in body and re.search(r'\b(?:aspi|all share price index)\b',body):
-  try:published=dt.date.fromisoformat(str(article.get('publication_date') or '')[:10])
-  except ValueError:published=None
-  if published and 1<=published.weekday()<=4:
-   return 'CSE_DAILY_SESSION_'+(published-dt.timedelta(days=1)).isoformat()
- # Only exact observed market close is merged, never broad market descriptions.
- mk=market_session(article)
- if mk and re.search(r'\b(close|closed|ended|ends|slips?|falls?|down|slide|plummet|red|declin)',h): return mk
+ # One month's current account is one release, whoever reports it and when.
+ if 'current account' in h:
+  period=re.search(r'\b('+'|'.join(m[:3] for m in MONTHS)+r')[a-z]*\b',h+' '+body[:300])
+  published=_date(article)
+  if period and published:
+   # Reports quote last year's figure too, so the year comes from the date.
+   month=[m[:3] for m in MONTHS].index(period.group(1))+1
+   year=published.year-1 if month>published.month else published.year
+   return f'LK_CURRENT_ACCOUNT_{year}_{period.group(1)}'
+ # One agency review of national ratings is one event across the banks it names.
+ if 'fitch' in h and re.search(r'\b(?:upgrades?|downgrades?|revises?|takes? action|affirms?|assigns?|tops?|rates)\b|\bnotch',h) and re.search(r'\(lka\)|national (?:long.term )?ratings?',t):
+  # Finance companies follow their parent banks in a separate rating action.
+  return FITCH_NATIONAL_RATINGS+('_NBFI' if re.search(r'\bnbfis?\b|financ(?:e|ing) compan|leasing',h) else '')
+ # One closing session is one event, however a publisher words or dates it.
+ # This groups same-session reports WITHOUT claiming their numbers agree;
+ # conflicting figures are reviewed independently before publication.
+ # Only an observed close is merged, never a broad market description.
+ if (MARKET_HEADLINE.search(h) or re.search(r'\b(?:aspi|all share price index)\b',body[:120])) and not opening_market_update(article):
+  reported=('yesterday' in body and re.search(r'\b(?:aspi|all share price index)\b',body)) or (
+   re.search(r'\b(close|closed|ended|ends|slips?|falls?|down|slide|plummet|red|declin)',h) and (closing_levels(article) or 'closed' in body[:200]))
+  session=session_date(article) if reported else None
+  if session:return 'CSE_DAILY_SESSION_'+session.isoformat()
  return ''
 
 
 def event_signature(article: dict) -> str:
  """Bound series keys to observed dates, never a release-date patch."""
  key=_event_key(article)
- if not key or key.startswith(('LK_EXPORTS_','GREEN_BOND_LUX_','CSE_DAILY_SESSION_')):return key
+ if not key or key.startswith(('LK_EXPORTS_','LK_CURRENT_ACCOUNT_','GREEN_BOND_LUX_','CSE_DAILY_SESSION_')):return key
  published=str(article.get('publication_date') or '')[:10]
  try:dt.date.fromisoformat(published)
  except ValueError:return ''
@@ -294,13 +353,165 @@ def organisations(names: set[str]) -> set[str]:
 
 
 def _date(article: dict):
- try:return dt.date.fromisoformat(str(article.get('publication_date') or '')[:10])
- except ValueError:return None
+ # Older sent records keep no publication date; the edition still bounds them.
+ for value in (article.get('publication_date'),article.get('edition_date')):
+  try:return dt.date.fromisoformat(str(value or '')[:10])
+  except ValueError:continue
+ return None
 
 
 def headline_overlap(a: dict, b: dict) -> float:
  x,y=content_tokens(a.get('headline','')),content_tokens(b.get('headline',''))
  return len(x&y)/len(x|y) if x and y else 0.0
+
+
+def url_headline(url: str) -> str:
+ '''The publisher's own headline, kept in a link's address ('NDB-and-IFC-expand-...').'''
+ path=urlsplit(url or '').path.rstrip('/')
+ slug=path.rsplit('/',2)[-2] if re.search(r'/\d{2,4}-\d{5,9}$',path) else path.rsplit('/',1)[-1]
+ words=[w for w in re.split(r'[-_]+',slug) if w]
+ return ' '.join(words) if len(words)>=4 and not slug.isdigit() else ''
+
+
+RESULTS=re.compile(r'(?i)\b(?:profit|pat|pbt|results|earnings|net income)\b')
+
+
+def _specific(figure: tuple) -> bool:
+ # Round amounts (Rs. 10 b, 8%) recur across unrelated stories; specific ones do not.
+ kind,value=figure
+ if kind=='PCT':return value!=int(value) or value in (49,51) or value>20
+ if kind in ('LKR','USD'):return value>=1 and (value%1000 if value>=1000 else value%10)!=0
+ return kind=='NUM' and value>=1000 and value%1000!=0
+
+
+def shares_reported_figure(a: dict, b: dict, max_gap_days: int=4) -> bool:
+ '''Another paper's report of a story already sent: the same specific figure
+ and at least two subject words within a few days, however it is worded.'''
+ da,db=_date(a),_date(b)
+ if not da or not db or abs((da-db).days)>max_gap_days:return False
+ if rupee_quote(a) and rupee_quote(b) and rupee_quote(a)!=rupee_quote(b):return False
+ def facts(x,words=120):return str(x.get('headline') or '')+' '+' '.join(str(x.get('body') or x.get('summary') or '').split()[:words])
+ mine={f for f in figures(facts(a)) if _specific(f)}
+ theirs={f for f in figures(facts(b)) if _specific(f)}
+ if not any(_close(f,t) for f in mine for t in theirs):return False
+ return len(content_tokens(str(a.get('headline') or ''))&content_tokens(facts(b,60)))>=2
+
+
+def words_in_facts(a: dict, b: dict) -> float:
+ # Share of one headline's words found in the other report's opening text.
+ # An editor rewrites a sent headline, but the facts keep the report's words.
+ best=0.0
+ for one,other in ((a,b),(b,a)):
+  words=content_tokens(one.get('headline',''))
+  facts=content_tokens(_lead(other))
+  if words:best=max(best,len(words&facts)/len(words))
+ return best
+
+
+GENERIC_CAPS={'budget','sri','lanka','lankan','lankans','sl','govt','government','board','bank','banks','central','economy','economic',
+ 'cabinet','parliament','president','minister','ministry','new','from','beyond','what','how','why','will','the','and','for','with',
+ 'national','state','public','global','independent','director','directors','chairman','ceo','md','plc','group','holdings'}
+
+
+MONTH_STEMS={m[:3] for m in MONTHS}
+
+
+def headline_names(article: dict) -> set[str]:
+ '''Proper names written in a headline ('Ravi', 'HSBC'), not generic capitalised words.'''
+ words=re.findall(r"\b[A-Z][A-Za-z&'’-]+",str(article.get('headline') or ''))
+ # Months ('Sept') and units ('Rs', 'Bn') are in every results headline; they name nothing.
+ return {w.casefold() for w in words if len(w)>1 and w.casefold() not in GENERIC_CAPS
+         and w.casefold()[:3] not in MONTH_STEMS and w.casefold() not in ('rs','bn','mn','tn','us','usd','lkr','yoy','pct','q1','q2','q3','q4')}
+
+
+DAILY_SERIES=re.compile(r'(?i)\brupee\b|\bcse\b|\baspi\b|\bindices\b|\bstock market\b|\bbourse\b|\bshares? (?:jump|fall|rise|close)|\bstocks? close|'
+                        r'\bt.?bills?\b|\btreasury (?:bills?|bonds?)\b|\bbond (?:market|yields?)\b|\byields?\b|\bsecondary (?:bond )?market\b|'
+                        r'\bweek ends\b|\bforeign (?:investors?|selling|buying|holdings)\b')
+RESULT_WORDS=re.compile(r'(?i)\b(?:profit|pat|pbt|earnings|results|revenue|total assets|deposits|tn|trillion|nine.month|quarter)\b')
+
+
+def possible_repeat(a: dict, b: dict, max_gap_days: int=14) -> bool:
+ '''A reworded follow-up of a sent story ('Seylan crosses Rs 1 tn in assets' after
+ 'Seylan nine-month profit'). It goes to an editor; it is never dropped on this alone.'''
+ da,db=_date(a),_date(b)
+ if not da or not db or abs((da-db).days)>max_gap_days:return False
+ # Daily series read alike every day and are new every day.
+ if rupee_quote(a) or rupee_quote(b) or event_signature(a).startswith('CSE_DAILY_SESSION_') or DAILY_SERIES.search(str(a.get('headline') or '')):return False
+ # Two loans for stated, different purposes ('macro recovery', 'social protection') are two loans.
+ fa,fb=financing_identity(a),financing_identity(b)
+ if fa.get('purposes') and fb.get('purposes') and not fa['purposes']&fb['purposes']:return False
+ names=headline_names(a)&headline_names(b)
+ if len(names)>=2:return True
+ if names and RESULT_WORDS.search(str(a.get('headline') or '')) and RESULT_WORDS.search(str(b.get('headline') or '')) and abs((da-db).days)<=10:return True
+ if wording_overlap(a,b)>=0.40 and named_in_common(a,b,entities(a)&entities(b)):return True
+ # Different wording, but the same names, phrase, acronym or speaker within a few days.
+ return abs((da-db).days)<=7 and same_subject_signals(a,b)
+
+
+def named_in_common(a: dict, b: dict, shared: set) -> bool:
+ '''A real organisation both name (not Fitch, not a generic word such as 'Board'), or a name in both headlines.'''
+ return bool({o for o in organisations(shared) if not o.startswith('name:') and 'fitch' not in o} or headline_names(a)&headline_names(b))
+
+
+TITLE_PERSON=re.compile(r"\b(?:Dr|Mr|Mrs|Ms|Prof|Eng)\.?\s+((?:[A-Z][a-z]+\s+){1,3}[A-Z][a-z]+)")
+PHRASE_STOP={'sri','lanka','lankan','lankas','govt','government','new','says','said','will','over','with','from','after','amid','into','for','and','the',
+             'its','to','of','in','on','at','by','as','up','down','more','than','first','year','years','day','week','month','rs','bn','mn','b','m'}
+
+
+def headline_phrases(article: dict) -> set[str]:
+ '''Two-word phrases in a headline ('revenue strategy', 'capital market', 'pyramid scheme').'''
+ words=[w[:-1] if len(w)>4 and w.endswith('s') and not w.endswith('ss') else w
+        for w in re.findall(r"[a-z]+",str(article.get('headline') or '').casefold())]
+ return {a+' '+b for a,b in zip(words,words[1:]) if a not in PHRASE_STOP and b not in PHRASE_STOP and len(a)>2 and len(b)>2}
+
+
+def acronyms(article: dict) -> set[str]:
+ '''Initials of capitalised names in a headline: 'Asia Frontier Capital' -> 'afc'.'''
+ found=set()
+ for run in re.findall(r"(?:[A-Z][a-z]+(?:\s+|$)){2,5}",str(article.get('headline') or '')):
+  found.add(''.join(w[0] for w in run.split()).casefold())
+ return {x for x in found if len(x)>=3}
+
+
+def people(article: dict) -> set[str]:
+ '''Titled people named in the headline or lead ('Dr Anil Jayantha Fernando').'''
+ text=str(article.get('headline') or '')+' '+_lead(article)[:700]
+ return {m.group(1).casefold() for m in TITLE_PERSON.finditer(text)}
+
+
+def same_subject_signals(a: dict, b: dict) -> bool:
+ '''Different wording, but the same names, phrase or speaker: an editor should look.'''
+ ov=wording_overlap(a,b)
+ if named_in_common(a,b,entities(a)&entities(b)) and ov>=0.25:return True
+ if headline_phrases(a)&headline_phrases(b) and ov>=0.18:return True
+ caps=lambda x:{w.casefold() for w in re.findall(r'\b[A-Z]{3,5}\b',str(x.get('headline') or ''))}
+ if caps(a)&acronyms(b) or caps(b)&acronyms(a):return True
+ return bool(people(a)&people(b)) and ov>=0.15
+
+
+def possible_duplicate(a: dict, b: dict) -> bool:
+ '''Two stories the same day that may be one development written very differently.'''
+ da,db=_date(a),_date(b)
+ if not da or not db or abs((da-db).days)>1:return False
+ if DAILY_SERIES.search(str(a.get('headline') or '')) or DAILY_SERIES.search(str(b.get('headline') or '')):return False
+ fa,fb=financing_identity(a),financing_identity(b)
+ if fa.get('purposes') and fb.get('purposes') and not fa['purposes']&fb['purposes']:return False
+ # Two companies' results share the template, not the story.
+ if RESULT_WORDS.search(str(a.get('headline') or '')) and RESULT_WORDS.search(str(b.get('headline') or '')) and not headline_names(a)&headline_names(b):return False
+ return same_subject_signals(a,b)
+
+
+def wording_overlap(a: dict, b: dict) -> float:
+ '''Share of the shorter report's headline-and-lead words that the other uses too.'''
+ def toks(x):return content_tokens(str(x.get('headline') or '')+' '+' '.join(_lead(x).split()[:70]))
+ ta,tb=toks(a),toks(b)
+ return len(ta&tb)/min(len(ta),len(tb)) if ta and tb else 0.0
+
+
+BOND_SESSION=re.compile(r'(?i)\b(?:secondary (?:bond )?market|bond (?:market )?yields?|long.end yields?|yields? (?:edge|drop|fall|rise|decline|consolidate|continue|see)|yield curve)\b')
+BUDGET_WORD=re.compile(r'(?i)\bbudget\b')
+# Presented in Parliament on 12 Nov 2026. Before it, Budget stories are previews.
+BUDGET_DAY=dt.date(2026,11,13)
 
 
 def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
@@ -322,12 +533,63 @@ def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
   if financing_a['purposes'] and financing_b['purposes'] and not (financing_a['purposes'] & financing_b['purposes']):return False
   if financing_a['stage'] and financing_b['stage'] and financing_a['stage'] != financing_b['stage']:return False
   if not _date(a) or not _date(b):return False
-  if not financing_a['purposes'] & financing_b['purposes']:return False
+  # With no stated purpose on either side, wording and figures decide below.
+  if (financing_a['purposes'] or financing_b['purposes']) and not financing_a['purposes'] & financing_b['purposes']:return False
+  # Same lender, purpose, stage and amount is the same transaction, whatever
+  # kind of development the wording of each report suggests.
+  if (financing_a['stage'] and financing_a['stage']==financing_b['stage'] and entities(a)&entities(b)
+      and shared_figures(figures(a.get('headline','')+' '+_lead(a)),figures(b.get('headline','')+' '+_lead(b)))):return True
  # Aggregate exports and a sector's export release are distinct observations.
  if 'export' in str(a.get('headline','')).lower() and 'export' in str(b.get('headline','')).lower():
   if export_scope(a) != export_scope(b):return False
+ # Two different rupee quotes are two different trading days.
+ qa,qb=rupee_quote(a),rupee_quote(b)
+ if qa and qb and qa!=qb:return False
+ # Dealers' daily bond-market reports quote the same maturities every day; the
+ # shared yields (11.10%) do not make Wednesday's session Tuesday's (13 Nov 2026).
+ if BOND_SESSION.search(str(a.get('headline') or '')) and BOND_SESSION.search(str(b.get('headline') or '')) \
+    and _date(a) and _date(b) and _date(a)!=_date(b):return False
+ # A report of the Budget as presented is not a preview of it ("Budget aims at
+ # economic transformation", 13 Nov, against a 9 Nov "how will it spend" preview).
+ if BUDGET_WORD.search(str(a.get('headline') or '')+str(b.get('headline') or '')) and _date(a) and _date(b) \
+    and (_date(a)>=BUDGET_DAY)!=(_date(b)>=BUDGET_DAY):return False
  ka,kb=event_signature(a),event_signature(b)
- if ka and ka==kb: return True
+ # Reports of one ratings review follow for days; a later review is a new event.
+ if ka.startswith(FITCH_NATIONAL_RATINGS) and kb.startswith(FITCH_NATIONAL_RATINGS) and _date(a) and _date(b):
+  if ('_NBFI' in ka)!=('_NBFI' in kb):return False
+  # Fitch acts on several institutions in one week. Reports belong together when
+  # they name the same institution (Fitch itself does not count) or are both
+  # part of one sweep: the scale recalibration, or a several-bank action.
+  def sweep(x):
+   h=str(x.get('headline') or '')
+   return bool(re.search(r'(?i)recalibrat|rating scale',h+' '+_lead(x)) or re.search(
+    r'(?i)\b(?:\d+|two|three|four|five|six|seven|eight|nine|ten)\b[^.]{0,30}\b(?:banks|nbfis|lenders|institutions|finance companies)\b',h))
+  same_institution={o for o in organisations(entities(a)&entities(b)) if 'fitch' not in o}
+  if not same_institution and not (sweep(a) and sweep(b)):return False
+  gap=abs((_date(a)-_date(b)).days)
+  if gap<=3:return True
+  # A bank's own release about the same upgrade follows a week or more later:
+  # the same institution and the same new rating is the same action.
+  def grades(x):return {g.replace('−','-').upper() for g in re.findall(r'\b[ABC]{1,3}[+\-−]?\(lka\)',str(x.get('headline',''))+' '+_lead(x),re.I)}
+  # One sweep reported again later ("Fitch upgrades three ... NBFIs", 13 Nov, after
+  # "Fitch upgrades 3 ... NBFIs", sent 5 Nov): the same action on the same number
+  # of institutions in the same direction.
+  def sweep_action(x):
+   h=str(x.get('headline') or '').lower()
+   words={'two':'2','three':'3','four':'4','five':'5','six':'6','seven':'7','eight':'8','nine':'9','ten':'10'}
+   n=re.search(r'\b(\d+|two|three|four|five|six|seven|eight|nine|ten)\b[^.]{0,30}\b(?:banks|nbfis|lenders|institutions|finance companies)\b',h)
+   verb=re.search(r'\b(upgrade|downgrade|affirm|revise|takes? action)',h)
+   return (words.get(n.group(1),n.group(1)) if n else '', verb.group(1) if verb else '')
+  if gap<=14 and sweep(a) and sweep(b) and sweep_action(a)==sweep_action(b) and all(sweep_action(a)):return True
+  return gap<=14 and bool(grades(a)&grades(b))
+ if ka and ka==kb:
+  # A sent story may carry its edition date, so the levels confirm the session.
+  la,lb=closing_levels(a),closing_levels(b)
+  return not (ka.startswith('CSE_DAILY_SESSION_') and la and lb and not set(la)&set(lb))
+ # Dated apart by the wording, but the same reported close is the same session.
+ if ka.startswith('CSE_DAILY_SESSION_') and kb.startswith('CSE_DAILY_SESSION_'):
+  la,lb=closing_levels(a),closing_levels(b)
+  if la and lb and la[0]==lb[0]:return True
  da,db=_date(a),_date(b)
  gap=abs((da-db).days) if da and db else None
  if gap is not None and gap>max_gap_days:return False
@@ -356,13 +618,27 @@ def same_event(a: dict, b: dict, max_gap_days: int=7) -> bool:
   standing=bool(goal.search(str(a.get('headline') or '')) or goal.search(str(b.get('headline') or '')))
   headline_match=headline_common>=1 and (gap==0 or not standing or overlap>=0.3)
   return (common>=needed or headline_match) and related
+ # A piece reprinted under (almost) the same headline is the same piece.
+ if overlap>=0.85 and min(len(content_tokens(str(a.get('headline') or ''))),len(content_tokens(str(b.get('headline') or ''))))>=5:return True
+ # Another paper's report of the same development within a day: alike in wording
+ # and naming the same organisation ('CIC' and 'Kelani Cables' results stay apart).
+ # A merge needs a real organisation in common or two shared headline names: one
+ # shared name ('HNB') joins HNB Finance's leasing with HNB PLC's motor deal.
+ if gap is not None and (gap<=1 and wording_overlap(a,b)>=0.45 or gap==0 and wording_overlap(a,b)>=0.40) \
+    and ({o for o in organisations(shared) if not o.startswith('name:') and 'fitch' not in o} or len(headline_names(a)&headline_names(b))>=2):return True
  if shared:
   if headline_common or common>=2:return True
+  # Same day, both headlines naming the same person and organisation ('Ravi ... HSBC').
+  if gap==0 and organisations(shared) and len(headline_names(a)&headline_names(b))>=2:return True
   # Commentary on a shared topic recurs across days; require closer wording.
   if overlap>=(0.3 if gap==0 else 0.4):return True
+  if gap and words_in_facts(a,b)>=0.7:return True
+  # One institution's results release, reported as a quarter or nine months.
+  if gap is not None and gap<=3 and RESULTS.search(str(a.get('headline') or '')) and RESULTS.search(str(b.get('headline') or '')) \
+     and any(not o.startswith('name:') for o in organisations(shared)):return True
   # Two named counterparties together (bank + partner) identify a deal.
   orgs=organisations(shared)
-  if len(orgs)>=2 and any(not o.startswith('name:') for o in orgs) and ta&tb:return True
+  if len(orgs)>=2 and any(not o.startswith('name:') for o in orgs) and (ta&tb or overlap>=0.3):return True
   return False
  return overlap>=0.6 and (gap==0 or common>=1)
 
@@ -381,7 +657,8 @@ def financing_identity(article: dict) -> dict:
  purposes={key for key,pattern in {
   'social_protection':r'social protection|elderly care|economic opportunities',
   'macro_recovery':r'macro.recovery|economic recovery|policy.based',
-  'water_security':r'water security|mahaweli|irrigation',
+  'water_security':r'water security|water sector|water supply|water services|water reforms?|mahaweli|irrigation',
+  'skills':r'skills development|vocational|technical education|tvet',
   'energy':r'energy|electricity|power grid',
   'transport':r'transport|railway|highway',
  }.items() if re.search(pattern,text)}

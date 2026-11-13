@@ -6,10 +6,13 @@ import hashlib
 import html
 import json
 from pathlib import Path
-from .identity import SOURCES, SOURCE_KEYS, sources_for_date, approved,canonical,first_window_day,publisher_article_id,explain_match
+import re
+from .identity import SOURCES, SOURCE_KEYS, sources_for_date, approved,canonical,first_window_day,publisher_article_id,explain_match,reported_aspi_fall,possible_duplicate
 from .backlog import earliest_unpublished_day
-from .evidence import summary, evidence_issues
+from .evidence import summary, evidence_issues, SUMMARY_WORDS
 from .decisions import decide,why_it_matters
+from .ranking import advise
+from .writing import story_text,write_events,focus_label
 from .reconcile import was_sent, prior_matches, group, read_sent_html, load_confirmed_history, load_unconfirmed_prior_candidates
 from .ml_trace import read_model_traces
 from .model_policy import reconcile
@@ -205,6 +208,12 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
        ass['section']=wanted
       elif not ass.get('section'):
        ass['section']='MACRO_SYSTEMIC_CONTEXT'
+      if str(override.get('same_event_as') or '').strip():
+       ass['same_event_as']=canonical(override['same_event_as'])
+      # The editor keeps this as its own story ("Sujeewa Mudalige quits NDB Board"
+      # beside "NDB reconstitutes Board Subcommittees", 13 Nov 2026).
+      if str(override.get('standalone') or '').strip().lower() in ('1','yes','true'):
+       ass['standalone']=True
       if not ass.get('category'):
        ass['category']={
         'KEY_BANKING_SUPERVISORY':'REGULATORY_RISK',
@@ -246,16 +255,52 @@ def prepare(*,date_iso:str,audit:Path,inventory:Path,sent_paths:list[Path],revie
  for signature,members in daily.items():
   observed=set()
   for x in members:
-   body=str(x['article'].get('body') or '')
-   match=_re.search(r'(?i)(?:\bASPI\b|All Share Price Index).{0,130}?(?:down|fell|declined).{0,35}?([0-9]{1,3}\.[0-9]{1,2})\s+points\b',body)
-   if match:observed.add(match.group(1))
-  if len(observed)>1:
+   points=reported_aspi_fall(x['article'])
+   if points:observed.add(points)
+  # One session cannot close both up and down: a report of the previous day's
+  # fall ("Indices close in red") beside today's rise is a different session.
+  moves={cse_direction(x['article'].get('headline','')) for x in members}-{''}
+  if len(observed)>1 or len(moves)>1:
    for x in members:
     x['assessment'].update(decision='REVIEW',reason='CONFLICTING_SAME_CSE_SESSION_NUMBERS')
    counts['included']-=len(members);counts['review']+=len(members)
+ counts['included']-=supersede_rupee_quotes(work)
  # Exact source lineage is retained; event count is deliberately not a story target.
  groups=group([x for x in work if x['assessment']['decision']=='INCLUDE'])
- return work, groups,counts,earliest
+ # Two stories the rules keep apart that may still be one development (the same
+ # speaker, names or phrase on the same day): the second waits for an editor.
+ # A signed decision settles it, so this never holds a story twice.
+ kept=[]
+ for e in groups:
+  if not any(str(m['assessment'].get('reason','')).startswith('SIGNED') for m in e['members']):
+   twin=next((k for k in kept if any(possible_duplicate(m['article'],t['article']) for m in e['members'] for t in k['members'])),None)
+   if twin is not None:
+    for m in e['members']:
+     m['assessment'].update(decision='REVIEW',reason='POSSIBLE_DUPLICATE_OF:'+str(twin['members'][0]['article'].get('headline',''))[:90])
+    counts['included']-=len(e['members']);counts['review']+=len(e['members'])
+    continue
+  kept.append(e)
+ # The same development may also be waiting in review under another paper's
+ # wording. Then the included report waits with it, so the editor keeps one.
+ waiting=[x for x in work if x['assessment']['decision']=='REVIEW']
+ final=[]
+ for e in kept:
+  if not any(str(m['assessment'].get('reason','')).startswith('SIGNED') for m in e['members']):
+   twin=next((w for w in waiting if any(possible_duplicate(m['article'],w['article']) for m in e['members'])),None)
+   if twin is not None:
+    for m in e['members']:
+     m['assessment'].update(decision='REVIEW',reason='POSSIBLE_DUPLICATE_OF:'+str(twin['article'].get('headline',''))[:90])
+    counts['included']-=len(e['members']);counts['review']+=len(e['members'])
+    continue
+  final.append(e)
+ return work,final,counts,earliest
+
+
+def cse_direction(headline:str)->str:
+ """'up', 'down' or '' from a stock-market headline."""
+ up=re.search(r'(?i)\b(?:green|gains?|rise[sn]?|rising|rebound\w*|rall(?:y|ies)|higher|buoyan\w*|surges?|climbs?|advances?|lifts?|positive)\b',headline)
+ down=re.search(r'(?i)\b(?:red|falls?|fell|declin\w*|loss(?:es)?|lower|plunge\w*|drops?|slides?|dips?|profit.taking|negative|ends? .*rally)\b',headline)
+ return 'up' if up and not down else 'down' if down and not up else ''
 
 
 def render_html(date_iso:str,events:list[dict],css:str)->str:
@@ -270,16 +315,17 @@ def render_html(date_iso:str,events:list[dict],css:str)->str:
   out.append('<section class="report-section">'+headers[SECTION_ORDER.index(section)])
   for i,ev in enumerate(evs,1):
    members=ev['members']; primary=members[0]['article'];ass=members[0]['assessment']
+   title,happened,matters=story_text(ev,primary['headline'],summary(primary,SUMMARY_WORDS),why_it_matters(primary,ass),primary.get('body',''))
    priority=section=='KEY_BANKING_SUPERVISORY';card='priority-card' if priority else 'context-card'
    out.append('<article class="'+card+'" data-source-date="'+esc(primary['publication_date'])+'">')
    if priority:out.append('<div class="priority-number">'+str(i).zfill(2)+'</div><div class="priority-body">')
    else:out.append('<div class="context-card-head"><div>')
    out.append('<div class="story-topline">'+esc(primary['source_name'])+' <span class="dot">•</span> '+esc(primary['publication_date'])+'</div>')
-   out.append('<h3>'+esc(primary['headline'])+'</h3>')
-   if not priority:out.append('</div></div><div class="compact-meta"><span class="topic-chip">'+esc(ass['category'].replace('_',' ').title())+'</span></div>')
-   else:out.append('<div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">'+esc(ass['category'].replace('_',' ').title())+'</div></div></div>')
-   out.append('<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">'+esc(summary(primary))+'</p></div>')
-   out.append('<div class="relevance-block"><div class="block-label">Why it matters</div><p>'+esc(why_it_matters(primary,ass))+'</p></div>')
+   out.append('<h3>'+esc(title)+'</h3>')
+   if not priority:out.append('</div></div><div class="compact-meta"><span class="topic-chip">'+esc(focus_label(ass['category']))+'</span></div>')
+   else:out.append('<div class="meta-row supervisory-focus-row"><div class="meta-main"><div class="meta-label">Supervisory focus</div><div class="entity-name">'+esc(focus_label(ass['category']))+'</div></div></div>')
+   out.append('<div class="summary-block"><div class="block-label">What happened</div><p class="context-summary">'+esc(happened)+'</p></div>')
+   out.append('<div class="relevance-block"><div class="block-label">Why it matters</div><p>'+esc(matters)+'</p></div>')
    out.append('<div class="context-bottom"><div class="source-list"><strong>Sources: </strong>')
    out.append(' · '.join('<a target="_blank" rel="noopener noreferrer" href="'+esc(x['article']['source_url'],quote=True)+'">'+esc(x['article']['source_name'])+'</a>' for x in members))
    out.append('</div></div>')
@@ -294,7 +340,22 @@ def render_html(date_iso:str,events:list[dict],css:str)->str:
 
 
 
-def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],css_file:Path,review:Path|None=None,source_status:Path|None=None,model_project_root:Path|None=None,sent_report_root:Path|None=None,window_days:int=1,model_traces:dict|None=None,collection_metadata:dict|None=None):
+def supersede_rupee_quotes(work:list[dict])->int:
+ # Dealers' daily series: the close replaces the same day's earlier quote.
+ # Returns how many included quotes were dropped; signed decisions stand.
+ import re as _re
+ def day(x):return str(x['article'].get('publication_date') or '')[:10]
+ closed={day(x) for x in work if _re.search(r'(?i)\brupee (?:closes|closed|ends|ended)\b',str(x['article'].get('headline') or ''))}
+ dropped=0
+ for x in work:
+  ass=x['assessment']
+  if ass['decision']=='INCLUDE' and day(x) in closed and not str(ass.get('reason','')).startswith('SIGNED_EDITORIAL') \
+     and _re.search(r'(?i)\brupee (?:at |\d)',str(x['article'].get('headline') or '')):
+   ass.update(decision='EXCLUDE',reason='RUPEE_QUOTE_SUPERSEDED_BY_CLOSE');dropped+=1
+ return dropped
+
+
+def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],css_file:Path,review:Path|None=None,source_status:Path|None=None,model_project_root:Path|None=None,sent_report_root:Path|None=None,window_days:int=1,model_traces:dict|None=None,collection_metadata:dict|None=None,writer=None):
  model_data=model_traces or {};model_warnings=[]
  if model_project_root:
   # Read the actual analysis files BEFORE decisions so raw KEEP suppressed by
@@ -306,6 +367,8 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
  # Order is predictable, prioritise source publication recency within sections.
  events.sort(key=lambda e:(SECTION_ORDER.index(e['members'][0]['assessment']['section']),-int(e['members'][0]['article']['publication_date'].replace('-','')),
                           e['members'][0]['article']['headline'].casefold()))
+ writing=write_events(events,draft=writer)
+ ranking=advise(work,model_data,canonical)
  matched_model_traces=sum(bool(model_data.get(canonical(x['article'].get('source_url','')))) for x in work)
  ledger=make_ledger(work,events,date_iso)
  ledger_path=output/'publication_decisions.json'
@@ -316,9 +379,16 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
   bad=evidence_issues(primary)
   if 'HEADLINE_BODY_TOPIC_MISMATCH' in bad or 'SHORT_SOURCE_TEXT' in bad:
    issues.append({'kind':'SOURCE_EVIDENCE','headline':primary['headline'],'details':bad})
-  cards.append({'headline':primary['headline'],'publication_date':primary['publication_date'],
+  title,happened,matters=story_text(e,primary['headline'],summary(primary,SUMMARY_WORDS),why_it_matters(primary,ass),primary.get('body',''))
+  # A story card without 'What happened' must never reach the reader.
+  if not str(happened or '').strip():
+   issues.append({'kind':'EMPTY_SUMMARY','headline':primary['headline']})
+  # Nor one that opens mid-sentence ('the Central Bank ...', '- point', 'and X From').
+  elif re.match(r'(?:[a-z]|[-–•]\s|(?:and|but|or|which|who)\s)',str(happened).strip()):
+   issues.append({'kind':'SUMMARY_STARTS_MID_SENTENCE','headline':primary['headline'],'summary':str(happened)[:80]})
+  cards.append({'headline':title,'source_headline':primary['headline'],'publication_date':primary['publication_date'],
     'section':ass['section'],'category':ass['category'],'reason':ass['reason'],
-    'event_id':e['event_id'],'event_signature':e['event_signature'],'summary':summary(primary),'why_it_matters':why_it_matters(primary,ass),
+    'event_id':e['event_id'],'event_signature':e['event_signature'],'summary':happened,'why_it_matters':matters,
     'sources':[{'source_name':x['article']['source_name'],'source_url':x['article']['source_url']} for x in e['members']]})
  if not sent and not any(x['assessment']['previous_send_status']!='UNKNOWN' for x in work):
   issues.append({'kind':'PRIOR_SENT_EDITION_NOT_RECORDED'})
@@ -359,13 +429,16 @@ def build(*,date_iso:str,audit:Path,inventory:Path,output:Path,sent:list[Path],c
     'model_label_reported':(model_data.get(canonical(r['source_url'])) or {}).get('raw_stage_a',''),
     'model_operational_keep':(model_data.get(canonical(r['source_url'])) or {}).get('operational_keep',''),
     'model_stage_b_label':(model_data.get(canonical(r['source_url'])) or {}).get('stage_b_label',''),
-    'ml_action':a.get('ml_action',''),'model_evidence_found':a.get('ml_trace_found',False)})
+    'ml_action':a.get('ml_action',''),'model_evidence_found':a.get('ml_trace_found',False),
+    'ranker_score':a.get('ranker_score',''),'ranker_suggestion':a.get('ranker_suggestion','')})
  write_csv(output/'article_decision_trace.csv',lines,list(lines[0]))
  review_rows=[{**x,'editorial_action':'','review_decision':'','review_notes':'','reviewer':''}
                for x in lines if x['decision']=='REVIEW']
+ # The editor's time goes furthest with the likeliest keeps first.
+ review_rows.sort(key=lambda x:-float(x['ranker_score'] or 0))
  write_csv(output/'review_queue.csv',review_rows,
            list(lines[0])+['editorial_action','review_decision','review_notes','reviewer'])
- manifest={'schema':'NEWS_INTEGRATED_V3','date':date_iso,'earliest_inclusive_date':earliest.isoformat(),
+ manifest={'schema':'NEWS_INTEGRATED_V3','date':date_iso,'writing':writing,'ranking':ranking,'earliest_inclusive_date':earliest.isoformat(),
     'source_row_count':counts['raw'],'source_count':len(sources_for_date(date_iso)),'counts':counts,'event_count':len(events),
     'decision_ledger':'publication_decisions.json','decision_ledger_sha256':hashlib.sha256(ledger_path.read_bytes()).hexdigest(),
     'renderer':'bank_intel.publication.workflow.render_html','template_css_sha256':hashlib.sha256(css_file.read_bytes()).hexdigest(),

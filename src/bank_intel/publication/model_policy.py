@@ -10,7 +10,9 @@ import re
 # Headline terms that make a rule exclusion worth an editor's second look.
 FINANCIAL_SIGNAL = re.compile(r'(?i)\b(?:banks?|banking|finance|financial|financing|credit|loans?|lending|lenders?|borrowers?|debt|bonds?|'
                               r'debentures?|treasury|t.bills?|central bank|cbsl|monetary|insur\w*|capital market|stocks?|shares?|equit\w*|cse|aspi|'
-                              r'indices|securities|sec|imf|fiscal|tax\w*|budget|inflation|interest rates?|forex|fx|exchange rate|rupee|'
+                              r'indices|securities|sec|imf|fiscal|tax\w*|budget|inflation|interest rates?|forex|foreign exchange|fx|exchange rate|rupee|'
+                              r'current account|balance of payments|trade (?:deficit|gap)|(?:fuel|oil|import|energy) bill|state firms?|'
+                              r'yields?|public expenditure|state (?:sector|institutions?)|vehicle registrations?|'
                               r'remittances?|deposits?|fintech|payments?|exports?|imports?|reserves|rating|aml|money laundering|fraud|scam|'
                               # Macro-economy context the edition carries alongside financial news.
                               r'econom\w*|growth|gdp|pmi|manufacturing|unemployment|employment|jobs|workforce|labour|productivity|investments?|investors?|'
@@ -59,7 +61,8 @@ def reconcile(assessment: dict, trace: dict | None, article: dict | None = None)
     # Do not send generic political/PR articles to review merely because
     # the model matched a finance term in their body.
     blocked = {'POLITICAL_NONFINANCIAL', 'LOW_MATERIALITY_PROMOTIONAL', 'FOREIGN_DOMESTIC_NO_LOCAL_TRANSMISSION',
-               'NONTRANSACTIONAL_BANK_COURTESY_MEETING'}
+               'NONTRANSACTIONAL_BANK_COURTESY_MEETING', 'COURT_PROCEDURAL_STEP', 'DAILY_MARKET_COMMENTARY',
+               'INTRADAY_MARKET_UPDATE'}
     if raw == 'KEEP' and result['decision'] == 'EXCLUDE' and result['reason'] not in blocked:
         # The model's KEEP earns a review only when the headline shows a
         # financial-sector subject; the exclusion reason stays on record.

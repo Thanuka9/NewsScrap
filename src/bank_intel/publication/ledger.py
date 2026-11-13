@@ -77,7 +77,9 @@ def validate_outputs(ledger, manifest, report):
         event_ids.append(event['event_id'])
         urls = {canonical(s['source_url']) for s in event['sources']}
         primary=by_url.get(canonical(event['sources'][0]['source_url'])) if event['sources'] else None
-        if not primary or any(primary.get(k)!=event.get(k) for k in ('section','category','headline','publication_date')):
+        # A verified rewrite prints a new headline; the source headline still ties it to its article.
+        source_event={**event,'headline':event.get('source_headline',event.get('headline'))}
+        if not primary or any(primary.get(k)!=source_event.get(k) for k in ('section','category','headline','publication_date')):
             issues.append({'kind':'EVENT_PRIMARY_DECISION_MISMATCH','event_id':event['event_id']})
         matches = [s for s in parser.stories if {canonical(u) for u in s['source_urls']} == urls]
         if len(matches) != 1 or matches[0]['headline'] != event['headline'] or matches[0]['summary'] != event['summary'] or matches[0]['publication_date'] != event['publication_date']:

@@ -43,8 +43,6 @@ def main(argv=None):
     # Never use a prior successful report from another run as proof of this run.
     prerequisites = [
         ROOT/'data'/'processed'/'ml'/args.date/'ml_manifest.json',
-        ROOT/'data'/'processed'/'ml_corpus'/args.date/'window_1d'/'corpus_manifest.json',
-        ROOT/'data'/'processed'/'taxonomy'/args.date/'window_1d'/'taxonomy_manifest.json',
         ROOT/'data'/'processed'/'collection_completeness'/args.date/'window_1d'/'collection_completeness_manifest.json',
     ]
     missing=[str(p) for p in prerequisites if not p.is_file()]

@@ -178,13 +178,16 @@ class ArticleMLPipeline:
             )
         )
 
+        # Stage B can be retired by configuration (enabled: false): its test
+        # recall for RELEVANT was 0.0 and it never gates or promotes articles.
+        self.stage_b_enabled = bool(stage_b_config.get("enabled", True))
         self.stage_b_engine = (
             stage_b_engine
-            or SupervisoryRelevanceEngine(
+            or (SupervisoryRelevanceEngine(
                 config=self._engine_config(
                     stage_b_config
                 )
-            )
+            ) if self.stage_b_enabled else None)
         )
 
         self.lead_characters = int(
@@ -247,6 +250,8 @@ class ArticleMLPipeline:
                     load_model
                 )
             )
+            if self.stage_b_engine is not None
+            else {"status": "RETIRED", "enabled": False}
         )
 
         return {
@@ -272,6 +277,8 @@ class ArticleMLPipeline:
         metadata = (
             self.stage_b_engine
             .metadata()
+            if self.stage_b_engine is not None
+            else {"enabled": False}
         )
 
         return {
@@ -449,7 +456,7 @@ class ArticleMLPipeline:
         # This is NEVER an automatic discard/promote gate.
         # ====================================================
 
-        if operational_keep:
+        if operational_keep and self.stage_b_engine is not None:
 
             stage_b = (
                 self.stage_b_engine
@@ -497,6 +504,8 @@ class ArticleMLPipeline:
                 self._skipped_stage_b_payload(
                     reason=(
                         "SKIPPED_STAGE_A_NOISE"
+                        if not operational_keep
+                        else "RETIRED_BY_CONFIGURATION"
                     )
                 )
             )

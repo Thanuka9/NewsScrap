@@ -53,7 +53,11 @@ def final_stage_readiness(root: Path, target: str, days: int = 1) -> dict:
     }
     issues = collection_issues(root, target)
     manifests = {}
+    # Clustering and taxonomy are opt-in diagnostics: check them only if run.
+    optional = {'corpus', 'taxonomy'}
     for name, path in paths.items():
+        if name in optional and not path.is_file():
+            continue
         try:
             data = _read(path)
             manifests[name] = data
@@ -75,14 +79,16 @@ def final_stage_readiness(root: Path, target: str, days: int = 1) -> dict:
         issues.append('STAGE1_FAILED_ARTICLES')
     if manifests.get('collection', {}).get('recovered_article_count'):
         issues.append('UNRESOLVED_COLLECTION_RECOVERIES')
-    if manifests.get('corpus', {}).get('all_phase2_article_count') != ml.get('article_count'):
+    if 'corpus' in manifests and manifests['corpus'].get('all_phase2_article_count') != ml.get('article_count'):
         issues.append('CORPUS_INPUT_COUNT_MISMATCH')
-    if manifests.get('taxonomy', {}).get('article_count') != manifests.get('corpus', {}).get('stage_a_keep_article_count'):
+    if 'taxonomy' in manifests and manifests['taxonomy'].get('article_count') != manifests.get('corpus', {}).get('stage_a_keep_article_count'):
         issues.append('TAXONOMY_INPUT_COUNT_MISMATCH')
     for name, fields in {
         'corpus': ('cluster_file', 'cluster_profile_file', 'candidate_event_groups_file'),
         'taxonomy': ('article_taxonomy_json', 'cluster_taxonomy_json', 'article_taxonomy_csv'),
     }.items():
+        if name not in manifests:
+            continue
         for field in fields:
             recorded = manifests.get(name, {}).get(field)
             if not recorded or not _locate(root, recorded).is_file():

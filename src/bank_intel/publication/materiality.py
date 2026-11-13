@@ -11,7 +11,7 @@ def material_context(article: dict) -> tuple[str, str, str] | None:
     # These are development types, not a list of approved historical headlines.
     if re.search(r'(?i)\b(?:SEC|securities and exchange commission)\b', h) and re.search(r'(?i)\b(?:market manipulation|enforcement|regulatory action|sanctions?|insider trading)\b', h) and re.search(r'(?i)securities and exchange commission', body[:1800]) and local:
         return 'MONETARY_MARKETS_EXTERNAL', 'CAPITAL_MARKETS_CONDUCT', 'SEC_MARKET_CONDUCT_ACTION'
-    if local and re.search(r'(?i)\bforeign\b', h) and re.search(r'(?i)\b(?:buying|selling|inflows?|outflows?|holdings?)\b', h) and re.search(r'(?i)\b(?:rupee bonds?|treasury bonds?|government securities)\b', text) and re.search(r'\d', body[:1800]):
+    if local and re.search(r'(?i)\bforeign\b', h) and re.search(r'(?i)\b(?:buying|sell\w*|sold|dump\w*|inflows?|outflows?|holdings?)\b', h) and re.search(r'(?i)\b(?:rupee bonds?|treasury bonds?|government securities)\b', text) and re.search(r'\d', body[:1800]):
         return 'MONETARY_MARKETS_EXTERNAL', 'SOVEREIGN_PORTFOLIO_FLOWS', 'OBSERVED_FOREIGN_SECURITIES_FLOW'
     if local and re.search(r'(?i)\b(?:central bank|cenbank|cbsl)\b', h) and re.search(r'(?i)\breserve(?:s| building| accumulation)\b', h) and re.search(r'(?i)\b(?:foreign exchange|forex|rupee|dollars?|USD)\b', body[:1800]):
         return 'MONETARY_MARKETS_EXTERNAL', 'RESERVES_FX_POLICY', 'CENTRAL_BANK_RESERVE_POLICY'
@@ -39,6 +39,15 @@ def material_context(article: dict) -> tuple[str, str, str] | None:
         return 'MONETARY_MARKETS_EXTERNAL', 'CAPITAL_MARKETS_FUNDING', 'MATERIAL_BOND_MARKET_DEVELOPMENT'
     if local and re.search(r'(?i)rolling forecasts?|three.month.*forecast', h) and re.search(r'(?i)government|economic|fiscal|monetary', body):
         return 'MACRO_SYSTEMIC_CONTEXT', 'ECONOMIC_FORECAST', 'ECONOMIC_FORECAST_REVIEW'
+    # Official external accounts are core; risk warnings need an editor's eye.
+    if local and re.search(r'(?i)\bcurrent account\b', h) and re.search(r'(?i)deficit|surplus', text) and re.search(r'\d', text):
+        return 'MONETARY_MARKETS_EXTERNAL', 'EXTERNAL_ACCOUNTS', 'MATERIAL_EXTERNAL_SECTOR_STATISTICS'
+    if local and re.search(r'(?i)\brupee\b', h) and re.search(r'(?i)\breserves?\b', h) and re.search(r'\d', h):
+        return 'MONETARY_MARKETS_EXTERNAL', 'EXTERNAL_ACCOUNTS', 'MATERIAL_EXTERNAL_SECTOR_STATISTICS'
+    if local and re.search(r'(?i)\b(?:forex|foreign exchange)\b.{0,20}\b(?:leakage|loss|drain|outflows?)\b|\b(?:fuel|oil|import|energy) bill\b|\bbalance of payments\b', h):
+        return 'MONETARY_MARKETS_EXTERNAL', 'EXTERNAL_RISK', 'EXTERNAL_SECTOR_RISK_REVIEW'
+    if local and re.search(r'(?i)\b(?:state firms?|state institutions?|state sector|state.owned enterprises?|soes?)\b', h) and re.search(r'(?i)\b(?:clos\w*|liquidat\w*|wind\w*|restructur\w*|privatis\w*|divest\w*|stall\w*)\b', h):
+        return 'MACRO_SYSTEMIC_CONTEXT', 'FISCAL_SYSTEMIC', 'SOE_REFORM_REVIEW'
     # Port/terminal news is material when it reports money (revenue, investment,
     # financing); speeches about digitalisation or capability are not.
     money = re.search(r'(?i)(?:rs\.?|lkr|us\$|usd|\$)\s*[\d.,]+|\b[\d.,]+\s*(?:million|billion|bn|mn)\b', text)

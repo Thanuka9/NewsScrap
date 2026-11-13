@@ -45,9 +45,9 @@ supervisory_relevance:
     required: true
     frozen: true
 
-    model_id: "stage_a_v7_augmented_epoch4"
+    model_id: "stage_a_v9_editorial_epoch3"
 
-    model_path: "data/processed/relevance_two_stage/supervisory_relevance_v7_augmented_stage_a/finbert_lr1e-05_chunks5_sched5_seed42/best_model"
+    model_path: "data/processed/relevance_two_stage/supervisory_relevance_v9_editorial_stage_a/best_model"
 
     tokenizer_name: ""
 
@@ -67,9 +67,11 @@ supervisory_relevance:
 
     device: "auto"
 
-    experiment_name: "finbert_lr1e-05_chunks5_sched5_seed42"
-    expected_best_epoch: 4
-    expected_validation_macro_f1: 0.9388
+    # Deployed 2026-11-02 on held-out days 28-30 Oct (531 articles): KEEP recall
+    # 0.89 against v7's 0.70, precision 0.44 against 0.33. Scored at 5 body chunks.
+    experiment_name: "stage_a_v8_editorial_lr1e-05_chunks3_sched4_seed42"
+    expected_best_epoch: 3
+    expected_validation_macro_f1: 0.8573
 
     provenance_status: "AI_ASSISTED_PROVISIONAL"
     production_role: "OPERATIONAL_RELEVANCE_FILTER"
@@ -77,8 +79,10 @@ supervisory_relevance:
     automatic_gate: true
 
   stage_b:
-    enabled: true
-    required: true
+    # Retired 2026-10-30: final-test RELEVANT recall 0.0 (16 rows); it never
+    # gated or promoted articles. Model files are kept for reference.
+    enabled: false
+    required: false
     frozen: true
 
     model_id: "stage_b_targeted_v5_watch_vs_relevant_epoch2"
@@ -265,3 +269,10 @@ corpus_analysis:
 cluster_profiling:
   top_headline_terms: 12
   representative_articles: 5
+
+# ============================================================
+# STORY RANKER (advisory: orders the review queue, decides nothing)
+# ============================================================
+
+story_ranker:
+  model_path: "data/processed/story_ranker"

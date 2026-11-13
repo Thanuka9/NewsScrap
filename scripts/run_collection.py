@@ -487,16 +487,24 @@ def is_blocking_degraded(item: dict) -> bool:
     if int(item.get("truncated_discovery_urls", 0) or 0) > 0:
         return True
 
-    if item.get("unresolved_fetch_urls"):
-        return True
-
     if candidates <= 0:
         return True
 
-    if fetch_failures > 0:
+    if invalid >= candidates:
         return True
 
-    if invalid >= candidates:
+    # Individual failed pages recorded by URL do not make coverage unknown:
+    # the coverage worksheet accepts clearly non-financial ones and sends the
+    # rest to review. Many failures, or failures without URLs, still block.
+    urls = item.get("unresolved_fetch_urls") or []
+    if fetch_failures > 0 and not urls:
+        return True
+    # A publisher's very short post was reached; it says nothing about coverage.
+    short_posts = {
+        failure.get("url") for failure in item.get("extraction_failures") or []
+        if any(str(error).startswith("ARTICLE_TOO_SHORT") for error in failure.get("errors") or [])
+    }
+    if len([url for url in urls if url not in short_posts]) * 2 > candidates:
         return True
 
     # Otherwise this is a usable run with some rejected/bad candidate pages.

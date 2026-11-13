@@ -75,6 +75,16 @@ TASKS: dict[str, dict[str, Any]] = {
         "output_root": OUTPUT_BASE / "stage_b_watch_vs_relevant",
         "description": "WATCH vs RELEVANT",
     },
+    # Which edition section a kept story belongs in, from the sections the editor used.
+    "section": {
+        "task_name": "STAGE_B_SECTION",
+        "labels": ("KEY_BANKING_SUPERVISORY", "BANKING_SECTOR_DEVELOPMENTS", "OTHER_FINANCIAL_SECTOR",
+                   "MONETARY_MARKETS_EXTERNAL", "MACRO_SYSTEMIC_CONTEXT"),
+        "focus_label": "KEY_BANKING_SUPERVISORY",
+        "dataset_root": PROJECT_ROOT / "data" / "training" / "datasets" / "stage_b_section_v1",
+        "output_root": PROJECT_ROOT / "data" / "processed" / "relevance_two_stage" / "stage_b_section_v1",
+        "description": "edition section",
+    },
 }
 
 

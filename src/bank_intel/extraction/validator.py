@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import re
 
 from bank_intel.extraction.article import (
     ExtractedArticle,
@@ -8,6 +9,13 @@ from bank_intel.extraction.article import (
 # ============================================================
 # VALIDATION RESULT
 # ============================================================
+
+
+SHORT_FINANCIAL_ITEM = re.compile(
+    r"(?i)\b(?:bank|banking|NDB|BOC|HNB|DFCC|NSB|HDFC|CBSL|central bank|monetary board|"
+    r"finance (?:plc|company|companies)|leasing|insurance|assurance|debenture|"
+    r"Fitch|ICRA|Lanka Rating|SEC|CSE|treasury bills?|bonds?|rupee|IMF)\b"
+)
 
 
 @dataclass
@@ -135,7 +143,15 @@ def validate_article(
         # - extraction failure
         # - teaser instead of article body
 
-        if article.word_count < 80:
+        if 40 <= article.word_count < 80 and SHORT_FINANCIAL_ITEM.search(article.headline or ""):
+
+            # A short front-page item about a bank or regulator (a board
+            # resignation, an allotment) is still news; it was being dropped.
+            warnings.append(
+                f"SHORT_FINANCIAL_ITEM:{article.word_count}"
+            )
+
+        elif article.word_count < 80:
 
             errors.append(
                 f"ARTICLE_TOO_SHORT:"

@@ -11,6 +11,7 @@ import csv
 import hashlib
 import json
 import re
+import sys
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from difflib import SequenceMatcher
@@ -409,6 +410,37 @@ def mark_sent(date_arg: date, report: Path, root: Path, confirm: bool, recipient
     return record_sent(approval,recipient_group,confirm,message_id,sent_at)
 
 
+def register_sent(date_arg: date, report: Path, root: Path, operator: str, confirm: bool, sent_at: str = '') -> Path:
+    # The operator usually edits the governed edition before sending; the file
+    # that went out is the record. Without a stated time, the file's save time
+    # is the earliest it can have gone, and the record says so.
+    import sys
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+    from bank_intel.publication.delivery import record_send_time as fill
+    from bank_intel.publication.history_import import import_distributed
+    record=import_distributed(report,root,date_arg.isoformat(),operator,confirm)
+    if json.loads(record.read_text(encoding='utf-8')).get('sent_at'):return record
+    saved=datetime.fromtimestamp(report.stat().st_mtime).astimezone().replace(microsecond=0).isoformat()
+    fill(record,sent_at or saved,operator)
+    if not sent_at:
+        note='Earliest bound: save time of the sent file; the operator gave no exact send time.'
+        for path in (record,record.parent/'sent_events.json'):
+            entry=json.loads(path.read_text(encoding='utf-8'))
+            entry['sent_time_evidence']=note
+            path.write_text(json.dumps(entry,indent=2,ensure_ascii=False),encoding='utf-8')
+    return record
+
+
+def previous_edition_gap(date_arg: date, root: Path) -> str:
+    # An edition built but never registered as sent cannot stop its stories
+    # repeating, because only registered editions count as already reported.
+    previous=date_arg-timedelta(days=3 if date_arg.weekday()==0 else 1)
+    folder=root/previous.isoformat()/'window_1d'
+    if not (folder/'integrated_edition').is_dir():return ''
+    if any(folder.rglob('SENT_EDITION.json')) or (folder/'PUBLISHED_URLS.json').is_file():return ''
+    return previous.isoformat()
+
+
 def record_send_time(date_arg: date, root: Path, sent_at: str, operator: str):
     import sys
     sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
@@ -424,7 +456,7 @@ FREEZE_SCRIPTS=('run_pipeline.py','run_collection.py','run_intelligence_stage1.p
     'check_release.py','_runtime.py','run_daily_ft.py','run_ceylon_today.py','run_daily_mirror.py','run_island.py',
     'run_generic_sources.py','run_daily_news_task.ps1','run_scheduler.py',
     'resume_final_edition.py','pipeline_status.py','replay_sent_edition.py','news_editorial_final.py',
-    'news_quality_policy.py','brief_semantic_guard.py')
+    'news_quality_policy.py','brief_semantic_guard.py','build_interactive_brief.py','interactive_brief.html','leak_audit.py')
 FREEZE_CONFIG=('config/sources/registry.yaml','config/sources/generic_registry.yaml','config/sources/daily_ft.yaml',
     'config/sources/ceylon_today.yaml','config/sources/daily_mirror.yaml','config/sources/daily_news.yaml',
     'config/sources/island.yaml','config/intelligence/entities_cbsl.yaml','config/intelligence/ml.yaml',
@@ -523,8 +555,11 @@ def write_freeze(root: Path, operator: str) -> Path:
     if tests.returncode!=0:
         raise RuntimeError('Refusing to freeze: test suite failed\n'+tests.stdout[-2000:])
     paths=[root/'scripts'/name for name in FREEZE_SCRIPTS]+[root/p for p in FREEZE_CONFIG]
+    # Backup copies ('x.before_fix.py', 'x.py.bak') are not production code; freezing
+    # one meant deleting it later stopped the scheduled run.
     paths+=sorted(p for p in (root/'src'/'bank_intel').rglob('*') if p.is_file()
-                  and p.suffix in ('.py','.html','.css','.json') and '__pycache__' not in p.parts)
+                  and p.suffix in ('.py','.html','.css','.json') and '__pycache__' not in p.parts
+                  and '.before' not in p.name and not p.name.endswith('.bak'))
     # Model weights and tokenizers are production artifacts too: a retrained
     # or corrupted model must stop the scheduled run exactly as changed code does.
     import yaml
@@ -588,6 +623,22 @@ def main():
     t.add_argument("--sent-at", required=True, help="ISO 8601 with offset, e.g. 2026-10-26T09:10:00+05:30")
     t.add_argument("--operator", required=True)
     t.add_argument("--reports-root", type=Path, default=Path("data/processed/reports"))
+    g = sub.add_parser("register-sent", help="Register the file actually sent, including the operator's edits")
+    g.add_argument("--date", required=True)
+    g.add_argument("--file", type=Path, required=True)
+    g.add_argument("--operator", required=True)
+    g.add_argument("--sent-at", default="", help="Actual send time, ISO 8601 with offset; defaults to the file's save time as an earliest bound")
+    g.add_argument("--confirm-sent", action="store_true")
+    g.add_argument("--reports-root", type=Path, default=Path("data/processed/reports"))
+    e = sub.add_parser("previous-edition", help="Exit 3 when the previous edition was built but never registered as sent")
+    e.add_argument("--date", required=True)
+    e.add_argument("--reports-root", type=Path, default=Path("data/processed/reports"))
+    h = sub.add_parser("run-decision", help="Print how today's run should start")
+    h.add_argument("--project-root", type=Path, default=Path("."))
+    h.add_argument("--force", action="store_true", help="Ignore the day, time and earlier result")
+    k = sub.add_parser("source-health", help="Exit 3 when a source looks blocked or far below its usual volume")
+    k.add_argument("--date", required=True)
+    k.add_argument("--project-root", type=Path, default=Path("."))
     f = sub.add_parser("freeze", help="Run the test suite and, if it passes, write config/production_freeze.json")
     f.add_argument("--operator", required=True)
     f.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -612,7 +663,22 @@ def main():
     if args.cmd == "verify-backup":
         verify_backup(args.archive)
         return
+    if args.cmd == "run-decision":
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+        from bank_intel.common.run_control import run_decision
+        status=args.project_root/'data'/'scheduler'/'last_run_status.json'
+        last=json.loads(status.read_text(encoding='utf-8-sig')) if status.is_file() else {}
+        print(run_decision(datetime.now().astimezone(),last,args.project_root/'data'/'run_summaries',args.force))
+        return
     d = date.fromisoformat(args.date)
+    if args.cmd == "source-health":
+        sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
+        from bank_intel.common.run_control import source_health
+        root=args.project_root/'data'/'source_status'
+        report=source_health(root,args.date)
+        (root/'source_health.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')
+        print('[SOURCE HEALTH] '+('; '.join(report['problems']) or 'OK'))
+        raise SystemExit(3 if report['problems'] else 0)
     if args.cmd == "prepare-coverage":
         out = args.out or Path("data/processed/reports")/args.date/"window_1d"/"news_coverage_verified.json"
         prepare_coverage(d,args.project_root,out)
@@ -623,6 +689,13 @@ def main():
     if args.cmd == 'promote':
         promote_passed_preview(d,args.report,args.qa,args.reports_root,args.reviewer)
         return
+    if args.cmd == 'register-sent':
+        print('[SENT EDITION REGISTERED]',register_sent(d,args.file,args.reports_root,args.operator,args.confirm_sent,args.sent_at))
+        return
+    if args.cmd == 'previous-edition':
+        gap=previous_edition_gap(d,args.reports_root)
+        print(f'[PREVIOUS EDITION NOT REGISTERED] {gap}' if gap else '[PREVIOUS EDITION OK]')
+        raise SystemExit(3 if gap else 0)
     if args.cmd == 'record-send-time':
         print('[SEND TIME RECORDED]',record_send_time(d,args.reports_root,args.sent_at,args.operator))
         return

@@ -9,6 +9,10 @@ from bank_intel.publication.reconcile import group,was_sent
 from datetime import date
 
 class TestNews(unittest.TestCase):
+ def test_market_headline_plural_nouns_match_body(self):
+  article={'headline':'Sri Lanka’s stocks rally as lending rates ease',
+           'body':'Sri Lanka’s stock market surged this week, with the All-Share Price Index climbing 5.45 per cent. Borrowing costs eased as the Average Weighted Prime Lending Rate fell 22 basis points to 11.01 per cent.'}
+  self.assertNotIn('HEADLINE_BODY_TOPIC_MISMATCH',evidence_issues(article))
  def r(self,headline,body='',date='2026-10-26',source='Daily FT',url='https://www.ft.lk/a'):
   return {'headline':headline,'body':body,'publication_date':date,'source_name':source,'source_url':url,'section':'EXCLUDE'}
  def test_monday_window(self):

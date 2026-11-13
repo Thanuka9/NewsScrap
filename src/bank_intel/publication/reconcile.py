@@ -4,7 +4,8 @@ from collections import defaultdict
 import re
 from html.parser import HTMLParser
 from pathlib import Path
-from .identity import canonical,same_event,publisher_article_id,figures,_close
+from .identity import canonical,same_event,publisher_article_id,figures,_close,url_headline,shares_reported_figure,possible_repeat
+from .materiality import material_context
 
 class SentHTML(HTMLParser):
  """Read the actual distributed facts, including nested summary markup."""
@@ -64,7 +65,7 @@ def is_material_follow_up(row: dict, previous: dict) -> bool:
 
 
 OUTCOME=re.compile(r'(?i)\b(?:oversubscri\w*|allot\w*|listed|listing|approv\w*|reject\w*|complet\w*|signs?|signed|'
-                   r'opens?|opened|closes?|closed|default\w*|downgrad\w*|upgrad\w*|assign\w*|withdraw\w*|cancel\w*|suspend\w*|'
+                   r'opens?|opened|closes?|closed|default\w*|downgrad\w*|upgrad\w*|assign\w*|withdraw\w*|cancel\w*|suspend\w*|takes? action|'
                    r'fines?|fined|penal\w*)\b')
 
 
@@ -84,11 +85,25 @@ def prior_matches(row:dict,prior:list[dict])->tuple[list[dict],list[dict]]:
  """(already reported, same event with a possible material development)."""
  url=canonical(row.get('source_url',''));pid=publisher_article_id(row.get('source_url',''))
  sent=[];updates=[]
+ context=material_context(row)
+ single=context[2] if context and context[2] in SINGLE_EVENT_REASONS else ''
  for p in prior:
   if (url and url==canonical(p.get('source_url',''))) or (pid and pid==publisher_article_id(p.get('source_url',''))):
    sent.append(p);continue
-  if not same_event(row,p):continue
+  named=single and _days_apart(row,p)<=1 and (material_context(p) or ('','',''))[2]==single
+  # An edited sent headline hides the story; the link still carries the publisher's.
+  original=url_headline(p.get('source_url',''))
+  as_published={**p,'headline':original} if original else None
+  direct=named or same_event(row,p)
+  if not (direct or (as_published and same_event(row,as_published))):
+   # Reworded and abbreviated ('CAL ... AFC'), the same figure, or the same names
+   # and wording within two weeks: an editor decides; it is never dropped unseen.
+   if shares_reported_figure(row,p) or possible_repeat(row,p):updates.append(p)
+   continue
   if is_material_follow_up(row,p):continue
+  # A match through the link alone is weaker: an editor sees it, it is never dropped unseen.
+  if not direct:
+   updates.append(p);continue
   (updates if new_development(row,p) else sent).append(p)
  return sent,updates
 
@@ -98,6 +113,11 @@ def was_sent(row:dict,prior:list[dict])->bool:
 
 
 SINGLE_EVENT_REASONS={'AML_MUTUAL_EVALUATION'}
+# A Monday edition spans Friday to Monday; one release is one story across it.
+GROUP_GAP_DAYS=3
+# Set NEWS_SEMANTIC_MATCHING=0 to use the rule-based grouping only.
+import os as _os
+SEMANTIC_MATCHING = _os.environ.get('NEWS_SEMANTIC_MATCHING', '1') != '0'
 
 
 def _days_apart(a:dict,b:dict)->int:
@@ -119,7 +139,8 @@ def group(assessments:list[dict])->list[dict]:
   # classification that names one specific event (an AML mutual evaluation)
   # on the same day is the same story even when the wording differs.
   reason=entry['assessment'].get('reason','')
-  other=next((i for i,e in enumerate(events) if any(same_event(row,m['article'],max_gap_days=1) or
+  alone=lambda e:entry['assessment'].get('standalone') or any(m['assessment'].get('standalone') for m in e['members'])
+  other=next((i for i,e in enumerate(events) if not alone(e) and any(same_event(row,m['article'],max_gap_days=GROUP_GAP_DAYS) or
              (reason in SINGLE_EVENT_REASONS and m['assessment'].get('reason')==reason and
               _days_apart(m['article'],row)<=1)
              for m in e['members'])),None)
@@ -129,11 +150,47 @@ def group(assessments:list[dict])->list[dict]:
    continue
   keys[key]=len(events)
   events.append({'event_signature':sig,'members':[entry]})
+ # Meaning-based pass for reports the rules leave apart (strict: similarity
+ # >= 0.94 and a shared organisation; see semantic.py for the calibration).
+ if SEMANTIC_MATCHING and len(events) > 1:
+  try:
+   from .semantic import same_story
+   merged = True
+   while merged:
+    merged = False
+    for i in range(len(events)):
+     for j in range(i + 1, len(events)):
+      if any(m['assessment'].get('standalone') for m in events[i]['members']+events[j]['members']):
+       continue
+      if any(same_story(x['article'], y['article']) for x in events[i]['members'] for y in events[j]['members']):
+       events[i]['members'].extend(events[j]['members'])
+       events[i].setdefault('semantic_merge', True)
+       del events[j]
+       merged = True
+       break
+     if merged:
+      break
+  except ImportError:
+   pass  # model stack unavailable: the rule-based grouping stands
+ # An editor's signed "same story as" link: another paper's report of an included
+ # story becomes one more source on that story, never a second entry.
+ merged=True
+ while merged:
+  merged=False
+  for i,e in enumerate(events):
+   wanted={canonical(m['assessment'].get('same_event_as','')) for m in e['members'] if m['assessment'].get('same_event_as')}
+   target=next((j for j,f in enumerate(events) if j!=i and any(canonical(m['article']['source_url']) in wanted for m in f['members'])),None)
+   if target is not None:
+    events[target]['members'].extend(e['members'])
+    del events[i]
+    merged=True
+    break
  # Lead each merged event with the report carrying the most reported figures,
  # then the fullest text. Every publisher URL stays as evidence.
  for e in events:
   if len(e['members'])>1:
-   e['members'].sort(key=lambda x:(-len(figures(x['article'].get('headline','')+' '+str(x['article'].get('body',''))[:1400])),
+   # The report the editor linked the others to leads; otherwise the fullest.
+   e['members'].sort(key=lambda x:(bool(x['assessment'].get('same_event_as')),-len(figures(x['article'].get('headline','')+' '+str(x['article'].get('body',''))[:1400])),
                                    -len(str(x['article'].get('body','')))))
  return events
 
